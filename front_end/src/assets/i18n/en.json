@@ -126,10 +126,9 @@
   "ACCEPT_TERMS_VALIDATIONS": "Accept Terms Validations",
   "ADD_CUSTOMER": "Add Customer",
   "CUSTOMERS": "Customers",
-  "CUSTOMER": "Cliente",
-  "ADD_ORDER": "AGREGAR PEDIDO",
-  "ORDER_DATE": "Fecha",
-  "NOTE": "Comentario",
-  "UNSYNC_ORDERS": "PEDIDOS NO SINCRONIZADOS"
-
+  "CUSTOMER": "Customer",
+  "ADD_ORDER": "ADD ORDER",
+  "ORDER_DATE": "Date",
+  "NOTE": "Notes",
+  "UNSYNC_ORDERS": "UNSYNCED ORDERS"
 }

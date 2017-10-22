@@ -129,7 +129,6 @@ export function createTranslateLoader(http: Http) {
 		AdsPage,
 		FormValidationsPage,
 		VideoPlaylistPage,
-
     PreloadImage,
     BackgroundImage,
     ShowHideContainer,
@@ -138,8 +137,8 @@ export function createTranslateLoader(http: Http) {
     CounterInput,
     Rating,
     GoogleMap,
-	AddOrderPage,
-	OrdersPage,
+		AddOrderPage,
+		OrdersPage,
   ],
   imports: [
     BrowserModule,
@@ -206,7 +205,7 @@ export function createTranslateLoader(http: Http) {
     List1Service,
     List2Service,
     ScheduleService,
-    
+
     DatabaseService,
     CustomersService,
     OrdersService,
