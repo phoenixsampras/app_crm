@@ -1,11 +1,11 @@
 {
     "user": {
-        "name": "LeBron James",
-        "location": "Ohio, USA",
-        "about": "Philosophy is considered a science but it is difficult to say, when one has to compare with an ordinary science, for example biology, or chemistry.",
+        "name": "Pedrito Donador",
+        "location": "Sacaba, Cochabamba",
+        "about": "Vendedor con 5 años de experiencia en LP, CBBA, Chile. Conductor y cantante fines de semana.",
         "email": "contact@ionicthemes.com",
-        "phone": "555-555-555",
-        "image": "./assets/images/profile/200x200ProfilePic.png",
+        "phone": "(591) 71265326",
+        "image": "./assets/images/profile/vendedor.jpg",
         "website": "https://ionicthemes.com"
     },
     "following": [

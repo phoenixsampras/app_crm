@@ -23,8 +23,8 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make WalkthroughPage the root (or first) page
-  //rootPage: any = WalkthroughPage;
-   rootPage: any = OrdersPage;
+  rootPage: any = WalkthroughPage;
+  //  rootPage: any = OrdersPage;
   // rootPage: any = TabsNavigationPage;
   textDir: string = "ltr";
 
@@ -40,8 +40,10 @@ export class MyApp {
     public translate: TranslateService,
     public toastCtrl: ToastController
   ) {
-    translate.setDefaultLang('en');
-    translate.use('en');
+    translate.setDefaultLang('es');
+    // translate.setDefaultLang('en');
+    translate.use('es');
+    // translate.use('en');
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
