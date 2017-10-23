@@ -21,7 +21,7 @@ export class DatabaseService {
     initDB() {
         //PouchDB.plugin(cordovaSqlitePlugin);
 		//PouchDB.plugin(PouchFind)
-        this._db = new PouchDB('orders.db');
+        this._db = new PouchDB('websql://orders.db');
     }
 	
 	addCustomer(customer) {  
