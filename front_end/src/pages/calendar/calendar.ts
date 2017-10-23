@@ -78,19 +78,26 @@ export class CalendarPage {
 			.then(data => {
 				this.calendarList.items = data.rmListaEventos;
 				console.log(this.calendarList.items);
+				var items = [];
 				for(var i = 0; i< this.calendarList.items.length;i++)
 				{
-					this.calendarList.items[i].title = this.calendarList.items[i].name;
-					this.calendarList.items[i].startTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();
-					this.calendarList.items[i].endTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();;
-					this.calendarService.addCalendarEvent(this.calendarList.items[i]);
+					if(this.calendarList.items[i].start_datetime)
+					{
+						items[i] = this.calendarList.items[i];
+						items[i].title = this.calendarList.items[i].name;
+						items[i].startTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();
+						items[i].endTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();;
+						this.calendarService.addCalendarEvent(items[i]);
+					}
+					
 				}
+				this.calendarList.items = items
 				this.loadEvents();
 				this.loading.dismiss();
 			});
 			
 		} else {
-			alert(123);
+			
 			var data = this.calendarService
 				.getDataFromPouch()
 				.then(data => {
@@ -99,8 +106,8 @@ export class CalendarPage {
 					for(var i = 0; i< this.calendarList.items.length;i++)
 					{
 						this.calendarList.items[i].title = this.calendarList.items[i].name;
-						this.calendarList.items[i].startTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();
-						this.calendarList.items[i].endTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();;
+						this.calendarList.items[i].startTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();
+						this.calendarList.items[i].endTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();;
 						
 					}
 					this.loadEvents();
