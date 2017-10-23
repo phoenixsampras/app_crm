@@ -14,8 +14,8 @@ export class CalendarService {
 			
 	}
 
-	addCalendarEvent(customer) {
-		//this.databaseService.addCustomer(customer);
+	addCalendarEvent(event) {
+		this.databaseService.addEvent(event);
 	}
 	
 	getDataFromServer(): Promise<CalendarModel> {
@@ -27,7 +27,7 @@ export class CalendarService {
 	
 	getDataFromPouch(): Promise<any> {
 		
-		return this.databaseService.getAllCustomers()
+		return this.databaseService.getAllEvents()
 		.then(response => response)
 		.catch(this.handleError);
 		

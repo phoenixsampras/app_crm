@@ -83,30 +83,27 @@ export class CalendarPage {
 					this.calendarList.items[i].title = this.calendarList.items[i].name;
 					this.calendarList.items[i].startTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();
 					this.calendarList.items[i].endTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();;
+					this.calendarService.addCalendarEvent(this.calendarList.items[i]);
 				}
 				this.loadEvents();
 				this.loading.dismiss();
 			});
 			
 		} else {
+			alert(123);
 			var data = this.calendarService
 				.getDataFromPouch()
 				.then(data => {
-				
-					var sortedArray: any[] = data.sort((obj1, obj2) => {
-						if (obj1.name > obj2.name) {
-							return 1;
-						}
-
-						if (obj1.name < obj2.name) {
-							return -1;
-						}
-
-						return 0;
-					});
-					console.log(sortedArray);
-					this.calendarList.items = sortedArray;
-				
+					console.log(data);
+					this.calendarList.items = data;
+					for(var i = 0; i< this.calendarList.items.length;i++)
+					{
+						this.calendarList.items[i].title = this.calendarList.items[i].name;
+						this.calendarList.items[i].startTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();
+						this.calendarList.items[i].endTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();;
+						
+					}
+					this.loadEvents();
 				this.loading.dismiss();
 			});
 		}

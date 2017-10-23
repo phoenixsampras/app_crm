@@ -84,9 +84,24 @@ export class OrdersPage {
 					});
 				}
 				this.ordersList = [];
+				
 			}
 			this.loading.dismiss();
-		});		
+		});
+		this.positionService
+			.getData()
+			.then(data => {
+				for(var i = 0; i < data.length; i++) {
+					var position = data[i];
+					//var url = "http://odoo.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
+					var url = "http://odoo.romilax.com/organica/back_end/rmXMLRPC_calendario.php?task=rmRegistrarGeolocalizacion&res_user_id=11&longitude=" + position.lat + "&latitude=" + position.lat + "&callback=JSONP_CALLBACK";
+					url = encodeURI(url);
+					this.positionService.savePositionOnServer(url).then(data=>{
+						console.log('position with id-' + position._id + 'uploaded');
+						this.positionService.deletePosition(position);
+					});
+				}
+			});			
 		
 	}
 
