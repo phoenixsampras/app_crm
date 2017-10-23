@@ -17,22 +17,22 @@ export class AddOrderPage {
 	customersList: CustomersModel = new CustomersModel();
 	loading: any;
 
-
+  
 	constructor(
-		public navCtrl: NavController,
-		public formBuilder: FormBuilder,
+		public navCtrl: NavController, 
+		public formBuilder: FormBuilder, 
 		public customersService: CustomersService,
 		public loadingCtrl: LoadingController,
 		public toastCtrl: ToastController,
 		public ordersService: OrdersService,
-
-
+		
+		
 	) {
 		this.loading = this.loadingCtrl.create();
 	}
 
 	ionViewDidLoad() {
-
+		
 		this.loading.present();
 		if(window.navigator.onLine){
 			var data = this.customersService
@@ -46,12 +46,12 @@ export class AddOrderPage {
 				}
 				this.loading.dismiss();
 			});
-
+			
 		} else {
 			var data = this.customersService
 				.getDataFromPouch()
 				.then(data => {
-
+				
 					var sortedArray: any[] = data.sort((obj1, obj2) => {
 						if (obj1.name > obj2.name) {
 							return 1;
@@ -65,15 +65,15 @@ export class AddOrderPage {
 					});
 					console.log(sortedArray);
 					this.customersList.items = sortedArray;
-
+				
 				this.loading.dismiss();
 			});
 		}
-
+		
 	}
-
+	
 	ionViewWillLoad() {
-
+		
 		this.validations_form = this.formBuilder.group({
 			customer: new FormControl('', Validators.required),
 			dateOrder: new FormControl('', Validators.required),
@@ -82,21 +82,21 @@ export class AddOrderPage {
 	}
 
   validation_messages = {
-
+   
     'customer': [
 		{ type: 'required', message: 'Customer is required.' }
     ],
 	'dateOrder': [
 		{ type: 'required', message: 'Order Date is required.' }
     ],
-
+    
   };
 
     onSubmit(values){
 		console.log(values);
 		//console.log(this.databaseService.add(values));
 		if(window.navigator.onLine){
-			var url = "http://odoo.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarPedido&rmCustomer="+values.customer+"&rmDateOrder="+ values.dateOrder +"&rmNote=" + values.notes + "&callback=JSONP_CALLBACK";
+			var url = "http://odoo.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+values.customer+"&rmDateOrder="+ values.dateOrder +"&rmNote=" + values.notes + "&callback=JSONP_CALLBACK";
 			url = encodeURI(url);
 			this.ordersService.saveOrderOnServer(url).then(data=>{
 				let toast = this.toastCtrl.create({
@@ -122,7 +122,7 @@ export class AddOrderPage {
 			this.validations_form.get('dateOrder').setValue('');
 			this.validations_form.get('customer').setValue('');
 			this.validations_form.get('notes').setValue('');
-
+			
 		}
 	}
 }

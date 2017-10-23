@@ -125,10 +125,5 @@
   "PASSWORD_VALIDATIONS": "Password Validations",
   "ACCEPT_TERMS_VALIDATIONS": "Accept Terms Validations",
   "ADD_CUSTOMER": "Add Customer",
-  "CUSTOMERS": "Customers",
-  "CUSTOMER": "Customer",
-  "ADD_ORDER": "ADD ORDER",
-  "ORDER_DATE": "Date",
-  "NOTE": "Notes",
-  "UNSYNC_ORDERS": "UNSYNCED ORDERS"
+  "CUSTOMERS": "Customers"
 }

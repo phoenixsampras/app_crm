@@ -12,6 +12,7 @@ import { SettingsPage } from '../pages/settings/settings';
 import { FunctionalitiesPage } from '../pages/functionalities/functionalities';
 import { OrdersPage } from '../pages/orders/orders';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { CalendarPage } from '../pages/calendar/calendar';
 
 @Component({
   selector: 'app-root',
@@ -22,9 +23,9 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make WalkthroughPage the root (or first) page
-  // rootPage: any = WalkthroughPage;
-  //  rootPage: any = OrdersPage;
-  rootPage: any = TabsNavigationPage;
+  //rootPage: any = WalkthroughPage;
+   rootPage: any = OrdersPage;
+  // rootPage: any = TabsNavigationPage;
   textDir: string = "ltr";
 
   pages: Array<{title: any, icon: string, component: any}>;
@@ -39,8 +40,8 @@ export class MyApp {
     public translate: TranslateService,
     public toastCtrl: ToastController
   ) {
-    translate.setDefaultLang('es');
-    translate.use('es');
+    translate.setDefaultLang('en');
+    translate.use('en');
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -66,6 +67,7 @@ export class MyApp {
           this.translate.get('FORMS'),
           this.translate.get('FUNCTIONALITIES'),
 		  this.translate.get('ORDERS'),
+		  this.translate.get('CALENDAR'),
           this.translate.get('LAYOUTS'),
           this.translate.get('SETTINGS')
         ).subscribe(data => {
@@ -73,12 +75,13 @@ export class MyApp {
             { title: data[0], icon: 'home', component: TabsNavigationPage },
             { title: data[1], icon: 'create', component: FormsPage },
             { title: data[2], icon: 'code', component: FunctionalitiesPage },
-			{ title: data[3], icon: 'contacts', component: OrdersPage }
+			{ title: data[3], icon: 'clipboard', component: OrdersPage },
+			{ title: data[4], icon: 'calendar', component: CalendarPage }
           ];
 
           this.pushPages = [
-            { title: data[4], icon: 'grid', component: LayoutsPage },
-            { title: data[5  ], icon: 'settings', component: SettingsPage }
+            { title: data[5], icon: 'grid', component: LayoutsPage },
+            { title: data[6], icon: 'settings', component: SettingsPage }
           ];
         });
       });

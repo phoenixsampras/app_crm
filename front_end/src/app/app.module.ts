@@ -30,7 +30,7 @@ import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
 import { FormValidationsPage } from '../pages/form-validations/form-validations';
 import { AddOrderPage } from '../pages/add-order/add-order';
 import { OrdersPage } from '../pages/orders/orders';
-
+import { CalendarPage } from '../pages/calendar/calendar';
 
 import { PreloadImage } from '../components/preload-image/preload-image';
 import { BackgroundImage } from '../components/background-image/background-image';
@@ -55,12 +55,13 @@ import { TwitterLoginService } from '../pages/twitter-login/twitter-login.servic
 import { GoogleMapsService } from '../pages/maps/maps.service';
 import { DatabaseService } from '../pages/orders/database.service';
 import { OrdersService } from '../pages/orders/orders.service';
-
+import { PositionService } from '../pages/orders/position.service';
+import { CalendarService } from '../pages/calendar/calendar.service';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { JsonpModule } from '@angular/http';
-
+ 
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SocialSharing } from '@ionic-native/social-sharing';
@@ -77,6 +78,11 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { Crop } from '@ionic-native/crop';
 import { EmailComposer } from '@ionic-native/email-composer';
 
+
+import { LocationTracker } from '../providers/location-tracker/location-tracker';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+
+import { NgCalendarModule } from 'ionic2-calendar';
 // Functionalities
 import { FunctionalitiesPage } from '../pages/functionalities/functionalities';
 import { MapsPage } from '../pages/maps/maps';
@@ -129,6 +135,7 @@ export function createTranslateLoader(http: Http) {
 		AdsPage,
 		FormValidationsPage,
 		VideoPlaylistPage,
+
     PreloadImage,
     BackgroundImage,
     ShowHideContainer,
@@ -137,13 +144,15 @@ export function createTranslateLoader(http: Http) {
     CounterInput,
     Rating,
     GoogleMap,
-		AddOrderPage,
-		OrdersPage,
+	AddOrderPage,
+	OrdersPage,
+	CalendarPage,
   ],
   imports: [
     BrowserModule,
     HttpModule,
 	JsonpModule,
+	NgCalendarModule,
     IonicModule.forRoot(MyApp, {
 			modalEnter: 'modal-slide-in',
 			modalLeave: 'modal-slide-out',
@@ -194,8 +203,9 @@ export function createTranslateLoader(http: Http) {
 		FormValidationsPage,
 		VideoPlaylistPage,
 		AddOrderPage,
-		OrdersPage
-
+		OrdersPage,
+		CalendarPage,
+	
   ],
   providers: [
     FeedService,
@@ -205,10 +215,11 @@ export function createTranslateLoader(http: Http) {
     List1Service,
     List2Service,
     ScheduleService,
-
-    DatabaseService,
-    CustomersService,
-    OrdersService,
+	DatabaseService,
+	CustomersService,
+	OrdersService,
+	PositionService,
+	CalendarService,
     FacebookLoginService,
     GoogleLoginService,
     TwitterLoginService,
@@ -217,6 +228,9 @@ export function createTranslateLoader(http: Http) {
 
 	  SplashScreen,
 	  StatusBar,
+	  LocationTracker,
+	  BackgroundGeolocation,
+    Geolocation,
     SocialSharing,
     NativeStorage,
     InAppBrowser,
@@ -229,7 +243,7 @@ export function createTranslateLoader(http: Http) {
 		AppRate,
 		ImagePicker,
 		Crop,
-		EmailComposer
+		EmailComposer,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

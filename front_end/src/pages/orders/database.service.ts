@@ -8,6 +8,7 @@ export class DatabaseService {
     private _db;
     private _customers;
 	private _orders;
+	private _positions;
 	
 	constructor(private platform: Platform,) 
     {
@@ -44,6 +45,21 @@ export class DatabaseService {
 			
 		});;
 		
+	}
+	
+	addPosition(position) {  
+		position.type = "position";
+		position.when = Date.now();
+		position._id = "position-" + Date.now();
+		return this._db.put(position).then(data=>{
+			console.log(data);
+			
+		});;
+		
+	}
+	
+	deletePosition(position) {  
+		return this._db.remove(position);
 	}
 	
 	deleteOrder(order) {  
@@ -110,6 +126,34 @@ export class DatabaseService {
 
 				// Listen for changes on the database.
 				resolve(this._customers);
+			});
+			
+		}); 
+	}
+	
+	getAllPositions() {  
+		if(!this._db)
+				this.initDB();
+		return new Promise(resolve => 
+		{
+			this._db.allDocs({include_docs: true,
+								startkey: 'position',
+								endkey: 'position\ufff0'
+							})
+			.then(docs => {
+
+				// Each row has a .doc object and we just want to send an 
+				// array of customer objects back to the calling controller,
+				// so let's map the array to contain just the .doc objects.
+
+				this._positions = docs.rows.map(row => {
+					// Dates are not automatically converted from a string.
+					if(row.doc.type == "position")
+						return row.doc;
+				});
+
+				// Listen for changes on the database.
+				resolve(this._positions);
 			});
 			
 		}); 

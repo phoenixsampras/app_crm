@@ -1,6 +1,6 @@
 {
-    "banner_image": "./assets/images/categorias/banner.png",
-    "banner_title": "Productos",
+    "banner_image": "./assets/images/listing/600x300banner1.png",
+    "banner_title": "Sports",
     "populars": [
         {
             "title": "Air Sports",
@@ -29,20 +29,33 @@
     ],
     "categories": [
         {
-            "title": "Snacks",
-            "image": "./assets/images/categorias/1.png"
+            "title": "Basketball",
+            "image": "./assets/images/listing/200x200basquet.png"
         },
         {
-            "title": "Cereales",
-            "image": "./assets/images/categorias/2.png"
+            "title": "Boxing",
+            "image": "./assets/images/listing/200x200boxeo.png"
         },
         {
-            "title": "Gramineas",
-            "image": "./assets/images/categorias/3.png"
+            "title": "Crossfit",
+            "image": "./assets/images/listing/200x200crossfit.png"
         },
         {
-            "title": "Corporativos",
-            "image": "./assets/images/categorias/4.png"
+            "title": "Futbol",
+            "image": "./assets/images/listing/200x200futbol.png"
+        },
+        {
+            "title": "Running",
+            "image": "./assets/images/listing/200x200running.png"
+        },
+        {
+            "title": "Swimming",
+            "image": "./assets/images/listing/200x200swimming.png"
+        },
+        {
+            "title": "Yoga",
+            "image": "./assets/images/listing/200x200yoga.png"
         }
+
     ]
 }

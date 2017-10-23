@@ -22,8 +22,8 @@ $black-b: lighten($black, 20%);
 $black-c: lighten($black, 40%);
 $black-d: lighten($black, 60%);
 
-$theme-color-1: #32884d;
-$theme-color-2: #a3c24b;
+$theme-color-1: #00e9d5;
+$theme-color-2: #ae75e7;
 $theme-color-3: #5e5874;
 
 // Named Color Variables
@@ -109,4 +109,4 @@ $colors: (
 
 $ionicons-font-path: "../assets/fonts";
 @import "ionic.ionicons";
-$app-direction: multi;
+$app-direction: multi; 

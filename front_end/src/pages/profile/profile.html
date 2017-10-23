@@ -41,28 +41,22 @@
       <ion-col no-padding width-50>
         <span class="user-location">{{profile.user.location}}</span>
       </ion-col>
-      <ion-col no-padding width-50>
-        <span class="user-name">{{profile.user.phone}}</span>
-      </ion-col>
-      <ion-col no-padding width-50>
-        <h2 class="user-location">{{profile.user.email}}</h2>
-      </ion-col>
       <ion-col no-padding width-100>
         <p class="user-description">
           {{profile.user.about}}
         </p>
       </ion-col>
     </ion-row>
-    <!-- <ion-segment class="user-content-segment" [(ngModel)]="display" (ionChange)="onSegmentChanged($event)">
+    <ion-segment class="user-content-segment" [(ngModel)]="display" (ionChange)="onSegmentChanged($event)">
       <ion-segment-button value="grid" (ionSelect)="onSegmentSelected($event)">
         {{'GRID' | translate}}
       </ion-segment-button>
       <ion-segment-button value="list" (ionSelect)="onSegmentSelected($event)">
         {{'LIST' | translate}}
       </ion-segment-button>
-    </ion-segment> -->
+    </ion-segment>
   </div>
-  <!-- <div [ngSwitch]="display" class="user-content">
+  <div [ngSwitch]="display" class="user-content">
     <div *ngSwitchCase="'list'" class="list-view">
       <div class="list-item" *ngFor="let post of profile.posts">
         <span class="item-date">{{post.date}}</span>
@@ -103,5 +97,5 @@
         </ion-col>
       </ion-row>
     </div>
-  </div> -->
+  </div>
 </ion-content>

@@ -1,47 +1,47 @@
 {
     "today":[
       {
-        "name": "Martincho",
+        "name": "Martin",
         "image": "./assets/images/notifications/100x100Notification1.jpeg",
-        "message": "Debes enviar cotizacion a Coca Cola SRL",
+        "message": "Adam liked your photo",
         "date": "5:03 pm"
       },
       {
-        "name": "Nicolasa",
+        "name": "Jessica",
         "image": "./assets/images/notifications/100x100Notification2.png",
-        "message": "El producto no puede enviarse hoy",
+        "message": "Justin invited you to the event Bday Party",
         "date": "2:54 pm"
       },
       {
-        "name": "Eulalia",
+        "name": "Phillip",
         "image": "./assets/images/notifications/100x100Notification3.jpg",
-        "message": "Tienes que recoger las papas",
+        "message": "Alessia wrote on your timeline",
         "date": "1:54 pm"
       }
     ],
     "yesterday":[
       {
-        "name": "Arnaldo",
+        "name": "George",
         "image": "./assets/images/notifications/100x100Notification4.jpeg",
-        "message": "Pasar por contabilidad para ajusta cuentas",
+        "message": "Helen mentioned you in a comment",
         "date": "9:11 pm"
       },
       {
-        "name": "Florinda",
+        "name": "Kirsten",
         "image": "./assets/images/notifications/100x100Notification5.jpg",
-        "message": "Tener en cuenta que hay feriados",
+        "message": "Ryan commented on your video",
         "date": "3:09 pm"
       },
       {
-        "name": "Pepe",
+        "name": "Judith",
         "image": "./assets/images/notifications/100x100Notification6.jpg",
-        "message": "Me fue muy bien con las ventas",
+        "message": "Don recently likes the photo you’re tagged in",
         "date": "11:34 am"
       },
       {
-        "name": "Rosita",
+        "name": "Diane",
         "image": "./assets/images/notifications/100x100Notification7.jpg",
-        "message": "El cliente quiere mas productos",
+        "message": "Giselle and Christian liked your status update",
         "date": "7:12 am"
       }
   ]

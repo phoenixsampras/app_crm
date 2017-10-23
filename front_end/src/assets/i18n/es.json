@@ -94,6 +94,7 @@
   "FACEBOOK": "Facebook",
   "CONNECT_WITH_FACEBOOK": "Conectate con Facebook",
   "SKIP": "Saltar",
+  "WELCOME!": "Bienvenido!",
   "WAKE_UP!": "Despierta!",
   "GET_READY!": "Todo listo!",
   "ALMOST_DONE!": "Casi termino!",
@@ -123,31 +124,5 @@
   "BASIC_VALIDATIONS": "Validaciones Básicas",
   "PHONE_VALIDATIONS": "Validaciones de Teléfono",
   "PASSWORD_VALIDATIONS": "Validaciones de Contraseña",
-  "ACCEPT_TERMS_VALIDATIONS": "Validaciones de Términos",
-
-  "ADD_CUSTOMER": "Agregar Cliente",
-  "ORDERS": "Pedidos",
-  "CUSTOMERS": "Customers",
-  "CUSTOMER": "Cliente",
-  "ADD_ORDER": "AGREGAR PEDIDO",
-  "ORDER_DATE": "Fecha",
-  "NOTE": "Comentario",
-  "UNSYNC_ORDERS": "PEDIDOS NO SINCRONIZADOS",
-
-  "WALKTHROUGH1_1": "Bienvenido!",
-  "WALKTHROUGH1_2": "Organica del Sur S.R.L. Bolivia",
-  "WALKTHROUGH1_3": "Corporacion de Alimentos",
-
-  "WALKTHROUGH2_1": "¿Estas Listo?",
-  "WALKTHROUGH2_2": "Vende Rapido",
-  "WALKTHROUGH2_3": "y Facil",
-
-  "WALKTHROUGH3_1": "Registra y vende!",
-  "WALKTHROUGH3_2": "Registra tus clientes",
-  "WALKTHROUGH3_3": "y pedidos",
-
-  "WALKTHROUGH4_1": "Empezemos ahora!",
-  "WALKTHROUGH4_2": "Ingresa con tu cuenta o Registrate",
-  "WALKTHROUGH4_3": "Si tienes preguntas llama a 800-organica"
-
+  "ACCEPT_TERMS_VALIDATIONS": "Validaciones de Términos"
 }

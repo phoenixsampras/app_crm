@@ -12,33 +12,35 @@ export class CustomersService {
 		public jsonp: Jsonp,
 		private databaseService: DatabaseService,
 		private platform: Platform,
+		
+		
 	) {
-
+			
 	}
 
 	addCustomer(customer) {
 		 this.databaseService.addCustomer(customer);
 	}
-
+	
 	getDataFromServer(): Promise<CustomersModel> {
-		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmListaClientes&callback=JSONP_CALLBACK',{method:'Get'})
+		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC.php?task=rmListaClientes&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
 		.then(response => response.json() as CustomersModel)
 		.catch(this.handleError);
-
+		
 		//return this.databaseService.getAllCustomers()
 		//.toPromise()
 		//.then(response => response.json() as CustomersModel)
 		//.catch(this.handleError);
-
+		
 	}
-
+	
 	getDataFromPouch(): Promise<any> {
-
+		
 		return this.databaseService.getAllCustomers()
 		.then(response => response)
 		.catch(this.handleError);
-
+		
 	}
 
   private handleError(error: any): Promise<any> {
@@ -47,3 +49,4 @@ export class CustomersService {
   }
 
 }
+
