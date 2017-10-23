@@ -31,6 +31,7 @@ import { FormValidationsPage } from '../pages/form-validations/form-validations'
 import { AddOrderPage } from '../pages/add-order/add-order';
 import { OrdersPage } from '../pages/orders/orders';
 import { CalendarPage } from '../pages/calendar/calendar';
+import { SyncPage } from '../pages/sync/sync';
 
 import { PreloadImage } from '../components/preload-image/preload-image';
 import { BackgroundImage } from '../components/background-image/background-image';
@@ -147,6 +148,7 @@ export function createTranslateLoader(http: Http) {
 	AddOrderPage,
 	OrdersPage,
 	CalendarPage,
+	SyncPage,
   ],
   imports: [
     BrowserModule,
@@ -205,6 +207,7 @@ export function createTranslateLoader(http: Http) {
 		AddOrderPage,
 		OrdersPage,
 		CalendarPage,
+		SyncPage,
 	
   ],
   providers: [

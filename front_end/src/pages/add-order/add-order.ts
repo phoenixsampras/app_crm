@@ -95,7 +95,7 @@ export class AddOrderPage {
     onSubmit(values){
 		console.log(values);
 		//console.log(this.databaseService.add(values));
-		if(window.navigator.onLine){
+		/*if(window.navigator.onLine){
 			var url = "http://odoo.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+values.customer+"&rmDateOrder="+ values.dateOrder +"&rmNote=" + values.notes + "&callback=JSONP_CALLBACK";
 			url = encodeURI(url);
 			this.ordersService.saveOrderOnServer(url).then(data=>{
@@ -123,6 +123,17 @@ export class AddOrderPage {
 			this.validations_form.get('customer').setValue('');
 			this.validations_form.get('notes').setValue('');
 			
-		}
+		}*/
+		this.ordersService.addOrder(values);
+		let toast = this.toastCtrl.create({
+			message: "Order saved on device successfully!",
+			duration: 3000,
+			cssClass: 'toast-success',
+			position:'bottom',
+		});
+		toast.present();
+		this.validations_form.get('dateOrder').setValue('');
+		this.validations_form.get('customer').setValue('');
+		this.validations_form.get('notes').setValue('');
 	}
 }

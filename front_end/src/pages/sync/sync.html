@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+		<ion-icon name="menu"></ion-icon>
+	</button>
+	<ion-title>{{'SYNC_DATA' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+	<button ion-button block color="primary" (click)="syncData()">Sync Data</button>
+	<button ion-button block color="danger" (click)="wipeData()">Wipe Data</button>
+	 
+	<div>
+		<p *ngFor="let message of messages" >{{message}}</p>
+	</div>
+</ion-content>

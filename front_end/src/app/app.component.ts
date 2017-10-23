@@ -13,6 +13,7 @@ import { FunctionalitiesPage } from '../pages/functionalities/functionalities';
 import { OrdersPage } from '../pages/orders/orders';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { CalendarPage } from '../pages/calendar/calendar';
+import { SyncPage } from '../pages/sync/sync';
 
 @Component({
   selector: 'app-root',
@@ -70,6 +71,7 @@ export class MyApp {
           this.translate.get('FUNCTIONALITIES'),
 		  this.translate.get('ORDERS'),
 		  this.translate.get('CALENDAR'),
+		  this.translate.get('SYNC'),
           this.translate.get('LAYOUTS'),
           this.translate.get('SETTINGS')
         ).subscribe(data => {
@@ -79,11 +81,12 @@ export class MyApp {
             { title: data[2], icon: 'code', component: FunctionalitiesPage },
 			{ title: data[3], icon: 'clipboard', component: OrdersPage },
 			{ title: data[4], icon: 'calendar', component: CalendarPage }
+			{ title: data[5], icon: 'sync', component: SyncPage }
           ];
 
           this.pushPages = [
-            { title: data[5], icon: 'grid', component: LayoutsPage },
-            { title: data[6], icon: 'settings', component: SettingsPage }
+            { title: data[6], icon: 'grid', component: LayoutsPage },
+            { title: data[7], icon: 'settings', component: SettingsPage }
           ];
         });
       });

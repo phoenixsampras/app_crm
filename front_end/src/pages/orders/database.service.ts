@@ -24,6 +24,15 @@ export class DatabaseService {
         this._db = new PouchDB('websql://orders.db');
     }
 	
+	deleteDB() {
+		this._db.destroy().then(function (response) {
+			alert("DB cleaned out successfully!");
+			this._db = new PouchDB('websql://orders.db');
+		}).catch(function (err) {
+		  console.log(err);
+		});	
+	}
+	
 	addCustomer(customer) {  
 		let id = "customer-" + customer.id;
 		let db = this._db;
