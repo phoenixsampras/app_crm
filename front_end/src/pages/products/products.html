@@ -1,0 +1,48 @@
+<!--
+  Generated template for the SkillAutocompletePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+	<ion-navbar>
+		<ion-title>{{'SELECT_PRODUCT' | translate}}</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content padding class="forms-validations-content">
+	<form class="sample-form validations-form" [formGroup]="validations_form"  (ngSubmit)="onSubmit(validations_form.value)">
+		<section class="form-section">
+			<h2 class="section-title">{{'SELECT_PRODUCT' | translate}}</h2>
+			<ion-item>
+				<ion-label floating>{{'Product' | translate}}</ion-label>
+				<ion-select formControlName="product">
+					<ion-option *ngFor="let product of products" [value]="product && product.id">{{product && product.product}}</ion-option>
+				</ion-select>
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.product">
+					<div class="error-message" *ngIf="validations_form.get('product').hasError(validation.type) && (validations_form.get('product').dirty || validations_form.get('product').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
+
+			<ion-item>
+				<ion-label floating>{{'Quantity' | translate}}</ion-label>
+				<ion-input type="number" formControlName="quantity"></ion-input>
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.quantity">
+					<div class="error-message" *ngIf="validations_form.get('quantity').hasError(validation.type) && (validations_form.get('quantity').dirty || validations_form.get('quantity').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
+			
+			
+			
+			<br/><br/>
+			<button ion-button full type="submit" [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
+		</section>
+	</form>
+</ion-content>

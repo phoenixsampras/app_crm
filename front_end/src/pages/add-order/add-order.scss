@@ -3,6 +3,11 @@ add-order-page {
 		@include header-styles(color($colors, header-alt, base), color($colors, header-alt, contrast));
 	}
 
+	ion-col {
+		border:1px solid #ccc;
+		padding:5px;
+	}
+	
   .forms-validations-content
 	{
 		background-color: color($colors, background, base);

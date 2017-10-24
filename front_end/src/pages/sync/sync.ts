@@ -30,17 +30,34 @@ export class SyncPage {
 	syncData() {
 		
 		if(window.navigator.onLine){
-			
+			this.messages.push('Sync Started');
 			this.ordersService
 			.getData()
 			.then(data => {
 				for(var i = 0; i < data.length; i++) {
 					var order = data[i];
+					let selectedProducts = order.selectedProducts;
+					console.log(selectedProducts[0].product);
+					
 					var url = "http://odoo.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
 					url = encodeURI(url);
 					this.ordersService.saveOrderOnServer(url).then(data=>{
+						let order_id = data._body.order_id;
+						console.log(data._body.order_id);
 						console.log('order with id-' + order._id + ' Uploaded ');
+						
+						
+						for(var j = 0; j < selectedProducts.length; j++) {
+							let productId = selectedProducts[j].product.id;
+							let quantity = selectedProducts[j].quantity;
+							var url = "http://odoo.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarLineaPedido&order_id=" + order_id + "&rmQuantity="+ quantity +"&rmProduct_id=" + productId + "&callback=JSONP_CALLBACK";
+							url = encodeURI(url);
+							this.ordersService.saveOrderOnServer(url).then(data2=>{
+								console.log(data2);
+							});
+						}
 						this.messages.push('Order with id-' + order._id + ' Uploaded ');
+						
 					});
 				}
 			});

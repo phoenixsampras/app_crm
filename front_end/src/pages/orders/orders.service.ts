@@ -40,6 +40,19 @@ export class OrdersService {
 		
 	}
 	
+	saveOrderLineOnServer(url): Promise<any> {
+		return this.jsonp.request(url,{method:'Get'})
+		.toPromise()
+		.then(response => response)
+		.catch(this.handleError);
+		
+		//return this.databaseService.getAllCustomers()
+		//.toPromise()
+		//.then(response => response.json() as CustomersModel)
+		//.catch(this.handleError);
+		
+	}
+	
 	getDataFromServer(): Promise<any> {
 		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC.php?task=rmListaPedidos&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()

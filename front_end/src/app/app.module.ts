@@ -32,6 +32,7 @@ import { AddOrderPage } from '../pages/add-order/add-order';
 import { OrdersPage } from '../pages/orders/orders';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { SyncPage } from '../pages/sync/sync';
+import { ProductsPage } from '../pages/products/products';
 
 import { PreloadImage } from '../components/preload-image/preload-image';
 import { BackgroundImage } from '../components/background-image/background-image';
@@ -149,6 +150,7 @@ export function createTranslateLoader(http: Http) {
 	OrdersPage,
 	CalendarPage,
 	SyncPage,
+	ProductsPage,
   ],
   imports: [
     BrowserModule,
@@ -208,7 +210,7 @@ export function createTranslateLoader(http: Http) {
 		OrdersPage,
 		CalendarPage,
 		SyncPage,
-	
+		ProductsPage,
   ],
   providers: [
     FeedService,

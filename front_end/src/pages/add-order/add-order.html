@@ -51,6 +51,57 @@
 				</ng-container>
 			</div>
 			<br/><br/>
+			<ion-grid *ngIf="selectedProducts && selectedProducts.length > 0" >
+				<ion-row>
+					<ion-col col-4>
+						<b>{{'Prodcut' | translate}}</b>
+					</ion-col>
+					<ion-col col-2>
+						<b>{{'Price' | translate}}</b>
+					</ion-col>
+					<ion-col col-2>
+						<b>{{'Quantity' | translate}}</b>
+					</ion-col>
+					
+					<ion-col col-2>
+						<b>{{'Sub Total' | translate}}</b>
+					</ion-col>
+					<ion-col col-2>
+						
+					</ion-col>
+				</ion-row>
+				<ion-row *ngFor="let product of selectedProducts">
+					<ion-col col-4>
+						{{product.product.product}}
+					</ion-col>
+					<ion-col col-2>
+						{{product.product.price}}
+					</ion-col>
+					<ion-col col-2>
+						{{product.quantity}}
+					</ion-col>
+					<ion-col col-2>
+						{{product.quantity * product.product.price}}
+					</ion-col>
+					<ion-col col-2>
+						<ion-icon color='danger' (click)="removeProduct(product.product.id)" name="close-circle"></ion-icon>
+						
+					</ion-col>
+				</ion-row>
+				<ion-row>
+					<ion-col col-10>
+						<b>{{'Total' | translate}}</b>
+					</ion-col>
+					
+					<ion-col col-2>
+						<b>{{getTotal()}}</b>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+			
+			<button ion-button full type="button"   (click)="addProducts()">{{'ADD_PRODUCTS' | translate}}</button>
+			
+			<br/><br/>
 			<button ion-button full type="submit" [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
 		</section>
 	</form>
