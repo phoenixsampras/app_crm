@@ -37,7 +37,6 @@ export class SyncPage {
 				for(var i = 0; i < data.length; i++) {
 					var order = data[i];
 					let selectedProducts = order.selectedProducts;
-					console.log(selectedProducts[0].product);
 					
 					var url = "http://odoo.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
 					url = encodeURI(url);
