@@ -1,0 +1,12 @@
+<?php
+
+//error_reporting(0);
+
+$data['url'] = 'http://10.10.10.20:7012';
+$data['db'] = 'odoo9.g.lafalco';
+$data['username'] = "admin";
+$data['password'] = '123';
+
+// print_r($_REQUEST);
+
+?>

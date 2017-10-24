@@ -29,8 +29,8 @@ export class MyApp {
   // rootPage: any = TabsNavigationPage;
   textDir: string = "ltr";
 
-  pages: Array<{title: any, icon: string, component: any}>;
-  pushPages: Array<{title: any, icon: string, component: any}>;
+  pages: Array<{ title: any, icon: string, component: any }>;
+  pushPages: Array<{ title: any, icon: string, component: any }>;
 
   constructor(
     platform: Platform,
@@ -53,43 +53,40 @@ export class MyApp {
       this.statusBar.styleDefault();
     });
 
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) =>
-      {
-        if(event.lang == 'ar')
-        {
-          platform.setDir('rtl', true);
-          platform.setDir('ltr', false);
-        }
-        else
-        {
-          platform.setDir('ltr', true);
-          platform.setDir('rtl', false);
-        }
-        Observable.forkJoin(
-          this.translate.get('HOME'),
-          this.translate.get('FORMS'),
-          this.translate.get('FUNCTIONALITIES'),
-		  this.translate.get('ORDERS'),
-		  this.translate.get('CALENDAR'),
-		  this.translate.get('SYNC'),
-          this.translate.get('LAYOUTS'),
-          this.translate.get('SETTINGS')
-        ).subscribe(data => {
-          this.pages = [
-            { title: data[0], icon: 'home', component: TabsNavigationPage },
-            { title: data[1], icon: 'create', component: FormsPage },
-            { title: data[2], icon: 'code', component: FunctionalitiesPage },
-			{ title: data[3], icon: 'clipboard', component: OrdersPage },
-			{ title: data[4], icon: 'calendar', component: CalendarPage }
-			{ title: data[5], icon: 'sync', component: SyncPage }
-          ];
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      if (event.lang == 'ar') {
+        platform.setDir('rtl', true);
+        platform.setDir('ltr', false);
+      }
+      else {
+        platform.setDir('ltr', true);
+        platform.setDir('rtl', false);
+      }
+      Observable.forkJoin(
+        this.translate.get('HOME'),
+        // this.translate.get('FORMS'),
+        // this.translate.get('FUNCTIONALITIES'),
+        this.translate.get('ORDERS'),
+        this.translate.get('CALENDAR'),
+        this.translate.get('SYNC'),
+        // this.translate.get('LAYOUTS'),
+        this.translate.get('SETTINGS')
+      ).subscribe(data => {
+        this.pages = [
+          { title: data[0], icon: 'home', component: TabsNavigationPage },
+          // { title: data[1], icon: 'create', component: FormsPage },
+          // { title: data[2], icon: 'code', component: FunctionalitiesPage },
+          { title: data[1], icon: 'clipboard', component: OrdersPage },
+          { title: data[2], icon: 'calendar', component: CalendarPage },
+          { title: data[3], icon: 'sync', component: SyncPage }
+        ];
 
-          this.pushPages = [
-            { title: data[6], icon: 'grid', component: LayoutsPage },
-            { title: data[7], icon: 'settings', component: SettingsPage }
-          ];
-        });
+        this.pushPages = [
+          // { title: data[6], icon: 'grid', component: LayoutsPage },
+          { title: data[4], icon: 'settings', component: SettingsPage }
+        ];
       });
+    });
 
   }
 

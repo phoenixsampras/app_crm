@@ -81,12 +81,13 @@
     "text-mask-addons": "3.5.1",
     "twitter-connect-plugin": "^0.6.0",
     "videogular2": "^5.2.9",
-    "zone.js": "0.8.12"
+    "zone.js": "0.8.12",
+    "cordova-plugin-mauron85-background-geolocation": "~2.2.5"
   },
   "devDependencies": {
     "@ionic/app-scripts": "^2.1.4",
     "@ionic/cli-plugin-ionic-angular": "1.4.1",
-    "ionic": "3.13.2",
+    "ionic": "3.14.0",
     "typescript": "2.3.4"
   },
   "description": "ion2-FullApp: The Best Ionic 2 Starter app.",

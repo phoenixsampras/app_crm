@@ -1,39 +1,39 @@
-import { Injectable } from '@angular/core';  
-import PouchDB from 'pouchdb';  
+import { Injectable } from '@angular/core';
+import PouchDB from 'pouchdb';
 //import PouchFind from 'pouchdb-find'
 import {Platform  } from 'ionic-angular';
 
 @Injectable()
-export class DatabaseService {  
+export class DatabaseService {
     private _db;
     private _customers;
 	private _orders;
 	private _positions;
 	private _events;
-	
-	constructor(private platform: Platform,) 
+
+	constructor(private platform: Platform,)
     {
 		this.platform.ready().then(() => {
-            this.initDB();      
+            this.initDB();
         });
     }
-	
+
     initDB() {
         //PouchDB.plugin(cordovaSqlitePlugin);
 		//PouchDB.plugin(PouchFind)
         this._db = new PouchDB('websql://orders.db');
     }
-	
+
 	deleteDB() {
 		this._db.destroy().then(function (response) {
 			alert("DB cleaned out successfully!");
 			this._db = new PouchDB('websql://orders.db');
 		}).catch(function (err) {
 		  console.log(err);
-		});	
+		});
 	}
-	
-	addCustomer(customer) {  
+
+	addCustomer(customer) {
 		let id = "customer-" + customer.id;
 		let db = this._db;
 		customer._id = "customer-" + customer.id;
@@ -44,37 +44,37 @@ export class DatabaseService {
 			console.log(err);
 			return db.put(customer);
 		});
-		
+
 	}
-	
-	addOrder(order) {  
+
+	addOrder(order) {
 		order.type = "order";
 		order._id = "order-" + Date.now();
 		return this._db.put(order).then(data=>{
 			console.log(data);
-			
+
 		});;
-		
+
 	}
-	
-	addPosition(position) {  
+
+	addPosition(position) {
 		position.type = "latlng";
 		position._id = "latlng-" + Date.now();
 		return this._db.put(position).then(data=>{
 			console.log(data);
-			
+
 		});;
-		
+
 	}
-	
-	addEvent(event) { 
+
+	addEvent(event) {
 
 		if(event.start_datetime) {
-			var re = / /gi; 
+			var re = / /gi;
 			var str = event.start_datetime ? event.start_datetime : "";
-			var newstr = str.replace(re, "-"); 
-			var re = /:/gi; 
-			var newstr = newstr.replace(re, "-"); 
+			var newstr = str.replace(re, "-");
+			var re = /:/gi;
+			var newstr = newstr.replace(re, "-");
 			var str = event.name;
 			event.type = "cevent";
 			var id =  "cevent-" + str.toLowerCase() + "-" + newstr ;
@@ -87,30 +87,30 @@ export class DatabaseService {
 				return db.put(event);
 			});
 		}
-		
-		
+
+
 	}
-	
-	deletePosition(position) {  
+
+	deletePosition(position) {
 		return this._db.remove(position);
 	}
-	
-	deleteOrder(order) {  
+
+	deleteOrder(order) {
 		return this._db.remove(order);
 	}
-	
-	update(customer) {  
+
+	update(customer) {
 		return this._db.put(customer);
 	}
-	
-	delete(customer) {  
+
+	delete(customer) {
 		return this._db.remove(customer);
 	}
-	
-	getAllOrders() {  
+
+	getAllOrders() {
 		if(!this._db)
 			this.initDB();
-		return new Promise(resolve => 
+		return new Promise(resolve =>
 		{
 			this._db.allDocs({include_docs: true,
 								startkey: 'order',
@@ -118,7 +118,7 @@ export class DatabaseService {
 							})
 			.then(docs => {
 
-				// Each row has a .doc object and we just want to send an 
+				// Each row has a .doc object and we just want to send an
 				// array of customer objects back to the calling controller,
 				// so let's map the array to contain just the .doc objects.
 
@@ -128,18 +128,18 @@ export class DatabaseService {
 						return row.doc;
 				});
 
-				
+
 				resolve(this._orders);
 			});
-			
+
 		});
-		
+
 	}
-	
-	getAllCustomers() {  
+
+	getAllCustomers() {
 		if(!this._db)
 				this.initDB();
-		return new Promise(resolve => 
+		return new Promise(resolve =>
 		{
 			this._db.allDocs({include_docs: true,
 								startkey: 'customer',
@@ -147,7 +147,7 @@ export class DatabaseService {
 							})
 			.then(docs => {
 
-				// Each row has a .doc object and we just want to send an 
+				// Each row has a .doc object and we just want to send an
 				// array of customer objects back to the calling controller,
 				// so let's map the array to contain just the .doc objects.
 
@@ -160,14 +160,14 @@ export class DatabaseService {
 				// Listen for changes on the database.
 				resolve(this._customers);
 			});
-			
-		}); 
+
+		});
 	}
-	
-	getAllPositions() {  
+
+	getAllPositions() {
 		if(!this._db)
 				this.initDB();
-		return new Promise(resolve => 
+		return new Promise(resolve =>
 		{
 			this._db.allDocs({include_docs: true,
 								startkey: 'latlng',
@@ -175,7 +175,7 @@ export class DatabaseService {
 							})
 			.then(docs => {
 
-				// Each row has a .doc object and we just want to send an 
+				// Each row has a .doc object and we just want to send an
 				// array of customer objects back to the calling controller,
 				// so let's map the array to contain just the .doc objects.
 
@@ -188,14 +188,14 @@ export class DatabaseService {
 				// Listen for changes on the database.
 				resolve(this._positions);
 			});
-			
-		}); 
+
+		});
 	}
-	
-	getAllEvents() {  
+
+	getAllEvents() {
 		if(!this._db)
 				this.initDB();
-		return new Promise(resolve => 
+		return new Promise(resolve =>
 		{
 			this._db.allDocs({include_docs: true,
 								startkey: 'cevent',
@@ -203,7 +203,7 @@ export class DatabaseService {
 							})
 			.then(docs => {
 
-				// Each row has a .doc object and we just want to send an 
+				// Each row has a .doc object and we just want to send an
 				// array of customer objects back to the calling controller,
 				// so let's map the array to contain just the .doc objects.
 
@@ -216,9 +216,9 @@ export class DatabaseService {
 				// Listen for changes on the database.
 				resolve(this._events);
 			});
-			
-		}); 
+
+		});
 	}
-	
+
 
 }

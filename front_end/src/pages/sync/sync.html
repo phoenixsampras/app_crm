@@ -8,9 +8,9 @@
 </ion-header>
 
 <ion-content>
-	<button ion-button block color="primary" (click)="syncData()">Sync Data</button>
-	<button ion-button block color="danger" (click)="wipeData()">Wipe Data</button>
-	 
+	<button ion-button block color="primary" (click)="syncData()">{{'SYNC_REMOTE_DATA' | translate}}</button>
+	<button ion-button block color="danger" (click)="wipeData()">{{'SYNC_LOCAL_DATA' | translate}}</button>
+
 	<div>
 		<p *ngFor="let message of messages" >{{message}}</p>
 	</div>
