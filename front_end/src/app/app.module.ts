@@ -59,6 +59,7 @@ import { DatabaseService } from '../pages/orders/database.service';
 import { OrdersService } from '../pages/orders/orders.service';
 import { PositionService } from '../pages/orders/position.service';
 import { CalendarService } from '../pages/calendar/calendar.service';
+import { ProductsService } from '../pages/add-order/products.service';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
@@ -225,6 +226,7 @@ export function createTranslateLoader(http: Http) {
 	OrdersService,
 	PositionService,
 	CalendarService,
+	ProductsService,
     FacebookLoginService,
     GoogleLoginService,
     TwitterLoginService,
