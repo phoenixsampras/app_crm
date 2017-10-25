@@ -11,72 +11,72 @@ export class OrdersService {
 		public jsonp: Jsonp,
 		private databaseService: DatabaseService,
 		private platform: Platform,
-		
-		
+
+
 	) {
 		this.platform.ready().then(() => {
-            //this.databaseService.initDB();      
-        });	
+            //this.databaseService.initDB();
+        });
 	}
 
 	addOrder(order) {
 		this.databaseService.addOrder(order);
 	}
-	
+
 	deleteOrder(order) {
 		this.databaseService.deleteOrder(order);
 	}
-	
+
 	saveOrderOnServer(url): Promise<any> {
 		return this.jsonp.request(url,{method:'Get'})
 		.toPromise()
 		.then(response => response)
 		.catch(this.handleError);
-		
+
 		//return this.databaseService.getAllCustomers()
 		//.toPromise()
 		//.then(response => response.json() as CustomersModel)
 		//.catch(this.handleError);
-		
+
 	}
-	
+
 	saveOrderLineOnServer(url): Promise<any> {
 		return this.jsonp.request(url,{method:'Get'})
 		.toPromise()
 		.then(response => response)
 		.catch(this.handleError);
-		
+
 		//return this.databaseService.getAllCustomers()
 		//.toPromise()
 		//.then(response => response.json() as CustomersModel)
 		//.catch(this.handleError);
-		
+
 	}
-	
+
 	getDataFromServer(): Promise<any> {
-		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC.php?task=rmListaPedidos&callback=JSONP_CALLBACK',{method:'Get'})
+		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmListaPedidos&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
 		.then(response => response.json())
 		.catch(this.handleError);
-		
+
 		//return this.databaseService.getAllCustomers()
 		//.toPromise()
 		//.then(response => response.json() as CustomersModel)
 		//.catch(this.handleError);
-		
+
 	}
-	
+
 	getData(): Promise<any> {
 		//return this.http.get('./assets/example_data/lists.json')
 		//.toPromise()
 		//.then(response => response.json() as OrdersModel)
 		//.catch(this.handleError);
-		
+
 		return this.databaseService.getAllOrders()
 		//.toPromise()
 		.then(response => response)
 		.catch(this.handleError);
-		
+
 	}
 
   private handleError(error: any): Promise<any> {
@@ -85,4 +85,3 @@ export class OrdersService {
   }
 
 }
-

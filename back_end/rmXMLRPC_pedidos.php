@@ -125,25 +125,6 @@ function rmListaProductos ($db) {
     }
 }
 
-function rmTipoCliente ($db) {
-    try {
-        $sql = "select  id, rm_name from rm_tipo_cliente order by rm_name asc";
-        $query = pg_query($db, $sql);
-        if(!$query){
-          echo "Error".pg_last_error($db);
-        exit;
-        }
-
-        $resultado = pg_fetch_all($query);
-        echo $_GET['callback'].'({"tipoCliente": ' . json_encode($resultado) . '})';
-        pg_close($db);
-
-    } catch(PDOException $e) {
-        echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
-        exit;
-    }
-}
-
 function rmListaClientes ($db) {
     try {
         $pedido = $_REQUEST['id'];

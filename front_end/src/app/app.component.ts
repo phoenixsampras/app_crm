@@ -64,8 +64,8 @@ export class MyApp {
       }
       Observable.forkJoin(
         this.translate.get('HOME'),
-        // this.translate.get('FORMS'),
-        // this.translate.get('FUNCTIONALITIES'),
+        this.translate.get('FORMS'),
+        this.translate.get('FUNCTIONALITIES'),
         this.translate.get('ORDERS'),
         this.translate.get('CALENDAR'),
         this.translate.get('SYNC'),
@@ -74,8 +74,8 @@ export class MyApp {
       ).subscribe(data => {
         this.pages = [
           { title: data[0], icon: 'home', component: TabsNavigationPage },
-          // { title: data[1], icon: 'create', component: FormsPage },
-          // { title: data[2], icon: 'code', component: FunctionalitiesPage },
+          { title: data[1], icon: 'create', component: FormsPage },
+          { title: data[2], icon: 'code', component: FunctionalitiesPage },
           { title: data[1], icon: 'clipboard', component: OrdersPage },
           { title: data[2], icon: 'calendar', component: CalendarPage },
           { title: data[3], icon: 'sync', component: SyncPage }
