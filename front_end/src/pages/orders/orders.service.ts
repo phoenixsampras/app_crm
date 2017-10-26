@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Jsonp  } from '@angular/http';
-import { DatabaseService } from './database.service';
+import { DatabaseService } from '../sync/database.service';
 import 'rxjs/add/operator/toPromise';
 import {Platform  } from 'ionic-angular';
 import { OrdersModel } from './orders.model';

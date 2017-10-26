@@ -2,7 +2,7 @@ import { Component, NgZone } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { NavController, NavParams, LoadingController, ToastController, ModalController, } from 'ionic-angular';
 
-import { DatabaseService } from '../orders/database.service';
+import { DatabaseService } from '../sync/database.service';
 import { CustomersModel } from './customers.model';
 import { ProductsModel } from './products.model';
 import { CustomersService } from './customers.service';
@@ -22,17 +22,17 @@ export class AddOrderPage {
 	products:any = [];
 	loading: any;
 	selectedProducts:any = [];
-  
+
 	constructor(
-		public navCtrl: NavController, 
-		public formBuilder: FormBuilder, 
+		public navCtrl: NavController,
+		public formBuilder: FormBuilder,
 		public customersService: CustomersService,
 		public loadingCtrl: LoadingController,
 		public toastCtrl: ToastController,
 		public ordersService: OrdersService,
 		public productsService: ProductsService,
 		public modalCtrl: ModalController
-		
+
 	) {
 		this.loading = this.loadingCtrl.create();
 	}
@@ -45,9 +45,9 @@ export class AddOrderPage {
 			}
 		}
 	}
-	
+
 	addProducts() {
-		// reset 
+		// reset
         let modal = this.modalCtrl.create(ProductsPage, { 'products': this.products });
 		modal.onDidDismiss(data => {
 			if(data){
@@ -55,11 +55,11 @@ export class AddOrderPage {
 				//this.getPlaceDetail(data.place_id);
 				console.log(data);
 				this.selectedProducts.push(data);
-            }  		
+            }
 		});
 		modal.present();
 	}
-	
+
 	getTotal() {
 		let total = 0.0;
 		for(var i=0; i<this.selectedProducts.length;i++) {
@@ -67,9 +67,9 @@ export class AddOrderPage {
 		}
 		return total;
 	}
-	
+
 	ionViewDidLoad() {
-		
+
 		this.loading.present();
 		if(window.navigator.onLine){
 			this.customersService
@@ -81,7 +81,7 @@ export class AddOrderPage {
 					//console.log(this.customersList.items[i].id);
 					this.customersService.addCustomer(this.customersList.items[i]);
 				}
-				
+
 			});
 			this.productsService
 			.getDataFromServer()
@@ -91,21 +91,21 @@ export class AddOrderPage {
 				{
 					this.products[this.productsList.items[i].id] = this.productsList.items[i];
 					this.productsService.addProduct(this.productsList.items[i]);
-					
+
 				}
 				this.products.splice(0, 1);
 				console.log(this.productsList.items);
 				console.log(this.products);
 				this.loading.dismiss();
 			});
-			
-			
-			
+
+
+
 		} else {
 			this.customersService
 				.getDataFromPouch()
 				.then(data => {
-				
+
 					var sortedArray: any[] = data.sort((obj1, obj2) => {
 						if (obj1.name > obj2.name) {
 							return 1;
@@ -119,12 +119,12 @@ export class AddOrderPage {
 					});
 					console.log(sortedArray);
 					this.customersList.items = sortedArray;
-				
+
 			});
 			this.productsService
 				.getDataFromPouch()
 				.then(data => {
-				
+
 					var sortedArray: any[] = data.sort((obj1, obj2) => {
 						if (obj1.name > obj2.name) {
 							return 1;
@@ -141,24 +141,24 @@ export class AddOrderPage {
 					for(var i = 0; i< this.productsList.items.length;i++)
 					{
 						this.products[this.productsList.items[i].id] = this.productsList.items[i];
-						
+
 					}
-				
+
 				this.loading.dismiss();
 			});
 		}
-		
+
 	}
-	
+
 	ionViewWillLoad() {
-		
+
 		this.validations_form = this.formBuilder.group({
 			customer: new FormControl('', Validators.required),
 			dateOrder: new FormControl('', Validators.required),
 			notes: new FormControl('', []),
 		});
 	}
-	
+
 	validation_messages = {
 		'customer': [
 			{ type: 'required', message: 'Customer is required.' }
@@ -166,7 +166,7 @@ export class AddOrderPage {
 		'dateOrder': [
 			{ type: 'required', message: 'Order Date is required.' }
 		],
-    
+
 	};
 
     onSubmit(values){
@@ -217,8 +217,8 @@ export class AddOrderPage {
 			this.validations_form.get('dateOrder').setValue('');
 			this.validations_form.get('customer').setValue('');
 			this.validations_form.get('notes').setValue('');
-			
+
 		}*/
-		
+
 	}
 }

@@ -55,7 +55,7 @@ import { FacebookLoginService } from '../pages/facebook-login/facebook-login.ser
 import { GoogleLoginService } from '../pages/google-login/google-login.service';
 import { TwitterLoginService } from '../pages/twitter-login/twitter-login.service';
 import { GoogleMapsService } from '../pages/maps/maps.service';
-import { DatabaseService } from '../pages/orders/database.service';
+import { DatabaseService } from '../pages/sync/database.service';
 import { OrdersService } from '../pages/orders/orders.service';
 import { PositionService } from '../pages/orders/position.service';
 import { CalendarService } from '../pages/calendar/calendar.service';
@@ -64,7 +64,7 @@ import { ProductsService } from '../pages/add-order/products.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { JsonpModule } from '@angular/http';
- 
+
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SocialSharing } from '@ionic-native/social-sharing';
@@ -101,7 +101,7 @@ import { ValidatorsModule } from '../components/validators/validators.module';
 import { LanguageService } from '../providers/language/language.service';
 
 export function createTranslateLoader(http: Http) {
-	return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 
@@ -135,9 +135,9 @@ export function createTranslateLoader(http: Http) {
     GoogleLoginPage,
     ContactCardPage,
     TwitterLoginPage,
-		AdsPage,
-		FormValidationsPage,
-		VideoPlaylistPage,
+    AdsPage,
+    FormValidationsPage,
+    VideoPlaylistPage,
 
     PreloadImage,
     BackgroundImage,
@@ -147,32 +147,32 @@ export function createTranslateLoader(http: Http) {
     CounterInput,
     Rating,
     GoogleMap,
-	AddOrderPage,
-	OrdersPage,
-	CalendarPage,
-	SyncPage,
-	ProductsPage,
+    AddOrderPage,
+    OrdersPage,
+    CalendarPage,
+    SyncPage,
+    ProductsPage,
   ],
   imports: [
     BrowserModule,
     HttpModule,
-	JsonpModule,
-	NgCalendarModule,
+    JsonpModule,
+    NgCalendarModule,
     IonicModule.forRoot(MyApp, {
-			modalEnter: 'modal-slide-in',
-			modalLeave: 'modal-slide-out',
-			pageTransition: 'ios-transition',
-			swipeBackEnabled: false
-		}),
-		TranslateModule.forRoot({
-    loader: {
-				provide: TranslateLoader,
-				useFactory: (createTranslateLoader),
-				deps: [Http]
-			}
-		}),
-		VideoPlayerModule,
-		ValidatorsModule
+      modalEnter: 'modal-slide-in',
+      modalLeave: 'modal-slide-out',
+      pageTransition: 'ios-transition',
+      swipeBackEnabled: false
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [Http]
+      }
+    }),
+    VideoPlayerModule,
+    ValidatorsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -204,14 +204,14 @@ export function createTranslateLoader(http: Http) {
     GoogleLoginPage,
     ContactCardPage,
     TwitterLoginPage,
-		AdsPage,
-		FormValidationsPage,
-		VideoPlaylistPage,
-		AddOrderPage,
-		OrdersPage,
-		CalendarPage,
-		SyncPage,
-		ProductsPage,
+    AdsPage,
+    FormValidationsPage,
+    VideoPlaylistPage,
+    AddOrderPage,
+    OrdersPage,
+    CalendarPage,
+    SyncPage,
+    ProductsPage,
   ],
   providers: [
     FeedService,
@@ -221,22 +221,22 @@ export function createTranslateLoader(http: Http) {
     List1Service,
     List2Service,
     ScheduleService,
-	DatabaseService,
-	CustomersService,
-	OrdersService,
-	PositionService,
-	CalendarService,
-	ProductsService,
+    DatabaseService,
+    CustomersService,
+    OrdersService,
+    PositionService,
+    CalendarService,
+    ProductsService,
     FacebookLoginService,
     GoogleLoginService,
     TwitterLoginService,
     GoogleMapsService,
-		LanguageService,
+    LanguageService,
 
-	  SplashScreen,
-	  StatusBar,
-	  LocationTracker,
-	  BackgroundGeolocation,
+    SplashScreen,
+    StatusBar,
+    LocationTracker,
+    BackgroundGeolocation,
     Geolocation,
     SocialSharing,
     NativeStorage,
@@ -246,12 +246,12 @@ export function createTranslateLoader(http: Http) {
     Keyboard,
     Geolocation,
     TwitterConnect,
-		AdMobFree,
-		AppRate,
-		ImagePicker,
-		Crop,
-		EmailComposer,
+    AdMobFree,
+    AppRate,
+    ImagePicker,
+    Crop,
+    EmailComposer,
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule {}
+export class AppModule { }

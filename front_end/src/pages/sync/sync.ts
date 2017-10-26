@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { OrdersService } from '../orders/orders.service';
 import { PositionService } from '../orders/position.service';
-import { DatabaseService } from '../orders/database.service';
+import { DatabaseService } from '../sync/database.service';
 import { AlertController } from 'ionic-angular';
 
 
