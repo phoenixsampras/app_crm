@@ -33,6 +33,7 @@ import { OrdersPage } from '../pages/orders/orders';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { SyncPage } from '../pages/sync/sync';
 import { ProductsPage } from '../pages/products/products';
+import { ClientesPage } from '../pages/clientes/clientes';
 
 import { PreloadImage } from '../components/preload-image/preload-image';
 import { BackgroundImage } from '../components/background-image/background-image';
@@ -60,6 +61,7 @@ import { OrdersService } from '../pages/orders/orders.service';
 import { PositionService } from '../pages/orders/position.service';
 import { CalendarService } from '../pages/calendar/calendar.service';
 import { ProductsService } from '../pages/add-order/products.service';
+import { ClientesService } from '../pages/clientes/clientes.service';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
@@ -152,6 +154,7 @@ export function createTranslateLoader(http: Http) {
     CalendarPage,
     SyncPage,
     ProductsPage,
+    ClientesPage
   ],
   imports: [
     BrowserModule,
@@ -212,6 +215,7 @@ export function createTranslateLoader(http: Http) {
     CalendarPage,
     SyncPage,
     ProductsPage,
+    ClientesPage
   ],
   providers: [
     FeedService,
@@ -227,6 +231,7 @@ export function createTranslateLoader(http: Http) {
     PositionService,
     CalendarService,
     ProductsService,
+    ClientesService,
     FacebookLoginService,
     GoogleLoginService,
     TwitterLoginService,

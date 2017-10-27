@@ -128,7 +128,7 @@
 
   "ADD_CUSTOMER": "Agregar Cliente",
   "ORDERS": "Pedidos",
-  "CUSTOMERS": "Customers",
+  "CUSTOMERS": "Clientes",
   "CUSTOMER": "Cliente",
   "ADD_ORDER": "AGREGAR PEDIDO",
   "ORDER_DATE": "Fecha",
@@ -155,5 +155,11 @@
   "SYNC": "Sincronizar",
   "SYNC_DATA": "Sincronizar",
   "SYNC_REMOTE_DATA": "Sincronizar Informacion",
-  "SYNC_LOCAL_DATA": "Eliminar Informacion"
+  "SYNC_LOCAL_DATA": "Eliminar Informacion",
+
+  "DELETE": "ELIMINAR",
+  "EDIT": "EDITAR",
+  "CALL_MOBILE": "Celular",
+  "CALL_PHONE": "Telefono"
+
 }

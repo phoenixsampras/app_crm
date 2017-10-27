@@ -12,9 +12,9 @@ import { PositionService } from './position.service';
   templateUrl: 'orders.html'
 })
 export class OrdersPage {
-  
-	loading:any;
-	ordersList:any = [];
+
+	loading: any;
+	ordersList: any = [];
 	constructor(
 		public nav: NavController,
 		public loadingCtrl: LoadingController,
@@ -24,15 +24,15 @@ export class OrdersPage {
 	) {
 		this.locationTracker.startTracking();
 	}
-	
+
 	goToAddOrder() {
 		this.nav.push(AddOrderPage);
 	}
-	
+
 	ionViewDidEnter() {
-		
+
 	}
 
-	
+
 
 }

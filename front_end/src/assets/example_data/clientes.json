@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "rm_nombre": "Crossfit WorldWide Event",
+      "rm_direccion": "assets/images/lists/200x200EventCrossfit.png",
+      "rm_telefono": "568-9552-655",
+      "rm_celular": "123-456-789"
+    },
+    {
+      "rm_nombre": "US Open",
+      "rm_direccion": "assets/images/lists/200x200EventUSOpen.png",
+      "rm_telefono": "568-9552-655",
+      "rm_celular": "123-456-789"
+    },
+    {
+      "rm_nombre": "The Basketball Tournament",
+      "rm_direccion": "assets/images/lists/200x200TBT.png",
+      "rm_telefono": "568-9552-655",
+      "rm_celular": "123-456-789"
+    },
+    {
+      "rm_nombre": "British Open",
+      "rm_direccion": "assets/images/lists/200x200BritishOpen.png",
+      "rm_telefono": "568-9552-655",
+      "rm_celular": "123-456-789"
+    },
+    {
+      "rm_nombre": "FIFA World Cup",
+      "rm_direccion": "assets/images/lists/200x200FIFA.png",
+      "rm_telefono": "568-9552-655",
+      "rm_celular": "123-456-789"
+    }
+  ]
+}
