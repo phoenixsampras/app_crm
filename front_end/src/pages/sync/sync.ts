@@ -45,10 +45,12 @@ export class SyncPage {
 			this.syncService
 			.getDataFromServer()
 			.then(data => {
-				let items = data.listaClientes;
+				let items = data.rmListaClientes;
+        // console.log("rmListaClientes:" + JSON.stringify(items));
 				for(var i = 0; i< items.length;i++)
 				{
-					//console.log(this.customersList.items[i].id);
+          console.log("rmListaClientes:" + JSON.stringify(items[i]));
+					console.log(items[i].rm_nombre);
 					this.syncService.addCustomer(items[i]);
 				}
 

@@ -18,7 +18,7 @@ export class ClientesPage {
 
   constructor(
     public nav: NavController,
-    public ClientesService: ClientesService,
+    public clientesService: ClientesService,
     public customersService: CustomersService,
     public loadingCtrl: LoadingController
   ) {
@@ -28,23 +28,23 @@ export class ClientesPage {
   ionViewDidLoad() {
     console.log("ionViewDidLoad");
     this.loading.present();
-    if (window.navigator.onLine) {
-      this.ClientesService
-        .getData()
-        .then(data => {
-          this.listaClientes = data.rmListaClientes;
-          for (var i = 0; i < this.listaClientes.length; i++) {
-            //console.log(this.customersList.items[i].id);
-            this.customersService.addCustomer(this.listaClientes[i]);
-
-          }
-          this.loading.dismiss();
-        });
-    } else {
-      this.customersService
+    // if (window.navigator.onLine) {
+    //   this.ClientesService
+    //     .getData()
+    //     .then(data => {
+    //       this.listaClientes = data.rmListaClientes;
+    //       for (var i = 0; i < this.listaClientes.length; i++) {
+    //         //console.log(this.customersList.items[i].id);
+    //         this.customersService.addCustomer(this.listaClientes[i]);
+    //
+    //       }
+    //       this.loading.dismiss();
+    //     });
+    // } else {
+      this.clientesService
         .getDataFromPouch()
         .then(data => {
-
+          console.log('clientesService ->' + data);
           var sortedArray: any[] = data.sort((obj1, obj2) => {
             if (obj1.name > obj2.name) {
               return 1;
@@ -58,9 +58,9 @@ export class ClientesPage {
           });
           console.log(sortedArray);
           this.listaClientes = sortedArray;
-
+          this.loading.dismiss();
         });
     }
-  }
+  // }
 
 }

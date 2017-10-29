@@ -3,11 +3,11 @@ import { Http, Jsonp  } from '@angular/http';
 import PouchDB from 'pouchdb';
 import { Platform } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-// import { ClientesModel } from './clientes/clientes.model';
+import { ClientesModel } from '../clientes/clientes.model';
 
 @Injectable()
 export class SyncService {
-  private _db;
+  public _db;
   private _clientes;
 
   constructor(
@@ -22,7 +22,7 @@ export class SyncService {
   }
 
   initDB() {
-    this._db = new PouchDB('orders.db');
+    this._db = new PouchDB('romilax.db');
     // this._db = new PouchDB('orders.db', { adapter: 'idb' });
   }
 
@@ -30,10 +30,10 @@ export class SyncService {
   // }
 
   // getDataFromServer(): Promise<CustomersModel> {
-  getDataFromServer() {
+  getDataFromServer(): Promise<ClientesModel> {
 		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC_clientes.php?task=rmListaClientes&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
-    .then(response => response.json() )
+    .then(response => response.json() as ClientesModel)
 		// .then(response.json())
 		.catch(this.handleError);
 	}
@@ -46,9 +46,19 @@ export class SyncService {
 
 	}
 
-  addCustomer(customer) {
-		 this.addCustomer(customer);
-	}
+  addCustomer(cliente) {
+    let id = "cliente-" + cliente.id;
+    let db = this._db;
+    cliente._id = "cliente-" + cliente.id;
+    cliente.type = "cliente";
+    this._db.get(id).then(function(doc) {
+      return doc;
+    }).catch(function(err) {
+      console.log(err);
+      return db.put(cliente);
+    });
+
+  }
 
   private handleError(error: any): Promise<any> {
     console.error('ERROR CARAJITO:', error); // for demo purposes only
