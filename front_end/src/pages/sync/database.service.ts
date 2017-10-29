@@ -23,7 +23,7 @@ export class DatabaseService {
   }
 
   initDB() {
-    this._db = new PouchDB('websql://orders.db');
+    this._db = new PouchDB('orders.db', { adapter: 'idb' });
   }
 
   deleteDB() {

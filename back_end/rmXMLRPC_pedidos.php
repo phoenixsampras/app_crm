@@ -54,38 +54,6 @@ function login($conex){
     return $common->authenticate($db, $username, $password, array());
 }
 
-function rmGraficoVentasPlan ($db) {
-    try {
-        $pedido = $_REQUEST['id'];
-        $sql = "
-        SELECT
-        public.sale_order.date_order,
-        public.sale_order_line.product_uom_qty as quantity,
-        10000 as plan
-        FROM
-        public.sale_order
-        INNER JOIN public.sale_order_line ON public.sale_order_line.order_id = public.sale_order.id
-        ;
-
-        ";
-
-        $query = pg_query($db, $sql);
-        if(!$query){
-        echo "Error".pg_last_error($db);
-        exit;
-        }
-
-        $resultado = pg_fetch_all($query);
-
-        echo $_GET['callback'].'({"rmGraficoVentasPlan": ' . json_encode($resultado) . '})';
-        pg_close($db);
-
-    } catch(PDOException $e) {
-        echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
-        exit;
-    }
-}
-
 function rmListaPedidos ($db) {
     try {
         $pedido = $_REQUEST['id'];
@@ -153,30 +121,6 @@ function rmListaProductos ($db) {
         $resultado = pg_fetch_all($query);
 
         echo $_GET['callback'].'({"rmListaProductos": ' . json_encode($resultado) . '})';
-        pg_close($db);
-
-    } catch(PDOException $e) {
-        echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
-        exit;
-    }
-}
-
-function rmListaClientes ($db) {
-    try {
-        $pedido = $_REQUEST['id'];
-        $sql = "
-          Select id, name from res_partner order by name
-            ";
-
-        $query = pg_query($db, $sql);
-        if(!$query){
-        echo "Error".pg_last_error($db);
-        exit;
-        }
-
-        $resultado = pg_fetch_all($query);
-
-        echo $_GET['callback'].'({"listaClientes": ' . json_encode($resultado) . '})';
         pg_close($db);
 
     } catch(PDOException $e) {
