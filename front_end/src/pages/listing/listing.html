@@ -27,18 +27,21 @@
       </ion-col>
     </ion-row>
   </ion-scroll> -->
-  <ion-img width="100%" height="210px" src="./assets/images/charts/main.png"></ion-img>
-  
-  <h4 class="categories-title">{{'BROWSE_CATEGORIES' | translate}}</h4>
-  <ion-row class="grid-categories">
-    <ion-col width-50 class="category-item" *ngFor="let category of listing.categories">
-      <background-image tappable class="category-heading" [src]="category.image" (click)="goToFeed(category)">
-        <ion-row class="heading-row">
-          <ion-col no-padding width-100>
-            <h2 class="category-title">{{category.title}}</h2>
-          </ion-col>
-        </ion-row>
-      </background-image>
-    </ion-col>
-  </ion-row>
+  <div style='height:210px'>
+		<chart *ngIf="data.datasets.length" [type]="type" [data]="data" [options]="options"></chart>
+  </div>
+  <div>
+	  <h4 class="categories-title">{{'BROWSE_CATEGORIES' | translate}}</h4>
+	  <ion-row class="grid-categories">
+		<ion-col width-50 class="category-item" *ngFor="let category of listing.categories">
+		  <background-image tappable class="category-heading" [src]="category.image" (click)="goToFeed(category)">
+			<ion-row class="heading-row">
+			  <ion-col no-padding width-100>
+				<h2 class="category-title">{{category.title}}</h2>
+			  </ion-col>
+			</ion-row>
+		  </background-image>
+		</ion-col>
+	  </ion-row>
+	</div>
 </ion-content>
