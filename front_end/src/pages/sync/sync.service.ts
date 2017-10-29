@@ -22,7 +22,5 @@ export class DatabaseSyncService {
     this._db = new PouchDB('orders.db', { adapter: 'idb' });
   }
 
-  obtainCustomersFromServer2PouchDB(): Promise<ClientesModel> {
-  }
-
+  
 }

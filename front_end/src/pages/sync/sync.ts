@@ -4,6 +4,7 @@ import { OrdersService } from '../orders/orders.service';
 import { PositionService } from '../orders/position.service';
 import { DatabaseService } from './database.service';
 import { AlertController } from 'ionic-angular';
+import { CustomersService } from '../add-order/customers.service';
 
 
 @Component({
@@ -20,24 +21,41 @@ export class SyncPage {
     public ordersService: OrdersService,
     public positionService: PositionService,
     public databaseService: DatabaseService,
+    public customersService: CustomersService,
     public alertCtrl: AlertController
   ) {
 
   }
 
-  sinInternet() {
-    const alert = this.alertCtrl.create({
-      title: 'Conectividad',
-      subTitle: 'El servicio de Internet no esta disponible',
-      buttons: ['Aceptar']
-    });
-    alert.present();
-  }
+	sinInternet() {
+		const alert = this.alertCtrl.create({
+			title: 'Conectividad',
+			subTitle: 'El servicio de Internet no esta disponible',
+			buttons: ['Aceptar']
+		});
+		alert.present();
+	}
 
-  wipeData() {
-    this.databaseService.deleteDB();
-  }
+	wipeData() {
+		this.databaseService.deleteDB();
+	}
 
+	loadCustomers() {
+		if (window.navigator.onLine) {
+			this.customersService
+			.getDataFromServer()
+			.then(data => {
+				let items = data.listaClientes;
+				for(var i = 0; i< items.length;i++)
+				{
+					//console.log(this.customersList.items[i].id);
+					this.customersService.addCustomer(items[i]);
+				}
+
+			});
+		}
+	}
+  
   syncData() {
 
     if (window.navigator.onLine) {
