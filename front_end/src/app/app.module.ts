@@ -4,6 +4,7 @@ import { MyApp } from './app.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Http } from '@angular/http';
+import { ChartModule } from 'angular2-chartjs';
 
 import { ListingPage } from '../pages/listing/listing';
 import { FeedPage } from '../pages/feed/feed';
@@ -34,6 +35,7 @@ import { CalendarPage } from '../pages/calendar/calendar';
 import { SyncPage } from '../pages/sync/sync';
 import { ProductsPage } from '../pages/products/products';
 import { ClientesPage } from '../pages/clientes/clientes';
+import { ChartsPage } from '../pages/charts/charts';
 
 import { PreloadImage } from '../components/preload-image/preload-image';
 import { BackgroundImage } from '../components/background-image/background-image';
@@ -62,6 +64,7 @@ import { PositionService } from '../pages/orders/position.service';
 import { CalendarService } from '../pages/calendar/calendar.service';
 import { ProductsService } from '../pages/add-order/products.service';
 import { ClientesService } from '../pages/clientes/clientes.service';
+import { ChartsService } from '../pages/charts/charts.service';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
@@ -154,13 +157,15 @@ export function createTranslateLoader(http: Http) {
     CalendarPage,
     SyncPage,
     ProductsPage,
-    ClientesPage
+    ClientesPage,
+	ChartsPage,
   ],
   imports: [
     BrowserModule,
     HttpModule,
     JsonpModule,
     NgCalendarModule,
+	ChartModule,
     IonicModule.forRoot(MyApp, {
       modalEnter: 'modal-slide-in',
       modalLeave: 'modal-slide-out',
@@ -215,7 +220,8 @@ export function createTranslateLoader(http: Http) {
     CalendarPage,
     SyncPage,
     ProductsPage,
-    ClientesPage
+    ClientesPage,
+	ChartsPage,
   ],
   providers: [
     FeedService,
@@ -232,6 +238,7 @@ export function createTranslateLoader(http: Http) {
     CalendarService,
     ProductsService,
     ClientesService,
+	ChartsService,
     FacebookLoginService,
     GoogleLoginService,
     TwitterLoginService,

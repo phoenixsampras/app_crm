@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+		<ion-icon name="menu"></ion-icon>
+	</button>
+	<ion-title>{{'PLAN_CHART' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+	
+	<chart *ngIf="data.datasets.length" [type]="type" [data]="data" [options]="options"></chart>
+</ion-content>

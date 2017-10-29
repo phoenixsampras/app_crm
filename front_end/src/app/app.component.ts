@@ -15,6 +15,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { SyncPage } from '../pages/sync/sync';
 import { ClientesPage } from '../pages/clientes/clientes';
+import { ChartsPage } from '../pages/charts/charts';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,7 @@ export class MyApp {
   // rootPage: any = WalkthroughPage;
   //  rootPage: any = OrdersPage;
   // rootPage: any = TabsNavigationPage;
-  rootPage: any = ClientesPage;
+  rootPage: any = ChartsPage;
   textDir: string = "ltr";
 
   pages: Array<{ title: any, icon: string, component: any }>;
@@ -72,6 +73,7 @@ export class MyApp {
         this.translate.get('CALENDAR'),
         this.translate.get('CUSTOMERS'),
         this.translate.get('SYNC'),
+		this.translate.get('CHARTS'),
         // this.translate.get('LAYOUTS'),
         this.translate.get('SETTINGS')
       ).subscribe(data => {
@@ -81,13 +83,15 @@ export class MyApp {
           // { title: data[2], icon: 'code', component: FunctionalitiesPage },
           { title: data[1], icon: 'clipboard', component: OrdersPage },
           { title: data[2], icon: 'calendar', component: CalendarPage },
-          { title: data[3], icon: 'clientes', component: ClientesPage },
-          { title: data[4], icon: 'sync', component: SyncPage }
+          { title: data[3], icon: 'contacts', component: ClientesPage },
+          { title: data[4], icon: 'sync', component: SyncPage },
+		  { title: data[5], icon: 'pulse', component: ChartsPage }
+		  
         ];
 
         this.pushPages = [
           // { title: data[6], icon: 'grid', component: LayoutsPage },
-          { title: data[5], icon: 'settings', component: SettingsPage }
+          { title: data[6], icon: 'settings', component: SettingsPage }
         ];
       });
     });
