@@ -56,6 +56,8 @@ export class SyncPage {
 		}
 	}
 
+  loadChartsData () {}
+
   syncData() {
 
     if (window.navigator.onLine) {
