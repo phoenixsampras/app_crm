@@ -34,12 +34,14 @@ function rmGraficoVentasPlan ($db) {
         $pedido = $_REQUEST['id'];
         $sql = "
         SELECT
-        public.sale_order.date_order,
-        public.sale_order_line.product_uom_qty as quantity,
+        public.sale_order.date_order::timestamp::date as date_order,
+        sum(public.sale_order_line.product_uom_qty) as quantity,
         10000 as plan
         FROM
         public.sale_order
         INNER JOIN public.sale_order_line ON public.sale_order_line.order_id = public.sale_order.id
+				GROUP BY date_order
+				order by date_order
         ;
 
         ";

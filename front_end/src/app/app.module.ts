@@ -59,6 +59,7 @@ import { GoogleLoginService } from '../pages/google-login/google-login.service';
 import { TwitterLoginService } from '../pages/twitter-login/twitter-login.service';
 import { GoogleMapsService } from '../pages/maps/maps.service';
 import { DatabaseService } from '../pages/sync/database.service';
+import { SyncService } from '../pages/sync/sync.service';
 import { OrdersService } from '../pages/orders/orders.service';
 import { PositionService } from '../pages/orders/position.service';
 import { CalendarService } from '../pages/calendar/calendar.service';
@@ -232,6 +233,7 @@ export function createTranslateLoader(http: Http) {
     List2Service,
     ScheduleService,
     DatabaseService,
+    SyncService,
     CustomersService,
     OrdersService,
     PositionService,

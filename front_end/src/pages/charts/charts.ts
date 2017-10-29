@@ -50,7 +50,7 @@ export class ChartsPage {
 					yaxis2.push(items[i].plan);
 				}
 				let y1 = {'label' : 'Quantity', data: yaxis1,fill: false, borderColor: 'rgb(255, 99, 132)',backgroundColor: 'rgb(255, 99, 132)',};
-				let y2 = {'label' : 'Plan', data: yaxis2,fill: false, borderColor: 'rgb(54, 162, 235)',backgroundColor: 'rgb(54, 162, 235)',};
+				let y2 = {'label' : 'Plan', data: yaxis2,fill: false,  borderColor: 'rgb(54, 162, 235)',backgroundColor: 'rgb(54, 162, 235)',};
 				this.data.datasets.push(y1);
 				this.data.datasets.push(y2);
 				this.data.labels = labels;

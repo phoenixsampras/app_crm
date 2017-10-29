@@ -28,8 +28,8 @@ export class MyApp {
   // make WalkthroughPage the root (or first) page
   // rootPage: any = WalkthroughPage;
   //  rootPage: any = OrdersPage;
-  // rootPage: any = TabsNavigationPage;
-  rootPage: any = ChartsPage;
+  rootPage: any = TabsNavigationPage;
+
   textDir: string = "ltr";
 
   pages: Array<{ title: any, icon: string, component: any }>;
