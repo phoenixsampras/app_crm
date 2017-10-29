@@ -3,6 +3,7 @@ import { NavController, LoadingController } from 'ionic-angular';
 import { OrdersService } from '../orders/orders.service';
 import { PositionService } from '../orders/position.service';
 import { DatabaseService } from './database.service';
+import { SyncService } from './sync.service';
 import { AlertController } from 'ionic-angular';
 
 
@@ -20,10 +21,28 @@ export class SyncPage {
     public ordersService: OrdersService,
     public positionService: PositionService,
     public databaseService: DatabaseService,
+    public syncService: SyncService,
     public alertCtrl: AlertController
   ) {
 
   }
+
+  // Obtener clientes de Servidor a PouchDB
+  loadCustomers() {
+    if (window.navigator.onLine) {
+      this.syncService
+        .getDataFromServer()
+        .then(data => {
+          let items = data.rmListaClientes;
+          for (var i = 0; i < items.length; i++) {
+            //console.log(this.customersList.items[i].id);
+            this.syncService.addCustomer(items[i]);
+          }
+
+        });
+    }
+  }
+
 
   sinInternet() {
     const alert = this.alertCtrl.create({
