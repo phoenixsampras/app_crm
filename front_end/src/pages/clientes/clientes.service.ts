@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http } from '@angular/http';
 import { Jsonp  } from '@angular/http';
+import { DatabaseService } from '../sync/database.service';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -8,8 +9,10 @@ import { ClientesModel } from './clientes.model';
 
 @Injectable()
 export class ClientesService {
+  // clientes: any;
   constructor(
     public jsonp: Jsonp,
+    private databaseService: DatabaseService,
     public http: Http
   ) {}
 

@@ -23,7 +23,8 @@ export class DatabaseService {
   }
 
   initDB() {
-    this._db = new PouchDB('orders.db', { adapter: 'idb' });
+    // this._db = new PouchDB('orders.db', { adapter: 'idb' });
+    this._db = new PouchDB('orders.db');
   }
 
   deleteDB() {

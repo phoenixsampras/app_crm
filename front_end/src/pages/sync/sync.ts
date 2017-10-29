@@ -4,7 +4,7 @@ import { OrdersService } from '../orders/orders.service';
 import { PositionService } from '../orders/position.service';
 import { DatabaseService } from './database.service';
 import { AlertController } from 'ionic-angular';
-import { CustomersService } from '../add-order/customers.service';
+import { SyncService } from './sync.service';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class SyncPage {
     public ordersService: OrdersService,
     public positionService: PositionService,
     public databaseService: DatabaseService,
-    public customersService: CustomersService,
+    public syncService: SyncService,
     public alertCtrl: AlertController
   ) {
 
@@ -42,20 +42,20 @@ export class SyncPage {
 
 	loadCustomers() {
 		if (window.navigator.onLine) {
-			this.customersService
+			this.syncService
 			.getDataFromServer()
 			.then(data => {
 				let items = data.listaClientes;
 				for(var i = 0; i< items.length;i++)
 				{
 					//console.log(this.customersList.items[i].id);
-					this.customersService.addCustomer(items[i]);
+					this.syncService.addCustomer(items[i]);
 				}
 
 			});
 		}
 	}
-  
+
   syncData() {
 
     if (window.navigator.onLine) {
