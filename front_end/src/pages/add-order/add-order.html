@@ -15,7 +15,7 @@
 			<ion-item>
 				<ion-label floating>{{'Customer' | translate}}</ion-label>
 				<ion-select formControlName="customer">
-					<ion-option *ngFor="let item of customersList.items" [value]="item.id">{{item.name}}</ion-option>
+					<ion-option *ngFor="let item of customersList.items" [value]="item.id">{{item.rm_nombre}}</ion-option>
 				</ion-select>
 			</ion-item>
 			<div class="validation-errors">

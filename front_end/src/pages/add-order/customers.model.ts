@@ -1,7 +1,7 @@
 export class CustomersModel {
 	id: string;
 	_id: string;
-	name: string;
+	rm_nombre: string;
 	items: Array<CustomersModel>;
-	listaClientes : Array<CustomersModel>;
+	rmListaClientes : Array<CustomersModel>;
 }

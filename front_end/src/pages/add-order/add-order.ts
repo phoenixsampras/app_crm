@@ -75,7 +75,8 @@ export class AddOrderPage {
 			this.customersService
 			.getDataFromServer()
 			.then(data => {
-				this.customersList.items = data.listaClientes;
+				console.log(data);
+				this.customersList.items = data.rmListaClientes;
 				for(var i = 0; i< this.customersList.items.length;i++)
 				{
 					//console.log(this.customersList.items[i].id);
