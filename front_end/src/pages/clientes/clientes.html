@@ -9,7 +9,10 @@
 
 <ion-content class="list-mini-content-clientes">
   <div class="list-mini-clientes">
-
+	<ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" [showCancelButton]="true" (ionInput)="filterItems($event)" ></ion-searchbar>
+	<div *ngIf="searching" class="spinner-container">
+        <ion-spinner></ion-spinner>
+    </div>
     <ion-list>
       <ion-item-sliding class="list-item" *ngFor="let item of listaClientes">
           <ion-item class="item-content">
@@ -17,6 +20,16 @@
             <p class="item-description">{{item.rm_direccion}}</p>
             <p class="item-description">{{item.rm_telefono}}</p>
             <p class="item-description">{{item.rm_celular}}</p>
+			
+			
+			<button ion-button color="secondary" item-end (click)="editCustomer(item)">
+              <ion-icon name="create"></ion-icon>
+              {{ 'EDIT' | translate}}
+            </button>
+			<button ion-button color="danger" item-end clear (click)="deleteCustomer(item)">
+              <ion-icon name="trash"></ion-icon>
+              {{ 'DELETE' | translate}}
+            </button>
           </ion-item>
 
           <ion-item-options side="left">

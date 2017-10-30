@@ -21,6 +21,14 @@ export class CustomersService {
 	addCustomer(customer) {
 		 this.databaseService.addCustomer(customer);
 	}
+	
+	updateCustomer(customer) {
+		this.databaseService.updateCustomer(customer);
+	}
+	
+	deleteCustomer(customer) {
+		this.databaseService.deleteCustomer(customer);
+	}
 
 	getDataFromServer(): Promise<CustomersModel> {
 		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC_clientes.php?task=rmListaClientes&callback=JSONP_CALLBACK',{method:'Get'})
@@ -35,9 +43,9 @@ export class CustomersService {
 
 	}
 
-	getDataFromPouch(): Promise<any> {
+	getDataFromPouch(searchTerm = ''): Promise<any> {
 
-		return this.databaseService.getAllCustomers()
+		return this.databaseService.getAllCustomers(searchTerm)
 		.then(response => response)
 		.catch(this.handleError);
 

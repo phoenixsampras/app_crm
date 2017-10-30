@@ -5,7 +5,7 @@ import { PositionService } from '../orders/position.service';
 import { DatabaseService } from './database.service';
 import { AlertController } from 'ionic-angular';
 import { SyncService } from './sync.service';
-
+import { ProductsService } from '../add-order/products.service';
 
 @Component({
   selector: 'sync-page',
@@ -21,7 +21,8 @@ export class SyncPage {
     public ordersService: OrdersService,
     public positionService: PositionService,
     public databaseService: DatabaseService,
-    public syncService: SyncService,
+    public productsService:  ProductsService, 
+	public syncService: SyncService,
     public alertCtrl: AlertController
   ) {
 
@@ -40,6 +41,21 @@ export class SyncPage {
 		this.databaseService.deleteDB();
 	}
 
+	loadProducts() {
+		if(window.navigator.onLine) {
+			this.productsService
+			.getDataFromServer()
+			.then(data => {
+				
+				let items = data.rmListaProductos;
+				for(var i = 0; i< items.length;i++)
+				{
+					this.productsService.addProduct(items[i]);
+				}
+			});	
+		}
+	}
+	
 	loadCustomers() {
 		if (window.navigator.onLine) {
 			this.syncService

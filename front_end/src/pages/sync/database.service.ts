@@ -7,7 +7,7 @@ import { AlertController } from 'ionic-angular';
 @Injectable()
 export class DatabaseService {
   private _db;
-  private _customers;
+  private _customers:any = [];;
   private _orders;
   private _positions;
   private _events;
@@ -42,33 +42,51 @@ export class DatabaseService {
     });
   }
 
-  addCustomer(customer) {
-    let id = "customer-" + customer.id;
-    let db = this._db;
-    customer._id = "customer-" + customer.id;
-    customer.type = "customer";
-    this._db.get(id).then(function(doc) {
-      return doc;
-    }).catch(function(err) {
-      console.log(err);
-      return db.put(customer);
-    });
+	addCustomer(customer) {
+		let id = "customer-" + customer.id;
+		let db = this._db;
+		customer._id = "customer-" + customer.id;
+		customer.type = "customer";
+		this._db.get(id).then(function(doc) {
+			return doc;
+		}).catch(function(err) {
+			console.log(err);
+			return db.put(customer);
+		});
 
-  }
+	}
+	
+	deleteCustomer(customer) {
+		this._db.remove(customer._id, customer._rev)
+		.catch(function(err) {
+			console.log(err);
+		});
+	}
+	
+	updateCustomer(customer) {
+		let id = "customer-" + customer.id;
+		customer._id = "customer-" + customer.id;
+		customer.type = "customer";
+		this._db.put(customer).then(function(doc) {
+			return doc;
+		}).catch(function(err) {
+			console.log(err);
+		});
+	}
 
-  addProduct(product) {
-    let id = "product-" + product.id;
-    let db = this._db;
-    product._id = "product-" + product.id;
-    product.type = "product";
-    this._db.get(id).then(function(doc) {
-      return doc;
-    }).catch(function(err) {
-      console.log(err);
-      return db.put(product);
-    });
+	addProduct(product) {
+		let id = "product-" + product.id;
+		let db = this._db;
+		product._id = "product-" + product.id;
+		product.type = "product";
+		this._db.get(id).then(function(doc) {
+			return doc;
+		}).catch(function(err) {
+		  console.log(err);
+		  return db.put(product);
+		});
 
-  }
+	}
 
   addOrder(order) {
     order.type = "order";
@@ -159,33 +177,53 @@ export class DatabaseService {
 
   }
 
-  getAllCustomers() {
-    if (!this._db)
-      this.initDB();
-    return new Promise(resolve => {
-      this._db.allDocs({
-        include_docs: true,
-        startkey: 'customer',
-        endkey: 'customer\ufff0'
-      })
-        .then(docs => {
+	getAllCustomers(searchTerm = '') {
+		if (!this._db)
+			this.initDB();
+		
+		return new Promise(resolve => {
+		  this._db.allDocs({
+			include_docs: true,
+			startkey: 'customer',
+			endkey: 'customer\ufff0'
+		  })
+			.then(docs => {
 
-          // Each row has a .doc object and we just want to send an
-          // array of customer objects back to the calling controller,
-          // so let's map the array to contain just the .doc objects.
+			  // Each row has a .doc object and we just want to send an
+			  // array of customer objects back to the calling controller,
+			  // so let's map the array to contain just the .doc objects.
+				let j = 0;
+				this._customers = [];
+				for(var i=0; i<docs.rows.length; i++) {
+					let row = docs.rows[i];
+					if (row.doc.type == "customer") {
+						if(searchTerm) {
+							if(row.doc.rm_nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+								this._customers.push(row.doc);
+								j++;
+							}
+						} else {
+							this._customers.push(row.doc);
+							j++;
+						}
+					}
+					if( j == 100) {
+						break;
+					}
+				}
+				console.log(this._customers);
+			  /*this._customers = docs.rows.map(row => {
+				// Dates are not automatically converted from a string.
+				if (row.doc.type == "customer")
+				  return row.doc;
+			  });*/
 
-          this._customers = docs.rows.map(row => {
-            // Dates are not automatically converted from a string.
-            if (row.doc.type == "customer")
-              return row.doc;
-          });
+			  // Listen for changes on the database.
+			  resolve(this._customers);
+			});
 
-          // Listen for changes on the database.
-          resolve(this._customers);
-        });
-
-    });
-  }
+		});
+	}
 
   getAllPositions() {
     if (!this._db)

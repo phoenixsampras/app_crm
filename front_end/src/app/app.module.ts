@@ -36,6 +36,7 @@ import { SyncPage } from '../pages/sync/sync';
 import { ProductsPage } from '../pages/products/products';
 import { ClientesPage } from '../pages/clientes/clientes';
 import { ChartsPage } from '../pages/charts/charts';
+import { AddCustomerPage } from '../pages/add-customer/add-customer';
 
 import { PreloadImage } from '../components/preload-image/preload-image';
 import { BackgroundImage } from '../components/background-image/background-image';
@@ -160,6 +161,7 @@ export function createTranslateLoader(http: Http) {
     ProductsPage,
     ClientesPage,
 	ChartsPage,
+	AddCustomerPage,
   ],
   imports: [
     BrowserModule,
@@ -223,6 +225,7 @@ export function createTranslateLoader(http: Http) {
     ProductsPage,
     ClientesPage,
 	ChartsPage,
+	AddCustomerPage,
   ],
   providers: [
     FeedService,

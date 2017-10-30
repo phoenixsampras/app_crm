@@ -71,83 +71,50 @@ export class AddOrderPage {
 	ionViewDidLoad() {
 
 		this.loading.present();
-		if(window.navigator.onLine){
-			this.customersService
-			.getDataFromServer()
-			.then(data => {
-				console.log(data);
-				this.customersList.items = data.rmListaClientes;
-				for(var i = 0; i< this.customersList.items.length;i++)
-				{
-					//console.log(this.customersList.items[i].id);
-					this.customersService.addCustomer(this.customersList.items[i]);
+		this.customersService
+		.getDataFromPouch()
+		.then(data => {
+			var sortedArray: any[] = data.sort((obj1, obj2) => {
+				if (obj1.name > obj2.name) {
+					return 1;
 				}
 
+				if (obj1.name < obj2.name) {
+					return -1;
+				}
+
+				return 0;
 			});
-			this.productsService
-			.getDataFromServer()
+			console.log(sortedArray);
+			this.customersList.items = sortedArray;
+
+		});
+		this.productsService
+			.getDataFromPouch()
 			.then(data => {
-				this.productsList.items = data.rmListaProductos;
+
+				var sortedArray: any[] = data.sort((obj1, obj2) => {
+					if (obj1.name > obj2.name) {
+						return 1;
+					}
+
+					if (obj1.name < obj2.name) {
+						return -1;
+					}
+
+					return 0;
+				});
+				console.log(sortedArray);
+				this.productsList.items = sortedArray;
 				for(var i = 0; i< this.productsList.items.length;i++)
 				{
 					this.products[this.productsList.items[i].id] = this.productsList.items[i];
-					this.productsService.addProduct(this.productsList.items[i]);
 
 				}
-				this.products.splice(0, 1);
-				console.log(this.productsList.items);
-				console.log(this.products);
-				this.loading.dismiss();
-			});
 
-
-
-		} else {
-			this.customersService
-				.getDataFromPouch()
-				.then(data => {
-
-					var sortedArray: any[] = data.sort((obj1, obj2) => {
-						if (obj1.name > obj2.name) {
-							return 1;
-						}
-
-						if (obj1.name < obj2.name) {
-							return -1;
-						}
-
-						return 0;
-					});
-					console.log(sortedArray);
-					this.customersList.items = sortedArray;
-
-			});
-			this.productsService
-				.getDataFromPouch()
-				.then(data => {
-
-					var sortedArray: any[] = data.sort((obj1, obj2) => {
-						if (obj1.name > obj2.name) {
-							return 1;
-						}
-
-						if (obj1.name < obj2.name) {
-							return -1;
-						}
-
-						return 0;
-					});
-					console.log(sortedArray);
-					this.productsList.items = sortedArray;
-					for(var i = 0; i< this.productsList.items.length;i++)
-					{
-						this.products[this.productsList.items[i].id] = this.productsList.items[i];
-
-					}
-
-				this.loading.dismiss();
-			});
-		}
+			this.loading.dismiss();
+		});
+		
 
 	}
 

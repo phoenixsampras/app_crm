@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title *ngIf="!customer" >{{'ADD_CUSTOMER' | translate}}</ion-title>
+	<ion-title *ngIf="customer" >{{'EDIT_CUSTOMER' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding class="forms-validations-content">
+	<form class="sample-form validations-form" [formGroup]="validations_form"  (ngSubmit)="onSubmit(validations_form.value)">
+		<section class="form-section">
+			<h2 *ngIf="!customer"  class="section-title">{{'ADD_CUSTOMER' | translate}}</h2>
+			<h2 *ngIf="customer"  class="section-title">{{'EDIT_CUSTOMER' | translate}}</h2>
+			<ion-item>
+				<ion-label floating>{{'Name' | translate}}</ion-label>
+				<ion-input type="text" formControlName="rm_nombre"></ion-input>
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.rm_nombre">
+					<div class="error-message" *ngIf="validations_form.get('rm_nombre').hasError(validation.type) && (validations_form.get('rm_nombre').dirty || validations_form.get('rm_nombre').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
+
+			
+			<ion-item>
+				<ion-label floating>{{'Address' | translate}}</ion-label>
+				<ion-input type="text" formControlName="rm_direccion"></ion-input>
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.rm_direccion">
+					<div class="error-message" *ngIf="validations_form.get('rm_direccion').hasError(validation.type) && (validations_form.get('rm_direccion').dirty || validations_form.get('rm_direccion').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
+			
+			<ion-item>
+				<ion-label floating>{{'Telephone' | translate}}</ion-label>
+				<ion-input type="text" formControlName="rm_telefono"></ion-input>
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.rm_telefono">
+					<div class="error-message" *ngIf="validations_form.get('rm_telefono').hasError(validation.type) && (validations_form.get('rm_telefono').dirty || validations_form.get('rm_telefono').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
+			
+			<ion-item>
+				<ion-label floating>{{'Mobile' | translate}}</ion-label>
+				<ion-input type="text" formControlName="rm_celular"></ion-input>
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.rm_celular">
+					<div class="error-message" *ngIf="validations_form.get('rm_celular').hasError(validation.type) && (validations_form.get('rm_celular').dirty || validations_form.get('rm_celular').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
+			<br/><br/>
+			
+			<br/><br/>
+			<button ion-button full type="submit" [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
+		</section>
+	</form>
+</ion-content>

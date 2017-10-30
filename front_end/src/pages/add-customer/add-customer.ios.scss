@@ -1,0 +1,16 @@
+ion-app.ios {
+	add-customer-page  {
+		.validations-form
+    {
+			ion-item {
+        &.ng-invalid.ng-touched
+        {
+          .item-inner
+          {
+            border-bottom-color: color($colors, danger);
+          }
+        }
+      }
+		}
+	}
+}
