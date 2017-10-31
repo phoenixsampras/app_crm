@@ -4,7 +4,7 @@ import { OrdersService } from './orders.service';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/Rx';
 import { AddOrderPage } from '../add-order/add-order';
-import { LocationTracker } from '../../providers/location-tracker/location-tracker';
+
 import { PositionService } from './position.service';
 
 @Component({
@@ -20,9 +20,9 @@ export class OrdersPage {
 		public loadingCtrl: LoadingController,
 		public ordersService: OrdersService,
 		public positionService: PositionService,
-		public locationTracker: LocationTracker
+
 	) {
-		this.locationTracker.startTracking();
+		
 	}
 
 	goToAddOrder() {
@@ -30,7 +30,11 @@ export class OrdersPage {
 	}
 
 	ionViewDidEnter() {
-
+		this.ordersService
+		.getData()
+		.then(data => {
+			this.ordersList = data;
+		});
 	}
 
 

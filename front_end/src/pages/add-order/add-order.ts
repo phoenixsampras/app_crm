@@ -111,7 +111,7 @@ export class AddOrderPage {
 					this.products[this.productsList.items[i].id] = this.productsList.items[i];
 
 				}
-
+				this.products.splice(0, 1);
 			this.loading.dismiss();
 		});
 		
@@ -139,11 +139,20 @@ export class AddOrderPage {
 
     onSubmit(values){
 		console.log(values);
+		
 		if(!this.selectedProducts.length) {
 			alert('Add atleast one product to the order');
 			return;
 		} else {
+			
+			for(var i=0; i<this.customersList.items.length;i++) {
+				if(this.customersList.items[i].id == values.customer) {
+					values.customerObj = this.customersList.items[i];
+					break;
+				}
+			}
 			values.selectedProducts = this.selectedProducts;
+			values.total = this.getTotal();
 			this.ordersService.addOrder(values);
 			let toast = this.toastCtrl.create({
 				message: "Order saved on device successfully!",
@@ -152,41 +161,13 @@ export class AddOrderPage {
 				position:'bottom',
 			});
 			toast.present();
+			this.navCtrl.pop();
 			this.validations_form.get('dateOrder').setValue('');
 			this.validations_form.get('customer').setValue('');
 			this.validations_form.get('notes').setValue('');
 			this.selectedProducts = [];
 		}
-		//console.log(this.databaseService.add(values));
-		/*if(window.navigator.onLine){
-			var url = "http://odoo.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+values.customer+"&rmDateOrder="+ values.dateOrder +"&rmNote=" + values.notes + "&callback=JSONP_CALLBACK";
-			url = encodeURI(url);
-			this.ordersService.saveOrderOnServer(url).then(data=>{
-				let toast = this.toastCtrl.create({
-					message: "Order saved on server successfully!",
-					duration: 3000,
-					cssClass: 'toast-success',
-					position:'bottom',
-				});
-				toast.present();
-				this.validations_form.get('dateOrder').setValue('');
-				this.validations_form.get('customer').setValue('');
-				this.validations_form.get('notes').setValue('');
-			});;
-		} else {
-			this.ordersService.addOrder(values);
-			let toast = this.toastCtrl.create({
-				message: "Order saved on device successfully!",
-				duration: 3000,
-				cssClass: 'toast-success',
-				position:'bottom',
-			});
-			toast.present();
-			this.validations_form.get('dateOrder').setValue('');
-			this.validations_form.get('customer').setValue('');
-			this.validations_form.get('notes').setValue('');
-
-		}*/
+		
 
 	}
 }
