@@ -6,6 +6,7 @@ import { DatabaseService } from './database.service';
 import { AlertController } from 'ionic-angular';
 import { SyncService } from './sync.service';
 import { ProductsService } from '../add-order/products.service';
+import { CustomersService } from '../add-order/customers.service';
 
 @Component({
   selector: 'sync-page',
@@ -23,7 +24,8 @@ export class SyncPage {
     public databaseService: DatabaseService,
     public productsService:  ProductsService, 
 	public syncService: SyncService,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+	public customersService: CustomersService
   ) {
 
   }
@@ -58,7 +60,7 @@ export class SyncPage {
 	
 	loadCustomers() {
 		if (window.navigator.onLine) {
-			this.syncService
+			this.customersService
 			.getDataFromServer()
 			.then(data => {
 				let items = data.rmListaClientes;
@@ -67,7 +69,7 @@ export class SyncPage {
 				{
           console.log("rmListaClientes:" + JSON.stringify(items[i]));
 					console.log(items[i].rm_nombre);
-					this.syncService.addCustomer(items[i]);
+					this.customersService.addCustomer(items[i]);
 				}
 
 			});
