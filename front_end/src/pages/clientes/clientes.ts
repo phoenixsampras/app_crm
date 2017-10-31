@@ -66,9 +66,7 @@ export class ClientesPage {
 	}
 	
 	editCustomer(item) {
-		for(var i=0; i<this.listaClientes.length;i++) {
-			this.nav.push(AddCustomerPage, {'customer' : item});
-		}
+		this.nav.push(AddCustomerPage, {'customer' : item});
 	}
 	
 	deleteCustomer(customer) {
