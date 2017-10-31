@@ -16,15 +16,9 @@ export class SyncService {
     private platform: Platform,
     public alertCtrl: AlertController
   ) {
-    this.platform.ready().then(() => {
-      this.initDB();
-    });
   }
 
-  initDB() {
-    this._db = new PouchDB('romilax.db');
-    // this._db = new PouchDB('orders.db', { adapter: 'idb' });
-  }
+  
 
   // obtainCustomersFromServer2PouchDB(): Promise<ClientesModel> {
   // }
