@@ -21,15 +21,6 @@
             <p class="item-description">{{item.rm_telefono}}</p>
             <p class="item-description">{{item.rm_celular}}</p>
 			
-			
-			<button ion-button color="secondary" item-end (click)="editCustomer(item)">
-              <ion-icon name="create"></ion-icon>
-              {{ 'EDIT' | translate}}
-            </button>
-			<button ion-button color="danger" item-end clear (click)="deleteCustomer(item)">
-              <ion-icon name="trash"></ion-icon>
-              {{ 'DELETE' | translate}}
-            </button>
           </ion-item>
 
           <ion-item-options side="left">
@@ -48,11 +39,11 @@
           </ion-item-options>
 
           <ion-item-options side="right">
-            <button ion-button color="danger" (click)="share(item)">
+            <button ion-button color="danger" (click)="deleteCustomer(item)">
               <ion-icon name="trash"></ion-icon>
               {{ 'DELETE' | translate}}
             </button>
-            <button ion-button color="secondary" (click)="share(item)">
+            <button ion-button color="secondary" (click)="editCustomer(item)">
               <ion-icon name="create"></ion-icon>
               {{ 'EDIT' | translate}}
             </button>
