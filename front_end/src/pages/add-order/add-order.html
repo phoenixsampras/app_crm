@@ -1,8 +1,8 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
+    <!-- <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
-    </button>
+    </button> -->
     <ion-title>{{'ADD_ORDER' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
@@ -11,9 +11,9 @@
 <ion-content padding class="forms-validations-content">
 	<form class="sample-form validations-form" [formGroup]="validations_form"  (ngSubmit)="onSubmit(validations_form.value)">
 		<section class="form-section">
-			<h2 class="section-title">{{'ADD_ORDER' | translate}}</h2>
+			<!-- <h2 class="section-title">{{'ADD_ORDER' | translate}}</h2> -->
 			<ion-item>
-				<ion-label floating>{{'Customer' | translate}}</ion-label>
+				<ion-label floating>{{'CUSTOMER' | translate}}</ion-label>
 				<ion-select formControlName="customer">
 					<ion-option *ngFor="let item of customersList.items" [value]="item.id">{{item.rm_nombre}}</ion-option>
 				</ion-select>
@@ -26,9 +26,9 @@
 				</ng-container>
 			</div>
 
-			
+
 			<ion-item>
-				<ion-label floating>{{'Order Date' | translate}}</ion-label>
+				<ion-label floating>{{'Order_Date' | translate}}</ion-label>
 				<ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" formControlName="dateOrder"></ion-datetime>
 			</ion-item>
 			<div class="validation-errors">
@@ -38,7 +38,7 @@
 					</div>
 				</ng-container>
 			</div>
-			
+
 			<ion-item>
 				<ion-label floating>{{'Notes' | translate}}</ion-label>
 				<ion-input type="text" formControlName="notes"></ion-input>
@@ -54,7 +54,7 @@
 			<ion-grid *ngIf="selectedProducts && selectedProducts.length > 0" >
 				<ion-row>
 					<ion-col col-4>
-						<b>{{'Prodcut' | translate}}</b>
+						<b>{{'Product' | translate}}</b>
 					</ion-col>
 					<ion-col col-2>
 						<b>{{'Price' | translate}}</b>
@@ -62,12 +62,12 @@
 					<ion-col col-2>
 						<b>{{'Quantity' | translate}}</b>
 					</ion-col>
-					
+
 					<ion-col col-2>
-						<b>{{'Sub Total' | translate}}</b>
+						<b>{{'Sub_Total' | translate}}</b>
 					</ion-col>
 					<ion-col col-2>
-						
+
 					</ion-col>
 				</ion-row>
 				<ion-row *ngFor="let product of selectedProducts">
@@ -85,22 +85,22 @@
 					</ion-col>
 					<ion-col col-2>
 						<ion-icon color='danger' (click)="removeProduct(product.product.id)" name="close-circle"></ion-icon>
-						
+
 					</ion-col>
 				</ion-row>
 				<ion-row>
 					<ion-col col-10>
 						<b>{{'Total' | translate}}</b>
 					</ion-col>
-					
+
 					<ion-col col-2>
 						<b>{{getTotal()}}</b>
 					</ion-col>
 				</ion-row>
 			</ion-grid>
-			
+
 			<button ion-button full type="button"   (click)="addProducts()">{{'ADD_PRODUCTS' | translate}}</button>
-			
+
 			<br/><br/>
 			<button ion-button full type="submit" [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
 		</section>

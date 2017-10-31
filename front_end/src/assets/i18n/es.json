@@ -160,6 +160,18 @@
   "DELETE": "ELIMINAR",
   "EDIT": "EDITAR",
   "CALL_MOBILE": "Celular",
-  "CALL_PHONE": "Telefono"
+  "CALL_PHONE": "Telefono",
+
+  "Order_Date": "Fecha",
+  "Notes": "Notas",
+  "Product": "Producto",
+  "Price": "Precio",
+  "Quantity": "Cant",
+  "Sub_Total": "Total",
+  "Total": "Gran Total",
+  "Sub_Total": "Total",
+  "ADD_PRODUCTS": "Agregar Productos",
+  "Sub_Total": "Total"
+
 
 }

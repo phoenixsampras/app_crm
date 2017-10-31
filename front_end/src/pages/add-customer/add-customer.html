@@ -12,8 +12,8 @@
 <ion-content padding class="forms-validations-content">
 	<form class="sample-form validations-form" [formGroup]="validations_form"  (ngSubmit)="onSubmit(validations_form.value)">
 		<section class="form-section">
-			<h2 *ngIf="!customer"  class="section-title">{{'ADD_CUSTOMER' | translate}}</h2>
-			<h2 *ngIf="customer"  class="section-title">{{'EDIT_CUSTOMER' | translate}}</h2>
+			<!-- <h2 *ngIf="!customer"  class="section-title">{{'ADD_CUSTOMER' | translate}}</h2>
+			<h2 *ngIf="customer"  class="section-title">{{'EDIT_CUSTOMER' | translate}}</h2> -->
 			<ion-item>
 				<ion-label floating>{{'Name' | translate}}</ion-label>
 				<ion-input type="text" formControlName="rm_nombre"></ion-input>
@@ -26,7 +26,7 @@
 				</ng-container>
 			</div>
 
-			
+
 			<ion-item>
 				<ion-label floating>{{'Address' | translate}}</ion-label>
 				<ion-input type="text" formControlName="rm_direccion"></ion-input>
@@ -38,7 +38,7 @@
 					</div>
 				</ng-container>
 			</div>
-			
+
 			<ion-item>
 				<ion-label floating>{{'Telephone' | translate}}</ion-label>
 				<ion-input type="text" formControlName="rm_telefono"></ion-input>
@@ -50,7 +50,7 @@
 					</div>
 				</ng-container>
 			</div>
-			
+
 			<ion-item>
 				<ion-label floating>{{'Mobile' | translate}}</ion-label>
 				<ion-input type="text" formControlName="rm_celular"></ion-input>
@@ -63,7 +63,7 @@
 				</ng-container>
 			</div>
 			<br/><br/>
-			
+
 			<br/><br/>
 			<button ion-button full type="submit" [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
 		</section>
