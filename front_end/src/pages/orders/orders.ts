@@ -25,8 +25,12 @@ export class OrdersPage {
 		
 	}
 
+	editOrder(item) {
+		this.nav.push(AddOrderPage, {'order' : item});
+	}
+	
 	goToAddOrder() {
-		this.nav.push(AddOrderPage);
+		this.nav.push(AddOrderPage, {'order' : ''});
 	}
 
 	ionViewDidEnter() {

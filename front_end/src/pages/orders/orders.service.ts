@@ -22,6 +22,10 @@ export class OrdersService {
 	addOrder(order) {
 		this.databaseService.addOrder(order);
 	}
+	
+	updateOrder(order) {
+		this.databaseService.updateOrder(order);
+	}
 
 	deleteOrder(order) {
 		this.databaseService.deleteOrder(order);

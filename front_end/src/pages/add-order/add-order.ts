@@ -25,8 +25,10 @@ export class AddOrderPage {
 	customerObj:any;
 	customers:any = [];
 	searchTerm:any = "";
+	orderObj : any;
 	constructor(
 		public navCtrl: NavController,
+		public navParams: NavParams,
 		public formBuilder: FormBuilder,
 		public customersService: CustomersService,
 		public loadingCtrl: LoadingController,
@@ -36,6 +38,8 @@ export class AddOrderPage {
 
 	) {
 		this.loading = this.loadingCtrl.create();
+		this.orderObj = this.navParams.get('order');
+		console.log(this.orderObj);
 	}
 
 	removeProduct(id) {
@@ -47,15 +51,22 @@ export class AddOrderPage {
 		}
 	}
 
+	ionViewDidEnter() {
+		if(this.orderObj) {
+			this.validations_form.get('customer').setValue(this.orderObj.customerObj.rm_nombre);
+			this.validations_form.get('dateOrder').setValue(this.orderObj.dateOrder);
+			this.validations_form.get('notes').setValue(this.orderObj.notes);
+			this.selectedProducts = this.orderObj.selectedProducts;
+			this.customerObj = this.orderObj.customerObj;
+		}
+	}
+	
 	addProducts() {
 		// reset
         let modal = this.modalCtrl.create(ProductsPage, { 'products': this.products });
 		modal.onDidDismiss(data => {
 			if(data){
-                //this.skills.push(data.name);
-				//this.getPlaceDetail(data.place_id);
-				console.log(data);
-				this.selectedProducts.push(data);
+                this.selectedProducts.push(data);
             }
 		});
 		modal.present();
@@ -130,7 +141,15 @@ export class AddOrderPage {
 			values.customerObj = this.customerObj;
 			values.selectedProducts = this.selectedProducts;
 			values.total = this.getTotal();
-			this.ordersService.addOrder(values);
+			if(this.orderObj) {
+				values._id = this.orderObj._id;
+				values.id = this.orderObj.id;
+				values._rev = this.orderObj._rev;
+				this.ordersService.updateOrder(values);
+			} else {
+				this.ordersService.addOrder(values);
+			}
+			
 			let toast = this.toastCtrl.create({
 				message: "Order saved on device successfully!",
 				duration: 3000,

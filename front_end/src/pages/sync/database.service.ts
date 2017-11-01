@@ -88,25 +88,31 @@ export class DatabaseService {
 
 	}
 
-  addOrder(order) {
-    order.type = "order";
-    order._id = "order-" + Date.now();
-    return this._db.put(order).then(data => {
-      console.log(data);
+	updateOrder(order) {
+		order.type = "order";
+		return this._db.put(order).then(data => {
+			console.log(data);
+		});;
 
-    });;
+	}
+	
+	addOrder(order) {
+		order.type = "order";
+		order._id = "order-" + Date.now();
+		return this._db.put(order).then(data => {
+			console.log(data);
+		});;
 
-  }
+	}
+	
 
-  addPosition(position) {
-    position.type = "latlng";
-    position._id = "latlng-" + Date.now();
-    return this._db.put(position).then(data => {
-      console.log(data);
-
-    });;
-
-  }
+	addPosition(position) {
+		position.type = "latlng";
+		position._id = "latlng-" + Date.now();
+		return this._db.put(position).then(data => {
+			console.log(data);
+		});;
+	}
 
   addEvent(event) {
 
