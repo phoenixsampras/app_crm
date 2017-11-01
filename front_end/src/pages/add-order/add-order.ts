@@ -7,7 +7,7 @@ import { CustomersModel } from './customers.model';
 import { ProductsModel } from './products.model';
 import { CustomersService } from './customers.service';
 import { OrdersService } from '../orders/orders.service';
-import { ProductsService } from './products.service';
+
 import { ProductsPage } from '../products/products';
 @Component({
   selector: 'add-order-page',
@@ -22,7 +22,9 @@ export class AddOrderPage {
 	products:any = [];
 	loading: any;
 	selectedProducts:any = [];
-
+	customerObj:any;
+	customers:any = [];
+	searchTerm:any = "";
 	constructor(
 		public navCtrl: NavController,
 		public formBuilder: FormBuilder,
@@ -30,7 +32,6 @@ export class AddOrderPage {
 		public loadingCtrl: LoadingController,
 		public toastCtrl: ToastController,
 		public ordersService: OrdersService,
-		public productsService: ProductsService,
 		public modalCtrl: ModalController
 
 	) {
@@ -68,11 +69,16 @@ export class AddOrderPage {
 		return total;
 	}
 
-	ionViewDidLoad() {
-
-		this.loading.present();
+	chooseItem(item: any) {
+		this.customerObj = item;
+		this.searchTerm = '';
+		this.validations_form.get('customer').setValue(this.customerObj.rm_nombre);
+		this.customers = [];
+	}
+	
+	updateSearch() {
 		this.customersService
-		.getDataFromPouch()
+		.getDataFromPouch(this.searchTerm)
 		.then(data => {
 			var sortedArray: any[] = data.sort((obj1, obj2) => {
 				if (obj1.name > obj2.name) {
@@ -86,35 +92,11 @@ export class AddOrderPage {
 				return 0;
 			});
 			console.log(sortedArray);
-			this.customersList.items = sortedArray;
-
+			this.customers = sortedArray;
 		});
-		this.productsService
-			.getDataFromPouch()
-			.then(data => {
-
-				var sortedArray: any[] = data.sort((obj1, obj2) => {
-					if (obj1.name > obj2.name) {
-						return 1;
-					}
-
-					if (obj1.name < obj2.name) {
-						return -1;
-					}
-
-					return 0;
-				});
-				console.log(sortedArray);
-				this.productsList.items = sortedArray;
-				for(var i = 0; i< this.productsList.items.length;i++)
-				{
-					this.products[this.productsList.items[i].id] = this.productsList.items[i];
-
-				}
-				this.products.splice(0, 1);
-			this.loading.dismiss();
-		});
-		
+	}
+	
+	ionViewDidLoad() {
 
 	}
 
@@ -145,12 +127,7 @@ export class AddOrderPage {
 			return;
 		} else {
 			
-			for(var i=0; i<this.customersList.items.length;i++) {
-				if(this.customersList.items[i].id == values.customer) {
-					values.customerObj = this.customersList.items[i];
-					break;
-				}
-			}
+			values.customerObj = this.customerObj;
 			values.selectedProducts = this.selectedProducts;
 			values.total = this.getTotal();
 			this.ordersService.addOrder(values);

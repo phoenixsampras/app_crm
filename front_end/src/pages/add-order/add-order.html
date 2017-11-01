@@ -9,14 +9,18 @@
 
 
 <ion-content padding class="forms-validations-content">
+	<ion-searchbar [(ngModel)]="searchTerm" [placeholder]="'SEARCH_CUSTOMERS' | translate" [showCancelButton]="true" (ionInput)="updateSearch()" ></ion-searchbar>
+	<ion-list>
+		<ion-item *ngFor="let customer of customers" tappable (click)="chooseItem(customer)">
+			{{ customer.rm_nombre }}
+		</ion-item>
+	</ion-list>	
 	<form class="sample-form validations-form" [formGroup]="validations_form"  (ngSubmit)="onSubmit(validations_form.value)">
 		<section class="form-section">
 			<!-- <h2 class="section-title">{{'ADD_ORDER' | translate}}</h2> -->
 			<ion-item>
 				<ion-label floating>{{'CUSTOMER' | translate}}</ion-label>
-				<ion-select formControlName="customer">
-					<ion-option *ngFor="let item of customersList.items" [value]="item.id">{{item.rm_nombre}}</ion-option>
-				</ion-select>
+				<ion-input type="text" formControlName="customer"></ion-input>
 			</ion-item>
 			<div class="validation-errors">
 				<ng-container *ngFor="let validation of validation_messages.customer">

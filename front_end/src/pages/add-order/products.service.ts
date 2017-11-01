@@ -30,9 +30,9 @@ export class ProductsService {
 
 	}
 
-	getDataFromPouch(): Promise<any> {
+	getDataFromPouch(searchTerm): Promise<any> {
 
-		return this.databaseService.getAllProducts()
+		return this.databaseService.getAllProducts(searchTerm)
 		.then(response => response)
 		.catch(this.handleError);
 

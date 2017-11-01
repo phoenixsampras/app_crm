@@ -211,15 +211,7 @@ export class DatabaseService {
 						break;
 					}
 				}
-				console.log(this._customers);
-			  /*this._customers = docs.rows.map(row => {
-				// Dates are not automatically converted from a string.
-				if (row.doc.type == "customer")
-				  return row.doc;
-			  });*/
-
-			  // Listen for changes on the database.
-			  resolve(this._customers);
+				resolve(this._customers);
 			});
 
 		});
@@ -281,33 +273,44 @@ export class DatabaseService {
     });
   }
 
-  getAllProducts() {
-    if (!this._db)
-      this.initDB();
-    return new Promise(resolve => {
-      this._db.allDocs({
-        include_docs: true,
-        startkey: 'product',
-        endkey: 'product\ufff0'
-      })
-        .then(docs => {
+	getAllProducts(searchTerm = '') {
+		if (!this._db)
+			this.initDB();
+		
+		return new Promise(resolve => {
+			this._db.allDocs({
+				include_docs: true,
+				startkey: 'product',
+				endkey: 'product\ufff0'
+			})
+			.then(docs => {
 
-          // Each row has a .doc object and we just want to send an
-          // array of customer objects back to the calling controller,
-          // so let's map the array to contain just the .doc objects.
+			  // Each row has a .doc object and we just want to send an
+			  // array of customer objects back to the calling controller,
+			  // so let's map the array to contain just the .doc objects.
+				let j = 0;
+				this._products = [];
+				for(var i=0; i<docs.rows.length; i++) {
+					let row = docs.rows[i];
+					if (row.doc.type == "product") {
+						if(searchTerm) {
+							if(row.doc.product.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+								this._products.push(row.doc);
+								j++;
+							}
+						} else {
+							this._products.push(row.doc);
+							j++;
+						}
+					}
+					if( j == 100) {
+						break;
+					}
+				}
+				// Listen for changes on the database.
+				resolve(this._products);
+			});
 
-          this._products = docs.rows.map(row => {
-            // Dates are not automatically converted from a string.
-            if (row.doc.type == "product")
-              return row.doc;
-          });
-
-          // Listen for changes on the database.
-          resolve(this._products);
-        });
-
-    });
-  }
-
-
+		});
+	}
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController, NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { ProductsService } from '../add-order/products.service';
 /**
  * Generated class for the SkillAutocompletePage page.
  *
@@ -17,15 +18,14 @@ export class ProductsPage {
 	product:any;
 	products:any = [];
 	validations_form: FormGroup;
-	
+	searchTerm:any = "";
 	constructor(public navCtrl: NavController, 
 		public navParams: NavParams,
 		public viewCtrl: ViewController,
-		public formBuilder: FormBuilder
+		public formBuilder: FormBuilder,
+		public productsService: ProductsService
 	) {
 		
-		this.products = this.navParams.get('products');
-		console.log(this.products);
 		this.product = {
 			product: '',
 			quantity: ''
@@ -37,7 +37,13 @@ export class ProductsPage {
 		});
 	}
 	
-	
+	updateSearch() {
+		this.productsService
+		.getDataFromPouch(this.searchTerm)
+		.then(data => {
+			this.products = data;
+		});
+	}
 	
 	validation_messages = {
 		'product': [
@@ -57,9 +63,15 @@ export class ProductsPage {
 		this.viewCtrl.dismiss(this.product);
 	}
 	
+	chooseItem(item: any) {
+		this.product.product = item;
+		this.searchTerm = '';
+		let value = this.product.product.product;
+		this.validations_form.get('product').setValue(value);
+		this.products = [];
+	}
 	
 	onSubmit(values) {
-		this.product.product = this.products[values.product];
 		this.product.quantity = values.quantity;
 		this.viewCtrl.dismiss(this.product);
 	}
