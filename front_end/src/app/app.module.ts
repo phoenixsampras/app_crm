@@ -34,6 +34,7 @@ import { OrdersPage } from '../pages/orders/orders';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { SyncPage } from '../pages/sync/sync';
 import { ProductsPage } from '../pages/products/products';
+import { SelectProductsPage } from '../pages/select-products/select-products';
 import { ClientesPage } from '../pages/clientes/clientes';
 import { ChartsPage } from '../pages/charts/charts';
 import { AddCustomerPage } from '../pages/add-customer/add-customer';
@@ -64,7 +65,7 @@ import { SyncService } from '../pages/sync/sync.service';
 import { OrdersService } from '../pages/orders/orders.service';
 import { PositionService } from '../pages/orders/position.service';
 import { CalendarService } from '../pages/calendar/calendar.service';
-import { ProductsService } from '../pages/add-order/products.service';
+import { ProductsService } from '../pages/products/products.service';
 import { ClientesService } from '../pages/clientes/clientes.service';
 import { ChartsService } from '../pages/charts/charts.service';
 
@@ -159,6 +160,7 @@ export function createTranslateLoader(http: Http) {
     CalendarPage,
     SyncPage,
     ProductsPage,
+	SelectProductsPage,
     ClientesPage,
 	ChartsPage,
 	AddCustomerPage,
@@ -223,6 +225,7 @@ export function createTranslateLoader(http: Http) {
     CalendarPage,
     SyncPage,
     ProductsPage,
+	SelectProductsPage,
     ClientesPage,
 	ChartsPage,
 	AddCustomerPage,

@@ -79,6 +79,7 @@ export class DatabaseService {
 		let db = this._db;
 		product._id = "product-" + product.id;
 		product.type = "product";
+		product.stock = 0;
 		this._db.get(id).then(function(doc) {
 			return doc;
 		}).catch(function(err) {
@@ -87,7 +88,27 @@ export class DatabaseService {
 		});
 
 	}
+	
+	
 
+	stockProduct(_id, quantity) {
+		let id = "product-" + _id;
+		let db = this._db;
+		this._db.get(id).then(function(doc) {
+			doc.stock = doc.stock + parseInt(quantity,10);
+			db.put(doc).then(data => {
+				console.log(data);
+			});;
+		});
+	}
+	
+	updateProduct(product) {
+		return this._db.put(product).then(data => {
+			console.log(data);
+		});;
+
+	}
+	
 	updateOrder(order) {
 		order.type = "order";
 		return this._db.put(order).then(data => {

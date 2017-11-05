@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController, NavController, NavParams } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { ProductsService } from '../add-order/products.service';
+import { ProductsService } from './products.service';
 /**
  * Generated class for the SkillAutocompletePage page.
  *
@@ -15,10 +15,10 @@ import { ProductsService } from '../add-order/products.service';
 export class ProductsPage {
 
 
-	product:any;
 	products:any = [];
-	validations_form: FormGroup;
 	searchTerm:any = "";
+	searching: any = false;
+	searchControl: FormControl;
 	constructor(public navCtrl: NavController, 
 		public navParams: NavParams,
 		public viewCtrl: ViewController,
@@ -26,15 +26,7 @@ export class ProductsPage {
 		public productsService: ProductsService
 	) {
 		
-		this.product = {
-			product: '',
-			quantity: ''
-		};
-		
-		this.validations_form = this.formBuilder.group({
-			product: new FormControl('', Validators.required),
-			quantity: new FormControl('', Validators.required),
-		});
+		this.searchControl = new FormControl();
 	}
 	
 	updateSearch() {
@@ -45,35 +37,32 @@ export class ProductsPage {
 		});
 	}
 	
-	validation_messages = {
-		'product': [
-			{ type: 'required', message: 'Product is required.' }
-		],
-		'quantity': [
-			{ type: 'required', message: 'Quantity is required.' }
-		],
-    
-	};
+	filterItems(event){
+		let searchTerm = this.searchTerm;
+		this.searching = true;
+    }
 	
-	dismiss() {
-		this.viewCtrl.dismiss(this.product);
-	}
+	onSearchInput(){
+        this.searching = true;
+    }
+ 
+    setFilteredItems() {   
+		this.productsService
+        .getDataFromPouch(this.searchTerm)
+        .then(data => {
+			console.log(data);
+			this.products = data;
+			this.searching = false;
+		});
+    }
 	
-	cancel(){
-		this.viewCtrl.dismiss(this.product);
-	}
+	ionViewDidEnter() {
+		this.setFilteredItems();
+    }
 	
-	chooseItem(item: any) {
-		this.product.product = item;
-		this.searchTerm = '';
-		let value = this.product.product.product;
-		this.validations_form.get('product').setValue(value);
-		this.products = [];
-	}
-	
-	onSubmit(values) {
-		this.product.quantity = values.quantity;
-		this.viewCtrl.dismiss(this.product);
-	}
-
+	ionViewDidLoad() {
+		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {        
+            this.setFilteredItems();
+        });
+    }
 }

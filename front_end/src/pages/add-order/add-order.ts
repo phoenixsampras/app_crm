@@ -2,13 +2,12 @@ import { Component, NgZone } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { NavController, NavParams, LoadingController, ToastController, ModalController, } from 'ionic-angular';
 
-import { DatabaseService } from '../sync/database.service';
 import { CustomersModel } from './customers.model';
-import { ProductsModel } from './products.model';
+import { ProductsModel } from '../products/products.model';
 import { CustomersService } from './customers.service';
 import { OrdersService } from '../orders/orders.service';
 
-import { ProductsPage } from '../products/products';
+import { SelectProductsPage } from '../select-products/select-products';
 @Component({
   selector: 'add-order-page',
   templateUrl: 'add-order.html'
@@ -63,7 +62,7 @@ export class AddOrderPage {
 	
 	addProducts() {
 		// reset
-        let modal = this.modalCtrl.create(ProductsPage, { 'products': this.products });
+        let modal = this.modalCtrl.create(SelectProductsPage, { 'products': this.products });
 		modal.onDidDismiss(data => {
 			if(data){
                 this.selectedProducts.push(data);

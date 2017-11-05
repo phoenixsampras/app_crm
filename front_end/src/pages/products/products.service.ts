@@ -13,22 +13,33 @@ export class ProductsService {
 
 	}
 
+	stockProduct(id, quantity) {
+		return this.databaseService.stockProduct(id, quantity);
+	}
+	
+	updateProduct(product) {
+		this.databaseService.updateProduct(product);
+	}
+	
 	addProduct(product) {
-		 this.databaseService.addProduct(product);
+		this.databaseService.addProduct(product);
 	}
 
+	getStockDataFromServer(): Promise<any> {
+		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC_stock.php?task=rmStockProductos&callback=JSONP_CALLBACK',{method:'Get'})
+		.toPromise()
+		.then(response => response.json())
+		.catch(this.handleError);
+	}
+	
 	getDataFromServer(): Promise<ProductsModel> {
 		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmListaProductos&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
 		.then(response => response.json() as ProductsModel)
 		.catch(this.handleError);
 
-		//return this.databaseService.getAllProducts()
-		//.toPromise()
-		//.then(response => response.json() as ProductsModel)
-		//.catch(this.handleError);
-
 	}
+
 
 	getDataFromPouch(searchTerm): Promise<any> {
 

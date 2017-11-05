@@ -16,7 +16,7 @@ import { CalendarPage } from '../pages/calendar/calendar';
 import { SyncPage } from '../pages/sync/sync';
 import { ClientesPage } from '../pages/clientes/clientes';
 import { ChartsPage } from '../pages/charts/charts';
-
+import { ProductsPage } from '../pages/products/products';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.html'
@@ -72,8 +72,10 @@ export class MyApp {
         this.translate.get('ORDERS'),
         this.translate.get('CALENDAR'),
         this.translate.get('CUSTOMERS'),
+		this.translate.get('PRODUCTS'),
         this.translate.get('SYNC'),
 		this.translate.get('CHARTS'),
+		
         // this.translate.get('LAYOUTS'),
         this.translate.get('SETTINGS')
       ).subscribe(data => {
@@ -84,14 +86,16 @@ export class MyApp {
           { title: data[1], icon: 'clipboard', component: OrdersPage },
           { title: data[2], icon: 'calendar', component: CalendarPage },
           { title: data[3], icon: 'contacts', component: ClientesPage },
-          { title: data[4], icon: 'sync', component: SyncPage },
-		  { title: data[5], icon: 'pulse', component: ChartsPage }
+		  { title: data[4], icon: 'filing', component: ProductsPage },
+          { title: data[5], icon: 'sync', component: SyncPage },
+		  { title: data[6], icon: 'pulse', component: ChartsPage },
+		  
 		  
         ];
 
         this.pushPages = [
           // { title: data[6], icon: 'grid', component: LayoutsPage },
-          { title: data[6], icon: 'settings', component: SettingsPage }
+          { title: data[7], icon: 'settings', component: SettingsPage }
         ];
       });
     });

@@ -5,7 +5,7 @@ import { PositionService } from '../orders/position.service';
 import { DatabaseService } from './database.service';
 import { AlertController } from 'ionic-angular';
 import { SyncService } from './sync.service';
-import { ProductsService } from '../add-order/products.service';
+import { ProductsService } from '../products/products.service';
 import { CustomersService } from '../add-order/customers.service';
 
 @Component({
@@ -53,6 +53,24 @@ export class SyncPage {
 				for(var i = 0; i< items.length;i++)
 				{
 					this.productsService.addProduct(items[i]);
+				}
+			});	
+		}
+	}
+	
+	stockProducts() {
+		if(window.navigator.onLine) {
+			this.productsService
+			.getStockDataFromServer()
+			.then(data => {
+				
+				let items = data.rmStockProductos;
+				for(var i = 0; i< items.length;i++)
+				{
+					console.log(items[i]);
+					this.productsService.stockProduct(items[i].id, items[i].quantity);
+					
+					
 				}
 			});	
 		}
