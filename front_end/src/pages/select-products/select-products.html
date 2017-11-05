@@ -16,7 +16,7 @@
 	<ion-searchbar [(ngModel)]="searchTerm" [placeholder]="'SEARCH_PRODUCTS' | translate" [showCancelButton]="true" (ionInput)="updateSearch()" ></ion-searchbar>
 	<ion-list>
 		<ion-item *ngFor="let product of products" tappable (click)="chooseItem(product)">
-			{{ product.product }}
+			{{ product.product }} - {{ product.stock }}
 		</ion-item>
 	</ion-list>	
 	<form class="sample-form validations-form" [formGroup]="validations_form"  (ngSubmit)="onSubmit(validations_form.value)">

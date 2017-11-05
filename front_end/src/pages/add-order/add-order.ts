@@ -6,6 +6,7 @@ import { CustomersModel } from './customers.model';
 import { ProductsModel } from '../products/products.model';
 import { CustomersService } from './customers.service';
 import { OrdersService } from '../orders/orders.service';
+import { ProductsService } from '../products/products.service';
 
 import { SelectProductsPage } from '../select-products/select-products';
 @Component({
@@ -33,7 +34,8 @@ export class AddOrderPage {
 		public loadingCtrl: LoadingController,
 		public toastCtrl: ToastController,
 		public ordersService: OrdersService,
-		public modalCtrl: ModalController
+		public modalCtrl: ModalController,
+		public productsService: ProductsService
 
 	) {
 		this.loading = this.loadingCtrl.create();
@@ -147,6 +149,10 @@ export class AddOrderPage {
 				this.ordersService.updateOrder(values);
 			} else {
 				this.ordersService.addOrder(values);
+				for(var i=0; i<this.selectedProducts.length;i++) {
+					let st = this.selectedProducts[i].quantity * -1;
+					this.productsService.stockProduct(this.selectedProducts[i].product.id,st ); 	
+				}
 			}
 			
 			let toast = this.toastCtrl.create({

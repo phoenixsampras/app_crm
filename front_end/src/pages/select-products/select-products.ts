@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ViewController, NavController, NavParams } from 'ionic-angular';
+import { ViewController, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ProductsService } from '../products/products.service';
 /**
@@ -22,6 +22,7 @@ export class SelectProductsPage {
 	constructor(public navCtrl: NavController, 
 		public navParams: NavParams,
 		public viewCtrl: ViewController,
+		public toastCtrl: ToastController,
 		public formBuilder: FormBuilder,
 		public productsService: ProductsService
 	) {
@@ -73,7 +74,18 @@ export class SelectProductsPage {
 	
 	onSubmit(values) {
 		this.product.quantity = values.quantity;
-		this.viewCtrl.dismiss(this.product);
+		if(this.product.quantity <= this.product.product.stock) {
+			this.viewCtrl.dismiss(this.product);
+		} else {
+			let toast = this.toastCtrl.create({
+				message: "The quantity for the selected product is not in the stock!",
+				duration: 3000,
+				cssClass: 'toast-error',
+				position:'bottom',
+			});
+			toast.present();
+		}
+		
 	}
 
 }
