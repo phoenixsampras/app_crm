@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController , ModalController} from 'ionic-angular';
 import { OrdersService } from './orders.service';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/Rx';
 import { AddOrderPage } from '../add-order/add-order';
-
+import { PrintOrderPage } from '../print-order/print-order';
 import { PositionService } from './position.service';
 
 @Component({
@@ -20,13 +20,24 @@ export class OrdersPage {
 		public loadingCtrl: LoadingController,
 		public ordersService: OrdersService,
 		public positionService: PositionService,
-
+		public modalCtrl: ModalController,
+		
 	) {
 		
 	}
 
 	editOrder(item) {
 		this.nav.push(AddOrderPage, {'order' : item});
+	}
+	
+	printOrder(item) {
+		let modal = this.modalCtrl.create(PrintOrderPage, { 'order': item });
+		modal.onDidDismiss(data => {
+			if(data){
+                //this.selectedProducts.push(data);
+            }
+		});
+		modal.present();
 	}
 	
 	goToAddOrder() {

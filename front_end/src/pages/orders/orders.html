@@ -17,9 +17,13 @@
 				<p class="item-description">{{item.notes}}</p>
 			</ion-item>
 			<ion-item-options side="left">
-				<button ion-button color="secondary" (click)="editOrder(item)">
+				<button ion-button color="primary" (click)="editOrder(item)">
 					<ion-icon name="create"></ion-icon>
 					{{ 'EDIT' | translate}}
+				</button>
+				<button ion-button color="secondary" (click)="printOrder(item)">
+					<ion-icon name="print"></ion-icon>
+					{{ 'PRINT' | translate}}
 				</button>
 			</ion-item-options>
 		</ion-item-sliding>

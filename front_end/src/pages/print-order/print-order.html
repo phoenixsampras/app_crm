@@ -1,0 +1,102 @@
+<ion-content>
+	<div id="orderDiv">
+		<h2>{{'BUSINESS_NAME' | translate}}</h2>
+		<p><b>{{'ADDRESS_1' | translate}}</b></p>
+		<p><b>{{'ADDRESS_2' | translate}}</b></p>
+		<p><b>{{'PHONE' | translate}}</b></p>
+		<p><b>{{'DUPLICATE_BILL' | translate}}</b></p>
+		<ion-row class="bill-details">
+			<ion-col col-6>
+				<b>{{'BILL_NO' | translate}}: 1</b>
+			</ion-col>
+			<ion-col col-6 style='text-align:right'>
+				<b>{{'DATE' | translate}}: {{orderObj.dateOrder}}</b>
+			</ion-col>
+		</ion-row>
+		<ion-grid *ngIf="orderObj && orderObj.selectedProducts && orderObj.selectedProducts.length > 0" >
+			<ion-row class="order-details">
+				<ion-col col-6>
+					<b>{{'Product' | translate}}</b>
+				</ion-col>
+				<ion-col col-2>
+					<b>{{'Price' | translate}}</b>
+				</ion-col>
+				<ion-col col-2>
+					<b>{{'Quantity' | translate}}</b>
+				</ion-col>
+
+				<ion-col col-2>
+					<b>{{'Sub_Total' | translate}}</b>
+				</ion-col>
+				
+			</ion-row>
+			<ion-row  class="product-details"  *ngFor="let product of orderObj.selectedProducts">
+				<ion-col col-6>
+					{{product.product.product}}
+				</ion-col>
+				<ion-col col-2>
+					{{product.product.price}}
+				</ion-col>
+				<ion-col col-2>
+					{{product.quantity}}
+				</ion-col>
+				<ion-col col-2>
+					{{product.quantity * product.product.price}}
+				</ion-col>
+				
+			</ion-row>
+			<ion-row class="order-summary">
+				<ion-col col-2></ion-col>
+				<ion-col col-8>
+					<b>{{'TOTAL_ITEMS' | translate}}</b>
+				</ion-col>
+
+				<ion-col col-2>
+					<b>{{orderObj.selectedProducts.length}}</b>
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-2></ion-col>
+				<ion-col col-8>
+					<b>{{'TAX' | translate}}</b>
+				</ion-col>
+
+				<ion-col col-2>
+					<b></b>
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-2></ion-col>
+				<ion-col col-8>
+					<b>{{'TOTAL_TAX' | translate}}</b>
+				</ion-col>
+				<ion-col col-2>
+					<b></b>
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-2></ion-col>
+				<ion-col col-8>
+					<b>{{'DISCOUNT' | translate}}</b>
+				</ion-col>
+				<ion-col col-2>
+					<b></b>
+				</ion-col>
+			</ion-row>
+			<ion-row class="total-summary">
+				<ion-col col-10>
+					<b>{{'Total' | translate}}</b>
+				</ion-col>
+
+				<ion-col col-2>
+					<b>{{getTotal()}}</b>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+		<p><b>{{'DELIVERY_MESSAGE' | translate}}</b></p>
+		<p><b>{{'THANKYOU' | translate}}</b></p>
+	</div>
+	<button ion-button full type="button"   (click)="printOrder()">{{'PRINT' | translate}}</button>
+	<button ion-button full type="button" color='danger'   (click)="dismiss()">{{'CANCEL' | translate}}</button>
+
+</ion-content>

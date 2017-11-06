@@ -38,6 +38,7 @@ import { SelectProductsPage } from '../pages/select-products/select-products';
 import { ClientesPage } from '../pages/clientes/clientes';
 import { ChartsPage } from '../pages/charts/charts';
 import { AddCustomerPage } from '../pages/add-customer/add-customer';
+import { PrintOrderPage } from '../pages/print-order/print-order';
 
 import { PreloadImage } from '../components/preload-image/preload-image';
 import { BackgroundImage } from '../components/background-image/background-image';
@@ -164,6 +165,7 @@ export function createTranslateLoader(http: Http) {
     ClientesPage,
 	ChartsPage,
 	AddCustomerPage,
+	PrintOrderPage,
   ],
   imports: [
     BrowserModule,
@@ -229,6 +231,7 @@ export function createTranslateLoader(http: Http) {
     ClientesPage,
 	ChartsPage,
 	AddCustomerPage,
+	PrintOrderPage,
   ],
   providers: [
     FeedService,
