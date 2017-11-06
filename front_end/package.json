@@ -88,7 +88,7 @@
   "devDependencies": {
     "@ionic/app-scripts": "^2.1.4",
     "@ionic/cli-plugin-ionic-angular": "1.4.1",
-    "ionic": "3.15.1",
+    "ionic": "3.16.0",
     "typescript": "2.3.4"
   },
   "description": "ion2-FullApp: The Best Ionic 2 Starter app.",
