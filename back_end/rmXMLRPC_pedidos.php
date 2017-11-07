@@ -8,14 +8,6 @@ require_once('xmlrpc_lib/ripcord.php');
 // print_r($_REQUEST);
 switch ($_REQUEST["task"]) {
 
-    case 'rmTipoCliente':
-      rmTipoCliente($db);
-    break;
-
-    case 'rmListaClientes':
-      rmListaClientes($db);
-    break;
-
     case 'rmListaPedidos':
       rmListaPedidos($db);
     break;
@@ -30,10 +22,6 @@ switch ($_REQUEST["task"]) {
 
     case 'rmRegistrarLineaPedido':
       rmRegistrarLineaPedido($data);
-    break;
-
-    case 'rmGraficoVentasPlan':
-      rmGraficoVentasPlan($db);
     break;
 
     default:
