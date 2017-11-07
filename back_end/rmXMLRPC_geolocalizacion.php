@@ -77,7 +77,7 @@ function rmRegistrarGeolocalizacion($conex, $user_id) {
     echo $_GET['callback'].'({"rmRegistrarGeolocalizacion": '. $id . '})';
   } else {
     print_r($_REQUEST);
-    print_r($datosVenta);
+    print_r($datosGeolocalizacion);
     print_r($id);
   }
 
