@@ -64,8 +64,8 @@ function rmRegistrarGeolocalizacion($conex, $user_id) {
     array(
       // 'res_user_id' => intval($_REQUEST['res_user_id']),
       'res_user_id' => 6,
-      'rm_longitude' => intval($_REQUEST['longitude']),
-      'rm_latitude' => intval($_REQUEST['latitude']),
+      'rm_longitude' => 10, //intval($_REQUEST['longitude']),
+      'rm_latitude' => 20 //intval($_REQUEST['latitude']),
     )
   );
 
