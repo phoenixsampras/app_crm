@@ -58,7 +58,7 @@ export class OrdersService {
 	}
 
 	getDataFromServer(): Promise<any> {
-		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmListaPedidos&callback=JSONP_CALLBACK',{method:'Get'})
+		return this.jsonp.request('http://odoo2.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmListaPedidos&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
 		.then(response => response.json())
 		.catch(this.handleError);

@@ -26,14 +26,14 @@ export class ProductsService {
 	}
 
 	getStockDataFromServer(): Promise<any> {
-		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC_stock.php?task=rmStockProductos&callback=JSONP_CALLBACK',{method:'Get'})
+		return this.jsonp.request('http://odoo2.romilax.com/organica/back_end/rmXMLRPC_stock.php?task=rmStockProductos&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
 		.then(response => response.json())
 		.catch(this.handleError);
 	}
 	
 	getDataFromServer(): Promise<ProductsModel> {
-		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmListaProductos&callback=JSONP_CALLBACK',{method:'Get'})
+		return this.jsonp.request('http://odoo2.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmListaProductos&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
 		.then(response => response.json() as ProductsModel)
 		.catch(this.handleError);

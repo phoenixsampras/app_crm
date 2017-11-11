@@ -14,7 +14,7 @@ export class ChartsService {
 	}
 
 	getDataFromServer(): Promise<ChartsModel> {
-		return this.jsonp.request('http://odoo.romilax.com/organica/back_end/rmXMLRPC_graficos.php?task=rmGraficoVentasPlan&callback=JSONP_CALLBACK',{method:'Get'})
+		return this.jsonp.request('http://odoo2.romilax.com/organica/back_end/rmXMLRPC_graficos.php?task=rmGraficoVentasPlan&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
 		.then(response => response.json() as ChartsModel)
 		.catch(this.handleError);

@@ -12,19 +12,18 @@ import { ViewController, NavController, NavParams, ToastController } from 'ionic
 })
 export class PrintOrderPage {
 
-
 	orderObj:any;
-	
-	constructor(public navCtrl: NavController, 
+
+	constructor(public navCtrl: NavController,
 		public navParams: NavParams,
 		public viewCtrl: ViewController,
 		public toastCtrl: ToastController,
 
 	) {
 		this.orderObj = this.navParams.get('order');
-		
+
 	}
-	
+
 	getTotal() {
 		let total = 0.0;
 		for(var i=0; i<this.orderObj.selectedProducts.length;i++) {
@@ -32,13 +31,13 @@ export class PrintOrderPage {
 		}
 		return total;
 	}
-		
+
 	dismiss() {
 		this.viewCtrl.dismiss();
 	}
-	
+
 	cancel(){
 		this.viewCtrl.dismiss();
 	}
-	
+
 }

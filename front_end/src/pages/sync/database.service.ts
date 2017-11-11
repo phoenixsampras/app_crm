@@ -23,10 +23,11 @@ export class DatabaseService {
   }
 
   initDB() {
-    // this._db = new PouchDB('orders.db', { adapter: 'idb' });
-    this._db = new PouchDB('orders.db');
+    // this._db = new PouchDB('Romilax.com.db', { adapter: 'idb' });
+    this._db = new PouchDB('Romilax.com.db');
   }
 
+  // Eliminar Base de datos
   deleteDB() {
     let db = this._db;
     db.allDocs().then(function(result) {
@@ -36,7 +37,6 @@ export class DatabaseService {
       }));
     }).then(function() {
       console.log("deleteDB");
-      // alert('done');
     }).catch(function(err) {
       // error!
     });
@@ -55,14 +55,14 @@ export class DatabaseService {
 		});
 
 	}
-	
+
 	deleteCustomer(customer) {
 		this._db.remove(customer._id, customer._rev)
 		.catch(function(err) {
 			console.log(err);
 		});
 	}
-	
+
 	updateCustomer(customer) {
 		let id = "customer-" + customer.id;
 		customer._id = "customer-" + customer.id;
@@ -88,8 +88,8 @@ export class DatabaseService {
 		});
 
 	}
-	
-	
+
+
 
 	stockProduct(_id, quantity) {
 		let id = "product-" + _id;
@@ -101,14 +101,14 @@ export class DatabaseService {
 			});;
 		});
 	}
-	
+
 	updateProduct(product) {
 		return this._db.put(product).then(data => {
 			console.log(data);
 		});;
 
 	}
-	
+
 	updateOrder(order) {
 		order.type = "order";
 		return this._db.put(order).then(data => {
@@ -116,7 +116,7 @@ export class DatabaseService {
 		});;
 
 	}
-	
+
 	addOrder(order) {
 		order.type = "order";
 		order._id = "order-" + Date.now();
@@ -125,7 +125,7 @@ export class DatabaseService {
 		});;
 
 	}
-	
+
 
 	addPosition(position) {
 		position.type = "latlng";
@@ -207,7 +207,7 @@ export class DatabaseService {
 	getAllCustomers(searchTerm = '') {
 		if (!this._db)
 			this.initDB();
-		
+
 		return new Promise(resolve => {
 		  this._db.allDocs({
 			include_docs: true,
@@ -303,7 +303,7 @@ export class DatabaseService {
 	getAllProducts(searchTerm = '') {
 		if (!this._db)
 			this.initDB();
-		
+
 		return new Promise(resolve => {
 			this._db.allDocs({
 				include_docs: true,
