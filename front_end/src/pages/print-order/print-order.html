@@ -28,7 +28,7 @@
 				<ion-col col-2>
 					<b>{{'Sub_Total' | translate}}</b>
 				</ion-col>
-				
+
 			</ion-row>
 			<ion-row  class="product-details"  *ngFor="let product of orderObj.selectedProducts">
 				<ion-col col-6>
@@ -43,7 +43,7 @@
 				<ion-col col-2>
 					{{product.quantity * product.product.price}}
 				</ion-col>
-				
+
 			</ion-row>
 			<ion-row class="order-summary">
 				<ion-col col-2></ion-col>
@@ -98,5 +98,4 @@
 	</div>
 	<button ion-button full type="button"   (click)="printOrder()">{{'PRINT' | translate}}</button>
 	<button ion-button full type="button" color='danger'   (click)="dismiss()">{{'CANCEL' | translate}}</button>
-
 </ion-content>

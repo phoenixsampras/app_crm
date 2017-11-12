@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { zbtprinter } from 'ionic-native';
 import { ViewController, NavController, NavParams, ToastController } from 'ionic-angular';
 /**
  * Generated class for the SkillAutocompletePage page.
@@ -39,5 +40,34 @@ export class PrintOrderPage {
 	cancel(){
 		this.viewCtrl.dismiss();
 	}
+
+// New function to print in zebra lang
+  printOrder () {
+    console.log("impresion");
+    window.cordova.plugins.zbtprinter.find(
+        function(result) {
+            if(typeof result == 'string') {
+                address = result;
+            } else {
+                address = result.address;
+            }
+            alert('Zbtprinter: connect success: ' + address);
+        }, function(error) {
+            alert('Zbtprinter: connect fail: ' + error);
+        }
+    );
+
+    window.cordova.plugins.zbtprinter.print(address, "^XA^FO20,20^A0N,25,25^FDThis is a ZPL test.^FS^XZ",
+      function(success) {
+          alert("Zbtprinter print success: " + success);
+      }, function(fail) {
+          alert("Zbtprinter print fail:" + fail);
+          deferred.reject(fail);
+      }
+    );
+
+  }
+
+
 
 }

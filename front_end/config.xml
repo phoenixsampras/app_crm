@@ -114,4 +114,5 @@
     <plugin name="twitter-connect-plugin" spec="^0.6.0">
         <variable name="FABRIC_KEY" value="6da298eb1112d28ba03183d50236498db4b7380e" />
     </plugin>
+    <plugin name="cordova-plugin-zebra-printer" spec="^2.0.1" />
 </widget>
