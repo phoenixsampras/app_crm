@@ -98,7 +98,6 @@
 	<ion-item>
 		<ion-label>{{ 'SELECT_PRINTER' | translate }}</ion-label>
 		<ion-select  [(ngModel)]="ordersService.macAddress">
-			<ion-option value="f">Female</ion-option>
 			<ion-option *ngFor="let device of devicesList" value="{{device.address}}">{{device.name}}</ion-option>
 		</ion-select>
 	</ion-item>
