@@ -5,6 +5,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Http } from '@angular/http';
 import { ChartModule } from 'angular2-chartjs';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 
 import { ListingPage } from '../pages/listing/listing';
 import { FeedPage } from '../pages/feed/feed';
@@ -173,7 +174,7 @@ export function createTranslateLoader(http: Http) {
     JsonpModule,
     NgCalendarModule,
 	ChartModule,
-    IonicModule.forRoot(MyApp, {
+	IonicModule.forRoot(MyApp, {
       modalEnter: 'modal-slide-in',
       modalLeave: 'modal-slide-out',
       pageTransition: 'ios-transition',
@@ -255,7 +256,7 @@ export function createTranslateLoader(http: Http) {
     TwitterLoginService,
     GoogleMapsService,
     LanguageService,
-
+	BluetoothSerial,
     SplashScreen,
     StatusBar,
     LocationTracker,

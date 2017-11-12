@@ -7,6 +7,7 @@ import { OrdersModel } from './orders.model';
 
 @Injectable()
 export class OrdersService {
+	public macAddress;
 	constructor(
 		public jsonp: Jsonp,
 		private databaseService: DatabaseService,

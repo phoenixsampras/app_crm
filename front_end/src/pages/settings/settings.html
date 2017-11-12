@@ -94,7 +94,14 @@
       </ion-item>
     </ion-list>
   </form>
-
+	<h2>{{'SELECT_PRINTER' | translate}}</h2>
+	<ion-item>
+		<ion-label>{{ 'SELECT_PRINTER' | translate }}</ion-label>
+		<ion-select  [(ngModel)]="ordersService.macAddress">
+			<ion-option value="f">Female</ion-option>
+			<ion-option *ngFor="let device of devicesList" value="{{device.address}}">{{device.name}}</ion-option>
+		</ion-select>
+	</ion-item>
   <button class="alt-button rate-app-button" ion-button full (click)="rateApp()">{{'RATE_APP' | translate}}</button>
 
   <button class="alt-button" ion-button full (click)="showPrivacyModal()">{{'PRIVACY_POLICY' | translate}}</button>

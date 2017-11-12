@@ -18,7 +18,10 @@ import { LanguageModel } from "../../providers/language/language.model";
 import { AppRate } from '@ionic-native/app-rate';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Crop } from '@ionic-native/crop';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
+import { OrdersService } from '../orders/orders.service';
 
+declare var macAddress;
 @Component({
   selector: 'settings-page',
   templateUrl: 'settings.html'
@@ -31,7 +34,7 @@ export class SettingsPage {
 
   profile: ProfileModel = new ProfileModel();
   languages: Array<LanguageModel>;
-
+	devicesList:any = [];
   constructor(
     public nav: NavController,
     public modal: ModalController,
@@ -42,7 +45,9 @@ export class SettingsPage {
     public appRate: AppRate,
     public imagePicker: ImagePicker,
     public cropService: Crop,
-    public platform: Platform
+    public platform: Platform,
+	public ordersService: OrdersService,
+	private bluetoothSerial: BluetoothSerial
   ) {
     this.loading = this.loadingCtrl.create();
 
@@ -58,7 +63,13 @@ export class SettingsPage {
       language: new FormControl()
     });
   }
-
+	
+	ionViewDidEnter() {
+		this.bluetoothSerial.list()
+		.then(data =>{
+			this.devicesList = data;
+		});
+	}
   ionViewDidLoad() {
     this.loading.present();
     this.profileService.getData().then(data => {
