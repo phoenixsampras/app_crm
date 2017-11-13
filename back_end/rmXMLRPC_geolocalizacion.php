@@ -94,6 +94,7 @@ function rmListaGeolocalizacionLive ($db) {
     try {
         $sql = "
         SELECT DISTINCT ON (login)
+        res_users.id as user_id,
         res_users.login,
         --geoLive.id,
         --geoLive.res_user_id,
