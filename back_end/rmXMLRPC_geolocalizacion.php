@@ -13,7 +13,7 @@ switch ($_REQUEST["task"]) {
     break;
 
     case 'rmListaGeolocalizacionLive':
-      rmListaGeolocalizacionLive($data);
+      rmListaGeolocalizacionLive($db);
     break;
 
     case 'rmRegistrarGeolocalizacion':
