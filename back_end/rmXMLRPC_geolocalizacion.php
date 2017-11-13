@@ -36,7 +36,7 @@ function login($conex){
 
 function rmListaGeolocalizacion ($db) {
     try {
-        $sql = "select  * FROM rm_geolocation ORDER by id";
+        $sql = "SELECT * FROM rm_geolocalizacion ORDER by id;";
         $query = pg_query($db, $sql);
         if(!$query){
           echo "Error".pg_last_error($db);
