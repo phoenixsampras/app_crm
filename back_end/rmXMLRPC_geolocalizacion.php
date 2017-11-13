@@ -146,7 +146,7 @@ function rmRegistrarGeolocalizacionLive($conex, $user_id) {
   $id = $models->execute_kw($db, $uid, $password, 'rm.geolocalizacion.live', 'create', $datosGeolocalizacionLive);
 
   if (Is_Numeric ($id)) {
-    echo $_GET['callback'].'({"rmRegistrarGeolocalizacion": '. $id . '})';
+    echo $_GET['callback'].'({"rmRegistrarGeolocalizacionLive": '. $id . '})';
   } else {
     print_r($_REQUEST);
     print_r($datosGeolocalizacionLive);
