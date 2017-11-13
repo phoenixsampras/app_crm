@@ -84,44 +84,42 @@ function rmRegistrarGeolocalizacion($conex, $user_id) {
     print_r($datosGeolocalizacion);
     print_r($id);
   }
-
-  function rmListaGeolocalizacionLive ($db) {
-      try {
-          $sql = "
-          SELECT DISTINCT ON (login)
-          geoLive.id,
-          geoLive.res_user_id,
-          geoLive.rm_longitude,
-          geoLive.rm_latitude,
-          geoLive.create_uid,
-          geoLive.create_date,
-          geoLive.write_uid,
-          geoLive.write_date,
-          res_users.login
-          FROM
-          public.rm_geolocalizacion_live AS geoLive
-          INNER JOIN res_users ON res_users.id = geoLive.res_user_id
-
-          ORDER BY res_users.login, geoLive.create_date DESC;
-
-          ";
-          $query = pg_query($db, $sql);
-          if(!$query){
-            echo "Error".pg_last_error($db);
-          exit;
-          }
-
-          $resultado = pg_fetch_all($query);
-          echo $_GET['callback'].'({"rmListaGeolocalizacionLive": ' . json_encode($resultado) . '})';
-          pg_close($db);
-
-      } catch(PDOException $e) {
-          echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
-          exit;
-      }
-  }
-
-
-
 }
+
+function rmListaGeolocalizacionLive ($db) {
+    try {
+        $sql = "
+        SELECT DISTINCT ON (login)
+        geoLive.id,
+        geoLive.res_user_id,
+        geoLive.rm_longitude,
+        geoLive.rm_latitude,
+        geoLive.create_uid,
+        geoLive.create_date,
+        geoLive.write_uid,
+        geoLive.write_date,
+        res_users.login
+        FROM
+        public.rm_geolocalizacion_live AS geoLive
+        INNER JOIN res_users ON res_users.id = geoLive.res_user_id
+
+        ORDER BY res_users.login, geoLive.create_date DESC;
+
+        ";
+        $query = pg_query($db, $sql);
+        if(!$query){
+          echo "Error".pg_last_error($db);
+        exit;
+        }
+
+        $resultado = pg_fetch_all($query);
+        echo $_GET['callback'].'({"rmListaGeolocalizacionLive": ' . json_encode($resultado) . '})';
+        pg_close($db);
+
+    } catch(PDOException $e) {
+        echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
+        exit;
+    }
+}
+
 ?>
