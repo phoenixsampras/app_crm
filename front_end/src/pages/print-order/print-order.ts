@@ -51,49 +51,32 @@ export class PrintOrderPage {
     console.log("impresion");
     let zebra_receipt = '';
 
-    zebra_receipt = " \
-            ^XA \
-            \
-            ^FX Top secsssstion with company logo, name and address. \
-            ^CF0,60 \
-            ^FO50,50^GB100,100,100^FS \
-            ^FO75,75^FR^GB100,100,100^FS \
-            ^FO88,88^GB50,50,50^FS \
-            ^FO220,50^FDInternational Shipping, Inc.^FS \
-            ^CF0,40 \
-            ^FO220,100^FD1000 Shipping Lane^FS \
-            ^FO220,135^FDShelbyville TN 38102^FS \
-            ^FO220,170^FDUnited States (USA)^FS \
-            ^FO50,250^GB700,1,3^FS \
-            \
-            ^FX Second section with recipient address and permit information. \
-            ^CFA,30 \
-            ^FO50,300^FDJohn Doe^FS \
-            ^FO50,340^FD100 Main Street^FS \
-            ^FO50,380^FDSpringfield TN 39021^FS \
-            ^FO50,420^FDUnited States (USA)^FS \
-            ^CFA,15 \
-            ^FO600,300^GB150,150,3^FS \
-            ^FO638,340^FDPermit^FS \
-            ^FO638,390^FD123456^FS \
-            ^FO50,500^GB700,1,3^FS \
-            \
-            ^FX Third section with barcode. \
-            ^BY5,2,270 \
-            ^FO175,550^BC^FD1234567890^FS \
-            \
-            ^FX Fourth section (the two boxes on the bottom). \
-            ^FO50,900^GB700,250,3^FS \
-            ^FO400,900^GB1,250,3^FS \
-            ^CF0,40 \
-            ^FO100,960^FDShipping Ctr. X34B-1^FS \
-            ^FO100,1010^FDREF1 F00B47^FS \
-            ^FO100,1060^FDREF2 BL4H8^FS \
-            ^CF0,190 \
-            ^FO485,965^FDCA^FS \
-            \
-            ^XZ \
-            ";
+    zebra_receipt = `
+
+          ^XA
+          ^ASN,50
+          ^FO0,10^FB600,3,0,C,0^FD\&ORGANICA S.R.L.^FS 
+          ^CF0,35
+          ^FO0,60^FB600,3,0,C,0^FD\&Pedidos: 4587965^FS
+          ^FO0,90^FB600,3,0,C,0^FD\&Reclamos: 4587967^FS
+          ^FO0,120^FB600,3,0,C,0^FD\&Cochabamba - Bolivia^FS
+
+          ^FO10,190^FD Fecha: 01/01/2017^FS
+          ^FO10,220^FD Vendedor: Hermenegildo^FS
+          ^FO10,250^FD Razon Social: Supermercado Ic-Norte S.R.L.^FS
+          ^FO10,280^FD NIT: 78415465416341^FS
+
+          ^CF0,35
+          ^FO10,350^FD CANTIDAD  PRODUCTO                     PRECIO   TOTAL ^FS
+          ^FO10,380^FD       10  Papas Fritas                                  1.25   10.25 ^FS
+          ^FO10,410^FD       10  Charke                                          1.00   10.00 ^FS
+          ^FO10,440^FD       10  Tunta Confitada                            1.00   10.00 ^FS
+          ^FO10,470^FD       30  TOTAL                                                    30.25 ^FS
+          ^FO10,550^FD Gracias por su Compra!! Feliz Navidad!!^FS
+
+          ^XZ
+
+            `;
 
 	alert(this.ordersService.macAddress);
   // cordova.plugins.zbtprinter.print(this.ordersService.macAddress, "^XA^FO20,20^A0N,25,25^FD " + zebra_receipt + " ^FS^XZ",
