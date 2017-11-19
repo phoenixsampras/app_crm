@@ -108,6 +108,7 @@ function rmListaGeolocalizacionLive ($db) {
         FROM
         public.rm_geolocalizacion_live AS geoLive
         INNER JOIN res_users ON res_users.id = geoLive.res_user_id
+        WHERE DATE_PART('Day',now() - geoLive.create_date::timestamptz) < 1
         ORDER BY res_users.login, geoLive.create_date DESC;
 
         ";
