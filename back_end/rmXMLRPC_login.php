@@ -42,7 +42,7 @@ function loginApp($conex){
     if ($username && $password){
         $common = ripcord::client("$url/xmlrpc/2/common");
         $uid = $common->authenticate($db, $username, $password, array());
-        echo "usuario: </br>" . $uid;
+        // echo "usuario: </br>" . $uid;
         // Autenticarse
         if ($uid){
             // $uid = login($conex);
