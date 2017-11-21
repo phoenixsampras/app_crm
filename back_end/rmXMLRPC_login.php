@@ -6,7 +6,7 @@ require_once('rmDbConfig.php');
 require_once('xmlrpc_lib/ripcord.php');
 
 // print_r($_REQUEST);
-switch ($_REQUEST["task2"]) {
+switch ($_REQUEST["task"]) {
 
     case 'login':
         login($data);
