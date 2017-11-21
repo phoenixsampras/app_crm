@@ -50,7 +50,7 @@ function loginApp($conex){
             $rmDatosUsuario = $models->execute_kw($db, $uid, $password, 'res.users', 'search_read', array(array(array('id', '=', $uid))), array('fields'=>array('ew_vendedor', 'partner_id'), 'limit'=>5));
             $partner_id = $rmDatosUsuario[0]['partner_id'][0];
             $ew_vendedor = $rmDatosUsuario[0]['ew_vendedor'][0];
-            echo "/n rmDatosUsuario:" .  $partner_id;
+            // echo "/n rmDatosUsuario:" .  $partner_id;
             // print_r($rmDatosUsuario);
 
             // Si es vendedor
