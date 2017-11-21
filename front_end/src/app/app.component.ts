@@ -17,6 +17,7 @@ import { SyncPage } from '../pages/sync/sync';
 import { ClientesPage } from '../pages/clientes/clientes';
 import { ChartsPage } from '../pages/charts/charts';
 import { ProductsPage } from '../pages/products/products';
+import { LoginPage } from '../pages/login/login';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.html'
@@ -28,7 +29,7 @@ export class MyApp {
   // make WalkthroughPage the root (or first) page
   // rootPage: any = WalkthroughPage;
   //  rootPage: any = OrdersPage;
-  rootPage: any = TabsNavigationPage;
+  rootPage: any = LoginPage;
 
   textDir: string = "ltr";
 
