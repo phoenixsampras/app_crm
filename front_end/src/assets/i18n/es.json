@@ -171,7 +171,9 @@
   "Total": "Gran Total",
   "Sub_Total": "Total",
   "ADD_PRODUCTS": "Agregar Productos",
-  "Sub_Total": "Total"
+  "Sub_Total": "Total",
+  "PRODUCTS": "Productos",
+  "CHARTS": "Graficas"
 
 
 }

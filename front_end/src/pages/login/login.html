@@ -3,11 +3,13 @@
     <ion-title>{{'SIGN_IN' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content class="login-content auth-content">
+  <div>
+    <preload-image [ratio]="{w:800, h:262}" src="./assets/images/logo_white_header.png"></preload-image>
+  </div>
 	<form class="login-form auth-form" [formGroup]="login" (ngSubmit)="doLogin(login.value)">
 		<ion-item>
-			<ion-input type="email" placeholder="{{'USERNAME' | translate}}" formControlName="email"></ion-input>
+			<ion-input type="email" placeholder="{{'USERNAME' | translate}}" formControlName="email">sdsdsd</ion-input>
 		</ion-item>
 		<show-hide-container>
 		<ion-item>

@@ -20,7 +20,7 @@ export class LoginPage {
 		public loadingCtrl: LoadingController,
 		public toastCtrl: ToastController,
 		public jsonp: Jsonp,
-		
+
 	) {
 		this.main_page = { component: TabsNavigationPage };
 
@@ -33,7 +33,7 @@ export class LoginPage {
 	doLogin(values){
 		console.log(values);
 		let loadingCtrl = this.loadingCtrl;
-		let toastCtrl = this.toastCtrl;		
+		let toastCtrl = this.toastCtrl;
 		let loading = loadingCtrl.create();
 		loading.present();
 		let nav = this.nav;
@@ -49,15 +49,15 @@ export class LoginPage {
 			console.log(data['_body']['login']);
 			if(data['_body']['login'] == 'False' ){
 				let toast = toastCtrl.create({
-					message: "Username/Password not correct",
+					message: "Incorrecto, intente nuevamente.",
 					duration: 3000,
 					cssClass: 'toast-error',
 					position:'bottom',
 				});
-				toast.present();			
+				toast.present();
 			} else {
 				let toast = toastCtrl.create({
-					message: "Login successfull",
+					message: "Bienvenido!",
 					duration: 3000,
 					cssClass: 'toast-success',
 					position:'bottom',
