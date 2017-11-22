@@ -72,6 +72,7 @@
   "GOOGLE_MAPS": "Mapa de Google",
   "TODAY": "Hoy",
   "CANCEL": "Cancelar",
+  "Cancel": "Cancelar",
   "LAST_MODIFIED": "Ultima modificación",
   "WELCOME_TO": "Bienvenido a",
   "USING_OUR_SERVICES": "Usando nuestro servicios",
@@ -173,7 +174,14 @@
   "ADD_PRODUCTS": "Agregar Productos",
   "Sub_Total": "Total",
   "PRODUCTS": "Productos",
-  "CHARTS": "Graficas"
+  "CHARTS": "Graficas",
+  "SEARCH_CUSTOMERS": "Buscar Cliente",
+  "SEARCH_PRODUCTS": "Buscar Cliente",
+  "STOCK": "Stock",
+  "Search": "Buscar",
+  "LOAD_CUSTOMERS_FROM_SERVER": "Obtener Clientes del Servidor",
+  "LOAD_CHARTS_FROM_SERVER": "Obtener Graficas del Servidor",
+  "STOCK_PRODUCTS_FROM_SERVER": "Obtener Productos del Servidor"
 
 
 }

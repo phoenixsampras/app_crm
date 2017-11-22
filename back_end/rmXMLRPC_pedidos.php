@@ -124,6 +124,7 @@ function rmRegistrarPedido($conex, $user_id) {
     $username = $conex['username'];
     $password = $conex['password'];
 
+    $rmUserId=intval($_REQUEST['rmUserId']);
     $rmCustomer=intval($_REQUEST['rmCustomer']);
     $rmDateOrder=$_REQUEST['rmDateOrder'];
     $rmNote=$_REQUEST['rmNote'];
@@ -131,6 +132,7 @@ function rmRegistrarPedido($conex, $user_id) {
     $datosVenta =
     array(
       array(
+        'user_id' => $rmUserId,
         'partner_id' => $rmCustomer,
         'date_order' => $rmDateOrder,
         'note' => $rmNote,

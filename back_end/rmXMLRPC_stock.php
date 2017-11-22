@@ -58,16 +58,16 @@ function rmStockProductos ($db) {
     try {
         $pedido = $_REQUEST['id'];
         $sql = "
+        
         SELECT
         pp.id,
         public.product_template.name as product,
-        sum(sol.product_uom_qty) as quantity
+        floor(random() * (100 + 1)) as quantity
         FROM
         public.product_product AS pp
         INNER JOIN public.sale_order_line AS sol ON sol.product_id = pp.id
         INNER JOIN public.sale_order AS so ON sol.order_id = so.id
         INNER JOIN public.product_template ON pp.product_tmpl_id = public.product_template.id
-
         group by 1,2
 
         ";
