@@ -41,6 +41,7 @@ export class AddOrderPage {
 		this.loading = this.loadingCtrl.create();
 		this.orderObj = this.navParams.get('order');
 		console.log(this.orderObj);
+		
 	}
 
 	removeProduct(id) {
@@ -66,7 +67,7 @@ export class AddOrderPage {
 		// reset
         let modal = this.modalCtrl.create(SelectProductsPage, { 'products': this.products });
 		modal.onDidDismiss(data => {
-			if(data){
+			if(data && data.product){
                 this.selectedProducts.push(data);
             }
 		});

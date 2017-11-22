@@ -61,7 +61,7 @@ export class SelectProductsPage {
 	}
 	
 	cancel(){
-		this.viewCtrl.dismiss(this.product);
+		this.viewCtrl.dismiss();
 	}
 	
 	chooseItem(item: any) {

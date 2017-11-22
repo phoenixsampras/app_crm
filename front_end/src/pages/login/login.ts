@@ -4,6 +4,7 @@ import { Validators, FormGroup, FormControl } from '@angular/forms';
 import 'rxjs/add/operator/toPromise';
 import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 import { Jsonp  } from '@angular/http';
+import { OrdersService } from '../orders/orders.service';
 
 @Component({
   selector: 'login-page',
@@ -19,6 +20,7 @@ export class LoginPage {
 		public nav: NavController,
 		public loadingCtrl: LoadingController,
 		public toastCtrl: ToastController,
+		public ordersService: OrdersService,
 		public jsonp: Jsonp,
 
 	) {
@@ -56,6 +58,7 @@ export class LoginPage {
 				});
 				toast.present();
 			} else {
+				me.ordersService.loginId = data['_body']['login'];
 				let toast = toastCtrl.create({
 					message: "Bienvenido!",
 					duration: 3000,

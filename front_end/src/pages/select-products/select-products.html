@@ -6,9 +6,7 @@
 -->
 <ion-header>
 	<ion-navbar>
-		<button ion-button menuToggle>
-			<ion-icon name="menu"></ion-icon>
-		</button>
+		
 		<ion-title>{{'SELECT_PRODUCT' | translate}}</ion-title>
 	</ion-navbar>
 </ion-header>
@@ -54,6 +52,8 @@
 
 			<br/><br/>
 			<button ion-button full type="submit" [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
+			<button ion-button full type="button" (click)="cancel()" >{{'CANCEL' | translate}}</button>
+		
 		</section>
 	</form>
 </ion-content>

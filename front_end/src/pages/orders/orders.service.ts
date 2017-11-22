@@ -8,6 +8,7 @@ import { OrdersModel } from './orders.model';
 @Injectable()
 export class OrdersService {
 	public macAddress;
+	public loginId;
 	constructor(
 		public jsonp: Jsonp,
 		private databaseService: DatabaseService,
@@ -21,6 +22,7 @@ export class OrdersService {
 	}
 
 	addOrder(order) {
+		order.rmUserId = this.loginId;
 		this.databaseService.addOrder(order);
 	}
 	
