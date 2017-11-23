@@ -135,7 +135,7 @@ export class SyncPage {
           for (var i = 0; i < data.length; i++) {
             var position = data[i];
             //var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
-            var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacion&res_user_id=11&longitude=" + position.lat + "&latitude=" + position.lat + "&callback=JSONP_CALLBACK";
+            var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacion&res_user_id=11&longitude=" + position.lat + "&latitude=" + position.lat + "&res_user_id=" + position.user_id  + "&callback=JSONP_CALLBACK";
             url = encodeURI(url);
             this.positionService.savePositionOnServer(url).then(data => {
               console.log('Position with id-' + position._id + ' Uploaded');

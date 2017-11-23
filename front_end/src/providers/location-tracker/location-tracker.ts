@@ -3,6 +3,7 @@ import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { PositionService } from '../../pages/orders/position.service';
 import 'rxjs/add/operator/filter';
+import { OrdersService } from '../../pages/orders/orders.service';
  
 @Injectable()
 export class LocationTracker {
@@ -14,7 +15,9 @@ export class LocationTracker {
 	constructor(public zone: NgZone,
 		public backgroundGeolocation: BackgroundGeolocation,
 		public geolocation: Geolocation,
-		public positionService: PositionService
+		public positionService: PositionService,
+		public ordersService: OrdersService,
+    
 	) {
 
 	}
@@ -59,7 +62,7 @@ export class LocationTracker {
 				this.lat = position.coords.latitude;
 				this.lng = position.coords.longitude;
 				
-				var pos = {'lat' : this.lat, 'lng' : this.lng};
+				var pos = {'lat' : this.lat, 'lng' : this.lng,'user_id': this.ordersService.loginId};
 				this.positionService.addPosition(pos);
 			});
  

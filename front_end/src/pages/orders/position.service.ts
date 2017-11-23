@@ -17,6 +17,12 @@ export class PositionService {
 
 	addPosition(position) {
 		this.databaseService.addPosition(position);
+		
+		var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacionLive&longitude=" + position.lng + "&latitude=" + position.lat + "&res_user_id=" + position.user_id + "&callback=JSONP_CALLBACK";
+		if (window.navigator.onLine) {
+			this.savePositionOnServer(url);
+		}
+		
 	}
 
 	deletePosition(position) {
