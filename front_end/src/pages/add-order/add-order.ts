@@ -117,7 +117,7 @@ export class AddOrderPage {
 
 		this.validations_form = this.formBuilder.group({
 			customer: new FormControl('', Validators.required),
-			dateOrder: new FormControl('', Validators.required),
+			dateOrder: new FormControl(new Date().toISOString(), Validators.required),
 			notes: new FormControl('', []),
 		});
 	}
