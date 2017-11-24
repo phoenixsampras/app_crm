@@ -9,8 +9,8 @@ import { OrdersService } from '../../pages/orders/orders.service';
 export class LocationTracker {
  
 	public watch: any;   
-	public lat: number = 0;
-	public lng: number = 0;
+	public lat;
+	public lng;
 
 	constructor(public zone: NgZone,
 		public backgroundGeolocation: BackgroundGeolocation,

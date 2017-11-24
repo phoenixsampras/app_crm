@@ -9,8 +9,8 @@ import { OrdersModel } from './orders.model';
 export class OrdersService {
 	public macAddress;
 	public loginId;
-	public lat = 0;
-	public lng = 0;
+	public lat;
+	public lng;
 	constructor(
 		public jsonp: Jsonp,
 		private databaseService: DatabaseService,
