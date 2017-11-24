@@ -37,6 +37,14 @@ export class LocationTracker {
 			this.zone.run(() => {
 				this.lat = location.latitude;
 				this.lng = location.longitude;
+				if(this.lat != this.ordersService.lat && this.lng != this.ordersService.lng) 
+				{
+					this.ordersService.lat = this.lat;
+					this.ordersService.lng = this.lng;
+					
+					var pos = {'lat' : this.lat, 'lng' : this.lng,'user_id': this.ordersService.loginId};
+					this.positionService.addPosition(pos);
+				}
 			});
  
 		}, (err) => {
@@ -62,8 +70,14 @@ export class LocationTracker {
 				this.lat = position.coords.latitude;
 				this.lng = position.coords.longitude;
 				
-				var pos = {'lat' : this.lat, 'lng' : this.lng,'user_id': this.ordersService.loginId};
-				this.positionService.addPosition(pos);
+				if(this.lat != this.ordersService.lat && this.lng != this.ordersService.lng) 
+				{
+					this.ordersService.lat = this.lat;
+					this.ordersService.lng = this.lng;
+					
+					var pos = {'lat' : this.lat, 'lng' : this.lng,'user_id': this.ordersService.loginId};
+					this.positionService.addPosition(pos);
+				}
 			});
  
 		});
