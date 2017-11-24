@@ -72,8 +72,8 @@ function rmRegistrarGeolocalizacion($conex, $user_id) {
     array(
       'res_user_id' => intval($_REQUEST['res_user_id']),
       // 'res_user_id' => 6,
-      'rm_longitude' => intval($_REQUEST['longitude']),
-      'rm_latitude' => intval($_REQUEST['latitude']),
+      'rm_longitude' => ($_REQUEST['longitude']),
+      'rm_latitude' => ($_REQUEST['latitude']),
     )
   );
 
@@ -139,8 +139,8 @@ function rmRegistrarGeolocalizacionLive($conex, $user_id) {
     array(
       'res_user_id' => intval($_REQUEST['res_user_id']),
       // 'res_user_id' => 6,
-      'rm_longitude' => intval($_REQUEST['longitude']),
-      'rm_latitude' => intval($_REQUEST['latitude']),
+      'rm_longitude' => ($_REQUEST['longitude']),
+      'rm_latitude' => ($_REQUEST['latitude']),
     )
   );
 

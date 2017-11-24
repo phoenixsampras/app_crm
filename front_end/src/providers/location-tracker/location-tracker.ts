@@ -1,23 +1,25 @@
+import { ToastController } from 'ionic-angular';
 import { Injectable, NgZone } from '@angular/core';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { PositionService } from '../../pages/orders/position.service';
 import 'rxjs/add/operator/filter';
 import { OrdersService } from '../../pages/orders/orders.service';
- 
+
 @Injectable()
 export class LocationTracker {
- 
-	public watch: any;   
+
+	public watch: any;
 	public lat;
 	public lng;
 
 	constructor(public zone: NgZone,
 		public backgroundGeolocation: BackgroundGeolocation,
+    public toastCtrl: ToastController,
 		public geolocation: Geolocation,
 		public positionService: PositionService,
 		public ordersService: OrdersService,
-    
+
 	) {
 
 	}
@@ -27,59 +29,76 @@ export class LocationTracker {
 			desiredAccuracy: 0,
 			stationaryRadius: 20,
 			distanceFilter: 10,
-			debug: true,
+			debug: false,
 			interval: 2000
 		};
- 
+    let toastCtrl = this.toastCtrl;
+
 		this.backgroundGeolocation.configure(config).subscribe((location) => {
 			console.log('BackgroundGeolocation:  ' + location.latitude + ',' + location.longitude);
 			// Run update inside of Angular's zone
 			this.zone.run(() => {
 				this.lat = location.latitude;
 				this.lng = location.longitude;
-				if(this.lat != this.ordersService.lat && this.lng != this.ordersService.lng) 
+				if(this.lat != this.ordersService.lat && this.lng != this.ordersService.lng)
 				{
 					this.ordersService.lat = this.lat;
 					this.ordersService.lng = this.lng;
-					
+
 					var pos = {'lat' : this.lat, 'lng' : this.lng,'user_id': this.ordersService.loginId};
+          var posLog = 'lat:' + this.lat + ' lng:' + this.lng + ' user_id:' + this.ordersService.loginId;
 					this.positionService.addPosition(pos);
+          let toast = toastCtrl.create({
+  					message: "BackgroundGeolocation:" + posLog,
+  					duration: 3000,
+  					cssClass: 'toast-success',
+  					position:'bottom',
+  				});
+  				toast.present();
 				}
 			});
- 
+
 		}, (err) => {
 			console.log(err);
 		});
- 
+
 		// Turn ON the background-geolocation system.
 		this.backgroundGeolocation.start();
- 
- 
+
+
 		// Foreground Tracking
 
 		let options = {
 			frequency: 3000,
 			enableHighAccuracy: true
 		};
- 
+
 		this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
 			console.log(position);
- 
+
 			// Run update inside of Angular's zone
 			this.zone.run(() => {
 				this.lat = position.coords.latitude;
 				this.lng = position.coords.longitude;
-				
-				if(this.lat != this.ordersService.lat && this.lng != this.ordersService.lng) 
+
+				if(this.lat != this.ordersService.lat && this.lng != this.ordersService.lng)
 				{
 					this.ordersService.lat = this.lat;
 					this.ordersService.lng = this.lng;
-					
-					var pos = {'lat' : this.lat, 'lng' : this.lng,'user_id': this.ordersService.loginId};
+
+          var pos = {'lat' : this.lat, 'lng' : this.lng,'user_id': this.ordersService.loginId};
+					var posLog = 'lat:' + this.lat + ' lng:' + this.lng + ' user_id:' + this.ordersService.loginId;
 					this.positionService.addPosition(pos);
+          let toast = toastCtrl.create({
+  					message: "ForegroundGeolocation:" + posLog,
+  					duration: 3000,
+  					cssClass: 'toast-error',
+  					position:'bottom',
+  				});
+  				toast.present();
 				}
 			});
- 
+
 		});
 	}
 
@@ -88,5 +107,5 @@ export class LocationTracker {
 		this.backgroundGeolocation.finish();
 		this.watch.unsubscribe();
 	}
- 
+
 }
