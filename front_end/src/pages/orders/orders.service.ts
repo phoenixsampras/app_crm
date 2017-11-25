@@ -11,6 +11,7 @@ export class OrdersService {
 	public loginId;
 	public lat;
 	public lng;
+	public timestamp = time()
 	constructor(
 		public jsonp: Jsonp,
 		private databaseService: DatabaseService,

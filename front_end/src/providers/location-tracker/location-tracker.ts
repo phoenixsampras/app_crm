@@ -12,10 +12,11 @@ export class LocationTracker {
 	public watch: any;
 	public lat;
 	public lng;
+	public bearing;
 
 	constructor(public zone: NgZone,
 		public backgroundGeolocation: BackgroundGeolocation,
-    public toastCtrl: ToastController,
+		public toastCtrl: ToastController,
 		public geolocation: Geolocation,
 		public positionService: PositionService,
 		public ordersService: OrdersService,
@@ -40,21 +41,23 @@ export class LocationTracker {
 			this.zone.run(() => {
 				this.lat = location.latitude;
 				this.lng = location.longitude;
-				if(this.lat != this.ordersService.lat && this.lng != this.ordersService.lng)
+				let currentTime = time();
+				let diff = currentTime - this.ordersService.timestamp;
+				if(this.lat != this.ordersService.lat && this.lng != this.ordersService.lng && diff > 60)
 				{
 					this.ordersService.lat = this.lat;
 					this.ordersService.lng = this.lng;
-
-					var pos = {'lat' : this.lat, 'lng' : this.lng,'user_id': this.ordersService.loginId};
-          var posLog = 'lat:' + this.lat + ' lng:' + this.lng + ' user_id:' + this.ordersService.loginId;
+					this.ordersService.timestamp = currentTime;
+					var pos = {'lat' : this.lat, 'lng' : this.lng,'user_id': this.ordersService.loginId, 'bearing' : location.bearing};
+					var posLog = 'lat:' + this.lat + ' lng:' + this.lng + ' user_id:' + this.ordersService.loginId;
 					this.positionService.addPosition(pos);
-          let toast = toastCtrl.create({
-  					message: "BackgroundGeolocation:" + posLog,
-  					duration: 3000,
-  					cssClass: 'toast-success',
-  					position:'bottom',
-  				});
-  				toast.present();
+					let toast = toastCtrl.create({
+						message: "BackgroundGeolocation:" + posLog,
+						duration: 3000,
+						cssClass: 'toast-success',
+						position:'bottom',
+					});
+					toast.present();
 				}
 			});
 
@@ -80,22 +83,24 @@ export class LocationTracker {
 			this.zone.run(() => {
 				this.lat = position.coords.latitude;
 				this.lng = position.coords.longitude;
-
-				if(this.lat != this.ordersService.lat && this.lng != this.ordersService.lng)
+				let currentTime = time();
+				let diff = currentTime - this.ordersService.timestamp;
+				
+				if(this.lat != this.ordersService.lat && this.lng != this.ordersService.lng && diff > 60)
 				{
 					this.ordersService.lat = this.lat;
 					this.ordersService.lng = this.lng;
-
-          var pos = {'lat' : this.lat, 'lng' : this.lng,'user_id': this.ordersService.loginId};
+					this.ordersService.timestamp = currentTime;
+					var pos = {'lat' : this.lat, 'lng' : this.lng,'user_id': this.ordersService.loginId,'bearing' : position.coords.heading};
 					var posLog = 'lat:' + this.lat + ' lng:' + this.lng + ' user_id:' + this.ordersService.loginId;
 					this.positionService.addPosition(pos);
-          let toast = toastCtrl.create({
-  					message: "ForegroundGeolocation:" + posLog,
-  					duration: 3000,
-  					cssClass: 'toast-error',
-  					position:'bottom',
-  				});
-  				toast.present();
+					let toast = toastCtrl.create({
+						message: "ForegroundGeolocation:" + posLog,
+						duration: 3000,
+						cssClass: 'toast-error',
+						position:'bottom',
+					});
+					toast.present();
 				}
 			});
 
