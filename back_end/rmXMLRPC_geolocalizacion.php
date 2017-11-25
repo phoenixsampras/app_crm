@@ -101,6 +101,7 @@ function rmListaGeolocalizacionLive ($db) {
         --geoLive.res_user_id,
         geoLive.rm_longitude,
         geoLive.rm_latitude,
+        geoLive.rm_bearing,
         --geoLive.create_uid,
         geoLive.create_date
         --geoLive.write_uid,
