@@ -11,7 +11,7 @@ export class OrdersService {
 	public loginId;
 	public lat;
 	public lng;
-	public timestamp = time()
+	public timestamp; // = time()
 	constructor(
 		public jsonp: Jsonp,
 		private databaseService: DatabaseService,
@@ -28,7 +28,7 @@ export class OrdersService {
 		order.rmUserId = this.loginId;
 		this.databaseService.addOrder(order);
 	}
-	
+
 	updateOrder(order) {
 		this.databaseService.updateOrder(order);
 	}
