@@ -72,7 +72,7 @@ function rmStockProductos ($db) {
         pt.default_code AS code,
         sml.product_uom_qty,
         sml.ordered_qty,
-        sml.qty_done as quantity
+        sml.qty_done as stock
 
         FROM
         public.stock_picking AS sp

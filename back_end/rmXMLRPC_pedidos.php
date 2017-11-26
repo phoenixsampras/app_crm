@@ -12,9 +12,9 @@ switch ($_REQUEST["task"]) {
       rmListaPedidos($db);
     break;
 
-    case 'rmListaProductos':
-      rmListaProductos($db);
-    break;
+    // case 'rmListaProductos':
+      // rmListaProductos($db);
+    // break;
 
     case 'rmRegistrarPedido':
       rmRegistrarPedido($data);
