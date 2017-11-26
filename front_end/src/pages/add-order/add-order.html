@@ -33,7 +33,7 @@
 
 			<ion-item>
 				<ion-label floating>{{'Order_Date' | translate}}</ion-label>
-				<ion-datetime displayFormat="DD MM YYYY" pickerFormat="YYYY-MM-DD" formControlName="dateOrder"></ion-datetime>
+				<ion-datetime displayFormat="DD MM YYYY" pickerFormat="DD MM YYYY" formControlName="dateOrder"></ion-datetime>
 			</ion-item>
 			<div class="validation-errors">
 				<ng-container *ngFor="let validation of validation_messages.dateOrder">
