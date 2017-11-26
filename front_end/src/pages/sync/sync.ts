@@ -39,23 +39,32 @@ export class SyncPage {
     alert.present();
   }
 
-  wipeData() {
-    this.databaseService.deleteDB();
-  }
+	wipeData() {
+		let loadingCtrl = this.loadingCtrl;
+		let loading = loadingCtrl.create();
+		loading.present();
+		this.databaseService.deleteDB();
+		loading.dismiss();
+	}
 
-  loadProducts() {
-    if (window.navigator.onLine) {
-      this.productsService
-        .getDataFromServer()
-        .then(data => {
+	loadProducts() {
+		let loadingCtrl = this.loadingCtrl;
+		let loading = loadingCtrl.create();
+		loading.present();
+		if (window.navigator.onLine) {
+			this.productsService
+			.getDataFromServer()
+			.then(data => {
 
-          let items = data.rmListaProductos;
-          for (var i = 0; i < items.length; i++) {
-            this.productsService.addProduct(items[i]);
-          }
-        });
-    }
-  }
+				let items = data.rmStockProductos;
+				for (var i = 0; i < items.length; i++) {
+					
+					this.productsService.addProduct(items[i]);
+				}
+				loading.dismiss();
+			});
+		}
+	}
 
   stockProducts() {
     if (window.navigator.onLine) {
@@ -74,22 +83,26 @@ export class SyncPage {
     }
   }
 
-  loadCustomers() {
-    if (window.navigator.onLine) {
-      this.customersService
-        .getDataFromServer()
-        .then(data => {
-          let items = data.rmListaClientes;
-          // console.log("rmListaClientes:" + JSON.stringify(items));
-          for (var i = 0; i < items.length; i++) {
-            console.log("rmListaClientes:" + JSON.stringify(items[i]));
-            console.log(items[i].rm_nombre);
-            this.customersService.addCustomer(items[i]);
-          }
-
-        });
-    }
-  }
+	loadCustomers() {
+		if (window.navigator.onLine) {
+			let loadingCtrl = this.loadingCtrl;
+			let loading = loadingCtrl.create();
+			loading.present();
+		
+			this.customersService
+			.getDataFromServer()
+			.then(data => {
+				let items = data.rmListaClientes;
+				// console.log("rmListaClientes:" + JSON.stringify(items));
+				for (var i = 0; i < items.length; i++) {
+					//console.log("rmListaClientes:" + JSON.stringify(items[i]));
+					//console.log(items[i].rm_nombre);
+					this.customersService.addCustomer(items[i]);
+				}
+				loading.dismiss();
+			});
+		}
+	}
 
   loadChartsData() { }
 

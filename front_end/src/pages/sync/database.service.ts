@@ -79,7 +79,6 @@ export class DatabaseService {
 		let db = this._db;
 		product._id = "product-" + product.id;
 		product.type = "product";
-		product.stock = 0;
 		this._db.get(id).then(function(doc) {
 			return doc;
 		}).catch(function(err) {
