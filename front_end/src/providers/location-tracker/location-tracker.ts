@@ -43,7 +43,9 @@ export class LocationTracker {
         this.lng = location.longitude;
         // let currentTime = time();
 				let currentTime = Date.now();
+        console.log("Date.now():" + Date.now());
         let diff = (currentTime - this.ordersService.timestamp)/ 1000;
+        console.log("diff:" + diff);
 				console.log("diff:" + diff);
         if (this.lat != this.ordersService.lat && this.lng != this.ordersService.lng && diff > 60) {
           this.ordersService.lat = this.lat;

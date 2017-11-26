@@ -58,18 +58,44 @@ function rmStockProductos ($db) {
     try {
         $pedido = $_REQUEST['id'];
         $sql = "
-        
-        SELECT
-        pp.id,
-        public.product_template.name as product,
-        floor(random() * (100 + 1)) as quantity
-        FROM
-        public.product_product AS pp
-        INNER JOIN public.sale_order_line AS sol ON sol.product_id = pp.id
-        INNER JOIN public.sale_order AS so ON sol.order_id = so.id
-        INNER JOIN public.product_template ON pp.product_tmpl_id = public.product_template.id
-        group by 1,2
 
+        SELECT
+        p.id AS id,
+        sp.name,
+        sml.product_id,
+        sml.product_qty,
+        public.res_partner.id AS partner_id,
+        public.res_partner.name AS partner,
+
+        pt.name AS product,
+        pt.list_price as price,
+        pt.default_code AS code,
+        sml.product_uom_qty,
+        sml.ordered_qty,
+        sml.qty_done as quantity
+
+        FROM
+        public.stock_picking AS sp
+        INNER JOIN public.stock_move_line AS sml ON sml.picking_id = sp.id
+        LEFT JOIN public.res_partner ON sp.partner_id = public.res_partner.id
+        INNER JOIN public.product_product AS p ON sml.product_id = p.id
+        INNER JOIN public.product_template AS pt ON p.product_tmpl_id = pt.id
+
+        WHERE
+        sp.state = 'done'
+
+
+--        SELECT
+--        pp.id,
+--        public.product_template.name as product,
+--        floor(random() * (100 + 1)) as quantity
+--        FROM
+--        public.product_product AS pp
+--        INNER JOIN public.sale_order_line AS sol ON sol.product_id = pp.id
+--        INNER JOIN public.sale_order AS so ON sol.order_id = so.id
+--        INNER JOIN public.product_template ON pp.product_tmpl_id = public.product_template.id
+--        group by 1,2
+--
         ";
 
         $query = pg_query($db, $sql);
