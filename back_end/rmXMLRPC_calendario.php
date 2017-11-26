@@ -92,6 +92,7 @@ function rmRegistrarEvento($conex) {
           'user_id' => $res_user_id,
           'name' => $name,
           'start_datetime' => $start_datetime,
+          'start' => $start_datetime,
           // 'partner_ids' => $partner_ids,
           // 'duration' => $duration,
           // 'description' => $description,
