@@ -17,6 +17,7 @@ export class SelectProductsPage {
 
 	product:any;
 	products:any = [];
+	selectedProducts:any = [];
 	validations_form: FormGroup;
 	searchTerm:any = "";
 	constructor(public navCtrl: NavController, 
@@ -31,7 +32,7 @@ export class SelectProductsPage {
 			product: '',
 			quantity: ''
 		};
-		
+		this.selectedProducts = this.navParams.get('selectedProducts');
 		this.validations_form = this.formBuilder.group({
 			product: new FormControl('', Validators.required),
 			quantity: new FormControl('', Validators.required),
@@ -43,6 +44,17 @@ export class SelectProductsPage {
 		.getDataFromPouch(this.searchTerm)
 		.then(data => {
 			this.products = data;
+			for(var i=0;i<this.selectedProducts.length;i++) {
+				let p = this.selectedProducts[i];
+				for(var j=0;j<this.products.length;j++) {
+					let _p = this.products[j];
+					if(p.product.id == _p.id) {
+						var new_stock = parseInt(this.products[j].stock,10) - parseInt(p.quantity,10);
+						this.products[j].stock = new_stock;
+						
+					}
+				}
+			}
 		});
 	}
 	
