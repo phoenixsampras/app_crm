@@ -41,7 +41,7 @@
   </div>
   <div style="position: relative;">
     <div style="height: 550px;position: relative; overflow: hidden;" id="map-canvas"></div>
-    <div id='listing' style='position: absolute;top: 70px;right: 25px;background: rgba(255,255,255,0.9);width: 30%;padding: 20px 10px;box-shadow: 0 0 10px rgba(0,0,0,0.2);height: 510px;overflow:hidden;overflow-y:auto'>
+    <div id='listing' style='position: relative;top: 70px;right: 25px;background: rgba(255,255,255,0.9);width: 30%;padding: 20px 10px;box-shadow: 0 0 10px rgba(0,0,0,0.2);height: 510px;overflow:hidden;overflow-y:auto'>
       <div style="font-size: 19px;font-weight: 600;padding: 0 0 5px;text-transform: uppercase;">User Line Colors</div>
       <table id="resultsTable" style="width: 100%;">
         <tbody id="resultsMap">
@@ -117,7 +117,7 @@
 			},
 			map_icon_label: '<span class="map-icon map-icon-male"></span>'
 		});
-		
+
     }
 
     function drawLine(points, name) {
@@ -139,8 +139,8 @@
 		line.setMap(map);
 		var marker = new google.maps.LatLng(points[0].lat,points[0].lng);
 		addMarker (marker, color);
-							
-				
+
+
 		$tr = $('<tr><td><span style="background:' + color + ';display:block;height:32px;width:32px;"></span</td><td>' + name + '</td></tr>');
 		$('#resultsMap').append($tr);
     }
