@@ -84,15 +84,17 @@ function rmRegistrarEvento($conex) {
       $partner_ids=$_REQUEST['partner_ids'];
       $duration=$_REQUEST['duration'];
       $description=$_REQUEST['description'];
+      $start_datetime=$_REQUEST['start_datetime'];
 
       $datosEvento =
       array(
         array(
           'user_id' => $res_user_id,
           'name' => $name,
+          'start_datetime' => $start_datetime,
           // 'partner_ids' => $partner_ids,
-          'duration' => $duration,
-          'description' => $description,
+          // 'duration' => $duration,
+          // 'description' => $description,
         )
       );
 
