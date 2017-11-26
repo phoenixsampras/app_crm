@@ -76,8 +76,10 @@ function rmRegistrarEvento($conex) {
 
       $url = $conex['url'];
       $db = $conex['db'];
-      $username = $conex['username'];
-      $password = $conex['password'];
+      // $username = $conex['username'];
+      // $password = $conex['password'];
+      $username = 'gustavo@gmail.com';
+      $password = '123456';
 
       $res_user_id=intval($_REQUEST['res_user_id']);
       $name=$_REQUEST['name'];
@@ -90,8 +92,8 @@ function rmRegistrarEvento($conex) {
       array(
         array(
           'user_id' => $res_user_id,
-          'write_id' => $res_user_id,
-          'create_id' => $res_user_id,
+          // 'write_id' => $res_user_id,
+          // 'create_id' => $res_user_id,
           'name' => $name,
           'start_datetime' => $start_datetime,
           'start' => $start_datetime,
