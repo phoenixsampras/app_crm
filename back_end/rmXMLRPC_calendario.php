@@ -94,7 +94,7 @@ function rmRegistrarEvento($conex) {
           'duration' => $duration,
           'description' => $description,
         )
-      )
+      );
 
       $uid = login($conex);
       $models = ripcord::client("$url/xmlrpc/2/object");
