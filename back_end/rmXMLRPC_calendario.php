@@ -40,19 +40,23 @@ function login($conex){
 
 function rmListaEventos($db) {
     try {
-        $pedido = $_REQUEST['id'];
+        $pedido = $_REQUEST['res_user_id'];
         $sql = "
         SELECT
         public.calendar_event.name,
         public.res_partner.name AS customer,
         public.calendar_event.description,
-        public.calendar_event.start as start_datetime,
-        public.calendar_event.stop as end_datetime,
-        public.calendar_event.duration
+        public.calendar_event.start AS start_datetime,
+        public.calendar_event.stop AS end_datetime,
+        public.calendar_event.duration,
+        public.res_users.login as user,
+        public.res_users.id as user_id
         FROM
         public.calendar_event
         LEFT JOIN public.calendar_event_res_partner_rel ON public.calendar_event_res_partner_rel.calendar_event_id = public.calendar_event.id
         LEFT JOIN public.res_partner ON public.res_partner.id = public.calendar_event_res_partner_rel.res_partner_id
+        INNER JOIN public.res_users ON public.calendar_event.user_id = public.res_users.id
+        WHERE res_users.id = $pedido
         ";
 
         $query = pg_query($db, $sql);
