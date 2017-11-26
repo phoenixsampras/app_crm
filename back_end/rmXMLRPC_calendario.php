@@ -12,12 +12,8 @@ switch ($_REQUEST["task"]) {
       rmListaEventos($db);
     break;
 
-    case 'rmRegistrarPedido':
-      rmRegistrarPedido($data);
-    break;
-
-    case 'rmRegistrarGeolocalizacion':
-      rmRegistrarGeolocalizacion($db);
+    case 'rmRegistrarEvento':
+      rmRegistrarEvento($data);
     break;
 
     default:
@@ -76,31 +72,41 @@ function rmListaEventos($db) {
     }
 }
 
-function rmRegistrarGeolocalizacion($db) {
+function rmRegistrarEvento($conex) {
 
-  try {
-      $res_user_id = $_REQUEST['res_user_id'];
-      $longitude = $_REQUEST['longitude'];
-      $latitude = $_REQUEST['latitude'];
-      $sql = "
-        INSERT INTO rm_geolocation (res_user_id, longitude, latitude) VALUES ($res_user_id,$longitude,$latitude) RETURNING id
-          ";
+      $url = $conex['url'];
+      $db = $conex['db'];
+      $username = $conex['username'];
+      $password = $conex['password'];
 
-      $query = pg_query($db, $sql);
-      if(!$query){
-      echo "Error".pg_last_error($db);
-      exit;
+      $res_user_id=intval($_REQUEST['res_user_id']);
+      $name=$_REQUEST['name'];
+      $partner_ids=$_REQUEST['partner_ids'];
+      $duration=$_REQUEST['duration'];
+      $description=$_REQUEST['description'];
+
+      $datosEvento =
+      array(
+        array(
+          'user_id' => $res_user_id,
+          'name' => $name,
+          // 'partner_ids' => $partner_ids,
+          'duration' => $duration,
+          'description' => $description,
+        )
+      )
+
+      $uid = login($conex);
+      $models = ripcord::client("$url/xmlrpc/2/object");
+      $id = $models->execute_kw($db, $uid, $password, 'calendar.event', 'create', $datosEvento);
+
+      if (Is_Numeric ($id)) {
+        echo $_GET['callback'].'({"order_id": '. $id . '})';
+      } else {
+        print_r($_REQUEST);
+        print_r($datosEvento);
+        print_r($id);
       }
-
-      $resultado = pg_fetch_all($query);
-
-      echo $_GET['callback'].'({"rmRegistrarGeolocalizacion": ' . json_encode($resultado) . '})';
-      pg_close($db);
-
-  } catch(PDOException $e) {
-      echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
-      exit;
   }
-}
 
 ?>
