@@ -13,6 +13,7 @@
 
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <link rel="stylesheet" href="map/css/map-icons.min.css" />
   <link rel="stylesheet" href="map/css/style.css" />
 </head>
 <style>
@@ -55,7 +56,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://use.fontawesome.com/fa8f5350cc.js"></script>
   <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places,drawing&key=AIzaSyDZ8bs03HZaGK8HozkoSKZYv48xjKHAF3k"></script>
-
+	<script src="map/js/map-icons.js"></script>
   <script type='text/javascript'>
     $(document).on('ready', function() {
 
@@ -64,78 +65,84 @@
     var map;
 
     function loadMapData() {
-      $.ajax({
-        url: "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmListaGeolocalizacionLive",
+		$.ajax({
+			url: "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmListaGeolocalizacionLive",
 
-        // The name of the callback parameter, as specified by the YQL service
-        jsonp: "callback",
+			// The name of the callback parameter, as specified by the YQL service
+			jsonp: "callback",
 
-        // Tell jQuery we're expecting JSONP
-        dataType: "jsonp",
-        // Work with the response
-        success: function(response) {
-          console.log(response.rmListaGeolocalizacionLive); // server response
-          var list = response.rmListaGeolocalizacionLive;
-          window.list = list;
-          var userId = list[0].user_id;
-          var loginName = list[0].login;;
-          var latArray = [];
-          $('#resultsMap').html('');
+			// Tell jQuery we're expecting JSONP
+			dataType: "jsonp",
+			// Work with the response
+			success: function(response) {
+				var list = response.rmListaGeolocalizacionLive;
+				window.list = list;
+				var userId = list[0].user_id;
+				var loginName = list[0].login;;
+				var latArray = [];
+				$('#resultsMap').html('');
 
-          for (var i = 0; i < list.length; i++) {
-            var option = list[i];
-            if (userId != option.user_id) {
-              userId = option.user_id;
-              drawLine(latArray, loginName);
-              loginName = option.login;
-              latArray = [];
-            } else {
-              latArray.push({
-                lat: parseFloat(option.rm_latitude),
-                lng: parseFloat(option.rm_longitude)
-              });
+				for (var i = 0; i < list.length; i++) {
+					var option = list[i];
+					if (userId != option.user_id) {
+						userId = option.user_id;
+						drawLine(latArray, loginName);
+						loginName = option.login;
+						latArray = [];
+					} else {
+						latArray.push({
+							lat: parseFloat(option.rm_latitude),
+							lng: parseFloat(option.rm_longitude)
+						});
 
-            }
-            console.log("Datos:" + JSON.stringify(latArray));
-
-          }
-
-          var marker = new google.maps.LatLng(list[0].rm_latitude,list[0].rm_longitude);
-          addMarker (marker);
-
-          drawLine(latArray, loginName);
-          $('body').addClass('loaded');
+					}
+				}
+				drawLine(latArray, loginName);
+				$('body').addClass('loaded');
         }
       });
     }
 
-    function addMarker (position) {
-      var tmp_marker1 = new google.maps.Marker({
-        position: position,
-        map: map
-      });
+    function addMarker (position, color) {
+		console.log(color);
+		var marker1 = new mapIcons.Marker({
+			map: map,
+			position: position,
+			icon: {
+				path: mapIcons.shapes.MAP_PIN,
+				fillColor: color,
+				fillOpacity: 1,
+				strokeColor: '',
+				strokeWeight: 0
+			},
+			map_icon_label: '<span class="map-icon map-icon-male"></span>'
+		});
+		
     }
 
     function drawLine(points, name) {
-      console.log("Datos Recibidos:" + JSON.stringify(points));
-
-      var color = '#' + Math.round((0x1000000 + 0xffffff * Math.random())).toString(16).slice(1);
-      var line = new google.maps.Polyline({
+		//console.log(points);
+		var color = '#' + Math.round((0x1000000 + 0xffffff * Math.random())).toString(16).slice(1);
+		var line = new google.maps.Polyline({
         //path: [
         //new google.maps.LatLng(40.64353725, -73.99829776),
         //new google.maps.LatLng(40.64353725, -73.98829776)
         //],
 
-        path: points,
-        strokeColor: color,
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-        map: map,
-        geodesic: true,
-      });
-      line.setMap(map);
-      $tr = $('<tr><td><span style="background:' + color + ';display:block;height:32px;width:32px;"></span</td><td>' + name + '</td></tr>');
-      $('#resultsMap').append($tr);
+			path: points,
+			strokeColor: color,
+			strokeOpacity: 1.0,
+			strokeWeight: 2,
+			map: map,
+			geodesic: true,
+		});
+		line.setMap(map);
+		var marker = new google.maps.LatLng(points[0].lat,points[0].lng);
+		addMarker (marker, color);
+							
+				
+		$tr = $('<tr><td><span style="background:' + color + ';display:block;height:32px;width:32px;"></span</td><td>' + name + '</td></tr>');
+		$('#resultsMap').append($tr);
     }
 
     function initialize() {
