@@ -4,6 +4,9 @@
   "SETTINGS": "Ajustes",
   "SAVE": "Guardar",
   "NAME": "Nombre",
+  "ADDRESS": "Direccion",
+  "TELEPHONE": "Telefono",
+  "MOBILE": "Movil",
   "LOCATION": "Ubicación",
   "DESCRIPTION": "Descripción",
   "CURRENCY": "Moneda",
@@ -182,8 +185,9 @@
   "Search": "Buscar",
   "LOAD_CUSTOMERS_FROM_SERVER": "Obtener Clientes del Servidor",
   "LOAD_CHARTS_FROM_SERVER": "Obtener Graficas del Servidor",
+  "LOAD_PRODUCTS_FROM_SERVER": "Obtener Stock del Servidor",
   "STOCK_PRODUCTS_FROM_SERVER": "Obtener Productos del Servidor",
-  "SELECT_PRODUCT": "Seleccionar Producto"
-
-
+  "SELECT_PRODUCT": "Seleccionar Producto",
+  "LOAD_CALENDAR_EVENTS_FROM_SERVER": "Cargar Eventos de Calendario",
+  "SELECT_PRINTER": "Seleccione Impresora"
 }

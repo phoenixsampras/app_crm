@@ -22,6 +22,14 @@ add-order-page {
     background-color: #a3c24b;
   }
 
+  .item-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #a3c24b !important;
+    font-weight: 500;
+  }
+
   .forms-validations-content
 	{
 		background-color: color($colors, background, base);

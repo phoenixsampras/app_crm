@@ -41,7 +41,7 @@ export class AddOrderPage {
 		this.loading = this.loadingCtrl.create();
 		this.orderObj = this.navParams.get('order');
 		console.log(this.orderObj);
-		
+
 	}
 
 	removeProduct(id) {
@@ -62,7 +62,7 @@ export class AddOrderPage {
 			this.customerObj = this.orderObj.customerObj;
 		}
 	}
-	
+
 	addProducts() {
 		// reset
         let modal = this.modalCtrl.create(SelectProductsPage, { 'selectedProducts': this.selectedProducts });
@@ -98,7 +98,7 @@ export class AddOrderPage {
 		this.validations_form.get('customer').setValue(this.customerObj.rm_nombre);
 		this.customers = [];
 	}
-	
+
 	updateSearch() {
 		this.customersService
 		.getDataFromPouch(this.searchTerm)
@@ -118,7 +118,7 @@ export class AddOrderPage {
 			this.customers = sortedArray;
 		});
 	}
-	
+
 	ionViewDidLoad() {
 
 	}
@@ -144,12 +144,19 @@ export class AddOrderPage {
 
     onSubmit(values){
 		console.log(values);
-		
+
 		if(!this.selectedProducts.length) {
-			alert('Add atleast one product to the order');
+      let toast = this.toastCtrl.create({
+				message: "Agregue al menos un producto",
+				duration: 3000,
+				cssClass: 'toast-error',
+				position:'bottom',
+			});
+			toast.present();
+			// alert('Add atleast one product to the order');
 			return;
 		} else {
-			
+
 			values.customerObj = this.customerObj;
 			values.selectedProducts = this.selectedProducts;
 			values.total = this.getTotal();
@@ -162,12 +169,12 @@ export class AddOrderPage {
 				this.ordersService.addOrder(values);
 				for(var i=0; i<this.selectedProducts.length;i++) {
 					let st = this.selectedProducts[i].quantity * -1;
-					this.productsService.stockProduct(this.selectedProducts[i].product.id,st ); 	
+					this.productsService.stockProduct(this.selectedProducts[i].product.id,st );
 				}
 			}
-			
+
 			let toast = this.toastCtrl.create({
-				message: "Order saved on device successfully!",
+				message: "Pedido guardado correctamente!",
 				duration: 3000,
 				cssClass: 'toast-success',
 				position:'bottom',
@@ -179,7 +186,7 @@ export class AddOrderPage {
 			this.validations_form.get('notes').setValue('');
 			this.selectedProducts = [];
 		}
-		
+
 
 	}
 }

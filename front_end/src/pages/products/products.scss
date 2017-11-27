@@ -1,3 +1,9 @@
-page-skill-autocomplete {
-
+products-page {
+  .item-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #32884d !important;
+    font-weight: 500;
+  }
 }

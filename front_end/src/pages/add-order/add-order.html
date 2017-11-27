@@ -102,10 +102,10 @@
 				</ion-row>
 			</ion-grid>
 
-			<button ion-button full type="button"   (click)="addProducts()">{{'ADD_PRODUCTS' | translate}}</button>
+			<button ion-button full type="button"  block (click)="addProducts()">{{'ADD_PRODUCTS' | translate}}</button>
 
 			<br/><br/>
-			<button ion-button full type="submit" [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
+			<button ion-button full type="submit" block [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
 		</section>
 	</form>
 </ion-content>
