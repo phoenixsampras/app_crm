@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, SegmentButton, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 import 'rxjs/Rx';
 
 import { CalendarModel } from './calendar.model';
 import { CalendarService } from './calendar.service';
 import moment from 'moment';
+
+import { AddEventPage } from '../add-event/add-event';
 
 @Component({
   selector: 'calendar-page',
@@ -61,60 +63,36 @@ export class CalendarPage {
         return date < current;
     };
 	
+	goToAddEvent() {
+		this.nav.push(AddEventPage, {'event' : ''});
+	}
+	
 	constructor(
 		public nav: NavController,
 		public calendarService: CalendarService,
 		public loadingCtrl: LoadingController
 	) {
-		this.loading = this.loadingCtrl.create();
+		
 	}
 
 	ionViewDidEnter() {
-		
-		this.loading.present();
-		if(window.navigator.onLine){
-			var data = this.calendarService
-			.getDataFromServer()
+		let loading = this.loadingCtrl.create();
+		loading.present();
+		this.calendarService
+			.getDataFromPouch()
 			.then(data => {
-				this.calendarList.items = data.rmListaEventos;
-				console.log(this.calendarList.items);
-				var items = [];
+				console.log(data);
+				this.calendarList.items = data;
 				for(var i = 0; i< this.calendarList.items.length;i++)
 				{
-					if(this.calendarList.items[i].start_datetime)
-					{
-						items[i] = this.calendarList.items[i];
-						items[i].title = this.calendarList.items[i].name;
-						items[i].startTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();
-						items[i].endTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm;ss").toDate();;
-						this.calendarService.addCalendarEvent(items[i]);
-					}
+					this.calendarList.items[i].title = this.calendarList.items[i].name;
+					this.calendarList.items[i].startTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();
+					this.calendarList.items[i].endTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();;
 					
 				}
-				this.calendarList.items = items
 				this.loadEvents();
-				this.loading.dismiss();
-			});
-			
-		} else {
-			
-			var data = this.calendarService
-				.getDataFromPouch()
-				.then(data => {
-					console.log(data);
-					this.calendarList.items = data;
-					for(var i = 0; i< this.calendarList.items.length;i++)
-					{
-						this.calendarList.items[i].title = this.calendarList.items[i].name;
-						this.calendarList.items[i].startTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();
-						this.calendarList.items[i].endTime = moment(this.calendarList.items[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();;
-						
-					}
-					this.loadEvents();
-				this.loading.dismiss();
-			});
-		}
-		
+				loading.dismiss();
+		});
 	}
 
 }

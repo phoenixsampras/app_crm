@@ -19,6 +19,9 @@ export class CalendarService {
 	addCalendarEvent(event) {
 		this.databaseService.addEvent(event);
 	}
+	updateCalendarEvent(event) {
+		this.databaseService.updateEvent(event);
+	}
 
 	getDataFromServer(): Promise<CalendarModel> {
 		return this.jsonp.request('http://odoo2.romilax.com/organica/back_end/rmXMLRPC_calendario.php?task=rmListaEventos&res_user_id='+ this.ordersService.loginId +'&callback=JSONP_CALLBACK',{method:'Get'})
@@ -33,6 +36,13 @@ export class CalendarService {
 		.then(response => response)
 		.catch(this.handleError);
 
+	}
+	
+	saveEventOnServer(url): Promise<any> {
+		return this.jsonp.request(url,{method:'Get'})
+		.toPromise()
+		.then(response => response)
+		.catch(this.handleError);
 	}
 
 	private handleError(error: any): Promise<any> {

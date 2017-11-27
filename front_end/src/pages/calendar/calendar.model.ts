@@ -9,6 +9,7 @@ export class CalendarModel {
 	startTime: any;
 	endTime: any;
 	allDay: boolean = false;
+	user_id:any;
 	
 	items: Array<CalendarModel>;
 	rmListaEventos : Array<CalendarModel>;
