@@ -122,7 +122,6 @@ export class DatabaseService {
 		return this._db.put(order).then(data => {
 			console.log(data);
 		});;
-
 	}
 
 
@@ -134,29 +133,35 @@ export class DatabaseService {
 		});;
 	}
 
-  addEvent(event) {
+	addEvent(event) {
 
-    if (event.start_datetime) {
-      var re = / /gi;
-      var str = event.start_datetime ? event.start_datetime : "";
-      var newstr = str.replace(re, "-");
-      var re = /:/gi;
-      var newstr = newstr.replace(re, "-");
-      var str = event.name;
-      event.type = "cevent";
-      var id = "cevent-" + str.toLowerCase() + "-" + newstr;
-      event._id = "cevent-" + str.toLowerCase() + "-" + newstr;
-      let db = this._db;
-      this._db.get(id).then(function(doc) {
-        return doc;
-      }).catch(function(err) {
-        console.log(err);
-        return db.put(event);
-      });
-    }
+		if (event.start_datetime) {
+			var re = / /gi;
+			var str = event.start_datetime ? event.start_datetime : "";
+			var newstr = str.replace(re, "-");
+			var re = /:/gi;
+			var newstr = newstr.replace(re, "-");
+			var str = event.name;
+			event.type = "cevent";
+			var id = "cevent-" + str.toLowerCase() + "-" + newstr;
+			event._id = "cevent-" + str.toLowerCase() + "-" + newstr;
+			let db = this._db;
+			this._db.get(id).then(function(doc) {
+			return doc;
+			}).catch(function(err) {
+			console.log(err);
+			return db.put(event);
+			});
+		}
+	}
+	
+	updateEvent(event) {
 
-
-  }
+		event.type = "cevent";
+		return this._db.put(event).then(data => {
+			console.log(data);
+		});;
+	}
 
   deletePosition(position) {
     return this._db.remove(position);
