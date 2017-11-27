@@ -9,12 +9,17 @@ add-order-page {
 	}
 
   .agregarPedido {
-    background-color: #daeaac !important;
+    background-color: #f0f9d6 !important;
   }
 
   .rmNumero {
     float:right;
     text-align:right;
+  }
+
+  .rmCabezeraNegra {
+    color: white;
+    background-color: #a3c24b;
   }
 
   .forms-validations-content

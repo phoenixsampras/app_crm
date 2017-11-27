@@ -56,18 +56,17 @@
 			</div>
 			<br/><br/>
 			<ion-grid *ngIf="selectedProducts && selectedProducts.length > 0" >
-				<ion-row>
+				<ion-row class="rmCabezeraNegra">
 					<ion-col col-4>
 						<b>{{'Product' | translate}}</b>
 					</ion-col>
-					<ion-col col-2>
+					<ion-col col-2 class="rmNumero">
 						<b>{{'Price' | translate}}</b>
 					</ion-col>
-					<ion-col col-2>
+					<ion-col col-2 class="rmNumero">
 						<b>{{'Quantity' | translate}}</b>
 					</ion-col>
-
-					<ion-col col-3>
+					<ion-col col-3 class="rmNumero">
 						<b>{{'Sub_Total' | translate}}</b>
 					</ion-col>
 					<ion-col col-1>
