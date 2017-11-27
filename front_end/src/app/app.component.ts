@@ -28,8 +28,8 @@ export class MyApp {
 
   // make WalkthroughPage the root (or first) page
   // rootPage: any = WalkthroughPage;
-  //  rootPage: any = OrdersPage;
-  rootPage: any = LoginPage;
+   rootPage: any = OrdersPage;
+  // rootPage: any = LoginPage;
 
   textDir: string = "ltr";
 
@@ -73,10 +73,10 @@ export class MyApp {
         this.translate.get('ORDERS'),
         this.translate.get('CALENDAR'),
         this.translate.get('CUSTOMERS'),
-		this.translate.get('PRODUCTS'),
+        this.translate.get('PRODUCTS'),
         this.translate.get('SYNC'),
-		this.translate.get('CHARTS'),
-		
+        this.translate.get('CHARTS'),
+
         // this.translate.get('LAYOUTS'),
         this.translate.get('SETTINGS')
       ).subscribe(data => {
@@ -87,11 +87,11 @@ export class MyApp {
           { title: data[1], icon: 'clipboard', component: OrdersPage },
           { title: data[2], icon: 'calendar', component: CalendarPage },
           { title: data[3], icon: 'contacts', component: ClientesPage },
-		  { title: data[4], icon: 'filing', component: ProductsPage },
+          { title: data[4], icon: 'filing', component: ProductsPage },
           { title: data[5], icon: 'sync', component: SyncPage },
-		  { title: data[6], icon: 'pulse', component: ChartsPage },
-		  
-		  
+          { title: data[6], icon: 'pulse', component: ChartsPage },
+
+
         ];
 
         this.pushPages = [

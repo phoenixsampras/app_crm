@@ -11,10 +11,16 @@
     <ion-list>
 		<ion-item-sliding class="list-item"  *ngFor="let item of ordersList">
 			<ion-item class="item-content">
-				<h3 class="item-title">{{item.customerObj.rm_nombre}}</h3>
-				<p class="item-description">{{item.dateOrder}}</p>
-				<p class="item-description">{{item.total}}</p>
-				<p class="item-description">{{item.notes}}</p>
+        <ion-row>
+					<ion-col col-7>
+            <h2 class="item-title"><b>{{item.customerObj.rm_nombre}}</b></h2>
+            <p class="item-description">{{item.dateOrder | date: 'dd/mm/yyyy H:mm'}}</p>
+            <p class="item-description">{{item.notes}}</p>
+          </ion-col>
+          <ion-col col-5>
+            <div style="float:right;text-align:right;padding-top:7px;"><h1>{{item.total | number: '1.2-2' }}</h1></div>
+          </ion-col>
+        </ion-row>
 			</ion-item>
 			<ion-item-options side="left">
 				<button ion-button color="primary" (click)="editOrder(item)">
@@ -27,8 +33,8 @@
 				</button>
 			</ion-item-options>
 		</ion-item-sliding>
-	</ion-list>	
-	
+	</ion-list>
+
   <ion-fab right bottom >
 		<button ion-fab (click)="goToAddOrder()"><ion-icon name="add"></ion-icon></button>
 	</ion-fab>

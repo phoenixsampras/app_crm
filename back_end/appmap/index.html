@@ -121,28 +121,28 @@
     }
 
     function drawLine(points, name) {
-		//console.log(points);
-		var color = '#' + Math.round((0x1000000 + 0xffffff * Math.random())).toString(16).slice(1);
-		var line = new google.maps.Polyline({
-        //path: [
-        //new google.maps.LatLng(40.64353725, -73.99829776),
-        //new google.maps.LatLng(40.64353725, -73.98829776)
-        //],
+  		//console.log(points);
+  		var color = '#' + Math.round((0x1000000 + 0xffffff * Math.random())).toString(16).slice(1);
+  		var line = new google.maps.Polyline({
+          //path: [
+          //new google.maps.LatLng(40.64353725, -73.99829776),
+          //new google.maps.LatLng(40.64353725, -73.98829776)
+          //],
 
-			path: points,
-			strokeColor: color,
-			strokeOpacity: 1.0,
-			strokeWeight: 2,
-			map: map,
-			geodesic: true,
-		});
-		line.setMap(map);
-		var marker = new google.maps.LatLng(points[0].lat,points[0].lng);
-		addMarker (marker, color);
+  			path: points,
+  			strokeColor: color,
+  			strokeOpacity: 1.0,
+  			strokeWeight: 2,
+  			map: map,
+  			geodesic: true,
+  		});
+  		line.setMap(map);
+  		var marker = new google.maps.LatLng(points[0].lat,points[0].lng);
+  		addMarker (marker, color);
 
 
-		$tr = $('<tr><td><span style="background:' + color + ';display:block;height:32px;width:32px;"></span</td><td>' + name + '</td></tr>');
-		$('#resultsMap').append($tr);
+  		$tr = $('<tr><td><span style="background:' + color + ';display:block;height:32px;width:32px;"></span</td><td>' + name + '</td></tr>');
+  		$('#resultsMap').append($tr);
     }
 
     function initialize() {

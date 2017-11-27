@@ -176,12 +176,13 @@
   "PRODUCTS": "Productos",
   "CHARTS": "Graficas",
   "SEARCH_CUSTOMERS": "Buscar Cliente",
-  "SEARCH_PRODUCTS": "Buscar Cliente",
+  "SEARCH_PRODUCTS": "Buscar Producto",
   "STOCK": "Stock",
   "Search": "Buscar",
   "LOAD_CUSTOMERS_FROM_SERVER": "Obtener Clientes del Servidor",
   "LOAD_CHARTS_FROM_SERVER": "Obtener Graficas del Servidor",
-  "STOCK_PRODUCTS_FROM_SERVER": "Obtener Productos del Servidor"
+  "STOCK_PRODUCTS_FROM_SERVER": "Obtener Productos del Servidor",
+  "SELECT_PRODUCT": "Seleccionar Producto"
 
 
 }

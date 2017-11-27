@@ -8,13 +8,13 @@
 </ion-header>
 
 
-<ion-content padding class="forms-validations-content">
+<ion-content padding class="forms-validations-content agregarPedido">
 	<ion-searchbar [(ngModel)]="searchTerm" [placeholder]="'SEARCH_CUSTOMERS' | translate" [showCancelButton]="true" (ionInput)="updateSearch()" ></ion-searchbar>
 	<ion-list>
 		<ion-item *ngFor="let customer of customers" tappable (click)="chooseItem(customer)">
 			{{ customer.rm_nombre }}
 		</ion-item>
-	</ion-list>	
+	</ion-list>
 	<form class="sample-form validations-form" [formGroup]="validations_form"  (ngSubmit)="onSubmit(validations_form.value)">
 		<section class="form-section">
 			<!-- <h2 class="section-title">{{'ADD_ORDER' | translate}}</h2> -->
@@ -33,7 +33,7 @@
 
 			<ion-item>
 				<ion-label floating>{{'Order_Date' | translate}}</ion-label>
-				<ion-datetime displayFormat="DD MM YYYY" pickerFormat="DD MM YYYY" formControlName="dateOrder"></ion-datetime>
+				<ion-datetime displayFormat="DD MM YYYY" pickerFormat="DD MM YYYY" formControlName="dateOrder" min="2016" max="2020" ></ion-datetime>
 			</ion-item>
 			<div class="validation-errors">
 				<ng-container *ngFor="let validation of validation_messages.dateOrder">
@@ -67,39 +67,39 @@
 						<b>{{'Quantity' | translate}}</b>
 					</ion-col>
 
-					<ion-col col-2>
+					<ion-col col-3>
 						<b>{{'Sub_Total' | translate}}</b>
 					</ion-col>
-					<ion-col col-2>
-
+					<ion-col col-1>
 					</ion-col>
 				</ion-row>
 				<ion-row *ngFor="let product of selectedProducts">
 					<ion-col col-4>
 						{{product.product.product}}
 					</ion-col>
-					<ion-col col-2>
-						{{product.product.price}}
+					<ion-col col-2 class="rmNumero">
+						{{product.product.price | number: '1.2-2'}}
 					</ion-col>
-					<ion-col col-2>
-						{{product.quantity}}
+					<ion-col col-2 class="rmNumero">
+						{{product.quantity | number: '1.2-2'}}
 					</ion-col>
-					<ion-col col-2>
-						{{product.quantity * product.product.price}}
+					<ion-col col-3 class="rmNumero">
+						{{product.quantity * product.product.price | number: '1.2-2'}}
 					</ion-col>
-					<ion-col col-2>
+					<ion-col col-1>
 						<ion-icon color='danger' (click)="removeProduct(product.product.id)" name="close-circle"></ion-icon>
 
 					</ion-col>
 				</ion-row>
 				<ion-row>
-					<ion-col col-10>
+					<ion-col col-8>
 						<b>{{'Total' | translate}}</b>
 					</ion-col>
-
-					<ion-col col-2>
-						<b>{{getTotal()}}</b>
+					<ion-col col-3 class="rmNumero">
+						<b>{{getTotal() | number: '1.2-2'}}</b>
 					</ion-col>
+          <ion-col col-1>
+          </ion-col>
 				</ion-row>
 			</ion-grid>
 

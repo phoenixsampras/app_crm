@@ -7,7 +7,16 @@ add-order-page {
 		border:1px solid #ccc;
 		padding:5px;
 	}
-	
+
+  .agregarPedido {
+    background-color: #daeaac !important;
+  }
+
+  .rmNumero {
+    float:right;
+    text-align:right;
+  }
+
   .forms-validations-content
 	{
 		background-color: color($colors, background, base);

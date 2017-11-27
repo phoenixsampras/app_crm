@@ -20,14 +20,14 @@ export class SelectProductsPage {
 	selectedProducts:any = [];
 	validations_form: FormGroup;
 	searchTerm:any = "";
-	constructor(public navCtrl: NavController, 
+	constructor(public navCtrl: NavController,
 		public navParams: NavParams,
 		public viewCtrl: ViewController,
 		public toastCtrl: ToastController,
 		public formBuilder: FormBuilder,
 		public productsService: ProductsService
 	) {
-		
+
 		this.product = {
 			product: '',
 			quantity: ''
@@ -38,7 +38,7 @@ export class SelectProductsPage {
 			quantity: new FormControl('', Validators.required),
 		});
 	}
-	
+
 	updateSearch() {
 		this.productsService
 		.getDataFromPouch(this.searchTerm)
@@ -51,31 +51,31 @@ export class SelectProductsPage {
 					if(p.product.id == _p.id) {
 						var new_stock = parseInt(this.products[j].stock,10) - parseInt(p.quantity,10);
 						this.products[j].stock = new_stock;
-						
+
 					}
 				}
 			}
 		});
 	}
-	
+
 	validation_messages = {
 		'product': [
-			{ type: 'required', message: 'Product is required.' }
+			{ type: 'required', message: 'Producto es requerido.' }
 		],
 		'quantity': [
-			{ type: 'required', message: 'Quantity is required.' }
+			{ type: 'required', message: 'Cantidad es requerida.' }
 		],
-    
+
 	};
-	
+
 	dismiss() {
 		this.viewCtrl.dismiss(this.product);
 	}
-	
+
 	cancel(){
 		this.viewCtrl.dismiss();
 	}
-	
+
 	chooseItem(item: any) {
 		this.product.product = item;
 		this.searchTerm = '';
@@ -83,21 +83,19 @@ export class SelectProductsPage {
 		this.validations_form.get('product').setValue(value);
 		this.products = [];
 	}
-	
+
 	onSubmit(values) {
 		this.product.quantity = values.quantity;
 		if(this.product.quantity <= this.product.product.stock) {
 			this.viewCtrl.dismiss(this.product);
 		} else {
 			let toast = this.toastCtrl.create({
-				message: "The quantity for the selected product is not in the stock!",
+				message: "El pedido esta fuera del stock, revise su pedido!",
 				duration: 3000,
 				cssClass: 'toast-error',
 				position:'bottom',
 			});
 			toast.present();
 		}
-		
 	}
-
 }
