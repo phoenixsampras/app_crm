@@ -26,6 +26,14 @@ export class OrdersPage {
 		
 	}
 
+	getTotal() {
+		let total = 0;
+		for(var i=0; i< this.ordersList.length;i++) {
+			total += this.ordersList[i].total;
+		}
+		return total;
+	}
+	
 	editOrder(item) {
 		this.nav.push(AddOrderPage, {'order' : item});
 	}

@@ -57,7 +57,7 @@ import { ProfileService } from '../pages/profile/profile.service';
 import { NotificationsService } from '../pages/notifications/notifications.service';
 import { List1Service } from '../pages/list-1/list-1.service';
 import { List2Service } from '../pages/list-2/list-2.service';
-import { CustomersService } from '../pages/add-order/customers.service';
+import { CustomersService } from '../pages/clientes/customers.service';
 import { ScheduleService } from '../pages/schedule/schedule.service';
 import { FacebookLoginService } from '../pages/facebook-login/facebook-login.service';
 import { GoogleLoginService } from '../pages/google-login/google-login.service';
@@ -69,7 +69,6 @@ import { OrdersService } from '../pages/orders/orders.service';
 import { PositionService } from '../pages/orders/position.service';
 import { CalendarService } from '../pages/calendar/calendar.service';
 import { ProductsService } from '../pages/products/products.service';
-import { ClientesService } from '../pages/clientes/clientes.service';
 import { ChartsService } from '../pages/charts/charts.service';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -92,7 +91,7 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { Crop } from '@ionic-native/crop';
 import { EmailComposer } from '@ionic-native/email-composer';
 
-
+import { TextAvatarDirective } from '../directives/text-avatar/text-avatar';
 import { LocationTracker } from '../providers/location-tracker/location-tracker';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 
@@ -149,7 +148,7 @@ export function createTranslateLoader(http: Http) {
     AdsPage,
     FormValidationsPage,
     VideoPlaylistPage,
-
+	TextAvatarDirective,	
     PreloadImage,
     BackgroundImage,
     ShowHideContainer,
@@ -252,8 +251,7 @@ export function createTranslateLoader(http: Http) {
     PositionService,
     CalendarService,
     ProductsService,
-    ClientesService,
-	ChartsService,
+    ChartsService,
     FacebookLoginService,
     GoogleLoginService,
     TwitterLoginService,

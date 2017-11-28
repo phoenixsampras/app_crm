@@ -2,7 +2,7 @@ import { Component, NgZone } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 
-import { CustomersService } from '../add-order/customers.service';
+import { CustomersService } from '../clientes/customers.service';
 
 @Component({
   selector: 'add-customer-page',

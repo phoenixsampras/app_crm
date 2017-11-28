@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{'ORDERS' | translate}}</ion-title>
+    <ion-title>{{'ORDERS' | translate}} <ion-badge *ngIf="getTotal() > 0" class='orders-total' color="primary">{{getTotal() | number: '1.2-2'}}</ion-badge></ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -11,16 +11,16 @@
     <ion-list>
 		<ion-item-sliding class="list-item"  *ngFor="let item of ordersList">
 			<ion-item class="item-content">
-        <ion-row>
+				<ion-row>
 					<ion-col col-7>
-            <h2 class="item-title" ><b>{{item.customerObj.rm_nombre}}</b></h2>
-            <p class="item-description">{{item.dateOrder | date: 'dd/MM/yyyy H:mm'}}</p>
-            <p class="item-description">{{item.notes}}</p>
-          </ion-col>
-          <ion-col col-5>
-            <div style="float:right;text-align:right;padding-top:7px;"><h1>{{item.total | number: '1.2-2' }}</h1></div>
-          </ion-col>
-        </ion-row>
+						<h2 class="item-title" ><b>{{item.customerObj.rm_nombre}}</b></h2>
+						<p class="item-description">{{item.dateOrder | date: 'dd/MM/yyyy H:mm'}}</p>
+						<p class="item-description">{{item.notes}}</p>
+					</ion-col>
+					<ion-col col-5>
+						<div style="float:right;text-align:right;padding-top:7px;"><h1>{{item.total | number: '1.2-2' }}</h1></div>
+					</ion-col>
+				</ion-row>
 			</ion-item>
 			<ion-item-options side="left">
 				<button ion-button color="primary" (click)="editOrder(item)">

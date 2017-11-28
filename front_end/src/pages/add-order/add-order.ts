@@ -2,9 +2,9 @@ import { Component, NgZone } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { NavController, NavParams, LoadingController, ToastController, ModalController, } from 'ionic-angular';
 
-import { CustomersModel } from './customers.model';
+import { CustomersModel } from '../clientes/customers.model';
 import { ProductsModel } from '../products/products.model';
-import { CustomersService } from './customers.service';
+import { CustomersService } from '../clientes/customers.service';
 import { OrdersService } from '../orders/orders.service';
 import { ProductsService } from '../products/products.service';
 

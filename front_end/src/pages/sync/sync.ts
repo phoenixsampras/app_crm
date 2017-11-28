@@ -6,7 +6,7 @@ import { DatabaseService } from './database.service';
 import { AlertController } from 'ionic-angular';
 import { SyncService } from './sync.service';
 import { ProductsService } from '../products/products.service';
-import { CustomersService } from '../add-order/customers.service';
+import { CustomersService } from '../clientes/customers.service';
 import { CalendarService } from '../calendar/calendar.service';
 import moment from 'moment';
 

@@ -16,7 +16,11 @@
     <ion-list>
       <ion-item-sliding class="list-item" *ngFor="let item of listaClientes">
           <ion-item class="item-content">
-            <h3 class="item-title">{{item.rm_nombre}}</h3>
+            <ion-avatar item-start>
+				<img *ngIf="item.photo_s" src="data:image/png;base64,{{item.photo_s}}" />
+				<text-avatar *ngIf="!item.photo_s" [text]="item.rm_nombre.charAt(0)" [color]="secondary" item-left></text-avatar>
+			</ion-avatar>
+			<h3 class="item-title">{{item.rm_nombre}}</h3>
             <h2>{{item.rm_direccion}}</h2>
             <h2>
               <span *ngIf="item.rm_telefono">

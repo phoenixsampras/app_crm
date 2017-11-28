@@ -3,19 +3,18 @@ import { NavController, LoadingController,AlertController  } from 'ionic-angular
 
 import 'rxjs/Rx';
 
-import { ClientesModel } from './clientes.model';
-import { ClientesService } from './clientes.service';
-import { CustomersService } from '../add-order/customers.service';
+import { CustomersService } from './customers.service';
 import 'rxjs/add/operator/debounceTime';
 import { FormControl } from '@angular/forms';
 import { AddCustomerPage } from '../add-customer/add-customer';
+import { CustomersModel } from '../clientes/customers.model';
 
 @Component({
   selector: 'clientes',
   templateUrl: 'clientes.html'
 })
 export class ClientesPage {
-	clientes: ClientesModel = new ClientesModel();
+	clientes: CustomersModel = new CustomersModel();
 	loading: any;
 	listaClientes: any = [];
 	searchTerm:any = "";
@@ -24,7 +23,6 @@ export class ClientesPage {
 	customer:any = "";
 	constructor(
 		public nav: NavController,
-		public clientesService: ClientesService,
 		public customersService: CustomersService,
 		public loadingCtrl: LoadingController,
 		public alertCtrl: AlertController

@@ -7,4 +7,8 @@ export class CustomersModel {
 	rm_celular:string;
 	items: Array<CustomersModel>;
 	rmListaClientes : Array<CustomersModel>;
+	rm_longitude:string;
+	rm_latitude:string;
+	photo_s:string;
+	photo_m:string;
 }
