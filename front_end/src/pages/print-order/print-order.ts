@@ -46,10 +46,14 @@ export class PrintOrderPage {
   }
 
   // New function to print in zebra lang
-  printOrder() {
-    alert("impresion");
-    console.log("impresion");
-    let zebra_receipt = '';
+	printOrder() {
+		if(this.orderObj) {
+			this.orderObj.confirmed = true;
+			this.ordersService.updateOrder(this.orderObj);			
+		}
+		alert("impresion");
+		console.log("impresion");
+		let zebra_receipt = '';
 
     zebra_receipt = `
 

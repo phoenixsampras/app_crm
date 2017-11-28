@@ -19,9 +19,7 @@ export class OrdersService {
 
 
 	) {
-		this.platform.ready().then(() => {
-            //this.databaseService.initDB();
-        });
+		
 	}
 
 	addOrder(order) {

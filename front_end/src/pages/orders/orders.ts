@@ -35,15 +35,21 @@ export class OrdersPage {
 	}
 	
 	editOrder(item) {
-		this.nav.push(AddOrderPage, {'order' : item});
+		if(item.confirmed) {
+			alert('Confirmed order cannot be changed');	
+		} else {
+			this.nav.push(AddOrderPage, {'order' : item});
+		}
 	}
 	
 	printOrder(item) {
 		let modal = this.modalCtrl.create(PrintOrderPage, { 'order': item });
 		modal.onDidDismiss(data => {
-			if(data){
-                //this.selectedProducts.push(data);
-            }
+			this.ordersService
+			.getData()
+			.then(data1 => {
+				this.ordersList = data1;
+			});
 		});
 		modal.present();
 	}

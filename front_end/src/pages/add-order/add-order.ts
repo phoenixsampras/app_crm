@@ -1,14 +1,14 @@
 import { Component, NgZone } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { NavController, NavParams, LoadingController, ToastController, ModalController, } from 'ionic-angular';
-
 import { CustomersModel } from '../clientes/customers.model';
 import { ProductsModel } from '../products/products.model';
 import { CustomersService } from '../clientes/customers.service';
 import { OrdersService } from '../orders/orders.service';
 import { ProductsService } from '../products/products.service';
-
 import { SelectProductsPage } from '../select-products/select-products';
+
+
 @Component({
   selector: 'add-order-page',
   templateUrl: 'add-order.html'
@@ -35,13 +35,11 @@ export class AddOrderPage {
 		public toastCtrl: ToastController,
 		public ordersService: OrdersService,
 		public modalCtrl: ModalController,
-		public productsService: ProductsService
+		public productsService: ProductsService,
 
 	) {
 		this.loading = this.loadingCtrl.create();
 		this.orderObj = this.navParams.get('order');
-		console.log(this.orderObj);
-
 	}
 
 	removeProduct(id) {
@@ -114,7 +112,6 @@ export class AddOrderPage {
 
 				return 0;
 			});
-			console.log(sortedArray);
 			this.customers = sortedArray;
 		});
 	}
@@ -146,7 +143,7 @@ export class AddOrderPage {
 		console.log(values);
 
 		if(!this.selectedProducts.length) {
-      let toast = this.toastCtrl.create({
+			let toast = this.toastCtrl.create({
 				message: "Agregue al menos un producto",
 				duration: 3000,
 				cssClass: 'toast-error',
@@ -160,6 +157,9 @@ export class AddOrderPage {
 			values.customerObj = this.customerObj;
 			values.selectedProducts = this.selectedProducts;
 			values.total = this.getTotal();
+			values.latitude = this.ordersService.lat;
+			values.longitude = this.ordersService.lng;
+			console.log(values);
 			if(this.orderObj) {
 				values._id = this.orderObj._id;
 				values.id = this.orderObj.id;

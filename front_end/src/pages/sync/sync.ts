@@ -62,7 +62,7 @@ export class SyncPage {
 
 				let items = data.rmStockProductos;
 				for (var i = 0; i < items.length; i++) {
-					
+					console.log(items[i]);
 					this.productsService.addProduct(items[i]);
 				}
 				loading.dismiss();
@@ -147,7 +147,7 @@ export class SyncPage {
 				for (var i = 0; i < data.length; i++) {
 					var order = data[i];
 					let selectedProducts = order.selectedProducts;
-					var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarPedido&rmCustomer=" + order.customer + "&rmDateOrder=" + order.dateOrder + "&rmUserId=" + order.rmUserId + "&rmNote=" + order.notes + "&rmUserId=" + order.rmUserId +"&callback=JSONP_CALLBACK";
+					var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarPedido&rmCustomer=" + order.customer + "&rmDateOrder=" + order.dateOrder + "&rmUserId=" + order.rmUserId + "&rmNote=" + order.notes + "&rmUserId=" + order.rmUserId + "&latitude=" + order.latitude + "&longitude=" + order.longitude  + "&confirmed=" + order.confirmed +"&callback=JSONP_CALLBACK";
 					url = encodeURI(url);
 					this.ordersService.saveOrderOnServer(url).then(data => {
 						let order_id = data._body.order_id;

@@ -82,8 +82,12 @@ export class DatabaseService {
 		this._db.get(id).then(function(doc) {
 			return doc;
 		}).catch(function(err) {
-		  console.log(err);
-		  return db.put(product);
+			console.log(err);
+			db.put(product).then(function(doc) {
+				return doc;
+			}).catch(function(err) {
+			  console.log(err);
+			});
 		});
 
 	}
