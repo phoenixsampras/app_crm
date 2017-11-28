@@ -9,7 +9,7 @@
 
 <ion-content class="list-mini-content-clientes">
 	<div class="list-mini-clientes">
-		<ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" [showCancelButton]="true" (ionInput)="filterItems($event)" ></ion-searchbar>
+		<ion-searchbar [(ngModel)]="searchTerm" [placeholder]="'SEARCH_PRODUCTS' | translate" [formControl]="searchControl" [showCancelButton]="true" (ionInput)="filterItems($event)" ></ion-searchbar>
 		<div *ngIf="searching" class="spinner-container">
 			<ion-spinner></ion-spinner>
 		</div>

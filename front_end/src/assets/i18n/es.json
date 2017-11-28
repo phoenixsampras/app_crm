@@ -181,7 +181,7 @@
   "CHARTS": "Graficas",
   "SEARCH_CUSTOMERS": "Buscar Cliente",
   "SEARCH_PRODUCTS": "Buscar Producto",
-  "STOCK": "Stock",
+  "STOCK": "Stock de Productos",
   "Search": "Buscar",
   "LOAD_CUSTOMERS_FROM_SERVER": "Obtener Clientes del Servidor",
   "LOAD_CHARTS_FROM_SERVER": "Obtener Graficas del Servidor",
@@ -189,5 +189,9 @@
   "STOCK_PRODUCTS_FROM_SERVER": "Obtener Productos del Servidor",
   "SELECT_PRODUCT": "Seleccionar Producto",
   "LOAD_CALENDAR_EVENTS_FROM_SERVER": "Cargar Eventos de Calendario",
-  "SELECT_PRINTER": "Seleccione Impresora"
+  "SELECT_PRINTER": "Seleccione Impresora",
+  "EDIT_CUSTOMER": "Editar Cliente",
+  "PLAN_CHART": "Indicadores",
+  "ADD_EVENT": "Agregar Evento",
+  "START_DATE": "Fecha y Hora"
 }

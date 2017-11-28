@@ -9,7 +9,7 @@
 
 
 <ion-content padding class="forms-validations-content">
-	
+
 	<form class="sample-form validations-form" [formGroup]="validations_form"  (ngSubmit)="onSubmit(validations_form.value)">
 		<section class="form-section">
 			<!-- <h2 class="section-title">{{'ADD_ORDER' | translate}}</h2> -->
@@ -28,7 +28,7 @@
 
 			<ion-item>
 				<ion-label floating>{{'START_DATE' | translate}}</ion-label>
-				<ion-datetime displayFormat="DD MM YYYY HH:mm:ss" pickerFormat="DD MM YYYY HH:mm:ss" formControlName="start_datetime"></ion-datetime>
+				<ion-datetime displayFormat="MM DD YYYY HH:mm:ss" pickerFormat="DD MM YYYY HH:mm" min="2016" max="2020" formControlName="start_datetime"></ion-datetime>
 			</ion-item>
 			<div class="validation-errors">
 				<ng-container *ngFor="let validation of validation_messages.start_datetime">
@@ -39,8 +39,9 @@
 			</div>
 
 			<button ion-button full type="submit" [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
+      <br/>
 			<button ion-button full color='secondary' (click)='cancel()' type="button" >{{'CANCEL' | translate}}</button>
-		
+
 		</section>
 	</form>
 </ion-content>
