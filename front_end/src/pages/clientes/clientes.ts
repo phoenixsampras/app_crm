@@ -41,6 +41,14 @@ export class ClientesPage {
 	onSearchInput(){
         this.searching = true;
     }
+	
+	call(number) {
+		window.location.href = 'tel:' + number;	
+	}
+	
+	email(email) {
+		window.location.href = 'mailto:' + email;	
+	}
  
     setFilteredItems() {   
 		this.customersService

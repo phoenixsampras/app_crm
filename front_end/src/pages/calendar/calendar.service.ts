@@ -17,9 +17,11 @@ export class CalendarService {
 	}
 
 	addCalendarEvent(event) {
+		event.user_id = this.ordersService.loginId;
 		this.databaseService.addEvent(event);
 	}
 	updateCalendarEvent(event) {
+		event.user_id = this.ordersService.loginId;
 		this.databaseService.updateEvent(event);
 	}
 

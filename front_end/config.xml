@@ -8,6 +8,8 @@
     <allow-navigation href="http://odoo.romilax.com/organica/back_end/*" />
     <allow-navigation href="http://*/*" />
     <allow-navigation href="https://*/*" />
+	<allow-navigation href="mailto:*" />
+	<allow-navigation href="tel:*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -15,6 +17,8 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <allow-navigation href="data:*" />
+	<access origin="tel:*" launch-external="yes"/>
+	<access origin="mailto:*" launch-external="yes"/>
     <preference name="loadUrlTimeoutValue" value="700000" />
     <preference name="orientation" value="portrait" />
     <preference name="webviewbounce" value="false" />
