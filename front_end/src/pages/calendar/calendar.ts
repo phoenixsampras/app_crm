@@ -6,6 +6,7 @@ import { CalendarService } from './calendar.service';
 import moment from 'moment';
 import { AddEventPage } from '../add-event/add-event';
 import { LoginPage } from '../login/login';
+import { OrdersService } from '../orders/orders.service';
 
 @Component({
   selector: 'calendar-page',
@@ -69,6 +70,7 @@ export class CalendarPage {
 	constructor(
 		public nav: NavController,
 		public calendarService: CalendarService,
+		public ordersService: OrdersService,
 		public loadingCtrl: LoadingController
 	) {
 		
