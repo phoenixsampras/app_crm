@@ -1,8 +1,9 @@
 import { Component, NgZone } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ToastController, ModalController } from 'ionic-angular';
 
 import { CustomersService } from '../clientes/customers.service';
+import { MapsPage } from '../maps/maps';
 
 @Component({
   selector: 'add-customer-page',
@@ -22,6 +23,7 @@ export class AddCustomerPage {
 		public formBuilder: FormBuilder,
 		public customersService: CustomersService,
 		public loadingCtrl: LoadingController,
+		public modalCtrl: ModalController,
 		public toastCtrl: ToastController,
 
 	) {
@@ -29,6 +31,16 @@ export class AddCustomerPage {
 		this.customer = this.navParams.get('customer');
 	}
 
+	showMap() {
+		// reset
+        let modal = this.modalCtrl.create(MapsPage);
+		modal.onDidDismiss(data => {
+			if(data){
+                
+            }
+		});
+		modal.present();
+	}
 	
 	ionViewDidEnter() {
 		if(this.customer) {
@@ -49,6 +61,8 @@ export class AddCustomerPage {
 		});
 	}
 
+	
+	
 	validation_messages = {
 		'rm_nombre': [
 			{ type: 'required', message: 'Se requiere el nombre.' }
