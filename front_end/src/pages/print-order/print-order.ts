@@ -22,7 +22,7 @@ export class PrintOrderPage {
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public toastCtrl: ToastController,
-	public ordersService: OrdersService,
+    public ordersService: OrdersService,
 
   ) {
     this.orderObj = this.navParams.get('order');
@@ -46,45 +46,111 @@ export class PrintOrderPage {
   }
 
   // New function to print in zebra lang
-	printOrder() {
-		if(this.orderObj) {
-			this.orderObj.confirmed = true;
-			this.ordersService.updateOrder(this.orderObj);			
-		}
-		alert("impresion");
-		console.log("impresion");
-		let zebra_receipt = '';
+  printOrder() {
+    if (this.orderObj) {
+      this.orderObj.confirmed = true;
+      this.ordersService.updateOrder(this.orderObj);
+    }
+    alert("impresion");
+    console.log("impresion");
+    let zebra_receipt = '';
+    let zebra_receipt_header = '';
+    let zebra_receipt_body = '';
+    let zebra_receipt_total = '';
+    let zebra_receipt_footer = '';
 
-    zebra_receipt = `
+    zebra_receipt_header = `
+            ^XA
+            ^MNN
+            ^LL1100
+            ^ASN,50
+            ^FO0,30^FB580,3,0,C,0^FDORGANICA S.R.L.^FS
+            ^FO0,70^FB580,3,0,C,0^FDPedidos: 4587965^FS
+            ^FO0,110^FB580,3,0,C,0^FDCochabamba - Bolivia^FS
+            ^CFQ
+            ^FO5,180^FD Fecha: 01/01/2017^FS
+            ^FO5,210^FD Vendedor: Hermenegildo^FS
+            ^FO5,240^FD Cliente: Supermercado Ic-Norte S.R.L.^FS
+            ^FO5,270^FD NIT: 78415465416341^FS
+            ^FO5,300^FD Direccion: 78415465416341^FS
+            ^FO5,330^FD Telefono: 78415465416341^FS
+            ^FO5,360^FD Celular: 78415465416341^FS
 
-          ^XA
-          ^ASN,50
-          ^FO0,10^FB600,3,0,C,0^FD\&ORGANICA S.R.L.^FS 
-          ^CF0,35
-          ^FO0,60^FB600,3,0,C,0^FD\&Pedidos: 4587965^FS
-          ^FO0,90^FB600,3,0,C,0^FD\&Reclamos: 4587967^FS
-          ^FO0,120^FB600,3,0,C,0^FD\&Cochabamba - Bolivia^FS
+            ^CFF,20
+            ^LRY
+            ^FO0,400^GB600,40,30^FS
+            ^FO0,410^FDPRODUCTO       CANT PRECIO    TOTAL^FS
+            `;
+    zebra_receipt_body = `
+            ^CFF,20
 
-          ^FO10,190^FD Fecha: 01/01/2017^FS
-          ^FO10,220^FD Vendedor: Hermenegildo^FS
-          ^FO10,250^FD Razon Social: Supermercado Ic-Norte S.R.L.^FS
-          ^FO10,280^FD NIT: 78415465416341^FS
+            ^FO0,450
+            ^FB250,5,0,L,0
+            ^FDPapas Fritas a b c d^FS
 
-          ^CF0,35
-          ^FO10,350^FD CANTIDAD  PRODUCTO                     PRECIO   TOTAL ^FS
-          ^FO10,380^FD       10  Papas Fritas                                  1.25   10.25 ^FS
-          ^FO10,410^FD       10  Charke                                          1.00   10.00 ^FS
-          ^FO10,440^FD       10  Tunta Confitada                            1.00   10.00 ^FS
-          ^FO10,470^FD       30  TOTAL                                                    30.25 ^FS
-          ^FO10,550^FD Gracias por su Compra!! Feliz Navidad!!^FS
+            ^FO250,450
+            ^FB60,5,0,R,0
+            ^FD999^FS
 
-          ^XZ
+            ^FO320,450
+            ^FB100,5,0,R,0
+            ^FD999.99^FS
 
+            ^FO410,450
+            ^FB150,5,0,R,0
+            ^FD9999.99^FS
+
+
+
+            ^FO0,510
+            ^FB250,5,0,L,0
+            ^FDPapas Fritas 2 3 a b c d^FS
+
+            ^FO250,510
+            ^FB60,5,0,R,0
+            ^FD99^FS
+
+            ^FO320,510
+            ^FB100,5,0,R,0
+            ^FD99.99^FS
+
+            ^FO410,510
+            ^FB150,5,0,R,0
+            ^FD999.99^FS
             `;
 
-	alert(this.ordersService.macAddress);
-  // cordova.plugins.zbtprinter.print(this.ordersService.macAddress, "^XA^FO20,20^A0N,25,25^FD " + zebra_receipt + " ^FS^XZ",
-    cordova.plugins.zbtprinter.print(this.ordersService.macAddress, zebra_receipt ,
+    zebra_receipt_total = `
+            ^FO5,560^GB600,3,3^FS
+            ^FO0,570
+            ^FB250,5,0,L,0
+            ^FDGRAN TOTAL^FS
+
+            ^FO250,570
+            ^FB60,5,0,R,0
+            ^FD99^FS
+
+            ^FO410,570
+            ^FB150,5,0,R,0
+            ^FD999.99^FS
+            `;
+
+    zebra_receipt_footer = `
+            ^CFR,15
+            ^FO5,720^GB600,1,1^FS
+            ^FO5,700^FB580,3,0,C,0^FDFirma Cliente^FS
+            ^FO5,870^GB600,1,1^FS
+            ^FO5,850^FB580,3,0,C,0^FDFirma Vendedor^FS
+            ^FO5,900^FB580,3,0,C,0^FDGracias por su Compra!!^FS
+            ^FO5,930^FB580,3,0,C,0^FDFelices Fiestas!!^FS
+            ^FO0,960^FB580,3,0,C,0^FDReclamos: 4587967^FS
+            ^XZ
+            `;
+
+    // zebra_receipt = zebra_receipt_header + zebra_receipt_body + zebra_receipt_total + zebra_receipt_footer;
+    zebra_receipt = 'sd';
+    alert(this.ordersService.macAddress);
+    // cordova.plugins.zbtprinter.print(this.ordersService.macAddress, "^XA^FO20,20^A0N,25,25^FD " + zebra_receipt + " ^FS^XZ",
+    cordova.plugins.zbtprinter.print(this.ordersService.macAddress, zebra_receipt,
       function(success) {
         alert("Zbtprinter print success: " + success);
       }, function(fail) {
@@ -95,7 +161,7 @@ export class PrintOrderPage {
 
   }
 
-  findOrder() {
+  findPrinter() {
     cordova.plugins.zbtprinter.find(
       function(result) {
         if (typeof result == 'string') {

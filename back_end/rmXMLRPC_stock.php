@@ -60,19 +60,20 @@ function rmStockProductos ($db) {
         $sql = "
 
         SELECT
+				--distinct on (id, product)
         p.id AS id,
-        sp.name,
+        --sp.name as doc,
         sml.product_id,
         sml.product_qty,
         public.res_partner.id AS partner_id,
         public.res_partner.name AS partner,
 
         pt.name AS product,
-        pt.list_price as price,
+        --pt.list_price as price,
         pt.default_code AS code,
-        sml.product_uom_qty,
-        sml.ordered_qty,
-        sml.qty_done as stock
+        sum(sml.product_uom_qty),
+        sum(sml.ordered_qty),
+        sum(sml.qty_done) as stock
 
         FROM
         public.stock_picking AS sp
@@ -83,6 +84,10 @@ function rmStockProductos ($db) {
 
         WHERE
         sp.state = 'done'
+
+				GROUP BY
+				1,2,3,4,5,6,7
+								
 
 
 --        SELECT

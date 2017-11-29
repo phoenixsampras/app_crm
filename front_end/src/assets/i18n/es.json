@@ -190,6 +190,8 @@
   "SELECT_PRODUCT": "Seleccionar Producto",
   "LOAD_CALENDAR_EVENTS_FROM_SERVER": "Cargar Eventos de Calendario",
   "SELECT_PRINTER": "Seleccione Impresora",
+  "PRINT": "IMPRIMIR",
+  "FINDPRINTER": "ENCONTRAR IMPRESORA",
   "EDIT_CUSTOMER": "Editar Cliente",
   "PLAN_CHART": "Indicadores",
   "ADD_EVENT": "Agregar Evento",
