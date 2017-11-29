@@ -1,3 +1,4 @@
+import { ToastController } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { OrdersService } from '../orders/orders.service';
@@ -22,6 +23,7 @@ export class SyncPage {
 		public nav: NavController,
 		public loadingCtrl: LoadingController,
 		public ordersService: OrdersService,
+    public toastCtrl: ToastController,
 		public positionService: PositionService,
 		public databaseService: DatabaseService,
 		public productsService: ProductsService,
@@ -35,12 +37,16 @@ export class SyncPage {
 	}
 
 	sinInternet() {
-		const alert = this.alertCtrl.create({
-			title: 'Conectividad',
-			subTitle: 'El servicio de Internet no esta disponible',
-			buttons: ['Aceptar']
-		});
-		alert.present();
+    let toastCtrl = this.toastCtrl;
+    let toast = toastCtrl.create({
+      message: "Para sincronizar es necesario internet, revise su conexion.",
+      duration: 3000,
+      cssClass: 'toast-error',
+      position: 'bottom',
+      showCloseButton: true,
+      closeButtonText: 'Ok'
+    });
+    toast.present();
 	}
 
 	wipeData() {
@@ -90,7 +96,7 @@ export class SyncPage {
 			let loadingCtrl = this.loadingCtrl;
 			let loading = loadingCtrl.create();
 			loading.present();
-		
+
 			this.customersService
 			.getDataFromServer()
 			.then(data => {
@@ -105,7 +111,7 @@ export class SyncPage {
 			});
 		}
 	}
-	
+
 	loadCalendarEvents() {
 		if (window.navigator.onLine) {
 			let loadingCtrl = this.loadingCtrl;
@@ -199,10 +205,9 @@ export class SyncPage {
 					});
 				}
 			});
-			loading.dismiss();	
+			loading.dismiss();
 		} else {
 			this.sinInternet();
-			// alert('Device Not Online');
 		}
 	}
 
