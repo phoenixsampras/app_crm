@@ -8,6 +8,7 @@ import 'rxjs/add/operator/debounceTime';
 import { FormControl } from '@angular/forms';
 import { AddCustomerPage } from '../add-customer/add-customer';
 import { CustomersModel } from '../clientes/customers.model';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'clientes',
@@ -97,6 +98,12 @@ export class ClientesPage {
 			]
 		});
 		confirm1.present();	
+	}
+	
+	ionViewWillLoad() {
+		if(!this.ordersService.loginId) {
+			this.nav.setRoot(LoginPage);
+		}
 	}
 
 }

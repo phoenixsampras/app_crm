@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import 'rxjs/Rx';
-
 import { CalendarModel } from './calendar.model';
 import { CalendarService } from './calendar.service';
 import moment from 'moment';
-
 import { AddEventPage } from '../add-event/add-event';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'calendar-page',
@@ -93,6 +92,12 @@ export class CalendarPage {
 				this.loadEvents();
 				loading.dismiss();
 		});
+	}
+	
+	ionViewWillLoad() {
+		if(!this.ordersService.loginId) {
+			this.nav.setRoot(LoginPage);
+		}
 	}
 
 }

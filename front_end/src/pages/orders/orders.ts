@@ -6,6 +6,7 @@ import 'rxjs/Rx';
 import { AddOrderPage } from '../add-order/add-order';
 import { PrintOrderPage } from '../print-order/print-order';
 import { PositionService } from './position.service';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'orders-page',
@@ -66,6 +67,11 @@ export class OrdersPage {
 		});
 	}
 
+	ionViewWillLoad() {
+		if(!this.ordersService.loginId) {
+			this.nav.setRoot(LoginPage);
+		}
+	}
 
 
 }
