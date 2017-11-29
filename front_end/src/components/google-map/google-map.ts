@@ -12,7 +12,7 @@ export class GoogleMap implements OnInit{
   public _el: HTMLElement;
   public _map: google.maps.Map;
   public _mapOptions: google.maps.MapOptions = {
-    zoom: 15
+		zoom: 15
   };
   public $mapReady: EventEmitter<any> = new EventEmitter();
   public _mapIdledOnce: boolean = false;
