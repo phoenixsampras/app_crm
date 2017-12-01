@@ -7,6 +7,8 @@ import { CustomersModel } from './customers.model';
 
 @Injectable()
 export class CustomersService {
+	
+	EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	constructor(
 		public http: Http,
 		public jsonp: Jsonp,
@@ -19,7 +21,7 @@ export class CustomersService {
 	}
 
 	addCustomer(customer) {
-		 this.databaseService.addCustomer(customer);
+		this.databaseService.addCustomer(customer);
 	}
 
 	updateCustomer(customer) {
@@ -49,6 +51,13 @@ export class CustomersService {
 		.then(response => response)
 		.catch(this.handleError);
 
+	}
+	
+	saveCustomerOnServer(url): Promise<any> {
+		return this.jsonp.request(url,{method:'Get'})
+		.toPromise()
+		.then(response => response)
+		.catch(this.handleError);
 	}
 
   private handleError(error: any): Promise<any> {

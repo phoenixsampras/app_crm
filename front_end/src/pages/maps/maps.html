@@ -1,17 +1,25 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>{{ 'GOOGLE_MAPS' | translate}}</ion-title>
-  </ion-navbar>
+	<ion-navbar>
+		<ion-title>{{ 'GOOGLE_MAPS' | translate}}</ion-title>
+		<ion-buttons end>
+			<button ion-button outline *ngIf="dragMarker" (click)="selectLocation()" color='primary'>
+				{{'SET_LOCATION' | translate}}
+			</button>
+			<button ion-button outline *ngIf="!dragMarker" (click)="close()" color='primary'>
+				{{'CLOSE' | translate}}
+			</button>
+		</ion-buttons>
+	</ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-row no-padding class="map-row">
-    <ion-col no-padding class="map-col">
+	<ion-row no-padding class="map-row">
+		<ion-col no-padding class="map-col">
       
-      <div class="map-container">
-        <google-map [options]="map_model.map_options"></google-map>
-      </div>
+			<div class="map-container">
+				<google-map [options]="map_model.map_options"></google-map>
+			</div>
       
-    </ion-col>
-  </ion-row>
+		</ion-col>
+	</ion-row>
 </ion-content>

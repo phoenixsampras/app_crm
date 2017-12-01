@@ -2,6 +2,10 @@ maps-page {
   $map-height: 100%;
   $nearby-places-height: 35%;
 
+  .bar-button-outline-md-primary {
+		background-color:#3474e1 !important; 
+	}
+  
   .map-row
   {
     height: $map-height;

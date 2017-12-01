@@ -171,7 +171,7 @@ export class SyncPage {
 				}
 			});
 
-			this.positionService
+			/*this.positionService
 			.getData()
 			.then(data => {
 				for (var i = 0; i < data.length; i++) {
@@ -184,7 +184,7 @@ export class SyncPage {
 						this.messages.push('Position with id-' + position._id + ' Uploaded ');
 					});
 				}
-			});
+			});*/
 			this.calendarService
 			.getDataFromPouch()
 			.then(data => {
@@ -196,6 +196,34 @@ export class SyncPage {
 					this.calendarService.saveEventOnServer(url).then(data => {
 						console.log('Event with id-' + event._id + ' Uploaded');
 						this.messages.push('Event with id-' + event._id + ' Uploaded ');
+					});
+				}
+			});
+			this.customersService
+			.getDataFromPouch()
+			.then(data => {
+				for (var i = 0; i < data.length; i++) {
+					var customer = data[i];
+					//var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
+					//var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_calendario.php?task=rmRegistrarEvento&res_user_id="+ event.user_id +"&name="+event.name+"&start_datetime=" + event.start_datetime + "&callback=JSONP_CALLBACK";
+					var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_clientes.php?task=rmRegistrarCliente";
+					url += "&res_user_id=" + customer.res_user_id;
+					url += "&rm_nombre=" + customer.rm_nombre;
+					url += "&rm_direccion=" + customer.rm_direccion;
+					url += "&rm_telefono=" + customer.rm_telefono;
+					url += "&rm_celular=" + customer.rm_celular;
+					url += "&rm_email=" + customer.rm_email;
+					url += "&rm_nit=" + customer.rm_nit;
+					url += "&rm_razon_social=" + customer.rm_razon_social;
+					url += "&rm_longitude=" + customer.rm_longitude;
+					url += "&rm_latitude=" + customer.rm_latitude;
+					url += "&photo_m=" + customer.photo_m;
+					url += "&callback=JSONP_CALLBACK";
+					
+					url = encodeURI(url);
+					this.customersService.saveCustomerOnServer(url).then(data => {
+						console.log('Event with id-' + customer._id + ' Uploaded');
+						this.messages.push('Event with id-' + customer._id + ' Uploaded ');
 					});
 				}
 			});

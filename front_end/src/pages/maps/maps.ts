@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { NavController, LoadingController, ToastController } from 'ionic-angular';
+import { ViewController, NavController, LoadingController, ToastController, NavParams } from 'ionic-angular';
 import { Geolocation} from '@ionic-native/geolocation';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Observable } from 'rxjs/Observable';
@@ -17,22 +17,32 @@ export class MapsPage implements OnInit {
 	@ViewChild(GoogleMap) _GoogleMap: GoogleMap;
 	map_model: MapsModel = new MapsModel();
 	toast: any;
-
+	marker:any;
+	lat:any;
+	lng:any;
+	markerDrag:any = true;
 	constructor(
 		public nav: NavController,
+		public navParams: NavParams,
 		public loadingCtrl: LoadingController,
 		public toastCtrl: ToastController,
+		public viewCtrl: ViewController,
 		public GoogleMapsService: GoogleMapsService,
 		public geolocation: Geolocation,
 		public ordersService: OrdersService,
 		public keyboard: Keyboard
 	) {
-		let lat = this.ordersService.lat;
-		let lng = this.ordersService.lng;
-		let current_location = new google.maps.LatLng(lat, lng);
+		
+		this.lat = this.navParams.get('lat');
+		this.lng = this.navParams.get('lng');
+		this.markerDrag = this.navParams.get('markerDrag');
+		if(!this.lat && !this.lng) {
+			this.lat = this.ordersService.lat;
+			this.lng = this.ordersService.lng;
+		}
+		let current_location = new google.maps.LatLng(this.lat, this.lng);
 		this.map_model.map_options.center = current_location;
-		var marker = new google.maps.Marker({position: current_location, map:this.map_model.map});
-		//marker.setMap(this.map_model.map);
+		
 	}
 
 	ngOnInit() {
@@ -41,18 +51,26 @@ export class MapsPage implements OnInit {
 
 		this._GoogleMap.$mapReady.subscribe(map => {
 			this.map_model.init(map);
+			let current_location = new google.maps.LatLng(this.lat, this.lng);
+			this.marker = new google.maps.Marker({position: current_location, map:this.map_model.map,draggable:this.markerDrag,});
 			_loading.dismiss();
 		});
 	}
 
 	ionViewDidEnter() {
-		let lat = this.ordersService.lat;
-		let lng = this.ordersService.lng;
-		let current_location = new google.maps.LatLng(lat, lng);
-		this.map_model.map_options.center = current_location;
-		var marker = new google.maps.Marker({position: current_location});
-		marker.setMap(this.map_model.map);
+		
 	}
   
+	selectLocation() {
+		var data = {
+			'lat' : this.marker.getPosition().lat(),
+			'lng' : this.marker.getPosition().lng(),
+		}
+		this.viewCtrl.dismiss(data);
+	}
+	
+	close() {
+		this.viewCtrl.dismiss();
+	}
   
 }

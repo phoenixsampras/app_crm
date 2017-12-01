@@ -11,4 +11,8 @@ export class CustomersModel {
 	rm_latitude:string;
 	photo_s:string;
 	photo_m:string;
+	rm_razon_social:string;
+	rm_nit:string;
+	rm_email:string;
+	res_user_id:any;
 }

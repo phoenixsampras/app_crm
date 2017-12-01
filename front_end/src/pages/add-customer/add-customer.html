@@ -62,8 +62,73 @@
 					</div>
 				</ng-container>
 			</div>
+			
+			<ion-item>
+				<ion-label floating>{{'EMAIL' | translate}}</ion-label>
+				<ion-input type="text" formControlName="rm_email"></ion-input>
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.rm_email">
+					<div class="error-message" *ngIf="validations_form.get('rm_email').hasError(validation.type) && (validations_form.get('rm_email').dirty || validations_form.get('rm_email').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
+			
+			<ion-item>
+				<ion-label floating>{{'RAZON_SOCIAL' | translate}}</ion-label>
+				<ion-input type="text" formControlName="rm_razon_social"></ion-input>
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.rm_razon_social">
+					<div class="error-message" *ngIf="validations_form.get('rm_razon_social').hasError(validation.type) && (validations_form.get('rm_razon_social').dirty || validations_form.get('rm_razon_social').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
+			
+			<ion-item>
+				<ion-label floating>{{'NIT' | translate}}</ion-label>
+				<ion-input type="text" formControlName="rm_nit"></ion-input>
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.rm_nit">
+					<div class="error-message" *ngIf="validations_form.get('rm_nit').hasError(validation.type) && (validations_form.get('rm_nit').dirty || validations_form.get('rm_nit').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
+			
+			<ion-item>
+				<ion-label floating>{{'LATITUDE' | translate}}</ion-label>
+				<ion-input type="text" [readonly]="true" formControlName="rm_latitude"></ion-input>
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.rm_latitude">
+					<div class="error-message" *ngIf="validations_form.get('rm_latitude').hasError(validation.type) && (validations_form.get('rm_latitude').dirty || validations_form.get('rm_latitude').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
+			
+			<ion-item>
+				<ion-label floating>{{'LONGITUDE' | translate}}</ion-label>
+				<ion-input type="text" [readonly]="true" formControlName="rm_longitude"></ion-input>
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.rm_longitude">
+					<div class="error-message" *ngIf="validations_form.get('rm_longitude').hasError(validation.type) && (validations_form.get('rm_longitude').dirty || validations_form.get('rm_longitude').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
+			
 			<br/><br/>
-			<button ion-button full type="button" (click)="showMap()"  >{{'GET_LOCATION' | translate}}</button>	
+			<button ion-button full color='secondary' type="button" (click)="showMap()"  >{{'GET_LOCATION' | translate}}</button>	
+			<br/><br/>
+			<img src="data:image/jpeg;base64,{{customerImage ? customerImage : defaultImage}}" alt="" />
+			<br/><br/>
+			<button ion-button full color='secondary' type="button" (click)="takePicture()"  >{{'TAKE_PICTURE' | translate}}</button>	
 			<br/><br/>
 			<button ion-button full type="submit" [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
 		</section>

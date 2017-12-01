@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController,AlertController  } from 'ionic-angular';
+import { NavController, LoadingController,AlertController, ToastController, ModalController   } from 'ionic-angular';
 
 import 'rxjs/Rx';
 
@@ -10,6 +10,7 @@ import { AddCustomerPage } from '../add-customer/add-customer';
 import { CustomersModel } from '../clientes/customers.model';
 import { LoginPage } from '../login/login';
 import { OrdersService } from '../orders/orders.service';
+import { MapsPage } from '../maps/maps';
 
 @Component({
   selector: 'clientes',
@@ -28,7 +29,10 @@ export class ClientesPage {
 		public customersService: CustomersService,
 		public loadingCtrl: LoadingController,
 		public ordersService: OrdersService,
+		public modalCtrl: ModalController,
+		public toastCtrl: ToastController,
 		public alertCtrl: AlertController
+		
 	) {
 		this.loading = this.loadingCtrl.create();
 		this.searchControl = new FormControl();
@@ -76,6 +80,44 @@ export class ClientesPage {
 	
 	editCustomer(item) {
 		this.nav.push(AddCustomerPage, {'customer' : item});
+	}
+	
+	showMap(item) {
+		// reset
+		console.log(item);
+		if (!window.navigator.onLine) {
+			let toast = this.toastCtrl.create({
+				message: "El servicio de Internet no esta disponible",
+				duration: 3000,
+				cssClass: 'toast-error',
+				position:'bottom',
+			});
+			toast.present();
+			// alert('Add atleast one product to the order');
+			return;
+		}
+		if((!item.rm_latitude || item.rm_latitude == 0) && (!item.rm_longitude || item.rm_longitude == 0)) {
+			let toast = this.toastCtrl.create({
+				message: "La ubicación del cliente no está disponible",
+				duration: 3000,
+				cssClass: 'toast-error',
+				position:'bottom',
+			});
+			toast.present();
+			// alert('Add atleast one product to the order');
+			return;
+		} 
+		
+		let lat = item.rm_latitude;
+		let lng = item.rm_longitude;
+		
+        let modal = this.modalCtrl.create(MapsPage, {'lat' : lat, 'lng' : lng, 'markerDrag' : false});
+		modal.onDidDismiss(data => {
+			if(data){
+              
+            }
+		});
+		modal.present();
 	}
 	
 	deleteCustomer(customer) {

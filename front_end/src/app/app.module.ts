@@ -74,6 +74,8 @@ import { ChartsService } from '../pages/charts/charts.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { JsonpModule } from '@angular/http';
+import { Camera } from '@ionic-native/camera';
+
 
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -275,6 +277,7 @@ export function createTranslateLoader(http: Http) {
     AppRate,
     ImagePicker,
     Crop,
+	Camera,
     EmailComposer,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
