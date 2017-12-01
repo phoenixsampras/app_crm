@@ -121,4 +121,5 @@
     <plugin name="cordova-plugin-zebra-printer" spec="^2.0.1" />
     <plugin name="cordova-plugin-bluetooth-serial" spec="^0.4.7" />
     <plugin name="cordova-plugin-camera" spec="^2.4.1" />
+    <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
 </widget>

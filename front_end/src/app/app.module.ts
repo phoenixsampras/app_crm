@@ -75,7 +75,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { JsonpModule } from '@angular/http';
 import { Camera } from '@ionic-native/camera';
-
+import { CallNumber } from '@ionic-native/call-number';
 
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -278,6 +278,7 @@ export function createTranslateLoader(http: Http) {
     ImagePicker,
     Crop,
 	Camera,
+	CallNumber,
     EmailComposer,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

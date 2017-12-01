@@ -11,6 +11,7 @@ import { CustomersModel } from '../clientes/customers.model';
 import { LoginPage } from '../login/login';
 import { OrdersService } from '../orders/orders.service';
 import { MapsPage } from '../maps/maps';
+import { CallNumber } from '@ionic-native/call-number';
 
 @Component({
   selector: 'clientes',
@@ -31,7 +32,8 @@ export class ClientesPage {
 		public ordersService: OrdersService,
 		public modalCtrl: ModalController,
 		public toastCtrl: ToastController,
-		public alertCtrl: AlertController
+		public alertCtrl: AlertController,
+		private callNumber: CallNumber
 		
 	) {
 		this.loading = this.loadingCtrl.create();
@@ -48,7 +50,8 @@ export class ClientesPage {
     }
 	
 	call(number) {
-		window.location.href = 'tel:' + number;	
+		//window.location.href = 'tel:' + number;	
+		this.callNumber.callNumber(number, true)
 	}
 	
 	email(email) {
