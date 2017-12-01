@@ -27,16 +27,16 @@
     <div class="loader-section section-right"></div>
 
   </div>
-  <h1>Map</h1>
+  <h1>Mapa Organica S.R.L.</h1>
   <div class="form-group">
-    <label class="control-label">Time</label>
+    <label class="control-label">Recargar cada:</label>
     <select id="timeDropdown" class="form-control">
-		  <option value="60">1 Minute</option>
-		  <option value="120">2 Minutes</option>
-		  <option value="300">5 Minutes</option>
-		  <option value="6000">10 Minutes</option>
-		  <option value="9000">15 Minutes</option>
-		  <option value="1800">30 Minutes</option>
+		  <option value="60">1 Minuto</option>
+		  <option value="120">2 Minutos</option>
+		  <option value="300">5 Minutos</option>
+		  <option value="6000">10 Minutos</option>
+		  <option value="9000">15 Minutos</option>
+		  <option value="1800">30 Minutos</option>
 		</select>
   </div>
   <div style="position: relative;">
@@ -138,6 +138,8 @@
   		});
   		line.setMap(map);
   		var marker = new google.maps.LatLng(points[0].lat,points[0].lng);
+      map.setCenter(marker);
+      map.setZoom(17);
   		addMarker (marker, color);
 
 
