@@ -36,7 +36,7 @@ export class MapsPage implements OnInit {
 		this.lat = this.navParams.get('lat');
 		this.lng = this.navParams.get('lng');
 		this.markerDrag = this.navParams.get('markerDrag');
-		if(!this.lat && !this.lng) {
+		if((!this.lat || this.lat == 0) && (!this.lng  || this.lng == 0)) {
 			this.lat = this.ordersService.lat;
 			this.lng = this.ordersService.lng;
 		}
