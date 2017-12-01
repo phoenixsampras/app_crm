@@ -4,10 +4,11 @@ add-order-page {
 	}
 
 	ion-col {
-		border:1px solid #ccc;
-		padding:5px;
+    // border: unset;
+		// border-bottom: 1px solid #ccc;
+		padding:3px;
 	}
-	
+
 	  .agregarPedido {
 		background-color: #f0f9d6 !important;
 	  }

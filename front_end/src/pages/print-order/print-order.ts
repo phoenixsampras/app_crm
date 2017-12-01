@@ -167,15 +167,20 @@ export class PrintOrderPage {
       console.log("zebra_receipt:" + zebra_receipt);
       //alert(this.ordersService.macAddress);
       // cordova.plugins.zbtprinter.print(this.ordersService.macAddress, "^XA^FO20,20^A0N,25,25^FD " + zebra_receipt + " ^FS^XZ",
-      cordova.plugins.zbtprinter.print(this.ordersService.macAddress, zebra_receipt,
-        function(success) {
-          alert("Zbtprinter print success: " + success);
-        }, function(fail) {
-          alert("Zbtprinter print fail:" + fail);
-          //deferred.reject(fail);
-        }
-      );
+      this.print2Zebra(zebra_receipt);
+      this.print2Zebra(zebra_receipt);
     }
+  }
+
+  print2Zebra(zebra_receipt) {
+    cordova.plugins.zbtprinter.print(this.ordersService.macAddress, zebra_receipt,
+      function(success) {
+        alert("Zbtprinter print success: " + success);
+      }, function(fail) {
+        alert("Zbtprinter print fail:" + fail);
+        //deferred.reject(fail);
+      }
+    );
   }
 
   findPrinter() {
