@@ -69,7 +69,7 @@ function rmStockProductos ($db) {
         public.res_partner.name AS partner,
 
         pt.name AS product,
-        --pt.list_price as price,
+        pt.list_price as price,
         pt.default_code AS code,
         sum(sml.product_uom_qty),
         sum(sml.ordered_qty),
@@ -86,8 +86,8 @@ function rmStockProductos ($db) {
         sp.state = 'done'
 
 				GROUP BY
-				1,2,3,4,5,6,7
-								
+				1,2,3,4,5,6,7,8
+
 
 
 --        SELECT
