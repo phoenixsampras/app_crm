@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 // import { zbtprinter } from 'ionic-native';
 import { ViewController, NavController, NavParams, ToastController } from 'ionic-angular';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { OrdersService } from '../orders/orders.service';
 import moment from 'moment';
 
@@ -20,15 +21,24 @@ export class PrintOrderPage {
   orderObj: any;
   address = '';
   totalProducts = 0;
+  devicesList:any = [];
   // address = '';
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public toastCtrl: ToastController,
     public ordersService: OrdersService,
+    private bluetoothSerial: BluetoothSerial
 
   ) {
     this.orderObj = this.navParams.get('order');
+  }
+
+  ionViewDidEnter() {
+    this.bluetoothSerial.list()
+      .then(data => {
+        this.devicesList = data;
+      });
   }
 
   getTotal() {
@@ -75,7 +85,7 @@ export class PrintOrderPage {
               ^MNN
               ^LL1100
               ^ASN,50
-              ^FO0,30^FB580,3,0,C,0^FDORGANICA S.R.L.^FS
+              ^FO0,30^FB580,3,0,C,0^FD--^FS
               ^FO0,70^FB580,3,0,C,0^FDPedidos: 4587965^FS
               ^FO0,110^FB580,3,0,C,0^FDCochabamba - Bolivia^FS
               ^CFQ
@@ -120,6 +130,7 @@ export class PrintOrderPage {
         zebra_receipt_body_total_height += 30;
         if (productCountLetters > 22) {
           zebra_receipt_body_total_height += 30;
+          zebra_receipt_body_height += 30;
         }
       }
 
@@ -167,7 +178,7 @@ export class PrintOrderPage {
       console.log("zebra_receipt:" + zebra_receipt);
       //alert(this.ordersService.macAddress);
       // cordova.plugins.zbtprinter.print(this.ordersService.macAddress, "^XA^FO20,20^A0N,25,25^FD " + zebra_receipt + " ^FS^XZ",
-      this.print2Zebra(zebra_receipt);
+      // this.print2Zebra(zebra_receipt);
       this.print2Zebra(zebra_receipt);
     }
   }
@@ -175,9 +186,9 @@ export class PrintOrderPage {
   print2Zebra(zebra_receipt) {
     cordova.plugins.zbtprinter.print(this.ordersService.macAddress, zebra_receipt,
       function(success) {
-        alert("Zbtprinter print success: " + success);
+        alert("Impresion Satisfactoria: " + success);
       }, function(fail) {
-        alert("Zbtprinter print fail:" + fail);
+        alert("Impresion fallida:" + fail);
         //deferred.reject(fail);
       }
     );

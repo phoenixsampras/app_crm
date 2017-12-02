@@ -34,7 +34,7 @@ export class SettingsPage {
 
   profile: ProfileModel = new ProfileModel();
   languages: Array<LanguageModel>;
-	devicesList:any = [];
+  devicesList: any = [];
   constructor(
     public nav: NavController,
     public modal: ModalController,
@@ -46,8 +46,8 @@ export class SettingsPage {
     public imagePicker: ImagePicker,
     public cropService: Crop,
     public platform: Platform,
-	public ordersService: OrdersService,
-	private bluetoothSerial: BluetoothSerial
+    public ordersService: OrdersService,
+    private bluetoothSerial: BluetoothSerial
   ) {
     this.loading = this.loadingCtrl.create();
 
@@ -63,13 +63,13 @@ export class SettingsPage {
       language: new FormControl()
     });
   }
-	
-	ionViewDidEnter() {
-		this.bluetoothSerial.list()
-		.then(data =>{
-			this.devicesList = data;
-		});
-	}
+
+  ionViewDidEnter() {
+    this.bluetoothSerial.list()
+      .then(data => {
+        this.devicesList = data;
+      });
+  }
   ionViewDidLoad() {
     this.loading.present();
     this.profileService.getData().then(data => {
@@ -111,10 +111,10 @@ export class SettingsPage {
     modal.present();
   }
 
-  setLanguage(lang: LanguageModel){
+  setLanguage(lang: LanguageModel) {
     let language_to_set = this.translate.getDefaultLang();
 
-    if(lang){
+    if (lang) {
       language_to_set = lang.code;
     }
 
@@ -122,7 +122,7 @@ export class SettingsPage {
     this.translate.use(language_to_set);
   }
 
-  rateApp(){
+  rateApp() {
     this.appRate.preferences.storeAppURL = {
       ios: '<my_app_id>',
       android: 'market://details?id=<package_name>',
@@ -132,29 +132,29 @@ export class SettingsPage {
     this.appRate.promptForRating(true);
   }
 
-  openImagePicker(){
-   this.imagePicker.hasReadPermission().then(
-     (result) => {
-       if(result == false){
-         // no callbacks required as this opens a popup which returns async
-         this.imagePicker.requestReadPermission();
-       }
-       else if(result == true){
-         this.imagePicker.getPictures({ maximumImagesCount: 1 }).then(
-           (results) => {
-             for (var i = 0; i < results.length; i++) {
-               this.cropService.crop(results[i], {quality: 75}).then(
-                 newImage => {
-                   this.profileService.setUserImage(newImage);
-                   this.profile.user.image = newImage;
-                 },
-                 error => console.error("Error cropping image", error)
-               );
-             }
-           }, (err) => console.log(err)
-         );
-       }
-     }
-   )
+  openImagePicker() {
+    this.imagePicker.hasReadPermission().then(
+      (result) => {
+        if (result == false) {
+          // no callbacks required as this opens a popup which returns async
+          this.imagePicker.requestReadPermission();
+        }
+        else if (result == true) {
+          this.imagePicker.getPictures({ maximumImagesCount: 1 }).then(
+            (results) => {
+              for (var i = 0; i < results.length; i++) {
+                this.cropService.crop(results[i], { quality: 75 }).then(
+                  newImage => {
+                    this.profileService.setUserImage(newImage);
+                    this.profile.user.image = newImage;
+                  },
+                  error => console.error("Error cropping image", error)
+                );
+              }
+            }, (err) => console.log(err)
+          );
+        }
+      }
+    )
   }
 }

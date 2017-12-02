@@ -27,9 +27,10 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make WalkthroughPage the root (or first) page
-  rootPage: any = WalkthroughPage;
-  // rootPage: any = OrdersPage;
+  // rootPage: any = WalkthroughPage;
+  rootPage: any = OrdersPage;
   // rootPage: any = LoginPage;
+  // rootPage: any = ProductsPage;
   // rootPage: any = ProductsPage;
 
   textDir: string = "ltr";

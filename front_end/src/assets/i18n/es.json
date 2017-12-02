@@ -195,5 +195,13 @@
   "EDIT_CUSTOMER": "Editar Cliente",
   "PLAN_CHART": "Indicadores",
   "ADD_EVENT": "Agregar Evento",
-  "START_DATE": "Fecha y Hora"
+  "START_DATE": "Fecha y Hora",
+  "RAZON_SOCIAL": "Razon Social",
+  "NIT": "NIT",
+  "LATITUDE": "Latitud",
+  "LONGITUDE": "Longitud",
+  "GET_LOCATION": "Ubicacion",
+  "TAKE_PICTURE": "Fotografia",
+  "PRINT_PREVIEW": "Vista Previa"
+
 }
