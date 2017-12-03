@@ -42,22 +42,22 @@ function rmListaClientes ($db) {
     try {
         $user_id = $_REQUEST['res_user_id'];
         $sql = "
-        Select id,
-                  name as rm_nombre,
-                  street as rm_direccion,
-                  phone as rm_telefono,
-                  mobile as rm_celular,
-                  0 as rm_longitude,
-                  0 as rm_latitude,
-                  '' as photo_m,
-                  '' as photo_s,
-        					('{CM,CG,CH}'::text[])[ceil(random()*3)] as tipo,
-        					user_id as res_user_id
-                  from res_partner,
+          Select id,
+            name as rm_nombre,
+            street as rm_direccion,
+            phone as rm_telefono,
+            mobile as rm_celular,
+            0 as rm_longitude,
+            0 as rm_latitude,
+            '' as photo_m,
+            '' as photo_s,
+            ('{CM,CG,CH}'::text[])[ceil(random()*3)] as tipo,
+            user_id as res_user_id
+          from res_partner
+          where user_id = " .$user_id . "
 
+          order by name
 
-        			order by name
-              where user_id = " .$user_id . "
 
         ";
 
