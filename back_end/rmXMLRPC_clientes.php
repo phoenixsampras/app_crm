@@ -42,16 +42,19 @@ function rmListaClientes ($db) {
     try {
         $pedido = $_REQUEST['id'];
         $sql = "
-          Select id,
-          name as rm_nombre,
-          street as rm_direccion,
-          phone as rm_telefono,
-          mobile as rm_celular,
-          0 as rm_longitude,
-          0 as rm_latitude,
-          '' as photo_m,
-          '' as photo_s
-          from res_partner order by name
+        Select id,
+        name as rm_nombre,
+        street as rm_direccion,
+        phone as rm_telefono,
+        mobile as rm_celular,
+        0 as rm_longitude,
+        0 as rm_latitude,
+        '' as photo_m,
+        '' as photo_s,
+        ('{CM,CG,CH}'::text[])[ceil(random()*3)] as tipo
+        from res_partner
+
+        order by name
         ";
 
         $query = pg_query($db, $sql);
