@@ -40,7 +40,7 @@ function login($conex){
 
 function rmListaClientes ($db) {
     try {
-        $pedido = $_REQUEST['id'];
+        $user_id = $_REQUEST['res_user_id'];
         $sql = "
         Select id,
                   name as rm_nombre,
@@ -57,6 +57,7 @@ function rmListaClientes ($db) {
 
 
         			order by name
+              where user_id = " .$user_id . "
 
         ";
 
