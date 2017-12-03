@@ -77,6 +77,8 @@ export class PrintOrderPage {
       let zebra_receipt_total_height = 450;
       let zebra_receipt_footer_height = 600;
 
+      let margin_top = '10';
+
       console.log("orderObj:" + JSON.stringify(this.orderObj));
       // $window.orderObj = this.orderObj;
 
@@ -85,7 +87,7 @@ export class PrintOrderPage {
               ^MNN
               ^LL1100
               ^ASN,50
-              ^FO0,30^FB580,3,0,C,0^FD--^FS
+              ^FO0,30^FB580,3,0,C,0^FD^FS
               ^FO0,70^FB580,3,0,C,0^FDPedidos: 4587965^FS
               ^FO0,110^FB580,3,0,C,0^FDCochabamba - Bolivia^FS
               ^CFQ

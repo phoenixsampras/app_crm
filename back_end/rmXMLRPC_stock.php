@@ -69,7 +69,9 @@ function rmStockProductos ($db) {
         public.res_partner.name AS partner,
 
         pt.name AS product,
-        pt.list_price as price,
+        pt.list_price as CG,
+        pt.list_price / 2 as CH,
+        pt.list_price / 3 as CM,
         pt.default_code AS code,
         sum(sml.product_uom_qty),
         sum(sml.ordered_qty),
