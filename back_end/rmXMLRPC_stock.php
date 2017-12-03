@@ -60,7 +60,7 @@ function rmStockProductos ($db) {
         $sql = "
 
         SELECT
-				--distinct on (id, product)
+				distinct on (id, product)
         p.id AS id,
         --sp.name as doc,
         sml.product_id,
@@ -69,12 +69,12 @@ function rmStockProductos ($db) {
         public.res_partner.name AS partner,
 
         pt.name AS product,
-        pt.list_price as CG,
-        pt.list_price / 2 as CH,
-        pt.list_price / 3 as CM,
-        pt.default_code AS code,
-        sum(sml.product_uom_qty),
-        sum(sml.ordered_qty),
+				pt.default_code AS code,
+        sum(pt.list_price) as CG,
+        sum(pt.list_price / 2) as CH,
+        sum(pt.list_price / 3) as CM,
+
+
         sum(sml.qty_done) as stock
 
         FROM
@@ -88,7 +88,7 @@ function rmStockProductos ($db) {
         sp.state = 'done'
 
 				GROUP BY
-				1,2,3,4,5,6,7,8
+				1,2,3,4,5,6,7
 
 
 
