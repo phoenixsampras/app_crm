@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: text/javascript");
-error_reporting(0);
+error_reporting(1);
 require_once('rmOdooConfig.php');
 require_once('rmDbConfig.php');
 require_once('xmlrpc_lib/ripcord.php');
