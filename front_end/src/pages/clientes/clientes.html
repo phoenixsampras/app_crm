@@ -29,6 +29,9 @@
               <span *ngIf="item.rm_celular">
                 <b>Cel:</b> {{item.rm_celular}}
               </span>
+			  <span *ngIf="item.tipo">
+                <b>Tipo:</b> {{item.tipo}}
+              </span>
             </h2>
             <button ion-button  (click)="showMap(item)" color="secondary" item-end icon-end>
               {{ 'MAP' | translate}}

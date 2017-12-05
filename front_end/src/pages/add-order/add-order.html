@@ -83,7 +83,7 @@
 						{{product.quantity | number: '1.2-2'}}
 					</ion-col>
 					<ion-col col-3 class="rmNumero">
-						{{product.quantity * product.product.price | number: '1.2-2'}}
+						{{getProductTotal(product) | number: '1.2-2'}}
 					</ion-col>
 					<ion-col col-1>
 						<ion-icon color='danger' (click)="removeProduct(product.product.id)" name="close-circle"></ion-icon>
@@ -102,7 +102,7 @@
 				</ion-row>
 			</ion-grid>
 
-			<button ion-button full type="button"  block (click)="addProducts()">{{'ADD_PRODUCTS' | translate}}</button>
+			<button *ngIf="customerObj" ion-button full type="button"  block (click)="addProducts()">{{'ADD_PRODUCTS' | translate}}</button>
 
 			<br/><br/>
 			<button ion-button full type="submit" block [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>

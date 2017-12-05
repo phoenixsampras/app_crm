@@ -4,7 +4,7 @@ import { DatabaseService } from '../sync/database.service';
 import 'rxjs/add/operator/toPromise';
 import {Platform  } from 'ionic-angular';
 import { CustomersModel } from './customers.model';
-
+import { OrdersService } from '../orders/orders.service';
 @Injectable()
 export class CustomersService {
 	
@@ -13,6 +13,7 @@ export class CustomersService {
 		public http: Http,
 		public jsonp: Jsonp,
 		private databaseService: DatabaseService,
+		private ordersService: OrdersService,
 		private platform: Platform,
 
 
@@ -33,7 +34,7 @@ export class CustomersService {
 	}
 
 	getDataFromServer(): Promise<CustomersModel> {
-		return this.jsonp.request('http://odoo2.romilax.com/organica/back_end/rmXMLRPC_clientes.php?task=rmListaClientes&callback=JSONP_CALLBACK',{method:'Get'})
+		return this.jsonp.request('http://odoo2.romilax.com/organica/back_end/rmXMLRPC_clientes.php?task=rmListaClientes&res_user_id=' + this.ordersService.loginId + '&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
 		.then(response => response.json() as CustomersModel)
 		.catch(this.handleError);

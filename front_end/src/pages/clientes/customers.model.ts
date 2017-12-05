@@ -15,4 +15,5 @@ export class CustomersModel {
 	rm_nit:string;
 	rm_email:string;
 	res_user_id:any;
+	tipo:string;
 }

@@ -82,10 +82,21 @@ export class AddOrderPage {
 		modal.present();
 	}
 
+	getProductTotal(product) {
+		let price = product.product.cg;
+		if(this.customerObj.tipo == 'CH') {
+			price = product.product.ch;
+		} else if(this.customerObj.tipo == 'CM') {
+			price = product.product.cm;
+		}
+		
+		return product.quantity * price;
+	}
+	
 	getTotal() {
 		let total = 0.0;
-		for(var i=0; i<this.selectedProducts.length;i++) {
-			total += this.selectedProducts[i].product.price * this.selectedProducts[i].quantity;
+		for(var i=0; i < this.selectedProducts.length;i++) {
+			total += this.getProductTotal(this.selectedProducts[i]) ;//this.selectedProducts[i].product.price * this.selectedProducts[i].quantity;
 		}
 		return total;
 	}
@@ -95,6 +106,7 @@ export class AddOrderPage {
 		this.searchTerm = '';
 		this.validations_form.get('customer').setValue(this.customerObj.rm_nombre);
 		this.customers = [];
+		this.selectedProducts = [];
 	}
 
 	updateSearch() {
