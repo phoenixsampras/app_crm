@@ -77,7 +77,7 @@
 						{{product.product.product}}
 					</ion-col>
 					<ion-col col-2 class="rmNumero">
-						{{product.product.price | number: '1.2-2'}}
+						{{getProductPrice(product) | number: '1.2-2'}}
 					</ion-col>
 					<ion-col col-2 class="rmNumero">
 						{{product.quantity | number: '1.2-2'}}

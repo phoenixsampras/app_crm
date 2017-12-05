@@ -93,6 +93,16 @@ export class AddOrderPage {
 		return product.quantity * price;
 	}
 	
+	getProductPrice(product) {
+		let price = product.product.cg;
+		if(this.customerObj.tipo == 'CH') {
+			price = product.product.ch;
+		} else if(this.customerObj.tipo == 'CM') {
+			price = product.product.cm;
+		}
+		return price;
+	}
+	
 	getTotal() {
 		let total = 0.0;
 		for(var i=0; i < this.selectedProducts.length;i++) {
