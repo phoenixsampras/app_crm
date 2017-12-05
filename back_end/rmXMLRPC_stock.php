@@ -56,59 +56,28 @@ function login($conex){
 
 function rmStockProductos ($db) {
     try {
-        $pedido = $_REQUEST['id'];
+        $user_id = ($_REQUEST['user_id']) ? 0 : $_REQUEST['user_id'];
         $sql = "
-
-        --SELECT
-				--distinct on (id, product)
-        --p.id AS id,
-        ----sp.name as doc,
-        --sml.product_id,
-        --sml.product_qty,
-        --public.res_partner.id AS partner_id,
-        --public.res_partner.name AS partner,
-
-        --pt.name AS product,
-				--pt.default_code AS code,
-        --sum(pt.list_price) as CG,
-        --sum(pt.list_price / 2) as CH,
-        --sum(pt.list_price / 3) as CM,
-
-
-        --sum(sml.qty_done) as stock
-
-        --FROM
-        --public.stock_picking AS sp
-        --INNER JOIN public.stock_move_line AS sml ON sml.picking_id = sp.id
-        --LEFT JOIN public.res_partner ON sp.partner_id = public.res_partner.id
-        --INNER JOIN public.product_product AS p ON sml.product_id = p.id
-        --INNER JOIN public.product_template AS pt ON p.product_tmpl_id = pt.id
-
-        --WHERE
-        --sp.state = 'done'
-
-				--GROUP BY
-				--1,2,3,4,5,6,7
-
-
 
         SELECT
         pp.id,
-        public.product_template.name as product,
         pp.default_code as code,
-        floor(random() * (100 + 1)) as CG,
-        floor(random() * (100 + 1))*2 as CH,
-        floor(random() * (100 + 1)*1.5) as CM,
-        floor(random() * (100 + 1)*20) as stock
+        pp.name_template as product,
+        slu.user_id,
+        sm.product_en_transito as transito,
+        sum(sm.product_qty) as stock,
+        sum(psp.ch) as ch,
+        sum(psp.cm) as cm,
+        sum(psp.cg) as cg
         FROM
-        public.product_product AS pp
-        INNER JOIN public.sale_order_line AS sol ON sol.product_id = pp.id
-        INNER JOIN public.sale_order AS so ON sol.order_id = so.id
-        INNER JOIN public.product_template ON pp.product_tmpl_id = public.product_template.id
-        group by 1,2
-        order by product
+        stock_move AS sm
+        LEFT JOIN product_product AS pp ON sm.product_id = pp.id
+        LEFT JOIN stock_location_users AS slu ON slu.location_id = sm.location_dest_id
+        LEFT JOIN rm_product_stock_pricelist as psp ON psp.id = slu.user_id
 
-
+        WHERE slu.user_id = '.$user_id.' AND sm.product_en_transito is True
+        GROUP BY 1,2,3,4,5
+        ORDER BY product_en_transito
 
         ";
 
