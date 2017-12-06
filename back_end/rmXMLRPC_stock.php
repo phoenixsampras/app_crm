@@ -56,8 +56,8 @@ function login($conex){
 
 function rmStockProductos ($db) {
     try {
-        $user_id = ($_REQUEST['user_id']) ? 0 : $_REQUEST['user_id'];
-        $sql = "
+        echo $user_id = (!$_REQUEST['user_id']) ? 0 : $_REQUEST['user_id'];
+        echo $sql = "
 
         SELECT
         pp.id,
