@@ -13,7 +13,7 @@ switch ($_REQUEST["task"]) {
     break;
 
     case 'rmListaClientes':
-      rmListaClientes($db);
+      rmListaClientes($data);
     break;
 
     case 'rmRegistrarCliente':
@@ -38,11 +38,11 @@ function login($conex){
     return $common->authenticate($db, $username, $password, array());
 }
 
-function rmListaClientes ($db) {
+function rmListaClientesNoSirve ($db) {
     try {
         $user_id = $_REQUEST['res_user_id'];
         $sql = "
-          Select id,
+          SELECT id,
             name as rm_nombre,
             street as rm_direccion,
             phone as rm_telefono,
@@ -56,10 +56,9 @@ function rmListaClientes ($db) {
             rm_sync,
             rm_sync_date_time,
             rm_sync_operacion
-          from res_partner
-          where user_id = " .$user_id . "
-
-          order by name
+          FROM res_partner
+          WHERE user_id = " .$user_id . "
+          ORDER by name
 
 
         ";
@@ -81,6 +80,42 @@ function rmListaClientes ($db) {
     }
 }
 
+function rmListaClientes($conex, $user_id) {
+  try {
+    $url = $conex['url'];
+    $db = $conex['db'];
+    $username = $conex['username'];
+    $password = $conex['password'];
+
+    // $user_id = $_REQUEST['res_user_id'];
+
+    // $id=intval($_REQUEST['id']);
+    $user_id = intval($_REQUEST['res_user_id']);
+    // $rmDateOrder=$_REQUEST['rmDateOrder'];
+    // $rmNote=$_REQUEST['rmNote'];
+
+    $datosVenta =
+    array(
+      array(
+        'user_id' => $user_id,
+        // 'date_order' => $rmDateOrder,
+        // 'note' => $rmNote,
+      )
+    );
+
+    $rmListaClientes = $models->execute_kw($db, $uid, $password,
+        'res.partner', 'search_read', $datosVenta,
+        array('fields'=>array('name', 'street', 'phone', 'mobile', 'rm_longitude', 'rm_latitude', 'image', 'property_product_pricelist','user_id','rm_sync','rm_sync_date_time','rm_sync_operacion'), 'limit'=>10000));
+
+    echo $_GET['callback'].'({"rmListaClientes": ' . json_encode($rmListaClientes) . '})';
+    //echo $_GET['callback'].'({"login": '.$uid.',"vendedor":"false","ciudad":"' . $rmDatosCliente[0]['ew_zonas_cliente_id'][1] . '", "partner_id": '. $rmDatosCliente[0]['id'] .'})';
+
+  } catch(PDOException $e) {
+      echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
+      exit;
+  }
+}
+
 function rmRegistrarCliente($conex, $user_id) {
 
     $url = $conex['url'];
@@ -88,6 +123,7 @@ function rmRegistrarCliente($conex, $user_id) {
     $username = $conex['username'];
     $password = $conex['password'];
 
+    $id=intval($_REQUEST['id']);
     $rmCustomer=intval($_REQUEST['rmCustomer']);
     $rmDateOrder=$_REQUEST['rmDateOrder'];
     $rmNote=$_REQUEST['rmNote'];
