@@ -36,10 +36,12 @@ export class AddOrderPage {
 		public ordersService: OrdersService,
 		public modalCtrl: ModalController,
 		public productsService: ProductsService,
+		public zone: NgZone
 
 	) {
 		this.loading = this.loadingCtrl.create();
 		this.orderObj = this.navParams.get('order');
+		this.customerObj = this.navParams.get('customerObj');
 	}
 
 	removeProduct(id) {
@@ -58,6 +60,9 @@ export class AddOrderPage {
 			this.validations_form.get('notes').setValue(this.orderObj.notes);
 			this.selectedProducts = this.orderObj.selectedProducts;
 			this.customerObj = this.orderObj.customerObj;
+		}
+		if(this.customerObj) {
+			this.validations_form.get('customer').setValue(this.customerObj.rm_nombre);	
 		}
 	}
 

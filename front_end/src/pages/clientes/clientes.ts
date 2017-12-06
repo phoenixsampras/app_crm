@@ -12,6 +12,7 @@ import { LoginPage } from '../login/login';
 import { OrdersService } from '../orders/orders.service';
 import { MapsPage } from '../maps/maps';
 import { CallNumber } from '@ionic-native/call-number';
+import { AddOrderPage } from '../add-order/add-order';
 
 @Component({
   selector: 'clientes',
@@ -83,6 +84,10 @@ export class ClientesPage {
 	
 	editCustomer(item) {
 		this.nav.push(AddCustomerPage, {'customer' : item});
+	}
+	
+	addOrder(item) {
+		this.nav.push(AddOrderPage, {'customerObj' : item});
 	}
 	
 	showMap(item) {
