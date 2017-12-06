@@ -52,7 +52,10 @@ function rmListaClientes ($db) {
             '' as photo_m,
             '' as photo_s,
             ('{CM,CG,CH}'::text[])[ceil(random()*3)] as tipo,
-            user_id as res_user_id
+            user_id as res_user_id,
+            rm_sync,
+            rm_sync_date_time,
+            rm_sync_operacion
           from res_partner
           where user_id = " .$user_id . "
 
