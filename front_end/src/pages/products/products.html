@@ -17,16 +17,24 @@
 			<ion-item-sliding class="list-item" *ngFor="let item of products">
 				<ion-item class="item-content">
 					<ion-row>
-						<ion-col col-7>
+						<ion-col col-12>
 							<h2 class="item-title"><b>{{item.product}}</b></h2>
 						</ion-col>
-						<ion-col col-5 style="text-align:right;">
-							<h2 ion-text color="primary">Precio cg: {{item.cg | number: '1.2-2'}}</h2>
-							<h2 ion-text color="primary">Precio ch: {{item.ch | number: '1.2-2'}}</h2>
-							<h2 ion-text color="primary">Precio cm: {{item.cm | number: '1.2-2'}}</h2>
-							<h2 ion-text color="dark">Stock: {{item.stock | number: 0}}</h2>
-						</ion-col>
-					</ion-row>
+          </ion-row>
+          <ion-row>
+    				<ion-col col-3>
+              <h2 ion-text color="primary">CH: {{item.ch | number: '1.2-2'}}</h2>
+    				</ion-col>
+    				<ion-col col-3>
+              <h2 ion-text color="primary">CM: {{item.cm | number: '1.2-2'}}</h2>
+    				</ion-col>
+    				<ion-col col-3>
+              <h2 ion-text color="primary">CG: {{item.cg | number: '1.2-2'}}</h2>
+    				</ion-col>
+    				<ion-col col-3>
+    					<h2 ion-text color="dark" class="bold">Stock: {{item.stock | number: 0}}</h2>
+    				</ion-col>
+        	</ion-row>
 				</ion-item>
 			</ion-item-sliding>
 		</ion-list>

@@ -82,11 +82,11 @@ export class DatabaseService {
 		this._db.get(id).then(function(doc) {
 			return doc;
 		}).catch(function(err) {
-			console.log(err);
+      // console.log(err);
 			db.put(product).then(function(doc) {
 				return doc;
 			}).catch(function(err) {
-			  console.log(err);
+			  // console.log(err);
 			});
 		});
 
@@ -158,7 +158,7 @@ export class DatabaseService {
 			});
 		}
 	}
-	
+
 	updateEvent(event) {
 
 		event.type = "cevent";

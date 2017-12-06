@@ -57,6 +57,6 @@ LEFT JOIN product_product AS pp ON sm.product_id = pp.id
 LEFT JOIN stock_location_users AS slu ON slu.location_id = sm.location_dest_id
 LEFT JOIN rm_product_stock_pricelist as psp ON psp.id = slu.user_id
 
---WHERE slu.user_id = 7 AND sm.product_en_transito is True
+WHERE slu.user_id = '.$user_id.' AND sm.product_en_transito is True
 GROUP BY 1,2,3,4,5
 ORDER BY product_en_transito

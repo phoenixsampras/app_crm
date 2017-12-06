@@ -8,6 +8,7 @@ import { SyncService } from './sync.service';
 import { ProductsService } from '../products/products.service';
 import { CustomersService } from '../clientes/customers.service';
 import { CalendarService } from '../calendar/calendar.service';
+import { LoginPage } from '../login/login';
 import moment from 'moment';
 
 @Component({
@@ -51,6 +52,7 @@ export class SyncPage {
 		loading.dismiss();
 	}
 
+  // Load products with stock from server
 	loadProducts() {
 		let loadingCtrl = this.loadingCtrl;
 		let loading = loadingCtrl.create();
@@ -70,27 +72,28 @@ export class SyncPage {
 		}
 	}
 
-	stockProducts() {
-		if (window.navigator.onLine) {
-			this.productsService
-			.getStockDataFromServer()
-			.then(data => {
-
-				let items = data.rmStockProductos;
-				for (var i = 0; i < items.length; i++) {
-					console.log(items[i]);
-					this.productsService.stockProduct(items[i].id, items[i].quantity);
-				}
-			});
-		}
-	}
+  // Deprecated
+	// stockProducts() {
+	// 	if (window.navigator.onLine) {
+	// 		this.productsService
+	// 		.getStockDataFromServer()
+	// 		.then(data => {
+  //
+	// 			let items = data.rmStockProductos;
+	// 			for (var i = 0; i < items.length; i++) {
+	// 				console.log(items[i]);
+	// 				this.productsService.stockProduct(items[i].id, items[i].quantity);
+	// 			}
+	// 		});
+	// 	}
+	// }
 
 	loadCustomers() {
 		if (window.navigator.onLine) {
 			let loadingCtrl = this.loadingCtrl;
 			let loading = loadingCtrl.create();
 			loading.present();
-		
+
 			this.customersService
 			.getDataFromServer()
 			.then(data => {
@@ -105,7 +108,7 @@ export class SyncPage {
 			});
 		}
 	}
-	
+
 	loadCalendarEvents() {
 		if (window.navigator.onLine) {
 			let loadingCtrl = this.loadingCtrl;
@@ -219,7 +222,7 @@ export class SyncPage {
 					url += "&rm_latitude=" + customer.rm_latitude;
 					url += "&photo_m=" + customer.photo_m;
 					url += "&callback=JSONP_CALLBACK";
-					
+
 					url = encodeURI(url);
 					this.customersService.saveCustomerOnServer(url).then(data => {
 						console.log('Event with id-' + customer._id + ' Uploaded');
@@ -227,10 +230,16 @@ export class SyncPage {
 					});
 				}
 			});
-			loading.dismiss();	
+			loading.dismiss();
 		} else {
 			this.sinInternet();
 			// alert('Device Not Online');
+		}
+	}
+
+  ionViewWillLoad() {
+		if(!this.ordersService.loginId) {
+			this.nav.setRoot(LoginPage);
 		}
 	}
 
