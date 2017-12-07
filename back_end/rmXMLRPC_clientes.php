@@ -117,7 +117,7 @@ function rmListaClientes($conex, $user_id) {
         'property_product_pricelist',
         'user_id',
         'razon_social',
-        'nit'
+        'nit',
         'rm_sync',
         'rm_sync_date_time',
         'rm_sync_operacion'), 'limit'=>10000));
