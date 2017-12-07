@@ -108,6 +108,7 @@ function rmListaClientes($conex, $user_id) {
     $rmListaClientes = $models->execute_kw($db, $uid, $password,
         'res.partner', 'search_read', array($datosCliente),
         array('fields'=>array(
+        'id',
         'name',
         'street',
         'phone',
