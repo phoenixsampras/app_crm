@@ -138,12 +138,13 @@ export class AddCustomerPage {
       rm_nombre: new FormControl('', Validators.required),
       rm_direccion: new FormControl('', Validators.required),
       rm_telefono: new FormControl('', Validators.required),
-      rm_celular: new FormControl('', [Validators.required]),
-      // rm_email: new FormControl('', [Validators.required, Validators.pattern(this.customersService.EMAIL_REGEX)]),
-      // rm_nit: new FormControl('', []),
-      // rm_razon_social: new FormControl('', []),
-      // rm_longitude: new FormControl('', [Validators.required]),
-      // rm_latitude: new FormControl('', [Validators.required]),
+      rm_celular: new FormControl('', []),
+      rm_email: new FormControl('', [Validators.pattern(this.customersService.EMAIL_REGEX)]),
+       rm_nit: new FormControl('', []),
+      rm_razon_social: new FormControl('', []),
+       rm_longitude: new FormControl('', []),
+       rm_latitude: new FormControl('', []),
+	   tipo: new FormControl('', [Validators.required]),
     });
   }
 
@@ -160,32 +161,23 @@ export class AddCustomerPage {
 	'tipo': [
       { type: 'required', message: 'Se requiere un tipo.' }
     ],
-    // 'rm_celular': [
-    //   { type: 'required', message: 'Se requiere un celular.' }
-    // ],
-    // 'rm_email': [
-    //   { type: 'required', message: 'Se requiere un correo electronico.' },
-    //   { type: 'pattern', message: 'Debe ser un correo electrónico válido.' },
-    // ],
-    // 'rm_latitude': [
-    //   { type: 'required', message: 'Se requiere un latitud.' }
-    // ],
-    // 'rm_longitude': [
-    //   { type: 'required', message: 'Se requiere un longitud.' }
-    // ],
+     'rm_celular': [
+       { type: 'required', message: 'Se requiere un celular.' }
+     ],
+     'rm_email': [
+       { type: 'required', message: 'Se requiere un correo electronico.' },
+       { type: 'pattern', message: 'Debe ser un correo electrónico válido.' },
+     ],
+     'rm_latitude': [
+       { type: 'required', message: 'Se requiere un latitud.' }
+     ],
+     'rm_longitude': [
+       { type: 'required', message: 'Se requiere un longitud.' }
+     ],
   };
 
   onSubmit(values) {
-    if (!this.customerImage) {
-      let toast = this.toastCtrl.create({
-        message: "Seleccione la imagen para el cliente",
-        duration: 3000,
-        cssClass: 'toast-error',
-        position: 'bottom',
-      });
-      toast.present();
-      return;
-    } else {
+   
       values.photo_m = this.customerImage;
       values.res_user_id = this.ordersService.loginId;
       if (this.customer) {
@@ -205,6 +197,6 @@ export class AddCustomerPage {
       });
       toast.present();
       this.navCtrl.pop();
-    }
+    
   }
 }
