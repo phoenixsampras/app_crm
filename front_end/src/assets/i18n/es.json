@@ -201,6 +201,7 @@
   "LATITUDE": "Latitud",
   "LONGITUDE": "Longitud",
   "GET_LOCATION": "Ubicacion",
+  "SET_LOCATION": "Marcar",
   "TAKE_PICTURE": "Fotografia",
   "PRINT_PREVIEW": "Vista Previa"
 

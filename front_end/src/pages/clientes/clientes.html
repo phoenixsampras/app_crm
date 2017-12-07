@@ -11,37 +11,35 @@
   <div class="list-mini-clientes">
 	<ion-searchbar [(ngModel)]="searchTerm" [placeholder]="'SEARCH_CUSTOMERS' | translate" [formControl]="searchControl" [showCancelButton]="true" (ionInput)="filterItems($event)" ></ion-searchbar>
 	<div *ngIf="searching" class="spinner-container">
-        <ion-spinner></ion-spinner>
-    </div>
-    <ion-list>
-      <ion-item-sliding class="list-item" *ngFor="let item of listaClientes">
-          <ion-item class="item-content">
-            <ion-avatar item-start>
-				<img *ngIf="item.photo_s" src="data:image/png;base64,{{item.photo_s}}" />
-				<text-avatar *ngIf="!item.photo_s" [text]="item.name.charAt(0)" [color]="secondary" item-left></text-avatar>
-			</ion-avatar>
+    <ion-spinner></ion-spinner>
+  </div>
+  <ion-list>
+    <ion-item-sliding class="list-item" *ngFor="let item of listaClientes">
+    <ion-item class="item-content">
+      <ion-avatar item-start>
+  			<img *ngIf="item.photo_s" src="data:image/png;base64,{{item.photo_s}}" />
+  			<text-avatar *ngIf="!item.photo_s" [text]="item.name.charAt(0)" [color]="secondary" item-left></text-avatar>
+  		</ion-avatar>
 			<h3 class="item-title">{{item.name}}</h3>
-            <h2>{{item.rm_direccion}}</h2>
-            <h2>
-              <span *ngIf="item.rm_telefono">
-                <b>Telefono:</b> {{item.phone}}
-              </span>
-              <span *ngIf="item.rm_celular">
-                <b>Cel:</b> {{item.mobile}}
-              </span>
+      <h2>{{item.rm_direccion}}</h2>
+      <h2>
+        <span *ngIf="item.rm_telefono">
+          <b>Telefono:</b> {{item.phone}}
+        </span>
+        <span *ngIf="item.rm_celular">
+          <b>Cel:</b> {{item.mobile}}
+        </span>
 			  <span *ngIf="item.property_product_pricelist">
-                <b>Tipo:</b> {{item.property_product_pricelist}}
-              </span>
-            </h2>
+          <b>Tipo:</b> {{item.property_product_pricelist}}
+        </span>
+      </h2>
 			<button ion-button  (click)="showMap(item)" color="secondary" item-end icon-end>
-              {{ 'MAP' | translate}}
-              <ion-icon name="flag"></ion-icon>
-            </button>
-            <button ion-button  (click)="addOrder(item)" color="secondary" item-end icon-end>
-              {{ 'ADD_ORDER' | translate}}
-              <ion-icon name="clipboard"></ion-icon>
-            </button>
-          </ion-item>
+        <ion-icon name="flag"></ion-icon>
+      </button>
+      <button ion-button  (click)="addOrder(item)" color="secondary" item-end icon-end>
+        <ion-icon name="cart"></ion-icon>
+      </button>
+    </ion-item>
 
           <ion-item-options side="left">
             <button ion-button color="secondary" (click)="call(item.phone)">
