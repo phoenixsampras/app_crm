@@ -107,7 +107,20 @@ function rmListaClientes($conex, $user_id) {
     $models = ripcord::client("$url/xmlrpc/2/object");
     $rmListaClientes = $models->execute_kw($db, $uid, $password,
         'res.partner', 'search_read', array($datosCliente),
-        array('fields'=>array('name', 'street', 'phone', 'mobile', 'rm_longitude', 'rm_latitude',  'property_product_pricelist','user_id','rm_sync','rm_sync_date_time','rm_sync_operacion'), 'limit'=>10000));
+        array('fields'=>array(
+        'name',
+        'street',
+        'phone',
+        'mobile',
+        'rm_longitude',
+        'rm_latitude',
+        'property_product_pricelist',
+        'user_id',
+        'razon_social',
+        'nit'
+        'rm_sync',
+        'rm_sync_date_time',
+        'rm_sync_operacion'), 'limit'=>10000));
 
     echo $_GET['callback'].'({"rmListaClientes": ' . json_encode($rmListaClientes) . '})';
     //echo $_GET['callback'].'({"login": '.$uid.',"vendedor":"false","ciudad":"' . $rmDatosCliente[0]['ew_zonas_cliente_id'][1] . '", "partner_id": '. $rmDatosCliente[0]['id'] .'})';
