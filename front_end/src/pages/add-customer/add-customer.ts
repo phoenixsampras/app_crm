@@ -127,6 +127,7 @@ export class AddCustomerPage {
       this.validations_form.get('rm_razon_social').setValue(this.customer.rm_razon_social);
       this.validations_form.get('rm_longitude').setValue(this.customer.rm_longitude);
       this.validations_form.get('rm_latitude').setValue(this.customer.rm_latitude);
+      this.validations_form.get('tipo').setValue(this.customer.tipo);
       this.customerImage = this.customer.photo_m;
     }
   }
@@ -155,6 +156,9 @@ export class AddCustomerPage {
     ],
     'rm_telefono': [
       { type: 'required', message: 'Se requiere un teléfono.' }
+    ],
+	'tipo': [
+      { type: 'required', message: 'Se requiere un tipo.' }
     ],
     // 'rm_celular': [
     //   { type: 'required', message: 'Se requiere un celular.' }

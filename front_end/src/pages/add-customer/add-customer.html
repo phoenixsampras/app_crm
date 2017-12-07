@@ -26,6 +26,21 @@
 				</ng-container>
 			</div>
 
+			<ion-item>
+				<ion-label floating>{{'TIPO' | translate}}</ion-label>
+				<ion-select formControlName="tipo">
+					<ion-option value="CG">CG</ion-option>
+					<ion-option value="CH">CH</ion-option>
+					<ion-option value="CM">CM</ion-option>
+				</ion-select>	
+			</ion-item>
+			<div class="validation-errors">
+				<ng-container *ngFor="let validation of validation_messages.name">
+					<div class="error-message" *ngIf="validations_form.get('tipo').hasError(validation.type) && (validations_form.get('tipo').dirty || validations_form.get('tipo').touched)">
+						{{ validation.message }}
+					</div>
+				</ng-container>
+			</div>
 
 			<ion-item>
 				<ion-label floating>{{'ADDRESS' | translate}}</ion-label>
