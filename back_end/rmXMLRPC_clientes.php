@@ -103,6 +103,8 @@ function rmListaClientes($conex, $user_id) {
       )
     );
 
+    $uid = login($conex);
+    $models = ripcord::client("$url/xmlrpc/2/object");
     $rmListaClientes = $models->execute_kw($db, $uid, $password,
         'res.partner', 'search_read', $datosVenta,
         array('fields'=>array('name', 'street', 'phone', 'mobile', 'rm_longitude', 'rm_latitude', 'image', 'property_product_pricelist','user_id','rm_sync','rm_sync_date_time','rm_sync_operacion'), 'limit'=>10000));
