@@ -33,7 +33,7 @@ export class ProductsService {
 
 	// Deprecated
 	// getStockDataFromServer(): Promise<any> {
-	// 	return this.jsonp.request('http://odoo2.romilax.com/organica/back_end/rmXMLRPC_stock.php?task=rmStockProductos&callback=JSONP_CALLBACK',{method:'Get'})
+	// 	return this.jsonp.request('http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_stock.php?task=rmStockProductos&callback=JSONP_CALLBACK',{method:'Get'})
 	// 	.toPromise()
 	// 	.then(response => response.json())
 	// 	.catch(this.handleError);
@@ -41,9 +41,9 @@ export class ProductsService {
 
 	getDataFromServer(): Promise<ProductsModel> {
 		let user_id = this.ordersService.loginId;
-		let url = 'http://odoo2.romilax.com/organica/back_end/rmXMLRPC_stock.php?task=rmStockProductos&user_id='+user_id+'&callback=JSONP_CALLBACK'
+		let url = 'http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_stock.php?task=rmStockProductos&user_id='+user_id+'&callback=JSONP_CALLBACK'
 		console.log(url);
-		return this.jsonp.request('http://odoo2.romilax.com/organica/back_end/rmXMLRPC_stock.php?task=rmStockProductos&user_id='+user_id+'&callback=JSONP_CALLBACK',{method:'Get'})
+		return this.jsonp.request('http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_stock.php?task=rmStockProductos&user_id='+user_id+'&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
 		.then(response => response.json() as ProductsModel)
 		.catch(this.handleError);

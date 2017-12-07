@@ -34,7 +34,7 @@ export class CustomersService {
 	}
 
 	getDataFromServer(): Promise<CustomersModel> {
-		return this.jsonp.request('http://odoo2.romilax.com/organica/back_end/rmXMLRPC_clientes.php?task=rmListaClientes&res_user_id=' + this.ordersService.loginId + '&callback=JSONP_CALLBACK',{method:'Get'})
+		return this.jsonp.request('http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_clientes.php?task=rmListaClientes&res_user_id=' + this.ordersService.loginId + '&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
 		.then(response => response.json() as CustomersModel)
 		.catch(this.handleError);

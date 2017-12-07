@@ -150,7 +150,7 @@ export class SyncPage {
 				for (var i = 0; i < data.length; i++) {
 					var order = data[i];
 					let selectedProducts = order.selectedProducts;
-					var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarPedido&rmCustomer=" + order.customer + "&rmDateOrder=" + order.dateOrder + "&rmUserId=" + order.rmUserId + "&rmNote=" + order.notes + "&rmUserId=" + order.rmUserId + "&latitude=" + order.latitude + "&longitude=" + order.longitude  + "&confirmed=" + order.confirmed +"&callback=JSONP_CALLBACK";
+					var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarPedido&rmCustomer=" + order.customer + "&rmDateOrder=" + order.dateOrder + "&rmUserId=" + order.rmUserId + "&rmNote=" + order.notes + "&rmUserId=" + order.rmUserId + "&latitude=" + order.latitude + "&longitude=" + order.longitude  + "&confirmed=" + order.confirmed +"&callback=JSONP_CALLBACK";
 					url = encodeURI(url);
 					this.ordersService.saveOrderOnServer(url).then(data => {
 						let order_id = data._body.order_id;
@@ -163,7 +163,7 @@ export class SyncPage {
 							}, 1000);
 							let productId = selectedProducts[j].product.id;
 							let quantity = selectedProducts[j].quantity;
-							var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarLineaPedido&order_id=" + order_id + "&rmQuantity=" + quantity + "&rmProduct_id=" + productId + "&callback=JSONP_CALLBACK";
+							var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarLineaPedido&order_id=" + order_id + "&rmQuantity=" + quantity + "&rmProduct_id=" + productId + "&callback=JSONP_CALLBACK";
 							url = encodeURI(url);
 							this.ordersService.saveOrderOnServer(url).then(data2 => {
 								console.log("rmRegistrarLineaPedido:" + data2);
@@ -179,8 +179,8 @@ export class SyncPage {
 			.then(data => {
 				for (var i = 0; i < data.length; i++) {
 					var position = data[i];
-					//var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
-					var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacion&res_user_id=11&longitude=" + position.lat + "&latitude=" + position.lat + "&res_user_id=" + position.user_id  + "&callback=JSONP_CALLBACK";
+					//var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
+					var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacion&res_user_id=11&longitude=" + position.lat + "&latitude=" + position.lat + "&res_user_id=" + position.user_id  + "&callback=JSONP_CALLBACK";
 					url = encodeURI(url);
 					this.positionService.savePositionOnServer(url).then(data => {
 						console.log('Position with id-' + position._id + ' Uploaded');
@@ -193,8 +193,8 @@ export class SyncPage {
 			.then(data => {
 				for (var i = 0; i < data.length; i++) {
 					var event = data[i];
-					//var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
-					var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_calendario.php?task=rmRegistrarEvento&res_user_id="+ event.user_id +"&name="+event.name+"&start_datetime=" + event.start_datetime + "&callback=JSONP_CALLBACK";
+					//var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
+					var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_calendario.php?task=rmRegistrarEvento&res_user_id="+ event.user_id +"&name="+event.name+"&start_datetime=" + event.start_datetime + "&callback=JSONP_CALLBACK";
 					url = encodeURI(url);
 					this.calendarService.saveEventOnServer(url).then(data => {
 						console.log('Event with id-' + event._id + ' Uploaded');
@@ -207,9 +207,9 @@ export class SyncPage {
 			.then(data => {
 				for (var i = 0; i < data.length; i++) {
 					var customer = data[i];
-					//var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
-					//var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_calendario.php?task=rmRegistrarEvento&res_user_id="+ event.user_id +"&name="+event.name+"&start_datetime=" + event.start_datetime + "&callback=JSONP_CALLBACK";
-					var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC_clientes.php?task=rmRegistrarCliente";
+					//var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
+					//var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_calendario.php?task=rmRegistrarEvento&res_user_id="+ event.user_id +"&name="+event.name+"&start_datetime=" + event.start_datetime + "&callback=JSONP_CALLBACK";
+					var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_clientes.php?task=rmRegistrarCliente";
 					url += "&res_user_id=" + customer.res_user_id;
 					url += "&rm_nombre=" + customer.rm_nombre;
 					url += "&rm_direccion=" + customer.rm_direccion;

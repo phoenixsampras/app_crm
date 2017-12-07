@@ -40,7 +40,7 @@ export class LoginPage {
 		loading.present();
 		let nav = this.nav;
 		let me = this;
-		let url = 'http://odoo2.romilax.com/organica/back_end/rmXMLRPC_login.php?task=loginApp';
+		let url = 'http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_login.php?task=loginApp';
 		url += '&username=' + values.email;
 		url += '&password=' + values.password;
 		url += '&callback=JSONP_CALLBACK';

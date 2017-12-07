@@ -26,7 +26,7 @@ export class CalendarService {
 	}
 
 	getDataFromServer(): Promise<CalendarModel> {
-		return this.jsonp.request('http://odoo2.romilax.com/organica/back_end/rmXMLRPC_calendario.php?task=rmListaEventos&res_user_id='+ this.ordersService.loginId +'&callback=JSONP_CALLBACK',{method:'Get'})
+		return this.jsonp.request('http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_calendario.php?task=rmListaEventos&res_user_id='+ this.ordersService.loginId +'&callback=JSONP_CALLBACK',{method:'Get'})
 		.toPromise()
 		.then(response => response.json() as CalendarModel)
 		.catch(this.handleError);
