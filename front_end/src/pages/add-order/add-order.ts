@@ -55,14 +55,14 @@ export class AddOrderPage {
 
 	ionViewDidEnter() {
 		if(this.orderObj) {
-			this.validations_form.get('customer').setValue(this.orderObj.customerObj.rm_nombre);
+			this.validations_form.get('customer').setValue(this.orderObj.customerObj.name);
 			this.validations_form.get('dateOrder').setValue(this.orderObj.dateOrder);
 			this.validations_form.get('notes').setValue(this.orderObj.notes);
 			this.selectedProducts = this.orderObj.selectedProducts;
 			this.customerObj = this.orderObj.customerObj;
 		}
 		if(this.customerObj) {
-			this.validations_form.get('customer').setValue(this.customerObj.rm_nombre);	
+			this.validations_form.get('customer').setValue(this.customerObj.name);	
 		}
 	}
 
