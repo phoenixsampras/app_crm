@@ -103,7 +103,18 @@ export class SyncPage {
 					//console.log("rmListaClientes:" + JSON.stringify(items[i]));
 					//console.log(items[i].rm_nombre);
 					items[i].property_product_pricelist = items[i].property_product_pricelist[1];
-					items[i].user_id = items[i].user_id[1];
+					items[i].user_id = items[i].user_id[0];
+					items[i].newCustomer = 2;
+					items[i].name = !items[i].name  ? "" : items[i].name;
+					items[i].street = !items[i].street  ? "" : items[i].street;
+					items[i].phone = !items[i].phone  ? "" : items[i].phone;
+					items[i].mobile = !items[i].mobile  ? "" : items[i].mobile;
+					items[i].rm_longitude = !items[i].rm_longitude  ? "" : items[i].rm_longitude;
+					items[i].rm_latitude = !items[i].rm_latitude  ? "" : items[i].rm_latitude;
+					items[i].razon_social = !items[i].razon_social  ? "" : items[i].razon_social;
+					items[i].nit  = !items[i].nit  ? "" : items[i].nit;
+					items[i].rm_sync_date_time  = !items[i].rm_sync_date_time  ? "" : items[i].rm_sync_date_time;
+					
 					this.customersService.addCustomer(items[i]);
 				}
 				loading.dismiss();
@@ -146,7 +157,7 @@ export class SyncPage {
 			let loading = loadingCtrl.create();
 			loading.present();
 			this.messages.push('Sync Started');
-			this.ordersService
+			/*this.ordersService
 			.getData()
 			.then(data => {
 				for (var i = 0; i < data.length; i++) {
@@ -176,7 +187,7 @@ export class SyncPage {
 				}
 			});
 
-			/*this.positionService
+			this.positionService
 			.getData()
 			.then(data => {
 				for (var i = 0; i < data.length; i++) {
@@ -189,7 +200,7 @@ export class SyncPage {
 						this.messages.push('Position with id-' + position._id + ' Uploaded ');
 					});
 				}
-			});*/
+			});
 			this.calendarService
 			.getDataFromPouch()
 			.then(data => {
@@ -203,28 +214,33 @@ export class SyncPage {
 						this.messages.push('Event with id-' + event._id + ' Uploaded ');
 					});
 				}
-			});
+			});*/
 			this.customersService
 			.getDataFromPouch()
 			.then(data => {
 				for (var i = 0; i < data.length; i++) {
 					var customer = data[i];
+					console.log(customer);
 					//var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
 					//var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_calendario.php?task=rmRegistrarEvento&res_user_id="+ event.user_id +"&name="+event.name+"&start_datetime=" + event.start_datetime + "&callback=JSONP_CALLBACK";
 					var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_clientes.php?task=rmRegistrarCliente";
-					url += "&res_user_id=" + customer.res_user_id;
-					url += "&rm_nombre=" + customer.rm_nombre;
-					url += "&rm_direccion=" + customer.rm_direccion;
-					url += "&rm_telefono=" + customer.rm_telefono;
-					url += "&rm_celular=" + customer.rm_celular;
-					url += "&rm_email=" + customer.rm_email;
-					url += "&rm_nit=" + customer.rm_nit;
-					url += "&rm_razon_social=" + customer.rm_razon_social;
+					url += "&user_id=" + customer.user_id;
+					url += "&name=" + customer.name;
+					url += "&street=" + customer.street;
+					url += "&phone=" + customer.phone;
+					url += "&mobile=" + customer.mobile;
+					url += "&email=" + customer.email;
+					url += "&nit=" + customer.nit;
+					url += "&razon_social=" + customer.razon_social;
 					url += "&rm_longitude=" + customer.rm_longitude;
 					url += "&rm_latitude=" + customer.rm_latitude;
 					url += "&photo_m=" + customer.photo_m;
+					url += "&rm_sync_date_time=" + customer.rm_sync_date_time;
+					if(customer.newCustomer == 2) {
+						url += "&id=" + customer.id;
+					}
 					url += "&callback=JSONP_CALLBACK";
-
+					console.log(url);
 					url = encodeURI(url);
 					this.customersService.saveCustomerOnServer(url).then(data => {
 						console.log('Event with id-' + customer._id + ' Uploaded');

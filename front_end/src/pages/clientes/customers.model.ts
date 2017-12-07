@@ -16,4 +16,6 @@ export class CustomersModel {
 	email:string; //email
 	user_id:any; // user_id
 	property_product_pricelist:string; //property_product_pricelist
+	rm_sync_date_time:any;
+	newCustomer = 2;
 }

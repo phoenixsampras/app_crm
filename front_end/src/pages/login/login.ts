@@ -33,7 +33,6 @@ export class LoginPage {
 	}
 
 	doLogin(values){
-		console.log(values);
 		let loadingCtrl = this.loadingCtrl;
 		let toastCtrl = this.toastCtrl;
 		let loading = loadingCtrl.create();
