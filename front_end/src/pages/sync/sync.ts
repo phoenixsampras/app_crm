@@ -102,6 +102,8 @@ export class SyncPage {
 				for (var i = 0; i < items.length; i++) {
 					//console.log("rmListaClientes:" + JSON.stringify(items[i]));
 					//console.log(items[i].rm_nombre);
+					items[i].property_product_pricelist = items[i].property_product_pricelist[1];
+					items[i].user_id = items[i].user_id[1];
 					this.customersService.addCustomer(items[i]);
 				}
 				loading.dismiss();

@@ -12,7 +12,7 @@
 	<ion-searchbar [(ngModel)]="searchTerm" [placeholder]="'SEARCH_CUSTOMERS' | translate" [showCancelButton]="true" (ionInput)="updateSearch()" ></ion-searchbar>
 	<ion-list>
 		<ion-item *ngFor="let customer of customers" tappable (click)="chooseItem(customer)">
-			{{ customer.rm_nombre }}
+			{{ customer.name }}
 		</ion-item>
 	</ion-list>
 	<form class="sample-form validations-form" [formGroup]="validations_form"  (ngSubmit)="onSubmit(validations_form.value)">

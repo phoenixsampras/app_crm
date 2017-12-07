@@ -56,6 +56,7 @@ export class AddCustomerPage {
   ) {
     this.loading = this.loadingCtrl.create();
     this.customer = this.navParams.get('customer');
+	console.log(this.customer);
   }
 
   showMap() {
@@ -118,16 +119,16 @@ export class AddCustomerPage {
 
   ionViewDidEnter() {
     if (this.customer) {
-      this.validations_form.get('rm_nombre').setValue(this.customer.rm_nombre);
-      this.validations_form.get('rm_direccion').setValue(this.customer.rm_direccion);
-      this.validations_form.get('rm_telefono').setValue(this.customer.rm_telefono);
-      this.validations_form.get('rm_celular').setValue(this.customer.rm_celular);
-      this.validations_form.get('rm_email').setValue(this.customer.rm_email);
-      this.validations_form.get('rm_nit').setValue(this.customer.rm_nit);
-      this.validations_form.get('rm_razon_social').setValue(this.customer.rm_razon_social);
+      this.validations_form.get('name').setValue(this.customer.name);
+      this.validations_form.get('street').setValue(this.customer.street);
+      this.validations_form.get('phone').setValue(this.customer.phone);
+      this.validations_form.get('mobile').setValue(this.customer.mobile);
+      this.validations_form.get('email').setValue(this.customer.email);
+      this.validations_form.get('nit').setValue(this.customer.nit);
+      this.validations_form.get('razon_social').setValue(this.customer.razon_social);
       this.validations_form.get('rm_longitude').setValue(this.customer.rm_longitude);
       this.validations_form.get('rm_latitude').setValue(this.customer.rm_latitude);
-      this.validations_form.get('tipo').setValue(this.customer.tipo);
+      this.validations_form.get('property_product_pricelist').setValue(this.customer.property_product_pricelist);
       this.customerImage = this.customer.photo_m;
     }
   }
@@ -135,36 +136,36 @@ export class AddCustomerPage {
   ionViewWillLoad() {
 
     this.validations_form = this.formBuilder.group({
-      rm_nombre: new FormControl('', Validators.required),
-      rm_direccion: new FormControl('', Validators.required),
-      rm_telefono: new FormControl('', Validators.required),
-      rm_celular: new FormControl('', []),
-      rm_email: new FormControl('', [Validators.pattern(this.customersService.EMAIL_REGEX)]),
-       rm_nit: new FormControl('', []),
-      rm_razon_social: new FormControl('', []),
+      name: new FormControl('', Validators.required),
+      street: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.required),
+      mobile: new FormControl('', []),
+      email: new FormControl('', [Validators.pattern(this.customersService.EMAIL_REGEX)]),
+       nit: new FormControl('', []),
+      razon_social: new FormControl('', []),
        rm_longitude: new FormControl('', []),
        rm_latitude: new FormControl('', []),
-	   tipo: new FormControl('', [Validators.required]),
+	   property_product_pricelist: new FormControl('', [Validators.required]),
     });
   }
 
   validation_messages = {
-    'rm_nombre': [
+    'name': [
       { type: 'required', message: 'Se requiere el nombre.' }
     ],
-    'rm_direccion': [
+    'street': [
       { type: 'required', message: 'Se requiere el dirección.' }
     ],
-    'rm_telefono': [
+    'phone': [
       { type: 'required', message: 'Se requiere un teléfono.' }
     ],
-	'tipo': [
-      { type: 'required', message: 'Se requiere un tipo.' }
+	'property_product_pricelist': [
+      { type: 'required', message: 'Se requiere un property_product_pricelist.' }
     ],
-     'rm_celular': [
+     'mobile': [
        { type: 'required', message: 'Se requiere un celular.' }
      ],
-     'rm_email': [
+     'email': [
        { type: 'required', message: 'Se requiere un correo electronico.' },
        { type: 'pattern', message: 'Debe ser un correo electrónico válido.' },
      ],
@@ -179,14 +180,17 @@ export class AddCustomerPage {
   onSubmit(values) {
    
       values.photo_m = this.customerImage;
-      values.res_user_id = this.ordersService.loginId;
-      if (this.customer) {
+     if (this.customer) {
         values.id = this.customer.id;
         values._rev = this.customer._rev;
+		 values.user_id = this.customer.user_id;
+      
         this.customersService.updateCustomer(values);
       } else {
         values.id = Date.now();
         this.customersService.addCustomer(values);
+		 values.user_id = this.ordersService.loginId;
+      
       }
 
       let toast = this.toastCtrl.create({

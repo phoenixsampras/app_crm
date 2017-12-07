@@ -233,7 +233,7 @@ export class DatabaseService {
 					let row = docs.rows[i];
 					if (row.doc.type == "customer") {
 						if(searchTerm) {
-							if(row.doc.rm_nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+							if(row.doc.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
 								this._customers.push(row.doc);
 								j++;
 							}

@@ -89,9 +89,9 @@ export class AddOrderPage {
 
 	getProductTotal(product) {
 		let price = product.product.cg;
-		if(this.customerObj.tipo == 'CH') {
+		if(this.customerObj.property_product_pricelist == 'CH (BOB)') {
 			price = product.product.ch;
-		} else if(this.customerObj.tipo == 'CM') {
+		} else if(this.customerObj.property_product_pricelist == 'CM (BOB)') {
 			price = product.product.cm;
 		}
 		
@@ -100,9 +100,9 @@ export class AddOrderPage {
 	
 	getProductPrice(product) {
 		let price = product.product.cg;
-		if(this.customerObj.tipo == 'CH') {
+		if(this.customerObj.property_product_pricelist == 'CH (BOB)') {
 			price = product.product.ch;
-		} else if(this.customerObj.tipo == 'CM') {
+		} else if(this.customerObj.property_product_pricelist == 'CM (BOB)') {
 			price = product.product.cm;
 		}
 		return price;
@@ -119,7 +119,7 @@ export class AddOrderPage {
 	chooseItem(item: any) {
 		this.customerObj = item;
 		this.searchTerm = '';
-		this.validations_form.get('customer').setValue(this.customerObj.rm_nombre);
+		this.validations_form.get('customer').setValue(this.customerObj.name);
 		this.customers = [];
 		this.selectedProducts = [];
 	}

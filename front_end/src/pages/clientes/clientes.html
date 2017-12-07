@@ -18,19 +18,19 @@
           <ion-item class="item-content">
             <ion-avatar item-start>
 				<img *ngIf="item.photo_s" src="data:image/png;base64,{{item.photo_s}}" />
-				<text-avatar *ngIf="!item.photo_s" [text]="item.rm_nombre.charAt(0)" [color]="secondary" item-left></text-avatar>
+				<text-avatar *ngIf="!item.photo_s" [text]="item.name.charAt(0)" [color]="secondary" item-left></text-avatar>
 			</ion-avatar>
-			<h3 class="item-title">{{item.rm_nombre}}</h3>
+			<h3 class="item-title">{{item.name}}</h3>
             <h2>{{item.rm_direccion}}</h2>
             <h2>
               <span *ngIf="item.rm_telefono">
-                <b>Telefono:</b> {{item.rm_telefono}}
+                <b>Telefono:</b> {{item.phone}}
               </span>
               <span *ngIf="item.rm_celular">
-                <b>Cel:</b> {{item.rm_celular}}
+                <b>Cel:</b> {{item.mobile}}
               </span>
-			  <span *ngIf="item.tipo">
-                <b>Tipo:</b> {{item.tipo}}
+			  <span *ngIf="item.property_product_pricelist">
+                <b>Tipo:</b> {{item.property_product_pricelist}}
               </span>
             </h2>
 			<button ion-button  (click)="showMap(item)" color="secondary" item-end icon-end>
@@ -44,11 +44,11 @@
           </ion-item>
 
           <ion-item-options side="left">
-            <button ion-button color="secondary" (click)="call(item.rm_celular)">
+            <button ion-button color="secondary" (click)="call(item.phone)">
               <ion-icon name="call"></ion-icon>
               {{ 'CALL_MOBILE' | translate}}
             </button>
-            <button ion-button color="light" (click)="call(item.rm_telefono)">
+            <button ion-button color="light" (click)="call(item.phone)">
               <ion-icon name="call"></ion-icon>
               {{ 'CALL_PHONE' | translate}}
             </button>

@@ -16,27 +16,27 @@
 			<h2 *ngIf="customer"  class="section-title">{{'EDIT_CUSTOMER' | translate}}</h2> -->
 			<ion-item>
 				<ion-label floating>{{'NAME' | translate}}</ion-label>
-				<ion-input type="text" formControlName="rm_nombre"></ion-input>
+				<ion-input type="text" formControlName="name"></ion-input>
 			</ion-item>
 			<div class="validation-errors">
-				<ng-container *ngFor="let validation of validation_messages.rm_nombre">
-					<div class="error-message" *ngIf="validations_form.get('rm_nombre').hasError(validation.type) && (validations_form.get('rm_nombre').dirty || validations_form.get('rm_nombre').touched)">
+				<ng-container *ngFor="let validation of validation_messages.name">
+					<div class="error-message" *ngIf="validations_form.get('name').hasError(validation.type) && (validations_form.get('name').dirty || validations_form.get('name').touched)">
 						{{ validation.message }}
 					</div>
 				</ng-container>
 			</div>
 
 			<ion-item>
-				<ion-label floating>{{'TIPO' | translate}}</ion-label>
-				<ion-select formControlName="tipo">
-					<ion-option value="CG">CG</ion-option>
-					<ion-option value="CH">CH</ion-option>
-					<ion-option value="CM">CM</ion-option>
+				<ion-label floating>{{'property_product_pricelist' | translate}}</ion-label>
+				<ion-select formControlName="property_product_pricelist">
+					<ion-option value="CG (BOB)">CG (BOB)</ion-option>
+					<ion-option value="CH (BOB)">CH (BOB)</ion-option>
+					<ion-option value="CM (BOB)">CM (BOB)</ion-option>
 				</ion-select>	
 			</ion-item>
 			<div class="validation-errors">
 				<ng-container *ngFor="let validation of validation_messages.name">
-					<div class="error-message" *ngIf="validations_form.get('tipo').hasError(validation.type) && (validations_form.get('tipo').dirty || validations_form.get('tipo').touched)">
+					<div class="error-message" *ngIf="validations_form.get('property_product_pricelist').hasError(validation.type) && (validations_form.get('property_product_pricelist').dirty || validations_form.get('property_product_pricelist').touched)">
 						{{ validation.message }}
 					</div>
 				</ng-container>
@@ -44,11 +44,11 @@
 
 			<ion-item>
 				<ion-label floating>{{'ADDRESS' | translate}}</ion-label>
-				<ion-input type="text" formControlName="rm_direccion"></ion-input>
+				<ion-input type="text" formControlName="street"></ion-input>
 			</ion-item>
 			<div class="validation-errors">
-				<ng-container *ngFor="let validation of validation_messages.rm_direccion">
-					<div class="error-message" *ngIf="validations_form.get('rm_direccion').hasError(validation.type) && (validations_form.get('rm_direccion').dirty || validations_form.get('rm_direccion').touched)">
+				<ng-container *ngFor="let validation of validation_messages.street">
+					<div class="error-message" *ngIf="validations_form.get('street').hasError(validation.type) && (validations_form.get('street').dirty || validations_form.get('street').touched)">
 						{{ validation.message }}
 					</div>
 				</ng-container>
@@ -56,11 +56,11 @@
 
 			<ion-item>
 				<ion-label floating>{{'TELEPHONE' | translate}}</ion-label>
-				<ion-input type="text" formControlName="rm_telefono"></ion-input>
+				<ion-input type="text" formControlName="phone"></ion-input>
 			</ion-item>
 			<div class="validation-errors">
-				<ng-container *ngFor="let validation of validation_messages.rm_telefono">
-					<div class="error-message" *ngIf="validations_form.get('rm_telefono').hasError(validation.type) && (validations_form.get('rm_telefono').dirty || validations_form.get('rm_telefono').touched)">
+				<ng-container *ngFor="let validation of validation_messages.phone">
+					<div class="error-message" *ngIf="validations_form.get('phone').hasError(validation.type) && (validations_form.get('phone').dirty || validations_form.get('phone').touched)">
 						{{ validation.message }}
 					</div>
 				</ng-container>
@@ -68,11 +68,11 @@
 
 			<ion-item>
 				<ion-label floating>{{'MOBILE' | translate}}</ion-label>
-				<ion-input type="text" formControlName="rm_celular"></ion-input>
+				<ion-input type="text" formControlName="mobile"></ion-input>
 			</ion-item>
 			<div class="validation-errors">
-				<ng-container *ngFor="let validation of validation_messages.rm_celular">
-					<div class="error-message" *ngIf="validations_form.get('rm_celular').hasError(validation.type) && (validations_form.get('rm_celular').dirty || validations_form.get('rm_celular').touched)">
+				<ng-container *ngFor="let validation of validation_messages.mobile">
+					<div class="error-message" *ngIf="validations_form.get('mobile').hasError(validation.type) && (validations_form.get('mobile').dirty || validations_form.get('mobile').touched)">
 						{{ validation.message }}
 					</div>
 				</ng-container>
@@ -80,11 +80,11 @@
 			
 			<ion-item>
 				<ion-label floating>{{'EMAIL' | translate}}</ion-label>
-				<ion-input type="text" formControlName="rm_email"></ion-input>
+				<ion-input type="text" formControlName="email"></ion-input>
 			</ion-item>
 			<div class="validation-errors">
-				<ng-container *ngFor="let validation of validation_messages.rm_email">
-					<div class="error-message" *ngIf="validations_form.get('rm_email').hasError(validation.type) && (validations_form.get('rm_email').dirty || validations_form.get('rm_email').touched)">
+				<ng-container *ngFor="let validation of validation_messages.email">
+					<div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
 						{{ validation.message }}
 					</div>
 				</ng-container>
@@ -92,11 +92,11 @@
 			
 			<ion-item>
 				<ion-label floating>{{'RAZON_SOCIAL' | translate}}</ion-label>
-				<ion-input type="text" formControlName="rm_razon_social"></ion-input>
+				<ion-input type="text" formControlName="razon_social"></ion-input>
 			</ion-item>
 			<div class="validation-errors">
-				<ng-container *ngFor="let validation of validation_messages.rm_razon_social">
-					<div class="error-message" *ngIf="validations_form.get('rm_razon_social').hasError(validation.type) && (validations_form.get('rm_razon_social').dirty || validations_form.get('rm_razon_social').touched)">
+				<ng-container *ngFor="let validation of validation_messages.razon_social">
+					<div class="error-message" *ngIf="validations_form.get('razon_social').hasError(validation.type) && (validations_form.get('razon_social').dirty || validations_form.get('razon_social').touched)">
 						{{ validation.message }}
 					</div>
 				</ng-container>
@@ -104,11 +104,11 @@
 			
 			<ion-item>
 				<ion-label floating>{{'NIT' | translate}}</ion-label>
-				<ion-input type="text" formControlName="rm_nit"></ion-input>
+				<ion-input type="text" formControlName="nit"></ion-input>
 			</ion-item>
 			<div class="validation-errors">
-				<ng-container *ngFor="let validation of validation_messages.rm_nit">
-					<div class="error-message" *ngIf="validations_form.get('rm_nit').hasError(validation.type) && (validations_form.get('rm_nit').dirty || validations_form.get('rm_nit').touched)">
+				<ng-container *ngFor="let validation of validation_messages.nit">
+					<div class="error-message" *ngIf="validations_form.get('nit').hasError(validation.type) && (validations_form.get('nit').dirty || validations_form.get('nit').touched)">
 						{{ validation.message }}
 					</div>
 				</ng-container>
