@@ -178,18 +178,18 @@ function rmRegistrarCliente($conex, $user_id) {
       $id = $models->execute_kw($db, $uid, $password, 'res.partner', 'create', array($datosRecibidos));
     }
 
-    print_r($id);
-    echo $id;
+    // print_r($id);
+    // echo $id;
 
 
 
-    // if (Is_Numeric ($id)) {
-    //   echo $_GET['callback'].'({"partner_id": '. $id . '})';
-    // } else {
-    //   print_r($_REQUEST);
-    //   print_r($datosRecibidos);
-    //   print_r($id);
-    // }
+    if (Is_Numeric($id)) {
+      echo $_GET['callback'].'({"partner_id": '. $id . '})';
+    } else {
+      print_r($_REQUEST);
+      print_r($datosRecibidos);
+      print_r($id);
+    }
 }
 
 ?>
