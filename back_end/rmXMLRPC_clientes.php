@@ -171,7 +171,7 @@ function rmRegistrarCliente($conex, $user_id) {
     $models = ripcord::client("$url/xmlrpc/2/object");
 
     if ($id) {
-      $datosCliente = array(array($id), $datosRecibidos)
+      $datosCliente = array(array($id), $datosRecibidos);
       print_r($datosCliente);
       $id = $models->execute_kw($db, $uid, $password, 'res.partner', 'write', $datosCliente);
     } else {
