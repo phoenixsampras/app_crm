@@ -179,6 +179,7 @@ function rmRegistrarCliente($conex, $user_id) {
     }
 
     print_r($id);
+    echo $id;
 
 
 
