@@ -172,7 +172,7 @@ function rmRegistrarCliente($conex, $user_id) {
 
     if ($id) {
       $datosCliente = array(array($id), $datosRecibidos);
-      print_r($datosCliente);
+      // print_r($datosCliente);
       $id = $models->execute_kw($db, $uid, $password, 'res.partner', 'write', $datosCliente);
     } else {
       $id = $models->execute_kw($db, $uid, $password, 'res.partner', 'create', array($datosRecibidos));
