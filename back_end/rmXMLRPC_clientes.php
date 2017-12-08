@@ -180,10 +180,17 @@ function rmRegistrarCliente($conex, $user_id) {
 
     // print_r($id);
     // echo $id;
-    echo gettype($id);
-
+    // echo gettype($id);
 
     if (Is_Numeric($id)) {
+      $resultado = true;
+    } else if ($id) {
+      $resultado = true;
+    } else {
+      $resultado = false;
+    }
+
+    if ($resultado) {
       echo $_GET['callback'].'({"partner_id": '. $id . '})';
     } else {
       print_r($_REQUEST);
