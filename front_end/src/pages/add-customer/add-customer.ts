@@ -188,11 +188,13 @@ export class AddCustomerPage {
       values.user_id = this.customer.user_id;
       values.newCustomer = this.customer.newCustomer;
       values.newCustomer = 2;
+      console.log("updateCustomer:"+JSON.stringify(values));
       this.customersService.updateCustomer(values);
     } else {
       values.id = Date.now();
       values.user_id = this.ordersService.loginId;
       values.newCustomer = 1;
+      console.log("addCustomer:"+JSON.stringify(values));
       this.customersService.addCustomer(values);
     }
 
