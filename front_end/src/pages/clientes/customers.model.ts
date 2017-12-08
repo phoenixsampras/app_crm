@@ -17,5 +17,6 @@ export class CustomersModel {
 	user_id:any; // user_id
 	property_product_pricelist:string; //property_product_pricelist
 	rm_sync_date_time:any;
-	newCustomer = 2;
+	rm_sync_operacion:string;
+	newCustomer = 0;
 }

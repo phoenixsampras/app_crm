@@ -3,14 +3,18 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
+    <ion-buttons end>
+      <button form="rm_form_customer" color='primary' outline ion-button   [disabled]="!validations_form.valid">{{'SAVE' | translate}}
+      </button>
+    </ion-buttons>
+
     <ion-title *ngIf="!customer" >{{'ADD_CUSTOMER' | translate}}</ion-title>
-	<ion-title *ngIf="customer" >{{'EDIT_CUSTOMER' | translate}}</ion-title>
+    <ion-title *ngIf="customer" >{{'EDIT_CUSTOMER' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 
-
 <ion-content padding class="forms-validations-content">
-	<form class="sample-form validations-form" [formGroup]="validations_form"  (ngSubmit)="onSubmit(validations_form.value)">
+	<form id="rm_form_customer" class="sample-form validations-form" [formGroup]="validations_form"  (ngSubmit)="onSubmit(validations_form.value)">
 		<section class="form-section">
 			<!-- <h2 *ngIf="!customer"  class="section-title">{{'ADD_CUSTOMER' | translate}}</h2>
 			<h2 *ngIf="customer"  class="section-title">{{'EDIT_CUSTOMER' | translate}}</h2> -->
@@ -29,10 +33,10 @@
 			<ion-item>
 				<ion-label floating>{{'property_product_pricelist' | translate}}</ion-label>
 				<ion-select formControlName="property_product_pricelist">
-					<ion-option value="CG (BOB)">CG (BOB)</ion-option>
-					<ion-option value="CH (BOB)">CH (BOB)</ion-option>
-					<ion-option value="CM (BOB)">CM (BOB)</ion-option>
-				</ion-select>	
+					<ion-option value="CG">CG</ion-option>
+					<ion-option value="CH">CH</ion-option>
+					<ion-option value="CM">CM</ion-option>
+				</ion-select>
 			</ion-item>
 			<div class="validation-errors">
 				<ng-container *ngFor="let validation of validation_messages.name">
@@ -77,7 +81,7 @@
 					</div>
 				</ng-container>
 			</div>
-			
+
 			<ion-item>
 				<ion-label floating>{{'EMAIL' | translate}}</ion-label>
 				<ion-input type="text" formControlName="email"></ion-input>
@@ -89,7 +93,7 @@
 					</div>
 				</ng-container>
 			</div>
-			
+
 			<ion-item>
 				<ion-label floating>{{'RAZON_SOCIAL' | translate}}</ion-label>
 				<ion-input type="text" formControlName="razon_social"></ion-input>
@@ -101,7 +105,7 @@
 					</div>
 				</ng-container>
 			</div>
-			
+
 			<ion-item>
 				<ion-label floating>{{'NIT' | translate}}</ion-label>
 				<ion-input type="text" formControlName="nit"></ion-input>
@@ -113,7 +117,7 @@
 					</div>
 				</ng-container>
 			</div>
-			
+
 			<ion-item>
 				<ion-label floating>{{'LATITUDE' | translate}}</ion-label>
 				<ion-input type="text" [readonly]="true" formControlName="rm_latitude"></ion-input>
@@ -125,7 +129,7 @@
 					</div>
 				</ng-container>
 			</div>
-			
+
 			<ion-item>
 				<ion-label floating>{{'LONGITUDE' | translate}}</ion-label>
 				<ion-input type="text" [readonly]="true" formControlName="rm_longitude"></ion-input>
@@ -137,15 +141,13 @@
 					</div>
 				</ng-container>
 			</div>
-			
+
 			<br/><br/>
-			<button ion-button full color='secondary' type="button" (click)="showMap()"  >{{'GET_LOCATION' | translate}}</button>	
+			<button ion-button full color='secondary' type="button" (click)="showMap()"  >{{'GET_LOCATION' | translate}}</button>
 			<br/><br/>
 			<img src="data:image/jpeg;base64,{{customerImage ? customerImage : defaultImage}}" alt="" />
 			<br/><br/>
-			<button ion-button full color='secondary' type="button" (click)="takePicture()"  >{{'TAKE_PICTURE' | translate}}</button>	
-			<br/><br/>
-			<button ion-button full type="submit" [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
+			<button ion-button full color='secondary' type="button" (click)="takePicture()"  >{{'TAKE_PICTURE' | translate}}</button>
 		</section>
 	</form>
 </ion-content>

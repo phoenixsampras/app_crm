@@ -7,7 +7,11 @@ add-customer-page {
 		border:1px solid #ccc;
 		padding:5px;
 	}
-	
+
+  .bar-button-outline-md-primary {
+		background-color:#3474e1 !important;
+	}
+  	
   .forms-validations-content
 	{
 		background-color: color($colors, background, base);

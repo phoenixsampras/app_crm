@@ -139,29 +139,53 @@ function rmRegistrarCliente($conex, $user_id) {
     $username = $conex['username'];
     $password = $conex['password'];
 
-    $id=intval($_REQUEST['id']);
-    $rmCustomer=intval($_REQUEST['rmCustomer']);
-    $rmDateOrder=$_REQUEST['rmDateOrder'];
-    $rmNote=$_REQUEST['rmNote'];
+    $id = intval($_REQUEST['id']);
+    $name = $_REQUEST['name'];
+    $street = $_REQUEST['street'];
+    $phone = $_REQUEST['phone'];
+    $mobile = $_REQUEST['mobile'];
+    $rm_longitude = $_REQUEST['rm_longitude'];
+    $rm_latitude = $_REQUEST['rm_latitude'];
+    $property_product_pricelist = $_REQUEST['property_product_pricelist'];
+    $user_id = intval($_REQUEST['user_id']);
+    $razon_social = $_REQUEST['razon_social'];
+    $nit = $_REQUEST['nit'];
+    $rm_sync_date_time = $_REQUEST['rm_sync_date_time'];
 
-    $datosVenta =
-    array(
+    $datosRecibidos =
       array(
-        'partner_id' => $rmCustomer,
-        'date_order' => $rmDateOrder,
-        'note' => $rmNote,
-      )
-    );
+        'name' => $name,
+        'street' => $street,
+        'phone' => $phone,
+        'mobile' => $mobile,
+        'rm_longitude' => $rm_longitude,
+        'rm_latitude' => $rm_latitude,
+        //'property_product_pricelist' => $property_product_pricelist,
+        'user_id' => $user_id,
+        'razon_social' => $razon_social,
+        'nit' => $nit,
+        'rm_sync_date_time' => $rm_sync_date_time,
+      );
 
     $uid = login($conex);
     $models = ripcord::client("$url/xmlrpc/2/object");
-    $id = $models->execute_kw($db, $uid, $password, 'sale.order', 'create', $datosVenta);
+
+    if ($id) {
+      $datosCliente = array(array($id), $datosRecibidos)
+      $id = $models->execute_kw($db, $uid, $password, 'sale.order', 'write', $datosCliente);
+    } else {
+      $id = $models->execute_kw($db, $uid, $password, 'sale.order', 'create', $datosRecibidos);
+    }
+
+
+
+    // $id = $models->execute_kw($db, $uid, $password, 'sale.order', 'create', $datosCliente);
 
     if (Is_Numeric ($id)) {
-      echo $_GET['callback'].'({"order_id": '. $id . '})';
+      echo $_GET['callback'].'({"partner_id": '. $id . '})';
     } else {
       print_r($_REQUEST);
-      print_r($datosVenta);
+      print_r($datosRecibidos);
       print_r($id);
     }
 }

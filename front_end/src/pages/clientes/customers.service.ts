@@ -7,7 +7,7 @@ import { CustomersModel } from './customers.model';
 import { OrdersService } from '../orders/orders.service';
 @Injectable()
 export class CustomersService {
-	
+
 	EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	constructor(
 		public http: Http,
@@ -38,12 +38,6 @@ export class CustomersService {
 		.toPromise()
 		.then(response => response.json() as CustomersModel)
 		.catch(this.handleError);
-
-		//return this.databaseService.getAllCustomers()
-		//.toPromise()
-		//.then(response => response.json() as CustomersModel)
-		//.catch(this.handleError);
-
 	}
 
 	getDataFromPouch(searchTerm = ''): Promise<any> {
@@ -53,7 +47,7 @@ export class CustomersService {
 		.catch(this.handleError);
 
 	}
-	
+
 	saveCustomerOnServer(url): Promise<any> {
 		return this.jsonp.request(url,{method:'Get'})
 		.toPromise()
