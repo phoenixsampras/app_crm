@@ -151,6 +151,7 @@ function rmRegistrarCliente($conex, $user_id) {
     $razon_social = $_REQUEST['razon_social'];
     $nit = $_REQUEST['nit'];
     $rm_sync_date_time = $_REQUEST['rm_sync_date_time'];
+    $image = $_REQUEST['photo_m'];
 
     $datosRecibidos =
       array(
@@ -161,6 +162,7 @@ function rmRegistrarCliente($conex, $user_id) {
         'rm_longitude' => $rm_longitude,
         'rm_latitude' => $rm_latitude,
         //'property_product_pricelist' => $property_product_pricelist,
+        'image' => $image,
         'user_id' => $user_id,
         'razon_social' => $razon_social,
         'nit' => $nit,
