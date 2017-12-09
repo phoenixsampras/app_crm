@@ -235,7 +235,8 @@ export class SyncPage {
 						url += "&phone=" + customer.phone;
 						url += "&mobile=" + customer.mobile;
 						url += "&email=" + customer.email;
-						url += "&nit=" + customer.nit;
+            url += "&nit=" + customer.nit;
+						url += "&property_product_pricelist=" + customer.property_product_pricelist;
 						url += "&razon_social=" + customer.razon_social;
 						url += "&rm_longitude=" + customer.rm_longitude;
 						url += "&rm_latitude=" + customer.rm_latitude;
@@ -249,6 +250,7 @@ export class SyncPage {
 						let operacion = customer;
 						url = encodeURI(url);
 						this.customersService.saveCustomerOnServer(url).then(data => {
+              console.log(data);
 							if(data.status == 'success') {
 								if (operacion == 1) {
 									this.messages.push('Nuevo Cliente:' + customer.name);
