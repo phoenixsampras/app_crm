@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController,AlertController, ToastController, ModalController   } from 'ionic-angular';
+import { EmailComposer } from '@ionic-native/email-composer';
 
 import 'rxjs/Rx';
 
@@ -34,7 +35,8 @@ export class ClientesPage {
 		public modalCtrl: ModalController,
 		public toastCtrl: ToastController,
 		public alertCtrl: AlertController,
-		private callNumber: CallNumber
+		private callNumber: CallNumber,
+		private emailComposer: EmailComposer
 		
 	) {
 		this.loading = this.loadingCtrl.create();
@@ -56,7 +58,10 @@ export class ClientesPage {
 	}
 	
 	email(email) {
-		window.location.href = 'mailto:' + email;	
+		let options = {
+			to: email,
+		};
+		this.emailComposer.open(email);	
 	}
  
     setFilteredItems() {   
