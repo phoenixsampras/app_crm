@@ -48,10 +48,10 @@ export class CustomersService {
 
 	}
 
-	saveCustomerOnServer(url): Promise<any> {
+	saveCustomerOnServer(url, customer): Promise<any> {
 		return this.jsonp.request(url,{method:'Get'})
 		.toPromise()
-		.then(response => response)
+		.then(response => {return [response, customer];})
 		.catch(this.handleError);
 	}
 

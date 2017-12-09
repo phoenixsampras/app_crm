@@ -249,18 +249,22 @@ export class SyncPage {
 						// console.log(url);
 						let operacion = customer;
 						url = encodeURI(url);
-						this.customersService.saveCustomerOnServer(url).then(data => {
-              console.log(data);
-							if(data.status == 'success') {
+						this.customersService.saveCustomerOnServer(url, customer).then(data => {
+							console.log(data);
+							let response = JSON.parse(JSON.stringify(data[0]));
+							let c = data[1];
+							let status = response._body.status;
+							if(status == 'success') {
 								if (operacion == 1) {
-									this.messages.push('Nuevo Cliente:' + customer.name);
-									this.messages.push(JSON.stringify(customer));
+									this.messages.push('Nuevo Cliente:' + c.name);
+									this.messages.push(JSON.stringify(c));
 								} else if (operacion == 2) {
-									this.messages.push('Editar Cliente:' + customer.name);
-									this.messages.push(JSON.stringify(customer));
+									this.messages.push('Editar Cliente:' + c.name);
+									this.messages.push(JSON.stringify(c));
 								}
-								customer.newCustomer = 0;
-								this.customersService.updateCustomer(customer);
+								c.newCustomer = 0;
+								console.log(c);
+								this.customersService.updateCustomer(c);
 							}
 						});
 					}
