@@ -23,10 +23,10 @@
 			<h3 class="item-title">{{item.name}}</h3>
       <h2>{{item.rm_direccion}}</h2>
       <h2>
-        <span *ngIf="item.rm_telefono">
+        <span *ngIf="item.phone">
           <b>Telefono:</b> {{item.phone}}
         </span>
-        <span *ngIf="item.rm_celular">
+        <span *ngIf="item.mobile">
           <b>Cel:</b> {{item.mobile}}
         </span>
 			  <span *ngIf="item.property_product_pricelist">
@@ -42,7 +42,7 @@
     </ion-item>
 
           <ion-item-options side="left">
-            <button ion-button color="secondary" (click)="call(item.phone)">
+            <button ion-button color="secondary" (click)="call(item.mobile)">
               <ion-icon name="call"></ion-icon>
               {{ 'CALL_MOBILE' | translate}}
             </button>

@@ -220,7 +220,7 @@ export class SyncPage {
 			let loadingCtrl = this.loadingCtrl;
 			let loading = loadingCtrl.create();
 			loading.present();
-			this.messages.push('<b>Sincronizando Clientes</b>');
+			this.messages.push('Sincronizando Clientes');
 			this.customersService
 			.getDataFromPouch()
 			.then(data => {
@@ -246,7 +246,7 @@ export class SyncPage {
 						}
 						url += "&callback=JSONP_CALLBACK";
 						// console.log(url);
-						let operacion = customer.newCustomer;
+						let operacion = customer;
 						url = encodeURI(url);
 						this.customersService.saveCustomerOnServer(url).then(data => {
 							if(data.status == 'success') {
