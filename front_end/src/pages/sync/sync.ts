@@ -220,14 +220,14 @@ export class SyncPage {
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
-      this.messages.push('Sync Started');
+      this.messages.push('<b>Sincronizando Clientes</b>');
       this.customersService
         .getDataFromPouch()
         .then(data => {
           for (var i = 0; i < data.length; i++) {
             var customer = data[i];
             if (customer.newCustomer > 0) {
-              console.log("nuevo cliente:" + JSON.stringify(customer));
+              // console.log("nuevo cliente:" + JSON.stringify(customer));
               var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_clientes.php?task=rmRegistrarCliente";
               url += "&user_id=" + customer.user_id;
               url += "&name=" + customer.name;
@@ -241,15 +241,21 @@ export class SyncPage {
               url += "&rm_latitude=" + customer.rm_latitude;
               url += "&photo_m=" + customer.photo_m;
               url += "&rm_sync_date_time=" + customer.rm_sync_date_time;
-              if (customer.newCustomer == 2) {
+              if (customer.newCustomer ==2) {
                 url += "&id=" + customer.id;
               }
               url += "&callback=JSONP_CALLBACK";
-              console.log(url);
+              // console.log(url);
+              let operacion = customer.newCustomer;
               url = encodeURI(url);
               this.customersService.saveCustomerOnServer(url).then(data => {
-                console.log('Event with id-' + customer._id + ' Uploaded');
-                this.messages.push('Event with id-' + customer._id + ' Uploaded ');
+                if (operacion == 1) {
+                  this.messages.push('Nuevo Cliente:' + customer.name);
+                  this.messages.push(JSON.stringify(customer));
+                } else if (operacion == 2) {
+                  this.messages.push('Editar Cliente:' + customer.name);
+                  this.messages.push(JSON.stringify(customer));
+                }
               });
             }
           }
