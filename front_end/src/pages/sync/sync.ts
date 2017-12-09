@@ -215,57 +215,61 @@ export class SyncPage {
   });*/
 
   //Sending customer data to server
-  syncCustomerData() {
-    if (window.navigator.onLine) {
-      let loadingCtrl = this.loadingCtrl;
-      let loading = loadingCtrl.create();
-      loading.present();
-      this.messages.push('<b>Sincronizando Clientes</b>');
-      this.customersService
-        .getDataFromPouch()
-        .then(data => {
-          for (var i = 0; i < data.length; i++) {
-            var customer = data[i];
-            if (customer.newCustomer > 0) {
-              // console.log("nuevo cliente:" + JSON.stringify(customer));
-              var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_clientes.php?task=rmRegistrarCliente";
-              url += "&user_id=" + customer.user_id;
-              url += "&name=" + customer.name;
-              url += "&street=" + customer.street;
-              url += "&phone=" + customer.phone;
-              url += "&mobile=" + customer.mobile;
-              url += "&email=" + customer.email;
-              url += "&nit=" + customer.nit;
-              url += "&razon_social=" + customer.razon_social;
-              url += "&rm_longitude=" + customer.rm_longitude;
-              url += "&rm_latitude=" + customer.rm_latitude;
-              url += "&photo_m=" + customer.photo_m;
-              url += "&rm_sync_date_time=" + customer.rm_sync_date_time;
-              if (customer.newCustomer ==2) {
-                url += "&id=" + customer.id;
-              }
-              url += "&callback=JSONP_CALLBACK";
-              // console.log(url);
-              let operacion = customer.newCustomer;
-              url = encodeURI(url);
-              this.customersService.saveCustomerOnServer(url).then(data => {
-                if (operacion == 1) {
-                  this.messages.push('Nuevo Cliente:' + customer.name);
-                  this.messages.push(JSON.stringify(customer));
-                } else if (operacion == 2) {
-                  this.messages.push('Editar Cliente:' + customer.name);
-                  this.messages.push(JSON.stringify(customer));
-                }
-              });
-            }
-          }
-        });
-      loading.dismiss();
-    } else {
-      this.sinInternet();
-      // alert('Device Not Online');
-    }
-  }
+	syncCustomerData() {
+		if (window.navigator.onLine) {
+			let loadingCtrl = this.loadingCtrl;
+			let loading = loadingCtrl.create();
+			loading.present();
+			this.messages.push('<b>Sincronizando Clientes</b>');
+			this.customersService
+			.getDataFromPouch()
+			.then(data => {
+				for (var i = 0; i < data.length; i++) {
+					var customer = data[i];
+					if (customer.newCustomer > 0) {
+						// console.log("nuevo cliente:" + JSON.stringify(customer));
+						var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_clientes.php?task=rmRegistrarCliente";
+						url += "&user_id=" + customer.user_id;
+						url += "&name=" + customer.name;
+						url += "&street=" + customer.street;
+						url += "&phone=" + customer.phone;
+						url += "&mobile=" + customer.mobile;
+						url += "&email=" + customer.email;
+						url += "&nit=" + customer.nit;
+						url += "&razon_social=" + customer.razon_social;
+						url += "&rm_longitude=" + customer.rm_longitude;
+						url += "&rm_latitude=" + customer.rm_latitude;
+						url += "&photo_m=" + customer.photo_m;
+						url += "&rm_sync_date_time=" + customer.rm_sync_date_time;
+						if (customer.newCustomer ==2) {
+							url += "&id=" + customer.id;
+						}
+						url += "&callback=JSONP_CALLBACK";
+						// console.log(url);
+						let operacion = customer.newCustomer;
+						url = encodeURI(url);
+						this.customersService.saveCustomerOnServer(url).then(data => {
+							if(data.status == 'success') {
+								if (operacion == 1) {
+									this.messages.push('Nuevo Cliente:' + customer.name);
+									this.messages.push(JSON.stringify(customer));
+								} else if (operacion == 2) {
+									this.messages.push('Editar Cliente:' + customer.name);
+									this.messages.push(JSON.stringify(customer));
+								}
+								customer.newCustomer = 0;
+								this.customersService.updateCustomer(customer);
+							}
+						});
+					}
+				}
+			});
+		  loading.dismiss();
+		} else {
+		  this.sinInternet();
+		  // alert('Device Not Online');
+		}
+	}
 
   ionViewWillLoad() {
     if (!this.ordersService.loginId) {
