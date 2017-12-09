@@ -191,7 +191,7 @@ function rmRegistrarCliente($conex, $user_id) {
     }
 
     if ($resultado) {
-      echo $_GET['callback'].'({"partner_id": '. $id . '})';
+      echo $_GET['callback'].'({"partner_id": '. $id . '},"status"="success")';
     } else {
       print_r($_REQUEST);
       print_r($datosRecibidos);
