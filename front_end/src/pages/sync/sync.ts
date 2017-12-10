@@ -49,6 +49,7 @@ export class SyncPage {
     let loading = loadingCtrl.create();
     loading.present();
     this.databaseService.deleteDB();
+    this.messages.push('Toda la informacion en el Dispositivo fue eliminada.');
     loading.dismiss();
   }
 
@@ -117,6 +118,7 @@ export class SyncPage {
             console.log('loadCustomers:' + JSON.stringify(items[i]));
             this.customersService.addCustomer(items[i]);
           }
+          this.messages.push('Total clientes cargados:' + i);
           loading.dismiss();
         });
     }
@@ -255,10 +257,10 @@ export class SyncPage {
 							let c = data[1];
 							let status = response._body.status;
 							if(status == 'success') {
-								if (operacion == 1) {
+								if (c.newCustomer == 1) {
 									this.messages.push('Nuevo Cliente:' + c.name);
 									this.messages.push(JSON.stringify(c));
-								} else if (operacion == 2) {
+								} else if (c.newCustomer == 2) {
 									this.messages.push('Editar Cliente:' + c.name);
 									this.messages.push(JSON.stringify(c));
 								}

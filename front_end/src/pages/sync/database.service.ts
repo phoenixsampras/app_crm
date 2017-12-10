@@ -50,7 +50,7 @@ export class DatabaseService {
 		this._db.get(id).then(function(doc) {
 			return doc;
 		}).catch(function(err) {
-			console.log(err);
+			// console.log(err);
 			return db.put(customer);
 		});
 

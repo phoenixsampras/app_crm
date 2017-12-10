@@ -203,6 +203,7 @@
   "GET_LOCATION": "Ubicacion",
   "SET_LOCATION": "Marcar",
   "TAKE_PICTURE": "Fotografia",
-  "PRINT_PREVIEW": "Vista Previa"
+  "PRINT_PREVIEW": "Vista Previa",
+  "property_product_pricelist": "Lista de Precio"
 
 }
