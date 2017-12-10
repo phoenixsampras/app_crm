@@ -102,7 +102,7 @@ export class SyncPage {
           for (var i = 0; i < items.length; i++) {
             //console.log("rmListaClientes:" + JSON.stringify(items[i]));
             //console.log(items[i].rm_nombre);
-            items[i].property_product_pricelist = items[i].property_product_pricelist[1];
+            items[i].property_product_pricelist = items[i].property_product_pricelist[0];
             items[i].user_id = items[i].user_id[0];
             items[i].newCustomer = 0;
             items[i].name = !items[i].name ? "" : items[i].name;
@@ -226,9 +226,11 @@ export class SyncPage {
 			this.customersService
 			.getDataFromPouch()
 			.then(data => {
+        // console.log("DATA"+JSON.stringify(data));
 				for (var i = 0; i < data.length; i++) {
 					var customer = data[i];
-					if (customer.newCustomer > 0) {
+          console.log("for:" + customer.newCustomer+ customer.name);
+					if (parseInt(customer.newCustomer) > 0) {
 						// console.log("nuevo cliente:" + JSON.stringify(customer));
 						var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_clientes.php?task=rmRegistrarCliente";
 						url += "&user_id=" + customer.user_id;

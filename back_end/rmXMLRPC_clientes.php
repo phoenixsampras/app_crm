@@ -184,11 +184,9 @@ function rmRegistrarCliente($conex, $user_id) {
     // echo $id;
     // echo gettype($id);
 
-    if (Is_Numeric($id)) {
+    if (Is_Numeric($id) OR is_bool ($id)) {
       $resultado = true;
-    } else if ($id) {
-      $resultado = true;
-    } else {
+    } else if (is_array($id)) {
       $resultado = false;
     }
 

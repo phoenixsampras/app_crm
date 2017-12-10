@@ -186,7 +186,7 @@ export class AddCustomerPage {
       values.id = this.customer.id;
       values._rev = this.customer._rev;
       values.user_id = this.customer.user_id;
-      values.newCustomer = this.customer.newCustomer;
+      // values.newCustomer = this.customer.newCustomer;
       values.newCustomer = 2;
       console.log("updateCustomer:"+JSON.stringify(values));
       this.customersService.updateCustomer(values);
