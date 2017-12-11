@@ -244,7 +244,7 @@ export class SyncPage {
 						url += "&razon_social=" + customer.razon_social;
 						url += "&rm_longitude=" + customer.rm_longitude;
 						url += "&rm_latitude=" + customer.rm_latitude;
-						url += "&photo_m=" + customer.photo_m;
+						// url += "&photo_m=" + customer.photo_m;
 						url += "&rm_sync_date_time=" + customer.rm_sync_date_time;
 						if (customer.newCustomer ==2) {
 							url += "&id=" + customer.id;
