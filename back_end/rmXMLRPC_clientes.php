@@ -162,7 +162,7 @@ function rmRegistrarCliente($conex, $user_id) {
         'rm_longitude' => $rm_longitude,
         'rm_latitude' => $rm_latitude,
         'property_product_pricelist' => $property_product_pricelist,
-        // 'image' => $image,
+        'image' => $image,
         'user_id' => $user_id,
         'razon_social' => $razon_social,
         'nit' => $nit,
@@ -179,10 +179,6 @@ function rmRegistrarCliente($conex, $user_id) {
     } else {
       $id = $models->execute_kw($db, $uid, $password, 'res.partner', 'create', array($datosRecibidos));
     }
-
-    // print_r($id);
-    // echo $id;
-    // echo gettype($id);
 
     if (Is_Numeric($id) OR is_bool ($id)) {
       $resultado = true;
