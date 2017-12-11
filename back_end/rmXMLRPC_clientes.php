@@ -140,18 +140,18 @@ function rmRegistrarCliente($conex, $user_id) {
     $password = $conex['password'];
 
     $id = intval($_REQUEST['id']);
-    $name = $_REQUEST['name'];
-    $street = $_REQUEST['street'];
-    $phone = $_REQUEST['phone'];
-    $mobile = $_REQUEST['mobile'];
-    $rm_longitude = $_REQUEST['rm_longitude'];
-    $rm_latitude = $_REQUEST['rm_latitude'];
-    $property_product_pricelist = $_REQUEST['property_product_pricelist'];
-    $user_id = intval($_REQUEST['user_id']);
-    $razon_social = $_REQUEST['razon_social'];
-    $nit = $_REQUEST['nit'];
-    $rm_sync_date_time = $_REQUEST['rm_sync_date_time'];
-    $image = $_REQUEST['photo_m'];
+    $name = $_REQUEST['name']  ? $_REQUEST['name'] : '';
+    $street = $_REQUEST['street'] ? $_REQUEST['street']: '';
+    $phone = $_REQUEST['phone'] ? $_REQUEST['phone']: '';
+    $mobile = $_REQUEST['mobile'] ? $_REQUEST['mobile']: '';
+    $rm_longitude = $_REQUEST['rm_longitude'] ? $_REQUEST['rm_longitude']: '';
+    $rm_latitude = $_REQUEST['rm_latitude'] ? $_REQUEST['rm_latitude']: '';
+    $property_product_pricelist = $_REQUEST['property_product_pricelist'] ? $_REQUEST['property_product_pricelist']: '';
+    $user_id = intval($_REQUEST['user_id']) ? intval($_REQUEST['user_id']) : 0;
+    $razon_social = $_REQUEST['razon_social'] ? $_REQUEST['razon_social'] : 'Ninguno';
+    $nit = $_REQUEST['nit'] ? $_REQUEST['nit'] : '0';
+    $rm_sync_date_time = $_REQUEST['rm_sync_date_time'] ? $_REQUEST['rm_sync_date_time'] : date('Y-m-d H:i:s');
+    $image = $_REQUEST['photo_m'] ? $_REQUEST['photo_m'] : '';
 
     $datosRecibidos =
       array(
