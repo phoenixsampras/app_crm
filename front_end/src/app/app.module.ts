@@ -41,6 +41,8 @@ import { ChartsPage } from '../pages/charts/charts';
 import { AddCustomerPage } from '../pages/add-customer/add-customer';
 import { PrintOrderPage } from '../pages/print-order/print-order';
 import { AddEventPage } from '../pages/add-event/add-event';
+import { RoutesPage } from '../pages/routes/routes';
+
 
 import { PreloadImage } from '../components/preload-image/preload-image';
 import { BackgroundImage } from '../components/background-image/background-image';
@@ -70,6 +72,9 @@ import { PositionService } from '../pages/orders/position.service';
 import { CalendarService } from '../pages/calendar/calendar.service';
 import { ProductsService } from '../pages/products/products.service';
 import { ChartsService } from '../pages/charts/charts.service';
+import { RoutesService } from '../pages/routes/routes.service';
+
+
 
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
@@ -170,6 +175,7 @@ export function createTranslateLoader(http: Http) {
 	AddCustomerPage,
 	PrintOrderPage,
 	AddEventPage,
+	RoutesPage,
   ],
   imports: [
     BrowserModule,
@@ -237,6 +243,7 @@ export function createTranslateLoader(http: Http) {
 	AddCustomerPage,
 	PrintOrderPage,
 	AddEventPage,
+	RoutesPage,
   ],
   providers: [
     FeedService,
@@ -280,6 +287,7 @@ export function createTranslateLoader(http: Http) {
 	Camera,
 	CallNumber,
     EmailComposer,
+	RoutesService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

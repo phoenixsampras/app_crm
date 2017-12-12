@@ -18,6 +18,8 @@ import { ClientesPage } from '../pages/clientes/clientes';
 import { ChartsPage } from '../pages/charts/charts';
 import { ProductsPage } from '../pages/products/products';
 import { LoginPage } from '../pages/login/login';
+import { RoutesPage } from '../pages/routes/routes';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.html'
@@ -78,7 +80,7 @@ export class MyApp {
         this.translate.get('CALENDAR'),
         this.translate.get('CHARTS'),
         this.translate.get('SYNC'),
-
+		this.translate.get('ROUTES'),
         // this.translate.get('LAYOUTS'),
         this.translate.get('SETTINGS')
       ).subscribe(data => {
@@ -92,13 +94,13 @@ export class MyApp {
           { title: data[4], icon: 'calendar', component: CalendarPage },
           { title: data[5], icon: 'pulse', component: ChartsPage },
           { title: data[6], icon: 'sync', component: SyncPage },
-
+			{ title: data[7], icon: 'navigate', component: RoutesPage },
 
         ];
 
         this.pushPages = [
           // { title: data[6], icon: 'grid', component: LayoutsPage },
-          { title: data[7], icon: 'settings', component: SettingsPage }
+          { title: data[8], icon: 'settings', component: SettingsPage }
         ];
       });
     });

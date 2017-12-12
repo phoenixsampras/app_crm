@@ -1,0 +1,20 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>{{ 'ROUTES' | translate}}</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-row no-padding class="map-row">
+		<ion-col no-padding class="map-col">
+      
+			<div class="map-container">
+				<google-map [options]="map_model.map_options"></google-map>
+			</div>
+      
+		</ion-col>
+	</ion-row>
+</ion-content>
