@@ -61,10 +61,10 @@
 						<b>{{'Product' | translate}}</b>
 					</ion-col>
 					<ion-col col-2 class="rmNumero">
-						<b>{{'Price' | translate}}</b>
+						<b>{{'PU' | translate}}</b>
 					</ion-col>
 					<ion-col col-2 class="rmNumero">
-						<b>{{'Quantity' | translate}}</b>
+						<b>{{'Qty' | translate}}</b>
 					</ion-col>
 					<ion-col col-3 class="rmNumero">
 						<b>{{'Sub_Total' | translate}}</b>
@@ -80,7 +80,7 @@
 						{{getProductPrice(product) | number: '1.2-2'}}
 					</ion-col>
 					<ion-col col-2 class="rmNumero">
-						{{product.quantity | number: '1.2-2'}}
+						{{product.quantity | number: '1.0-0'}}
 					</ion-col>
 					<ion-col col-3 class="rmNumero">
 						{{getProductTotal(product) | number: '1.2-2'}}

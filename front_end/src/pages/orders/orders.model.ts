@@ -6,4 +6,5 @@ export class OrdersModel {
 	items: Array<OrdersModel>;
 	latitude:string;
 	longitude:string;
+	newCustomer = 0;
 }

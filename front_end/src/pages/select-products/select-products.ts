@@ -90,7 +90,7 @@ export class SelectProductsPage {
 			this.viewCtrl.dismiss(this.product);
 		} else {
 			let toast = this.toastCtrl.create({
-				message: "El pedido esta fuera del stock, revise su pedido!",
+				message: "El pedido no cuenta con suficiente stock, revise su pedido!",
 				duration: 3000,
 				cssClass: 'toast-error',
 				position:'bottom',

@@ -206,6 +206,8 @@
   "PRINT_PREVIEW": "Vista Previa",
   "property_product_pricelist": "Lista de Precio",
   "SEND_CUSTOMERS_DATA": "SINCRONIZAR CLIENTES",
-  "SEND_ORDERS_DATA": "SINCRONIZAR PEDIDOS"
+  "SEND_ORDERS_DATA": "SINCRONIZAR PEDIDOS",
+  "PU": "PU",
+  "Qty": "Cant"
 
 }

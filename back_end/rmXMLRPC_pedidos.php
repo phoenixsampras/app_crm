@@ -171,6 +171,7 @@ function rmRegistrarLineaPedido($conex, $user_id) {
           // 'price_unit' => $price_unit,
           'product_uom_qty' => $rmQuantity,
           'product_uom' => 1,
+          'route_id' => 3
         )
       );
 

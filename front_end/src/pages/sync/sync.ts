@@ -156,31 +156,49 @@ export class SyncPage {
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
-      this.messages.push('Sync Started');
+      this.messages.push('Sincronizando Pedidos');
       this.ordersService
         .getData()
         .then(data => {
           for (var i = 0; i < data.length; i++) {
             var order = data[i];
+            console.log("for Pedido:" + JSON.stringify(order));
+
             let selectedProducts = order.selectedProducts;
-            var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarPedido&rmCustomer=" + order.customer + "&rmDateOrder=" + order.dateOrder + "&rmUserId=" + order.rmUserId + "&rmNote=" + order.notes + "&rmUserId=" + order.rmUserId + "&latitude=" + order.latitude + "&longitude=" + order.longitude + "&confirmed=" + order.confirmed + "&callback=JSONP_CALLBACK";
+            var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarPedido";
+            url += "&rmCustomer=" + order.customerObj.id;
+            url += "&rmDateOrder=" + order.dateOrder;
+            url += "&rmUserId=" + order.rmUserId;
+            url += "&rmNote=" + order.notes;
+            url += "&rmUserId=" + order.rmUserId;
+            url += "&latitude=" + order.latitude;
+            url += "&longitude=" + order.longitude;
+            url += "&confirmed=" + order.confirmed;
+            url += "&callback=JSONP_CALLBACK";
             url = encodeURI(url);
             this.ordersService.saveOrderOnServer(url).then(data => {
               let order_id = data._body.order_id;
-              console.log(data._body.order_id);
-              console.log('order with id-' + order._id + ' Uploaded ');
-
-              for (var j = 0; j < selectedProducts.length; j++) {
-                setTimeout(function() {
-                  console.log('Delaying...');
-                }, 1000);
-                let productId = selectedProducts[j].product.id;
-                let quantity = selectedProducts[j].quantity;
-                var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarLineaPedido&order_id=" + order_id + "&rmQuantity=" + quantity + "&rmProduct_id=" + productId + "&callback=JSONP_CALLBACK";
-                url = encodeURI(url);
-                this.ordersService.saveOrderOnServer(url).then(data2 => {
-                  console.log("rmRegistrarLineaPedido:" + data2);
-                });
+              this.messages.push('Pedido creado id:' + order_id + ", _id:" + order._id);
+              if (order_id) {
+                for (var j = 0; j < selectedProducts.length; j++) {
+                  setTimeout(function() {
+                    console.log('Delaying...');
+                  }, 1000);
+                  let productId = selectedProducts[j].product.id;
+                  let quantity = selectedProducts[j].quantity;
+                  var url2 = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarLineaPedido";
+                  url2 += "&order_id=" + order_id;
+                  url2 += "&rmQuantity=" + quantity
+                  url2 += "&rmProduct_id=" + productId
+                  url2 += "&callback=JSONP_CALLBACK";
+                  url2 = encodeURI(url2);
+                  this.ordersService.saveOrderOnServer(url2).then(data2 => {
+                    console.log("rmRegistrarLineaPedido:" + data2);
+                  });
+                }
+              } else {
+                this.messages.push('Pedido no pudo ser creado');
+                return false;
               }
               this.messages.push('Order with id-' + order._id + ' Uploaded ');
             });
@@ -196,7 +214,7 @@ export class SyncPage {
     .then(data => {
       for (var i = 0; i < data.length; i++) {
         var position = data[i];
-        //var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
+        //var url2 = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
         var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacion&res_user_id=11&longitude=" + position.lat + "&latitude=" + position.lat + "&res_user_id=" + position.user_id  + "&callback=JSONP_CALLBACK";
         url = encodeURI(url);
         this.positionService.savePositionOnServer(url).then(data => {
