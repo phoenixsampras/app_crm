@@ -146,7 +146,11 @@ function rmRegistrarCliente($conex, $user_id) {
     $mobile = $_REQUEST['mobile'] ? $_REQUEST['mobile']: '';
     $rm_longitude = $_REQUEST['rm_longitude'] ? $_REQUEST['rm_longitude']: '';
     $rm_latitude = $_REQUEST['rm_latitude'] ? $_REQUEST['rm_latitude']: '';
-    $property_product_pricelist = $_REQUEST['property_product_pricelist'] ? 'product.pricelist,'.$_REQUEST['property_product_pricelist']: 1;
+    if ($id) {
+      $property_product_pricelist = $_REQUEST['property_product_pricelist'] ? 'product.pricelist,'.$_REQUEST['property_product_pricelist']: 1;
+    } else {
+      $property_product_pricelist = $_REQUEST['property_product_pricelist'] ? $_REQUEST['property_product_pricelist']: 1;
+    }
     $user_id = intval($_REQUEST['user_id']) ? intval($_REQUEST['user_id']) : 0;
     $razon_social = $_REQUEST['razon_social'] ? $_REQUEST['razon_social'] : 'Ninguno';
     $nit = $_REQUEST['nit'] ? $_REQUEST['nit'] : '0';
