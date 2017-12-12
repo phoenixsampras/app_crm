@@ -204,6 +204,8 @@
   "SET_LOCATION": "Marcar",
   "TAKE_PICTURE": "Fotografia",
   "PRINT_PREVIEW": "Vista Previa",
-  "property_product_pricelist": "Lista de Precio"
+  "property_product_pricelist": "Lista de Precio",
+  "SEND_CUSTOMERS_DATA": "SINCRONIZAR CLIENTES",
+  "SEND_ORDERS_DATA": "SINCRONIZAR PEDIDOS"
 
 }
