@@ -181,9 +181,9 @@ export class SyncPage {
               this.messages.push('Pedido creado id:' + order_id + ", _id:" + order._id);
               if (order_id) {
                 for (var j = 0; j < selectedProducts.length; j++) {
-                  setTimeout(function() {
-                    console.log('Delaying...');
-                  }, 1000);
+                  // setTimeout(function() {
+                  //   console.log('Delaying...');
+                  // }, 1000);
                   let productId = selectedProducts[j].product.id;
                   let quantity = selectedProducts[j].quantity;
                   var url2 = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarLineaPedido";
@@ -192,7 +192,7 @@ export class SyncPage {
                   url2 += "&rmProduct_id=" + productId
                   url2 += "&callback=JSONP_CALLBACK";
                   url2 = encodeURI(url2);
-                  this.ordersService.saveOrderOnServer(url2).then(data2 => {
+                  this.ordersService.saveOrderLineOnServer(url2).then(data2 => {
                     console.log("rmRegistrarLineaPedido:" + data2);
                   });
                 }
@@ -201,6 +201,7 @@ export class SyncPage {
                 return false;
               }
               this.messages.push('Order with id-' + order._id + ' Uploaded ');
+              loading.dismiss();
             });
           }
         });
