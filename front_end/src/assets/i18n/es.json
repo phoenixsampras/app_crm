@@ -208,6 +208,7 @@
   "SEND_CUSTOMERS_DATA": "SINCRONIZAR CLIENTES",
   "SEND_ORDERS_DATA": "SINCRONIZAR PEDIDOS",
   "PU": "PU",
-  "Qty": "Cant"
+  "Qty": "Cant",
+  "ROUTES": "Rutas"
 
 }

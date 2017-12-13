@@ -110,6 +110,10 @@ export class PrintOrderPage {
         // console.log("dasda" + JSON.stringify(this.orderObj.selectedProducts[i]['product']['product']));
         // console.log("dasda" + JSON.stringify(this.orderObj.selectedProducts[i]));
         let productCountLetters = this.orderObj.selectedProducts[i]['product']['product'].length;
+        let quantity = this.orderObj.selectedProducts[i]['quantity'];
+        let price = this.orderObj.selectedProducts[i]['product']['price'];
+        // let quantity = this.orderObj.selectedProducts[i]['quantity'].toLocaleString('en-US');
+        // let price = this.orderObj.selectedProducts[i]['product']['price'].toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         console.log("productCountLetters:" + productCountLetters);
         zebra_receipt_body += `
               ^FO0,` + zebra_receipt_body_height + `
@@ -118,11 +122,11 @@ export class PrintOrderPage {
 
               ^FO250,` + zebra_receipt_body_height + `
               ^FB60,5,0,R,0
-              ^FD` + this.orderObj.selectedProducts[i]['quantity'].toLocaleString('en-US') + `^FS
+              ^FD` + quantity + `^FS
 
               ^FO320,` + zebra_receipt_body_height + `
               ^FB100,5,0,R,0
-              ^FD` + this.orderObj.selectedProducts[i]['product']['price'].toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + `^FS
+              ^FD` + price + `^FS
 
               ^FO410,` + zebra_receipt_body_height + `
               ^FB150,5,0,R,0

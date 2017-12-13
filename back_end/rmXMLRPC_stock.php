@@ -65,17 +65,21 @@ function rmStockProductos ($db) {
         pp.name_template as product,
         slu.user_id,
         sm.product_en_transito as transito,
-        sum(sm.product_qty) as stock,
-        sum(psp.ch) as ch,
-        sum(psp.cm) as cm,
-        sum(psp.cg) as cg
+        (sm.product_qty) as stock,
+        (psp.ch) as ch,
+        (psp.cm) as cm,
+        (psp.cg) as cg
         FROM
         stock_move AS sm
         LEFT JOIN product_product AS pp ON sm.product_id = pp.id
         LEFT JOIN stock_location_users AS slu ON slu.location_id = sm.location_dest_id
-        LEFT JOIN rm_product_stock_pricelist as psp ON psp.id = slu.user_id
+        LEFT JOIN rm_product_stock_pricelist as psp ON psp.id = pp.id
 
+        --WHERE slu.user_id = 6 AND sm.product_en_transito is True
         WHERE slu.user_id = " . $user_id . " AND sm.product_en_transito is True
+        --GROUP BY 1,2,3,4,5
+        ORDER BY transito
+
         GROUP BY 1,2,3,4,5
         ORDER BY product_en_transito
 

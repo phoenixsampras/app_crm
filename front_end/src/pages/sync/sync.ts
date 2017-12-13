@@ -67,6 +67,7 @@ export class SyncPage {
             console.log(items[i]);
             this.productsService.addProduct(items[i]);
           }
+          this.messages.push('Productos cargados:' + i );
           loading.dismiss();
         });
     }
