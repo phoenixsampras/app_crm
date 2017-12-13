@@ -41,7 +41,14 @@ export class PrintOrderPage {
       });
   }
 
-  
+  getTotal() {
+    let total = 0.0;
+    for (var i = 0; i < this.orderObj.selectedProducts.length; i++) {
+      total += this.orderObj.selectedProducts[i].product.price * this.orderObj.selectedProducts[i].quantity;
+    }
+    return total;
+  }
+
   dismiss() {
     this.viewCtrl.dismiss();
   }
@@ -49,37 +56,6 @@ export class PrintOrderPage {
   cancel() {
     this.viewCtrl.dismiss();
   }
-  
-	getProductTotal(product) {
-		let price = product.product.ch;
-		if (this.orderObj.customerObj.property_product_pricelist == '2') {
-		  price = product.product.cm;
-		} else if (this.orderObj.customerObj.property_product_pricelist == '3') {
-		  price = product.product.cg;
-		}
-
-		return product.quantity * price;
-	}
-  
-	getTotal() {
-		let total = 0.0;
-		for (var i = 0; i < this.orderObj.selectedProducts.length; i++) {
-		  total += this.getProductTotal(this.orderObj.selectedProducts[i]);//this.selectedProducts[i].product.price * this.selectedProducts[i].quantity;
-		}
-		return total;
-	}
-	getProductPrice(product) {
-		let price = product.product.ch;
-		let customerObj = this.orderObj.customerObj;
-		if (customerObj.property_product_pricelist == '2') {
-			price = product.product.cm;
-		} 
-		else if (customerObj.property_product_pricelist == '3') {
-			price = product.product.cg;
-		}
-		console.log(price);
-		return price;
-	}
 
   // New function to print in zebra lang
   printOrder() {
@@ -135,7 +111,7 @@ export class PrintOrderPage {
         // console.log("dasda" + JSON.stringify(this.orderObj.selectedProducts[i]));
         let productCountLetters = this.orderObj.selectedProducts[i]['product']['product'].length;
         let quantity = this.orderObj.selectedProducts[i]['quantity'];
-        let price = this.getProductPrice(this.orderObj.selectedProducts[i]['product']);
+        let price = this.orderObj.selectedProducts[i]['product']['price'];
         // let quantity = this.orderObj.selectedProducts[i]['quantity'].toLocaleString('en-US');
         // let price = this.orderObj.selectedProducts[i]['product']['price'].toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         console.log("productCountLetters:" + productCountLetters);
@@ -154,7 +130,7 @@ export class PrintOrderPage {
 
               ^FO410,` + zebra_receipt_body_height + `
               ^FB150,5,0,R,0
-              ^FD` + (price * quantity).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + `^FS
+              ^FD` + (this.orderObj.selectedProducts[i]['product']['price'] * this.orderObj.selectedProducts[i]['quantity']).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + `^FS
               `;
         zebra_receipt_body_height = zebra_receipt_body_height + 30;
         zebra_receipt_body_total_height += 30;

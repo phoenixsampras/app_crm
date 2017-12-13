@@ -24,7 +24,7 @@
 				<b>{{'BILL_NO' | translate}}: 1</b>
 			</ion-col>
 			<ion-col col-6 style='text-align:right'>
-				<b>{{'DATE' | translate}}: {{orderObj.dateOrder | date: 'dd/MM/yyyy H:mm'}}</b>
+				<b>{{'DATE' | translate}}: {{orderObj.dateOrder}}</b>
 			</ion-col>
 		</ion-row>
 		<ion-grid *ngIf="orderObj && orderObj.selectedProducts && orderObj.selectedProducts.length > 0" >
@@ -49,13 +49,13 @@
 					{{product.product.product}}
 				</ion-col>
 				<ion-col col-2>
-					{{getProductPrice(product)}}
+					{{product.product.price}}
 				</ion-col>
 				<ion-col col-2>
 					{{product.quantity}}
 				</ion-col>
 				<ion-col col-2>
-					{{product.quantity * getProductPrice(product)}}
+					{{product.quantity * product.product.price}}
 				</ion-col>
 
 			</ion-row>
