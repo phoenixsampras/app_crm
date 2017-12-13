@@ -51,7 +51,7 @@ export class PrintOrderPage {
 
 		return product.quantity * price;
 	}
-  
+
 	getTotal() {
 		let total = 0.0;
 		for (var i = 0; i < this.orderObj.selectedProducts.length; i++) {
@@ -64,7 +64,7 @@ export class PrintOrderPage {
 		let customerObj = this.orderObj.customerObj;
 		if (customerObj.property_product_pricelist == '2') {
 			price = product.product.cm;
-		} 
+		}
 		else if (customerObj.property_product_pricelist == '3') {
 			price = product.product.cg;
 		}
@@ -115,12 +115,12 @@ export class PrintOrderPage {
               ^FO0,110^FB580,3,0,C,0^FDCochabamba - Bolivia^FS
               ^CFQ
               ^FO5,180^FD Fecha: ` + moment(this.orderObj.dateOrder).format('Do MMMM YYYY, h:mm a') + `^FS
-              ^FO5,210^FD Vendedor: Hermenegildo^FS
-              ^FO5,240^FD Cliente: ` + this.orderObj.customerObj.rm_nombre + `^FS
-              ^FO5,270^FD NIT: 78415465416341^FS
-              ^FO5,300^FD Direccion: ` + this.orderObj.customerObj.rm_direccion + `^FS
-              ^FO5,330^FD Telefono: ` + this.orderObj.customerObj.rm_telefono + `^FS
-              ^FO5,360^FD Celular: ` + this.orderObj.customerObj.rm_celular + `^FS
+              ^FO5,210^FD Vendedor: Organica Distribuidor^FS
+              ^FO5,240^FD Cliente: ` + this.orderObj.customerObj.name + `^FS
+              ^FO5,270^FD NIT: ` + this.orderObj.customerObj.nit + `^FS
+              ^FO5,300^FD Direccion: ` + this.orderObj.customerObj.street + `^FS
+              ^FO5,330^FD Telefono: ` + this.orderObj.customerObj.phone + `^FS
+              ^FO5,360^FD Celular: ` + this.orderObj.customerObj.celular + `^FS
 
               ^CFF,20
               ^LRY
@@ -134,7 +134,10 @@ export class PrintOrderPage {
         // console.log("dasda" + JSON.stringify(this.orderObj.selectedProducts[i]));
         let productCountLetters = this.orderObj.selectedProducts[i]['product']['product'].length;
         let quantity = this.orderObj.selectedProducts[i]['quantity'];
-        let price = this.orderObj.selectedProducts[i]['product']['price'];
+        let price = this.getProductPrice(this.orderObj.selectedProducts[i]);
+        let subtotal = price * this.orderObj.selectedProducts[i]['quantity'];
+        // let subtotal = (price * this.orderObj.selectedProducts[i]['quantity']).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        // let price = this.orderObj.selectedProducts[i]['product']['price'];
         // let quantity = this.orderObj.selectedProducts[i]['quantity'].toLocaleString('en-US');
         // let price = this.orderObj.selectedProducts[i]['product']['price'].toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         console.log("productCountLetters:" + productCountLetters);
@@ -153,7 +156,7 @@ export class PrintOrderPage {
 
               ^FO410,` + zebra_receipt_body_height + `
               ^FB150,5,0,R,0
-              ^FD` + (this.orderObj.selectedProducts[i]['product']['price'] * this.orderObj.selectedProducts[i]['quantity']).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + `^FS
+              ^FD` + subtotal + `^FS
               `;
         zebra_receipt_body_height = zebra_receipt_body_height + 30;
         zebra_receipt_body_total_height += 30;
@@ -196,14 +199,14 @@ export class PrintOrderPage {
 
       zebra_receipt = zebra_receipt_header + zebra_receipt_body + zebra_receipt_total + zebra_receipt_footer;
       // zebra_receipt = 'sd';
-      console.log("zebra_receipt_header:" + zebra_receipt_header);
-      console.log("zebra_receipt_body:" + zebra_receipt_body);
-      console.log("zebra_receipt_total:" + zebra_receipt_total);
-      console.log("zebra_receipt_footer:" + zebra_receipt_footer);
-      console.log("zebra_receipt_body_height:" + zebra_receipt_body_height);
-      console.log("zebra_receipt_body_total_height:" + zebra_receipt_body_total_height);
-      console.log("zebra_receipt_total_height:" + zebra_receipt_total_height);
-      console.log("zebra_receipt_footer_height:" + zebra_receipt_footer_height);
+      // console.log("zebra_receipt_header:" + zebra_receipt_header);
+      // console.log("zebra_receipt_body:" + zebra_receipt_body);
+      // console.log("zebra_receipt_total:" + zebra_receipt_total);
+      // console.log("zebra_receipt_footer:" + zebra_receipt_footer);
+      // console.log("zebra_receipt_body_height:" + zebra_receipt_body_height);
+      // console.log("zebra_receipt_body_total_height:" + zebra_receipt_body_total_height);
+      // console.log("zebra_receipt_total_height:" + zebra_receipt_total_height);
+      // console.log("zebra_receipt_footer_height:" + zebra_receipt_footer_height);
       console.log("zebra_receipt:" + zebra_receipt);
       //alert(this.ordersService.macAddress);
       // cordova.plugins.zbtprinter.print(this.ordersService.macAddress, "^XA^FO20,20^A0N,25,25^FD " + zebra_receipt + " ^FS^XZ",
