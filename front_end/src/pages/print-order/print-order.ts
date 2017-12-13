@@ -41,13 +41,36 @@ export class PrintOrderPage {
       });
   }
 
-  getTotal() {
-    let total = 0.0;
-    for (var i = 0; i < this.orderObj.selectedProducts.length; i++) {
-      total += this.orderObj.selectedProducts[i].product.price * this.orderObj.selectedProducts[i].quantity;
-    }
-    return total;
-  }
+ getProductTotal(product) {
+		let price = product.product.ch;
+		if (this.orderObj.customerObj.property_product_pricelist == '2') {
+		  price = product.product.cm;
+		} else if (this.orderObj.customerObj.property_product_pricelist == '3') {
+		  price = product.product.cg;
+		}
+
+		return product.quantity * price;
+	}
+  
+	getTotal() {
+		let total = 0.0;
+		for (var i = 0; i < this.orderObj.selectedProducts.length; i++) {
+		  total += this.getProductTotal(this.orderObj.selectedProducts[i]);//this.selectedProducts[i].product.price * this.selectedProducts[i].quantity;
+		}
+		return total;
+	}
+	getProductPrice(product) {
+		let price = product.product.ch;
+		let customerObj = this.orderObj.customerObj;
+		if (customerObj.property_product_pricelist == '2') {
+			price = product.product.cm;
+		} 
+		else if (customerObj.property_product_pricelist == '3') {
+			price = product.product.cg;
+		}
+		console.log(price);
+		return price;
+	}
 
   dismiss() {
     this.viewCtrl.dismiss();

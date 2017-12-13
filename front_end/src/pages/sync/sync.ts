@@ -193,9 +193,13 @@ export class SyncPage {
                   url2 += "&rmProduct_id=" + productId
                   url2 += "&callback=JSONP_CALLBACK";
                   url2 = encodeURI(url2);
-                  this.ordersService.saveOrderLineOnServer(url2).then(data2 => {
-                    console.log("rmRegistrarLineaPedido:" + data2);
-                  });
+				  let me = this;
+				  let timeout = 100 + (j * 100);
+					setTimeout(function(){
+						me.ordersService.saveOrderLineOnServer(url2).then(data2 => {
+							console.log("rmRegistrarLineaPedido:" + data2);
+						});
+					}, timeout);
                 }
               } else {
                 this.messages.push('Pedido no pudo ser creado');
