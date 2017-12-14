@@ -29,3 +29,8 @@ $app-direction: multi;
 .rmMenu {
   // background-image: url("../assets/images/menu/1.jpg");
 }
+
+ion-menu .menu-list .item .item-icon.icon-md-danger {
+    color: map-get($colors, danger);
+    font-size: 3.4rem;
+}

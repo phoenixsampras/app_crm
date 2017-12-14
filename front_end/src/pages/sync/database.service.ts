@@ -42,6 +42,24 @@ export class DatabaseService {
     });
   }
 
+	addLoginData(login) {
+		login._id = "loginObj";
+		return this._db.put(login);
+	}
+	
+	deleteLoginData() {
+		let me = this;
+		return this._db.get("loginObj").then(function(doc) {
+			return me._db.remove(doc);
+		})
+	}
+	
+	getLoginData() {
+		return this._db.get("loginObj");
+	}
+	
+	
+  
 	addCustomer(customer) {
 		let id = "customer-" + customer.id;
 		let db = this._db;
@@ -167,9 +185,9 @@ export class DatabaseService {
 		});;
 	}
 
-  deletePosition(position) {
-    return this._db.remove(position);
-  }
+	  deletePosition(position) {
+		return this._db.remove(position);
+	  }
 
   deleteOrder(order) {
     return this._db.remove(order);

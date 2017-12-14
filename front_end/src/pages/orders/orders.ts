@@ -68,6 +68,7 @@ export class OrdersPage {
 	}
 
 	ionViewWillLoad() {
+			
 		if(!this.ordersService.loginId) {
 			this.nav.setRoot(LoginPage);
 		}

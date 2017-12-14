@@ -18,6 +18,11 @@
 			<ion-input type="password" placeholder="123" value="123" formControlName="password" show-hide-input></ion-input>
 		</ion-item>
 		</show-hide-container>
+		
+		<ion-item>
+			<ion-label>{{'REMEMBER_LOGIN' | translate}}</ion-label>
+			<ion-checkbox color="primary" formControlName="remember"value='remember' ></ion-checkbox>
+		</ion-item>
 		<button ion-button block class="auth-action-button login-button" type="submit" [disabled]="!login.valid">{{'LOG_IN' | translate}}</button>
   </form>
 </ion-content>

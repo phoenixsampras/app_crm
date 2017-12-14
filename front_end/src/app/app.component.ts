@@ -19,6 +19,9 @@ import { ChartsPage } from '../pages/charts/charts';
 import { ProductsPage } from '../pages/products/products';
 import { LoginPage } from '../pages/login/login';
 import { RoutesPage } from '../pages/routes/routes';
+import { DatabaseService } from '../pages/sync/database.service';
+import { OrdersService } from '../pages/orders/orders.service';
+
 
 @Component({
   selector: 'app-root',
@@ -47,7 +50,10 @@ export class MyApp {
     public splashScreen: SplashScreen,
     public statusBar: StatusBar,
     public translate: TranslateService,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+	public ordersService: OrdersService,
+    public databaseService: DatabaseService,
+    
   ) {
     translate.setDefaultLang('es');
     // translate.setDefaultLang('en');
@@ -59,8 +65,19 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.splashScreen.hide();
       this.statusBar.styleDefault();
+	  this.databaseService.getLoginData()
+		.then(data => {
+			console.log("App Component " + data);
+			me.ordersService.loginId = data.loginId;
+			me.ordersService.rmDatosUsuario = data.rmDatosUsuario;
+			me.ordersService.rmCompany = data.rmCompany;
+			me.nav.setRoot(OrdersPage);
+		}).catch(function(err) {
+			console.log("not logged in");
+		});
     });
-
+	let me = this;
+	
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       if (event.lang == 'ar') {
         platform.setDir('rtl', true);
@@ -107,6 +124,18 @@ export class MyApp {
 
   }
 
+	logout() {
+		this.menu.close();
+		let me = this;
+		this.databaseService.deleteLoginData()
+		.then(data=>{
+			me.nav.setRoot(LoginPage);
+		})
+		.catch(function(err) {
+			me.nav.setRoot(LoginPage);
+		});
+	}
+  
   openPage(page) {
     // close the menu when clicking a link from the menu
     this.menu.close();

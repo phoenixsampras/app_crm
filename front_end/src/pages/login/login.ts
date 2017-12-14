@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 import { Jsonp } from '@angular/http';
 import { OrdersService } from '../orders/orders.service';
+import { DatabaseService } from '../sync/database.service';
 
 @Component({
   selector: 'login-page',
@@ -21,6 +22,7 @@ export class LoginPage {
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public ordersService: OrdersService,
+    public databaseService: DatabaseService,
     public jsonp: Jsonp,
 
   ) {
@@ -28,10 +30,13 @@ export class LoginPage {
 
     this.login = new FormGroup({
       email: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', Validators.required),
+	  remember: new FormControl('check',[])
     });
   }
-
+	ionViewDidEnter() {
+		
+	}
   doLogin(values) {
     let loadingCtrl = this.loadingCtrl;
     let toastCtrl = this.toastCtrl;
@@ -57,15 +62,25 @@ export class LoginPage {
           });
           toast.present();
         } else {
-          me.ordersService.loginId = data['_body']['login'];
-          let toast = toastCtrl.create({
-            message: "Bienvenido!",
-            duration: 3000,
-            cssClass: 'toast-success',
-            position: 'bottom',
-          });
-          toast.present();
-          nav.setRoot(me.main_page.component);
+			if(values.remember === true) {
+				me.ordersService.loginId = data['_body']['login'];
+				me.ordersService.rmDatosUsuario = data['_body']['rmDatosUsuario'];
+				me.ordersService.rmCompany = data['_body']['rmCompany'];
+				let loginData = {
+					'loginId' : me.ordersService.loginId,
+					'rmDatosUsuario': me.ordersService.rmDatosUsuario,
+					'rmCompany' : me.ordersService.rmCompany
+				};
+				me.databaseService.addLoginData(loginData);
+			}
+			let toast = toastCtrl.create({
+				message: "Bienvenido!",
+				duration: 3000,
+				cssClass: 'toast-success',
+				position: 'bottom',
+			});
+			toast.present();
+			nav.setRoot(me.main_page.component);
         }
         //console.log(data.login);
       });

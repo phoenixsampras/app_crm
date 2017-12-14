@@ -9,6 +9,8 @@ import { OrdersModel } from './orders.model';
 export class OrdersService {
 	public macAddress;
 	public loginId;
+	public rmDatosUsuario;
+	public rmCompany;
 	public lat;
 	public lng;
 	public timestamp = 0;
