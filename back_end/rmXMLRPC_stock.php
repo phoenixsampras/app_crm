@@ -72,19 +72,20 @@ function rmStockProductos ($db) {
 
         FROM
           (SELECT
-          pp.id,
-          --pp.default_code as code,
-          pp.name_template as product,
-          slu.user_id,
-          sm.product_en_transito as transito,
-          sum(sm.product_qty) as stock
+            pp.id,
+            --pp.default_code as code,
+            pp.name_template as product,
+            slu.user_id,
+            sm.product_en_transito as transito,
+            sum(sm.product_qty) as stock
 
           FROM
-          stock_move AS sm
-          LEFT JOIN product_product AS pp ON sm.product_id = pp.id
-          LEFT JOIN stock_location_users AS slu ON slu.location_id = sm.location_dest_id
-          WHERE slu.user_id = " . $user_id . " AND sm.product_en_transito is True
-          GROUP BY 1,2,3,4
+            stock_move AS sm
+            LEFT JOIN product_product AS pp ON sm.product_id = pp.id
+            LEFT JOIN stock_location_users AS slu ON slu.location_id = sm.location_dest_id
+          WHERE sm.state = 'done' AND
+            slu.user_id = " . $user_id . " AND sm.product_en_transito is True
+            GROUP BY 1,2,3,4
 
           ) AS stock
 
