@@ -260,7 +260,7 @@ export class DatabaseService {
 							j++;
 						}
 					}
-					if( j == 100) {
+					if( j == 30) {
 						break;
 					}
 				}
