@@ -62,8 +62,8 @@ function loginApp($conex){
                 $rmDatosCliente = $models->execute_kw($db, $uid, $password, 'res.partner', 'search_read', array(array(array('id', '=', $partner_id))), array('fields'=>array('ew_zonas_cliente_id'), 'limit'=>5));
                 // echo "/n rmDatosCliente:";
                 // print_r($rmDatosCliente);
-                $user_data = '{"rmListaProductos": ' . json_encode($rmDatosUsuario[0]) . '}';
-                echo $_GET['callback'].'({"login": '.$uid.',"vendedor":"false","ciudad":"' . $rmDatosCliente[0]['ew_zonas_cliente_id'][1] . '", "partner_id": '. $rmDatosCliente[0]['id'] .'})';
+                $user_data = '"rmDatosUsuario": ' . json_encode($rmDatosUsuario[0]);
+                echo $_GET['callback'].'({"login": '.$uid.',"vendedor":"false","ciudad":"' . $rmDatosCliente[0]['ew_zonas_cliente_id'][1] . '", "partner_id": '. $rmDatosCliente[0]['id'] .','.$user_data.'})';
             }
             // print_r($rmDatosUsuario);
 
