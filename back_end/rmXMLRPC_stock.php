@@ -60,24 +60,36 @@ function rmStockProductos ($db) {
         $sql = "
 
         SELECT
-        pp.id,
-        pp.default_code as code,
-        pp.name_template as product,
-        slu.user_id,
-        sm.product_en_transito as transito,
-        (sm.product_qty) as stock,
-        (psp.ch) as ch,
-        (psp.cm) as cm,
-        (psp.cg) as cg
+
+          stock.id,
+          stock.product,
+          stock.user_id,
+          stock.transito,
+          stock.stock,
+          psp.ch as ch,
+          psp.cm as cm,
+          psp.cg as cg
+
         FROM
-        stock_move AS sm
-        LEFT JOIN product_product AS pp ON sm.product_id = pp.id
-        LEFT JOIN stock_location_users AS slu ON slu.location_id = sm.location_dest_id
-        LEFT JOIN rm_product_stock_pricelist as psp ON psp.id = pp.id
-        WHERE slu.user_id = " . $user_id . " AND sm.product_en_transito is True
-        --GROUP BY 1,2,3,4,5
-        --ORDER BY transito
-        ORDER BY product_en_transito;
+          (SELECT
+          pp.id,
+          --pp.default_code as code,
+          pp.name_template as product,
+          slu.user_id,
+          sm.product_en_transito as transito,
+          sum(sm.product_qty) as stock
+
+          FROM
+          stock_move AS sm
+          LEFT JOIN product_product AS pp ON sm.product_id = pp.id
+          LEFT JOIN stock_location_users AS slu ON slu.location_id = sm.location_dest_id
+          WHERE slu.user_id = " . $user_id . " AND sm.product_en_transito is True
+          GROUP BY 1,2,3,4
+
+          ) AS stock
+
+          LEFT JOIN rm_product_stock_pricelist as psp ON psp.id = stock.id
+
         ";
 
         $query = pg_query($db, $sql);
