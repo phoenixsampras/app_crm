@@ -1,15 +1,12 @@
 // http://ionicframework.com/docs/v2/theming/
-
 // App Shared Imports
 // --------------------------------------------------
 // These are the imports which make up the design of this app.
 // By default each design mode includes these shared imports.
 // App Shared Sass variables belong in app.variables.scss.
-
 // Include Bourbon
 $output-bourbon-deprecation-warnings: false;
 @import "_bourbon";
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -25,12 +22,38 @@ $output-bourbon-deprecation-warnings: false;
 // automatically applied to the <body> element in the app.
 @import "../theme/common";
 $app-direction: multi;
-
 .rmMenu {
   // background-image: url("../assets/images/menu/1.jpg");
 }
 
+ion-menu .menu-list {
+  margin: 7vh 0px 0px !important;
+}
+
+ion-menu .menu-list .item .item-icon {
+  color: white !important;
+  width: 30px;
+  text-shadow: 2px 2px 2px black;
+}
+
 ion-menu .menu-list .item .item-icon.icon-md-danger {
-    color: map-get($colors, danger);
-    font-size: 3.4rem;
+  color: map-get($colors, danger);
+  font-size: 3.4rem;
+}
+
+ion-menu .menu-content {
+  // background-color: yellow !important;
+  background-image: url("../assets/images/menu/5.jpg");
+  background-position: right;
+}
+
+ion-menu .menu-list .item {
+  background-color: unset !important;
+  background-color: rgba(4, 4, 4, 0.5) !important;
+
+}
+
+ion-menu .menu-list .item .item-inner {
+  color: white !important;
+  text-shadow: 2px 2px 2px black;
 }

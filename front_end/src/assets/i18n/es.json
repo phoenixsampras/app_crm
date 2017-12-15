@@ -148,13 +148,13 @@
   "WALKTHROUGH2_2": "Vende Rapido",
   "WALKTHROUGH2_3": "y Facil",
 
-  "WALKTHROUGH3_1": "Registra y vende!",
+  "WALKTHROUGH3_1": "Registra tu pedido!",
   "WALKTHROUGH3_2": "Registra tus clientes",
   "WALKTHROUGH3_3": "y pedidos",
 
-  "WALKTHROUGH4_1": "Empezemos ahora!",
-  "WALKTHROUGH4_2": "Ingresa con tu cuenta o Registrate",
-  "WALKTHROUGH4_3": "Si tienes preguntas llama a 800-organica",
+  "WALKTHROUGH4_1": "Empezemos!",
+  "WALKTHROUGH4_2": "Buena Suerte!",
+  "WALKTHROUGH4_3": "Preguntas? llama a 800-organica",
 
   "CALENDAR": "Calendario",
   "SYNC": "Sincronizar",
@@ -209,6 +209,8 @@
   "SEND_ORDERS_DATA": "SINCRONIZAR PEDIDOS",
   "PU": "PU",
   "Qty": "Cant",
-  "ROUTES": "Rutas"
+  "ROUTES": "Rutas",
+  "REMEMBER_LOGIN": "Recordarme",
+  "LOGOUT": "Salir"
 
 }

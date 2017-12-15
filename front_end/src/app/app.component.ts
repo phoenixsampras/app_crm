@@ -32,8 +32,8 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make WalkthroughPage the root (or first) page
-  // rootPage: any = WalkthroughPage;
-  rootPage: any = OrdersPage;
+  rootPage: any = WalkthroughPage;
+  // rootPage: any = OrdersPage;
   // rootPage: any = LoginPage;
   // rootPage: any = ProductsPage;
   // rootPage: any = ProductsPage;
@@ -51,9 +51,9 @@ export class MyApp {
     public statusBar: StatusBar,
     public translate: TranslateService,
     public toastCtrl: ToastController,
-	public ordersService: OrdersService,
+    public ordersService: OrdersService,
     public databaseService: DatabaseService,
-    
+
   ) {
     translate.setDefaultLang('es');
     // translate.setDefaultLang('en');
@@ -65,19 +65,19 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.splashScreen.hide();
       this.statusBar.styleDefault();
-	  this.databaseService.getLoginData()
-		.then(data => {
-			console.log("App Component " + data);
-			me.ordersService.loginId = data.loginId;
-			me.ordersService.rmDatosUsuario = data.rmDatosUsuario;
-			me.ordersService.rmCompany = data.rmCompany;
-			me.nav.setRoot(OrdersPage);
-		}).catch(function(err) {
-			console.log("not logged in");
-		});
+      this.databaseService.getLoginData()
+        .then(data => {
+          console.log("App Component " + data);
+          me.ordersService.loginId = data.loginId;
+          me.ordersService.rmDatosUsuario = data.rmDatosUsuario;
+          me.ordersService.rmCompany = data.rmCompany;
+          me.nav.setRoot(OrdersPage);
+        }).catch(function(err) {
+          console.log("not logged in");
+        });
     });
-	let me = this;
-	
+    let me = this;
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       if (event.lang == 'ar') {
         platform.setDir('rtl', true);
@@ -95,9 +95,9 @@ export class MyApp {
         this.translate.get('CUSTOMERS'),
         this.translate.get('PRODUCTS'),
         this.translate.get('CALENDAR'),
+        this.translate.get('ROUTES'),
         this.translate.get('CHARTS'),
         this.translate.get('SYNC'),
-		this.translate.get('ROUTES'),
         // this.translate.get('LAYOUTS'),
         this.translate.get('SETTINGS')
       ).subscribe(data => {
@@ -109,9 +109,9 @@ export class MyApp {
           { title: data[2], icon: 'contacts', component: ClientesPage },
           { title: data[3], icon: 'filing', component: ProductsPage },
           { title: data[4], icon: 'calendar', component: CalendarPage },
-          { title: data[5], icon: 'pulse', component: ChartsPage },
-          { title: data[6], icon: 'sync', component: SyncPage },
-			{ title: data[7], icon: 'navigate', component: RoutesPage },
+          { title: data[5], icon: 'navigate', component: RoutesPage },
+          { title: data[6], icon: 'pulse', component: ChartsPage },
+          { title: data[7], icon: 'sync', component: SyncPage }
 
         ];
 
@@ -124,18 +124,18 @@ export class MyApp {
 
   }
 
-	logout() {
-		this.menu.close();
-		let me = this;
-		this.databaseService.deleteLoginData()
-		.then(data=>{
-			me.nav.setRoot(LoginPage);
-		})
-		.catch(function(err) {
-			me.nav.setRoot(LoginPage);
-		});
-	}
-  
+  logout() {
+    this.menu.close();
+    let me = this;
+    this.databaseService.deleteLoginData()
+      .then(data => {
+        me.nav.setRoot(LoginPage);
+      })
+      .catch(function(err) {
+        me.nav.setRoot(LoginPage);
+      });
+  }
+
   openPage(page) {
     // close the menu when clicking a link from the menu
     this.menu.close();

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ViewController, NavController, NavParams, ToastController } from 'ionic-angular';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { OrdersService } from '../orders/orders.service';
+import { DatabaseService } from '../sync/database.service';
 import moment from 'moment';
 
 /**
@@ -19,6 +20,7 @@ declare var cordova;
 export class PrintOrderPage {
 
   orderObj: any;
+  loginObj: any;
   address = '';
   totalProducts = 0;
   devicesList:any = [];
@@ -28,10 +30,20 @@ export class PrintOrderPage {
     public viewCtrl: ViewController,
     public toastCtrl: ToastController,
     public ordersService: OrdersService,
+    public databaseService: DatabaseService,
     private bluetoothSerial: BluetoothSerial
-
   ) {
     this.orderObj = this.navParams.get('order');
+  }
+
+  ionViewWillLoad() {
+    this.loginObj = this.databaseService.getLoginData()
+    .then(
+      response => {
+        this.loginObj = response;
+      }
+    );
+    console.log(JSON.stringify(this.loginObj));
   }
 
   ionViewDidEnter() {

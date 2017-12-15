@@ -35,7 +35,7 @@ export class LoginPage {
     });
   }
 	ionViewDidEnter() {
-		
+
 	}
   doLogin(values) {
     let loadingCtrl = this.loadingCtrl;
@@ -52,7 +52,6 @@ export class LoginPage {
       .toPromise()
       .then(data => {
         loading.dismiss();
-        console.log(JSON.stringify(data['_body']));
         if (data['_body']['login'] == 'False') {
           let toast = toastCtrl.create({
             message: "Incorrecto, intente nuevamente.",
@@ -71,6 +70,7 @@ export class LoginPage {
 					'rmDatosUsuario': me.ordersService.rmDatosUsuario,
 					'rmCompany' : me.ordersService.rmCompany
 				};
+        console.log(JSON.stringify(loginData));
 				me.databaseService.addLoginData(loginData);
 			}
 			let toast = toastCtrl.create({

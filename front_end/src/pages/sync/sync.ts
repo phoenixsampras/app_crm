@@ -195,11 +195,12 @@ export class SyncPage {
                   url2 = encodeURI(url2);
                   let me = this;
                   let timeout = 1000 + (j * 1000);
-                  console.log("timeout:" + timeout);
+                  // console.log("timeout:" + timeout);
                   (function(){
                     var url3 = url2;
                     setTimeout(function() {
                       me.ordersService.saveOrderLineOnServer(url3).then(data2 => {
+                        this.messages.push('Linea de Pedido cargada' + JSON.stringify(data2));
                         console.log("rmRegistrarLineaPedido:" + data2);
                       });
                     }, timeout);
@@ -209,7 +210,6 @@ export class SyncPage {
                 this.messages.push('Pedido no pudo ser creado');
                 return false;
               }
-              this.messages.push('Order with id-' + order._id + ' Uploaded ');
               loading.dismiss();
             });
           }
