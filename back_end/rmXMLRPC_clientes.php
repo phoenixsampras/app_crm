@@ -125,11 +125,11 @@ function rmListaClientes($conex, $user_id) {
 
     if ($rmListaClientes) {
       echo $_GET['callback'].'({"rmListaClientes": ' . json_encode($rmListaClientes) . '})';
-    } else (
+    } else {
       print_r($_REQUEST);
       print_r($datosCliente);
       print_r($rmListaClientes);
-    )
+    }
   } catch(PDOException $e) {
       echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
       exit;
