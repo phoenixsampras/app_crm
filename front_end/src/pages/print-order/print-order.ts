@@ -37,13 +37,15 @@ export class PrintOrderPage {
   }
 
   ionViewWillLoad() {
-    this.loginObj = this.databaseService.getLoginData()
+    let me = this;
+	this.databaseService.getLoginData()
     .then(
       response => {
-        this.loginObj = response;
+        me.loginObj = response;
+		console.log(JSON.stringify(me.loginObj));
       }
     );
-    console.log(JSON.stringify(this.loginObj));
+    
   }
 
   ionViewDidEnter() {
