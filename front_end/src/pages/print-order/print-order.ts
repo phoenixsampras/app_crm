@@ -39,10 +39,10 @@ export class PrintOrderPage {
     .then(
       response => {
         me.loginObj = response;
-        this.loginObj = response;
+        console.log(me.loginObj.rmCompany.name);
       }
     );
-    console.log(JSON.stringify(this.loginObj));
+    
   }
 
   ionViewWillLoad() {
