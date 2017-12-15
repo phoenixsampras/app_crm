@@ -20,10 +20,10 @@ declare var cordova;
 export class PrintOrderPage {
 
   orderObj: any;
-  loginObj: any;
+  loginObj: any = [];
   address = '';
   totalProducts = 0;
-  devicesList:any = [];
+  devicesList: any = [];
   // address = '';
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -34,18 +34,19 @@ export class PrintOrderPage {
     private bluetoothSerial: BluetoothSerial
   ) {
     this.orderObj = this.navParams.get('order');
-  }
-
-  ionViewWillLoad() {
     let me = this;
-	this.databaseService.getLoginData()
+    this.databaseService.getLoginData()
     .then(
       response => {
         me.loginObj = response;
-		console.log(JSON.stringify(me.loginObj));
+        this.loginObj = response;
       }
     );
-    
+    console.log(JSON.stringify(this.loginObj));
+  }
+
+  ionViewWillLoad() {
+
   }
 
   ionViewDidEnter() {
@@ -55,36 +56,36 @@ export class PrintOrderPage {
       });
   }
 
- getProductTotal(product) {
-		let price = product.product.ch;
-		if (this.orderObj.customerObj.property_product_pricelist == '2') {
-		  price = product.product.cm;
-		} else if (this.orderObj.customerObj.property_product_pricelist == '3') {
-		  price = product.product.cg;
-		}
+  getProductTotal(product) {
+    let price = product.product.ch;
+    if (this.orderObj.customerObj.property_product_pricelist == '2') {
+      price = product.product.cm;
+    } else if (this.orderObj.customerObj.property_product_pricelist == '3') {
+      price = product.product.cg;
+    }
 
-		return product.quantity * price;
-	}
+    return product.quantity * price;
+  }
 
-	getTotal() {
-		let total = 0.0;
-		for (var i = 0; i < this.orderObj.selectedProducts.length; i++) {
-		  total += this.getProductTotal(this.orderObj.selectedProducts[i]);//this.selectedProducts[i].product.price * this.selectedProducts[i].quantity;
-		}
-		return total;
-	}
-	getProductPrice(product) {
-		let price = product.product.ch;
-		let customerObj = this.orderObj.customerObj;
-		if (customerObj.property_product_pricelist == '2') {
-			price = product.product.cm;
-		}
-		else if (customerObj.property_product_pricelist == '3') {
-			price = product.product.cg;
-		}
-		console.log(price);
-		return price;
-	}
+  getTotal() {
+    let total = 0.0;
+    for (var i = 0; i < this.orderObj.selectedProducts.length; i++) {
+      total += this.getProductTotal(this.orderObj.selectedProducts[i]);//this.selectedProducts[i].product.price * this.selectedProducts[i].quantity;
+    }
+    return total;
+  }
+  getProductPrice(product) {
+    let price = product.product.ch;
+    let customerObj = this.orderObj.customerObj;
+    if (customerObj.property_product_pricelist == '2') {
+      price = product.product.cm;
+    }
+    else if (customerObj.property_product_pricelist == '3') {
+      price = product.product.cg;
+    }
+    console.log(price);
+    return price;
+  }
 
   dismiss() {
     this.viewCtrl.dismiss();
@@ -194,20 +195,20 @@ export class PrintOrderPage {
 
               ^FO410,` + zebra_receipt_total_height + `
               ^FB150,5,0,R,0
-              ^FD` +this.orderObj.total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + `^FS
+              ^FD` + this.orderObj.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + `^FS
               `;
 
 
       zebra_receipt_footer_height += zebra_receipt_body_total_height;
       zebra_receipt_footer = `
               ^CFR,15
-              ^FO5,` + ( zebra_receipt_footer_height -15 ) + `^GB600,1,1^FS
+              ^FO5,` + (zebra_receipt_footer_height - 15) + `^GB600,1,1^FS
               ^FO5,` + zebra_receipt_footer_height + `^FB580,3,0,C,0^FDFirma Cliente^FS
-              ^FO5,` + ( zebra_receipt_footer_height + 140 ) + `^GB600,1,1^FS
-              ^FO5,` + ( zebra_receipt_footer_height + 150 ) + `^FB580,3,0,C,0^FDFirma Vendedor^FS
-              ^FO5,` + ( zebra_receipt_footer_height + 200 ) + `^FB580,3,0,C,0^FDGracias por su Compra!!^FS
-              ^FO5,` + ( zebra_receipt_footer_height + 230 ) + `^FB580,3,0,C,0^FDFelices Fiestas!!^FS
-              ^FO0,` + ( zebra_receipt_footer_height + 260 ) + `^FB580,3,0,C,0^FDReclamos: 4587967^FS
+              ^FO5,` + (zebra_receipt_footer_height + 140) + `^GB600,1,1^FS
+              ^FO5,` + (zebra_receipt_footer_height + 150) + `^FB580,3,0,C,0^FDFirma Vendedor^FS
+              ^FO5,` + (zebra_receipt_footer_height + 200) + `^FB580,3,0,C,0^FDGracias por su Compra!!^FS
+              ^FO5,` + (zebra_receipt_footer_height + 230) + `^FB580,3,0,C,0^FDFelices Fiestas!!^FS
+              ^FO0,` + (zebra_receipt_footer_height + 260) + `^FB580,3,0,C,0^FDReclamos: 4587967^FS
               ^XZ
               `;
 

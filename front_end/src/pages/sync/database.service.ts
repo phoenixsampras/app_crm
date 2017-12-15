@@ -46,20 +46,22 @@ export class DatabaseService {
 		login._id = "loginObj";
 		return this._db.put(login);
 	}
-	
+
 	deleteLoginData() {
 		let me = this;
 		return this._db.get("loginObj").then(function(doc) {
 			return me._db.remove(doc);
 		})
 	}
-	
+
 	getLoginData() {
+    if (!this._db)
+      this.initDB();
 		return this._db.get("loginObj");
 	}
-	
-	
-  
+
+
+
 	addCustomer(customer) {
 		let id = "customer-" + customer.id;
 		let db = this._db;
