@@ -127,7 +127,7 @@ function rmListaClientes($conex, $user_id) {
       echo $_GET['callback'].'({"rmListaClientes": ' . json_encode($rmListaClientes) . '})';
       print_r($_REQUEST);
       print_r($datosCliente);
-      print_r($rmListaCliente
+      print_r($rmListaCliente);
     } else {
       print_r($_REQUEST);
       print_r($datosCliente);
