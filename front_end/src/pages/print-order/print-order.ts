@@ -39,10 +39,10 @@ export class PrintOrderPage {
     .then(
       response => {
         me.loginObj = response;
-        console.log(me.loginObj.rmCompany.name);
+        console.log(me.loginObj);
       }
     );
-    
+
   }
 
   ionViewWillLoad() {
@@ -117,6 +117,10 @@ export class PrintOrderPage {
 
       let margin_top = '10';
 
+      let empresa = '';
+      let phone = '';
+      let vendedor = this.loginObj.rmDatosUsuario.name;
+
       console.log("orderObj:" + JSON.stringify(this.orderObj));
       // $window.orderObj = this.orderObj;
 
@@ -125,17 +129,17 @@ export class PrintOrderPage {
               ^MNN
               ^LL1100
               ^ASN,50
-              ^FO0,30^FB580,3,0,C,0^FD^FS
-              ^FO0,70^FB580,3,0,C,0^FDPedidos: 4587965^FS
+              ^FO0,30^FB580,3,0,C,0^FD` + empresa + `^FS
+              ^FO0,70^FB580,3,0,C,0^FD` + phone + `^FS
               ^FO0,110^FB580,3,0,C,0^FDCochabamba - Bolivia^FS
               ^CFQ
-              ^FO5,180^FD Fecha: ` + moment(this.orderObj.dateOrder).format('Do MMMM YYYY, h:mm a') + `^FS
-              ^FO5,210^FD Vendedor: Organica Distribuidor^FS
+              ^FO5,180^FD Fecha: ` + moment(this.orderObj.dateOrder).format('D MMMM YYYY, h:mm a') + `^FS
+              ^FO5,210^FD Vendedor: ` + vendedor + `^FS
               ^FO5,240^FD Cliente: ` + this.orderObj.customerObj.name + `^FS
               ^FO5,270^FD NIT: ` + this.orderObj.customerObj.nit + `^FS
               ^FO5,300^FD Direccion: ` + this.orderObj.customerObj.street + `^FS
               ^FO5,330^FD Telefono: ` + this.orderObj.customerObj.phone + `^FS
-              ^FO5,360^FD Celular: ` + this.orderObj.customerObj.celular + `^FS
+              ^FO5,360^FD Celular: ` + this.orderObj.customerObj.mobile + `^FS
 
               ^CFF,20
               ^LRY
@@ -148,9 +152,9 @@ export class PrintOrderPage {
         // console.log("dasda" + JSON.stringify(this.orderObj.selectedProducts[i]['product']['product']));
         // console.log("dasda" + JSON.stringify(this.orderObj.selectedProducts[i]));
         let productCountLetters = this.orderObj.selectedProducts[i]['product']['product'].length;
-        let quantity = this.orderObj.selectedProducts[i]['quantity'];
-        let price = this.getProductPrice(this.orderObj.selectedProducts[i]);
-        let subtotal = price * this.orderObj.selectedProducts[i]['quantity'];
+        let quantity = (this.orderObj.selectedProducts[i]['quantity']);
+        let price = (this.getProductPrice(this.orderObj.selectedProducts[i]));
+        let subtotal = (price * this.orderObj.selectedProducts[i]['quantity']);
         // let subtotal = (price * this.orderObj.selectedProducts[i]['quantity']).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         // let price = this.orderObj.selectedProducts[i]['product']['price'];
         // let quantity = this.orderObj.selectedProducts[i]['quantity'].toLocaleString('en-US');
@@ -208,7 +212,7 @@ export class PrintOrderPage {
               ^FO5,` + (zebra_receipt_footer_height + 150) + `^FB580,3,0,C,0^FDFirma Vendedor^FS
               ^FO5,` + (zebra_receipt_footer_height + 200) + `^FB580,3,0,C,0^FDGracias por su Compra!!^FS
               ^FO5,` + (zebra_receipt_footer_height + 230) + `^FB580,3,0,C,0^FDFelices Fiestas!!^FS
-              ^FO0,` + (zebra_receipt_footer_height + 260) + `^FB580,3,0,C,0^FDReclamos: 4587967^FS
+              ^FO0,` + (zebra_receipt_footer_height + 260) + `^FB580,3,0,C,0^FD^FS
               ^XZ
               `;
 

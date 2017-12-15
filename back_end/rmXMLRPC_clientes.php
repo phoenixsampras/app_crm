@@ -123,9 +123,13 @@ function rmListaClientes($conex, $user_id) {
         'rm_sync_date_time',
         'rm_sync_operacion'), 'limit'=>10000));
 
-    echo $_GET['callback'].'({"rmListaClientes": ' . json_encode($rmListaClientes) . '})';
-    //echo $_GET['callback'].'({"login": '.$uid.',"vendedor":"false","ciudad":"' . $rmDatosCliente[0]['ew_zonas_cliente_id'][1] . '", "partner_id": '. $rmDatosCliente[0]['id'] .'})';
-
+    if ($rmListaClientes) {
+      echo $_GET['callback'].'({"rmListaClientes": ' . json_encode($rmListaClientes) . '})';
+    } else (
+      print_r($_REQUEST);
+      print_r($datosCliente);
+      print_r($rmListaClientes);
+    )
   } catch(PDOException $e) {
       echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
       exit;
