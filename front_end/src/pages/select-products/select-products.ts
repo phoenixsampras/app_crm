@@ -84,10 +84,27 @@ export class SelectProductsPage {
 		this.products = [];
 	}
 
+	addProduct(values) {
+		this.product.quantity = values.quantity;
+		if(this.product.quantity <= this.product.product.stock) {
+			let data = {'product' : this.product,'reopen' : 1};
+			this.viewCtrl.dismiss(data);
+		} else {
+			let toast = this.toastCtrl.create({
+				message: "El pedido no cuenta con suficiente stock, revise su pedido!",
+				duration: 3000,
+				cssClass: 'toast-error',
+				position:'bottom',
+			});
+			toast.present();
+		}
+	}
+	
 	onSubmit(values) {
 		this.product.quantity = values.quantity;
 		if(this.product.quantity <= this.product.product.stock) {
-			this.viewCtrl.dismiss(this.product);
+			let data = {'product' : this.product,'reopen' : 2};
+			this.viewCtrl.dismiss(data);
 		} else {
 			let toast = this.toastCtrl.create({
 				message: "El pedido no cuenta con suficiente stock, revise su pedido!",

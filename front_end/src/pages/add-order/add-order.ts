@@ -71,17 +71,21 @@ export class AddOrderPage {
     let modal = this.modalCtrl.create(SelectProductsPage, { 'selectedProducts': this.selectedProducts });
     modal.onDidDismiss(data => {
       if (data && data.product) {
-        var flag = false;
+        console.log(data);
+		var flag = false;
         for (var i = 0; i < this.selectedProducts.length; i++) {
           let p = this.selectedProducts[i];
-          let _p = data;
+          let _p = data.product.product;
           if (p.product.id == _p.product.id) {
             this.selectedProducts[i].quantity = parseInt(this.selectedProducts[i].quantity, 10) + parseInt(_p.quantity, 10);
             flag = true;
           }
         }
         if (!flag)
-          this.selectedProducts.push(data);
+          this.selectedProducts.push(data.product);
+		if(data.reopen == 1) {
+			modal.present();
+		}
       }
     });
     modal.present();

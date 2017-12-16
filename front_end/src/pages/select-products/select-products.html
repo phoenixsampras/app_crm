@@ -49,7 +49,9 @@
 			</div>
 
 
-
+			<br/><br/>
+			<button ion-button full color='secondary' (click)="addProduct(validations_form.value)" type="button" [disabled]="!validations_form.valid">{{'SAVE_ADD_ANOTHER' | translate}}</button>
+			
 			<br/><br/>
 			<button ion-button full type="submit" [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
 			<br/><br/>
