@@ -94,19 +94,17 @@ function rmListaClientes($conex, $user_id) {
     // $rmDateOrder=$_REQUEST['rmDateOrder'];
     // $rmNote=$_REQUEST['rmNote'];
 
-    $datosCliente =
+    $filtroCliente =
     array(
       array(
         'user_id','=',$user_id
-        // 'date_order' => $rmDateOrder,
-        // 'note' => $rmNote,
       )
     );
 
     $uid = login($conex);
     $models = ripcord::client("$url/xmlrpc/2/object");
     $rmListaClientes = $models->execute_kw($db, $uid, $password,
-        'res.partner', 'search_read', array($datosCliente),
+        'res.partner', 'search_read', array($filtroCliente),
         array('fields'=>array(
         'id',
         'name',
@@ -123,10 +121,12 @@ function rmListaClientes($conex, $user_id) {
         'rm_sync_date_time',
         'rm_sync_operacion'), 'limit'=>10000));
 
+        print_r($rmListaCliente);
+
     if ($rmListaClientes) {
       echo $_GET['callback'].'({"rmListaClientes": ' . json_encode($rmListaClientes) . '})';
       print_r($_REQUEST);
-      print_r($datosCliente);
+      print_r($filtroCliente);
       print_r($rmListaCliente);
     } else {
       print_r($_REQUEST);
