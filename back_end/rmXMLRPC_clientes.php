@@ -123,8 +123,6 @@ function rmListaClientes($conex, $user_id) {
         'rm_sync_date_time',
         'rm_sync_operacion'), 'limit'=>10000));
 
-    //print_r($rmListaClientes);
-
     if (count($rmListaClientes)>0) {
       echo $_GET['callback'].'({"rmListaClientes": ' . json_encode($rmListaClientes) . '})';
       // print_r($_REQUEST);
