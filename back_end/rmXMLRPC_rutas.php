@@ -4,6 +4,7 @@ error_reporting(1);
 require_once('rmOdooConfig.php');
 require_once('rmDbConfig.php');
 require_once('xmlrpc_lib/ripcord.php');
+require_once('rmFunciones.php');
 
 // print_r($_REQUEST);
 switch ($_REQUEST["task"]) {
