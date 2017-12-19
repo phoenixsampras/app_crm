@@ -80,12 +80,14 @@ function rmRutaDiaria($conex, $user_id) {
     $password = $conex['password'];
 
     $user_id = intval($_REQUEST['res_user_id']);
+    $day_number = date('N');
 
     $filtroCliente =
     array(
       array(
         array(
-          'user_id','=',$user_id
+          'user_id','=',$user_id,
+          'rm_dias_semana','=','1'
         )
       )
     );
