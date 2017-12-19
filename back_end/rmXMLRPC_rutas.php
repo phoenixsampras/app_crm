@@ -9,7 +9,7 @@ require_once('xmlrpc_lib/ripcord.php');
 switch ($_REQUEST["task"]) {
 
     case 'rmRutaDiaria':
-      rmRutaDiaria($db);
+      rmRutaDiaria($data);
     break;
 
     case 'rmRegistrarEvento':
@@ -34,7 +34,7 @@ function login($conex){
     return $common->authenticate($db, $username, $password, array());
 }
 
-function rmRutaDiaria($db) {
+function rmRutaDiaria_nosirve($db) {
     try {
         $pedido = $_REQUEST['res_user_id'];
         $sql = "
@@ -49,9 +49,9 @@ function rmRutaDiaria($db) {
         'Mon' as day_of_week
         FROM
         public.res_partner AS rp
-        Limit  20
+        --Limit  20
 
-        --WHERE res_users.id = $pedido
+        WHERE rp.customer = true AND res_users.id = $pedido
         ";
 
         $query = pg_query($db, $sql);
@@ -69,6 +69,52 @@ function rmRutaDiaria($db) {
         echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
         exit;
     }
+}
+
+function rmRutaDiaria($conex, $user_id) {
+  try {
+    $url = $conex['url'];
+    $db = $conex['db'];
+    $username = $conex['username'];
+    $password = $conex['password'];
+
+    $user_id = intval($_REQUEST['res_user_id']);
+
+    $filtroCliente =
+    array(
+      array(
+        array(
+          'user_id','=',$user_id
+        )
+      )
+    );
+
+    $uid = login($conex);
+    $models = ripcord::client("$url/xmlrpc/2/object");
+    $rmListaClientes = $models->execute_kw($db, $uid, $password,
+        'res.partner', 'search_read', $filtroCliente,
+        array('fields'=>array(
+        'id',
+        'name',
+        'street',
+        'phone',
+        'mobile',
+        'rm_longitude',
+        'rm_latitude',
+        'user_id',
+        'razon_social',
+        'rm_dias_semana'
+        ), 'limit'=>10000));
+
+    if (count($rmListaClientes)>0) {
+      echo $_GET['callback'].'({"rmListaClientes": ' . json_encode(utf8_converter($rmListaClientes)) . '})';
+    } else {
+      echo $_GET['callback'].'({"rmListaClientes": "false"})';
+    }
+  } catch(PDOException $e) {
+      echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
+      exit;
+  }
 }
 
 function rmRegistrarEvento($conex) {
