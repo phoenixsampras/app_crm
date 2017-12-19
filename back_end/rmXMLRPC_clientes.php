@@ -39,48 +39,6 @@ function login($conex){
     return $common->authenticate($db, $username, $password, array());
 }
 
-function rmListaClientesNoSirve ($db) {
-    try {
-        $user_id = $_REQUEST['res_user_id'];
-        $sql = "
-          SELECT id,
-            name as rm_nombre,
-            street as rm_direccion,
-            phone as rm_telefono,
-            mobile as rm_celular,
-            0 as rm_longitude,
-            0 as rm_latitude,
-            '' as photo_m,
-            '' as photo_s,
-            ('{CM,CG,CH}'::text[])[ceil(random()*3)] as tipo,
-            user_id as res_user_id,
-            rm_sync,
-            rm_sync_date_time,
-            rm_sync_operacion
-          FROM res_partner
-          WHERE user_id = " .$user_id . "
-          ORDER by name
-
-
-        ";
-
-        $query = pg_query($db, $sql);
-        if(!$query){
-        echo "Error".pg_last_error($db);
-        exit;
-        }
-
-        $resultado = pg_fetch_all($query);
-
-        echo $_GET['callback'].'({"rmListaClientes": ' . json_encode($resultado) . '})';
-        pg_close($db);
-
-    } catch(PDOException $e) {
-        echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
-        exit;
-    }
-}
-
 function rmListaClientes($conex, $user_id) {
   try {
     $url = $conex['url'];
@@ -130,7 +88,7 @@ function rmListaClientes($conex, $user_id) {
       // print_r($filtroCliente);
       // print_r($rmListaCliente);
     } else {
-      echo $_GET['callback'].'({"rmListaClientes": "false"})';
+      echo $_GET['callback'].'({})';
 
       // print_r($_REQUEST);
       // print_r($datosCliente);

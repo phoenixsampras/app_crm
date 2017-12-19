@@ -22,7 +22,7 @@ export class RoutesService {
   // Here's another post explaining the issue (http://stackoverflow.com/a/38100262/1116959)
   //    - Seems that google.maps API is not patched by Angular's zone
   constructor(public zone: NgZone,public jsonp: Jsonp,private ordersService: OrdersService,
-		
+
 		) {
     this._AutocompleteService = new google.maps.places.AutocompleteService();
     this._Geocoder = new google.maps.Geocoder;
@@ -38,12 +38,12 @@ export class RoutesService {
 		.then(response => response.json())
 		.catch(this.handleError);
 	}
-	
+
 	private handleError(error: any): Promise<any> {
 		console.error('An error occurred', error); // for demo purposes only
 		return Promise.reject(error.message || error);
 	  }
-  
+
   // Caveat:  As we are using Observable.create don't forget a well-formed finite Observable must attempt to call
   //          either the observer’s onCompleted method exactly once or its onError method exactly once, and must not
   //          thereafter attempt to call any of the observer’s other methods.
@@ -71,8 +71,8 @@ export class RoutesService {
     });
   }
 
-  
-  
+
+
   geocodePlace(placeId: string) : Observable<google.maps.LatLng> {
     return Observable.create((observer) => {
       this._Geocoder.geocode({'placeId': placeId}, (results, status) => {
@@ -148,7 +148,7 @@ export class RoutesService {
           });
         } else {
           this.zone.run(() => {
-            observer.error(new Error("error due to " + status));
+            // observer.error(new Error("error due to " + status));
           });
         }
       });
