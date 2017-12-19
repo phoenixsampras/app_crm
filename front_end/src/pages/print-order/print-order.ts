@@ -100,7 +100,9 @@ export class PrintOrderPage {
     if (this.orderObj) {
       moment.lang('es-us');
       this.orderObj.confirmed = true;
-      this.ordersService.updateOrder(this.orderObj);
+	  this.ordersService.confirmedOrders = this.ordersService.confirmedOrders + 1;
+	  this.orderObj.numberOrder = this.ordersService.confirmedOrders;
+	  this.ordersService.updateOrder(this.orderObj);
 
       // alert("impresion");
       console.log("impresion");

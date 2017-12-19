@@ -203,34 +203,62 @@ export class DatabaseService {
     return this._db.remove(customer);
   }
 
-  getAllOrders() {
-    if (!this._db)
-      this.initDB();
-    return new Promise(resolve => {
-      this._db.allDocs({
-        include_docs: true,
-        startkey: 'order',
-        endkey: 'order\ufff0'
-      })
-        .then(docs => {
+	getAllOrders() {
+		if (!this._db)
+			this.initDB();
+		return new Promise(resolve => {
+			this._db.allDocs({
+				include_docs: true,
+				startkey: 'order',
+				endkey: 'order\ufff0'
+			})
+			.then(docs => {
 
-          // Each row has a .doc object and we just want to send an
-          // array of customer objects back to the calling controller,
-          // so let's map the array to contain just the .doc objects.
+				// Each row has a .doc object and we just want to send an
+				// array of customer objects back to the calling controller,
+				// so let's map the array to contain just the .doc objects.
 
-          this._orders = docs.rows.map(row => {
-            // Dates are not automatically converted from a string.
-            if (row.doc.type == "order")
-              return row.doc;
-          });
+				this._orders = docs.rows.map(row => {
+					// Dates are not automatically converted from a string.
+					if (row.doc.type == "order")
+						return row.doc;
+				});
 
 
-          resolve(this._orders);
-        });
+				resolve(this._orders);
+			});
 
-    });
+		});
 
-  }
+	}
+	
+	getConfirmedOrdersCount() {
+		if (!this._db)
+			this.initDB();
+		return new Promise(resolve => {
+			this._db.allDocs({
+				include_docs: true,
+				startkey: 'order',
+				endkey: 'order\ufff0'
+			})
+			.then(docs => {
+
+				// Each row has a .doc object and we just want to send an
+				// array of customer objects back to the calling controller,
+				// so let's map the array to contain just the .doc objects.
+				let count = 0;
+				for(var i = 0; i < docs.rows.length; i++) {
+					let row = docs.rows[i];
+					if (row.doc.type == "order" && row.doc.confirmed === true) {
+						count++;
+					}
+				}
+				resolve(count);
+			});
+
+		});
+
+	}
 
 	getAllCustomers(searchTerm = '') {
 		if (!this._db)

@@ -13,10 +13,9 @@
 			<ion-item class="item-content">
 				<ion-row>
           <ion-col col-1>
-            <p>{{item.numberOrder}}
-            </p>
+           
             <ion-avatar item-start>
-              <text-avatar *ngIf="item.numberOrder" [text]="item.numberOrder" [color]="secondary" item-left>
+              <text-avatar [text]="getOrderNumber(item)" [color]="secondary" item-left>
               </text-avatar>
             </ion-avatar>
           </ion-col>

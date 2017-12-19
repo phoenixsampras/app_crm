@@ -35,6 +35,10 @@ export class OrdersPage {
 		return total;
 	}
 	
+	getOrderNumber(order) {
+		return order.numberOrder ? order.numberOrder + "" : "-";
+	}
+	
 	editOrder(item) {
 		if(item.confirmed) {
 			alert('Confirmed order cannot be changed');	
@@ -50,6 +54,9 @@ export class OrdersPage {
 			.getData()
 			.then(data1 => {
 				this.ordersList = data1;
+				this.ordersList.sort(function(a, b){
+					return  a.numberOrder - (b.numberOrder ? b.numberOrder : 0 );
+				});
 			});
 		});
 		modal.present();
@@ -64,6 +71,9 @@ export class OrdersPage {
 		.getData()
 		.then(data => {
 			this.ordersList = data;
+			this.ordersList.sort(function(a, b){
+				return  a.numberOrder - (b.numberOrder ? b.numberOrder : 0 );
+			});
 		});
 	}
 

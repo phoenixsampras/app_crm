@@ -14,6 +14,7 @@ export class OrdersService {
 	public lat;
 	public lng;
 	public timestamp = 0;
+	public confirmedOrders;
 	constructor(
 		public jsonp: Jsonp,
 		private databaseService: DatabaseService,
@@ -21,9 +22,19 @@ export class OrdersService {
 
 
 	) {
-		
+		this.getConfirmedOrdersCount();
 	}
 
+	getConfirmedOrdersCount() {
+		let me = this;
+		this.databaseService.getConfirmedOrdersCount()
+		.then(count =>{
+			
+			me.confirmedOrders = count;
+			console.log(me.confirmedOrders);
+		});
+	}
+	
 	addOrder(order) {
 		order.rmUserId = this.loginId;
 		this.databaseService.addOrder(order);
