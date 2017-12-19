@@ -93,7 +93,7 @@ function rmRutaDiaria($conex, $user_id) {
 
     $uid = login($conex);
     $models = ripcord::client("$url/xmlrpc/2/object");
-    $rmListaClientes = $models->execute_kw($db, $uid, $password,
+    $rmRutaDiaria = $models->execute_kw($db, $uid, $password,
         'res.partner', 'search_read', $filtroCliente,
         array('fields'=>array(
         'id',
@@ -108,10 +108,10 @@ function rmRutaDiaria($conex, $user_id) {
         'rm_dias_semana'
         ), 'limit'=>10000));
 
-    if (count($rmListaClientes)>0) {
-      echo $_GET['callback'].'({"rmListaClientes": ' . json_encode(utf8_converter($rmListaClientes)) . '})';
+    if (count($rmRutaDiaria)>0) {
+      echo $_GET['callback'].'({"rmRutaDiaria": ' . json_encode(utf8_converter($rmRutaDiaria)) . '})';
     } else {
-      echo $_GET['callback'].'({"rmListaClientes": "false"})';
+      echo $_GET['callback'].'({"rmRutaDiaria": "false"})';
     }
   } catch(PDOException $e) {
       echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
