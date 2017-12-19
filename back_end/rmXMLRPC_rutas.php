@@ -87,7 +87,6 @@ function rmRutaDiaria($conex, $user_id) {
       array(
         array('user_id','=',$user_id),
         array('rm_dias_semana','=','1')
-        )
       )
     );
 
