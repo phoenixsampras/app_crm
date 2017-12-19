@@ -100,7 +100,7 @@ export class SyncPage {
         .then(data => {
           let items = data.rmListaClientes;
           console.log("rmListaClientes:" + JSON.stringify(items));
-          if (items) {
+          if (Object.keys(items).length > 0) {
             for (var i = 0; i < items.length; i++) {
               //console.log("rmListaClientes:" + JSON.stringify(items[i]));
               items[i].property_product_pricelist = items[i].property_product_pricelist[0];

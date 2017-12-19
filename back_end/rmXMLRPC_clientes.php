@@ -88,7 +88,7 @@ function rmListaClientes($conex, $user_id) {
       // print_r($filtroCliente);
       // print_r($rmListaCliente);
     } else {
-      echo $_GET['callback'].'({})';
+      echo $_GET['callback'].'({"rmListaClientes": {}})';
 
       // print_r($_REQUEST);
       // print_r($datosCliente);
