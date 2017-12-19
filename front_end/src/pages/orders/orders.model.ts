@@ -7,4 +7,6 @@ export class OrdersModel {
 	latitude:string;
 	longitude:string;
 	newCustomer = 0;
+	sync = 0;
+	numberOrder = 0;
 }

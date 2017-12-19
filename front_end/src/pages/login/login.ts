@@ -12,6 +12,7 @@ import { DatabaseService } from '../sync/database.service';
   templateUrl: 'login.html'
 })
 export class LoginPage {
+  messages: any = [];
   login: FormGroup;
   main_page: { component: any };
   loading: any;
@@ -31,12 +32,12 @@ export class LoginPage {
     this.login = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
-	  remember: new FormControl('check',[])
+      remember: new FormControl('check', [])
     });
   }
-	ionViewDidEnter() {
+  ionViewDidEnter() {
 
-	}
+  }
   doLogin(values) {
     let loadingCtrl = this.loadingCtrl;
     let toastCtrl = this.toastCtrl;
@@ -44,7 +45,7 @@ export class LoginPage {
     loading.present();
     let nav = this.nav;
     let me = this;
-	this.databaseService.deleteLoginData();
+    this.databaseService.deleteLoginData();
     let url = 'http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_login.php?task=loginApp';
     url += '&username=' + values.email;
     url += '&password=' + values.password;
@@ -62,26 +63,26 @@ export class LoginPage {
           });
           toast.present();
         } else {
-			if(values.remember === true) {
-				me.ordersService.loginId = data['_body']['login'];
-				me.ordersService.rmDatosUsuario = data['_body']['rmDatosUsuario'];
-				me.ordersService.rmCompany = data['_body']['rmCompany'];
-				let loginData = {
-					'loginId' : me.ordersService.loginId,
-					'rmDatosUsuario': me.ordersService.rmDatosUsuario,
-					'rmCompany' : me.ordersService.rmCompany
-				};
-        console.log(JSON.stringify(loginData));
-				me.databaseService.addLoginData(loginData);
-			}
-			let toast = toastCtrl.create({
-				message: "Bienvenido!",
-				duration: 3000,
-				cssClass: 'toast-success',
-				position: 'bottom',
-			});
-			toast.present();
-			nav.setRoot(me.main_page.component);
+          // if (values.remember === true) {
+          me.ordersService.loginId = data['_body']['login'];
+          me.ordersService.rmDatosUsuario = data['_body']['rmDatosUsuario'];
+          me.ordersService.rmCompany = data['_body']['rmCompany'];
+          let loginData = {
+            'loginId': me.ordersService.loginId,
+            'rmDatosUsuario': me.ordersService.rmDatosUsuario,
+            'rmCompany': me.ordersService.rmCompany
+          };
+          console.log(JSON.stringify(loginData));
+          me.databaseService.addLoginData(loginData);
+          // }
+          let toast = toastCtrl.create({
+            message: "Bienvenido!" + JSON.stringify(loginData),
+            duration: 3000,
+            cssClass: 'toast-success',
+            position: 'bottom',
+          });
+          toast.present();
+          nav.setRoot(me.main_page.component);
         }
         //console.log(data.login);
       });

@@ -12,8 +12,16 @@
 		<ion-item-sliding class="list-item"  *ngFor="let item of ordersList">
 			<ion-item class="item-content">
 				<ion-row>
-					<ion-col col-7>
-						<h2 class="item-title" ><b>{{item.customerObj.rm_nombre}}</b></h2>
+          <ion-col col-1>
+            <p>{{item.numberOrder}}
+            </p>
+            <ion-avatar item-start>
+              <text-avatar *ngIf="item.numberOrder" [text]="item.numberOrder" [color]="secondary" item-left>
+              </text-avatar>
+            </ion-avatar>
+          </ion-col>
+					<ion-col col-6>
+						<h2 class="item-title" ><b>{{item.customerObj.name}}</b></h2>
 						<p class="item-description">{{item.dateOrder | date: 'dd/MM/yyyy H:mm'}}</p>
 						<p class="item-description">{{item.notes}}</p>
 					</ion-col>

@@ -102,7 +102,6 @@ export class SyncPage {
           // console.log("rmListaClientes:" + JSON.stringify(items));
           for (var i = 0; i < items.length; i++) {
             //console.log("rmListaClientes:" + JSON.stringify(items[i]));
-            //console.log(items[i].rm_nombre);
             items[i].property_product_pricelist = items[i].property_product_pricelist[0];
             items[i].user_id = items[i].user_id[0];
             items[i].newCustomer = 0;
@@ -177,41 +176,51 @@ export class SyncPage {
             url += "&confirmed=" + order.confirmed;
             url += "&callback=JSONP_CALLBACK";
             url = encodeURI(url);
-            this.ordersService.saveOrderOnServer(url).then(data => {
-              let order_id = data._body.order_id;
-              this.messages.push('Pedido creado id:' + order_id + ", _id:" + order._id);
-              if (order_id) {
-                for (var j = 0; j < selectedProducts.length; j++) {
-                  // setTimeout(function() {
-                  //   console.log('Delaying...');
-                  // }, 1000);
-                  let productId = selectedProducts[j].product.id;
-                  let quantity = selectedProducts[j].quantity;
-                  var url2 = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarLineaPedido";
-                  url2 += "&order_id=" + order_id;
-                  url2 += "&rmQuantity=" + quantity;
-                  url2 += "&rmProduct_id=" + productId;
-                  url2 += "&callback=JSONP_CALLBACK";
-                  url2 = encodeURI(url2);
-                  let me = this;
-                  let timeout = 1000 + (j * 1000);
-                  // console.log("timeout:" + timeout);
-                  (function(){
-                    var url3 = url2;
-                    setTimeout(function() {
-                      me.ordersService.saveOrderLineOnServer(url3).then(data2 => {
-                        this.messages.push('Linea de Pedido cargada' + JSON.stringify(data2));
-                        console.log("rmRegistrarLineaPedido:" + data2);
-                      });
-                    }, timeout);
-                  })();
+            if (order.sync) {
+              this.ordersService.saveOrderOnServer(url).then(data => {
+                // console.log('Value c:' + JSON.stringify(data));
+                let c = data[1];
+                let order_id = data._body.order_id;
+                this.messages.push('Pedido creado id:' + order_id + ", _id:" + order._id);
+                if (order_id) {
+                  for (var j = 0; j < selectedProducts.length; j++) {
+                    // setTimeout(function() {
+                    //   console.log('Delaying...');
+                    // }, 1000);
+                    let productId = selectedProducts[j].product.id;
+                    let quantity = selectedProducts[j].quantity;
+                    var url2 = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarLineaPedido";
+                    url2 += "&order_id=" + order_id;
+                    url2 += "&rmQuantity=" + quantity;
+                    url2 += "&rmProduct_id=" + productId;
+                    url2 += "&callback=JSONP_CALLBACK";
+                    url2 = encodeURI(url2);
+                    let me = this;
+                    let timeout = 1000 + (j * 1000);
+                    // console.log("timeout:" + timeout);
+                    (function() {
+                      var url3 = url2;
+                      setTimeout(function() {
+                        me.ordersService.saveOrderLineOnServer(url3).then(data2 => {
+                          me.messages.push('Linea de Pedido cargada' + JSON.stringify(data2));
+                          console.log("rmRegistrarLineaPedido:" + quantity);
+                        });
+                      }, timeout);
+                    })();
+
+                  }
+                } else {
+                  this.messages.push('Pedido no pudo ser creado');
+                  return false;
                 }
-              } else {
-                this.messages.push('Pedido no pudo ser creado');
-                return false;
-              }
+                //Desactivar la sincronizacion para ese pedido
+                order.sync = 0;
+                this.ordersService.updateOrder(order);
+                loading.dismiss();
+              });
+            } else {
               loading.dismiss();
-            });
+            }
           }
         });
     }

@@ -162,10 +162,10 @@ export class AddOrderPage {
 
   validation_messages = {
     'customer': [
-      { type: 'required', message: 'Customer is required.' }
+      { type: 'required', message: 'Cliente es requerido.' }
     ],
     'dateOrder': [
-      { type: 'required', message: 'Order Date is required.' }
+      { type: 'required', message: 'Fecha es requerido.' }
     ],
 
   };
@@ -190,6 +190,7 @@ export class AddOrderPage {
       values.total = this.getTotal();
       values.latitude = this.ordersService.lat;
       values.longitude = this.ordersService.lng;
+      values.sync = 1; //Marcarlo para sincronizacion
       console.log(values);
       if (this.orderObj) {
         values._id = this.orderObj._id;
@@ -197,6 +198,7 @@ export class AddOrderPage {
         values._rev = this.orderObj._rev;
         this.ordersService.updateOrder(values);
       } else {
+        values.numberOrder = values.numberOrder + 1 ; //Numeracion para Ordenes
         this.ordersService.addOrder(values);
         for (var i = 0; i < this.selectedProducts.length; i++) {
           let st = this.selectedProducts[i].quantity * -1;
