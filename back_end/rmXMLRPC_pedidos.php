@@ -128,6 +128,9 @@ function rmRegistrarPedido($conex, $user_id) {
     $rmCustomer=intval($_REQUEST['rmCustomer']);
     $rmDateOrder=$_REQUEST['rmDateOrder'];
     $rmNote=$_REQUEST['rmNote'];
+    $latitude=$_REQUEST['latitude'];
+    $longitude=$_REQUEST['longitude'];
+    $numberOrder=$_REQUEST['numberOrder'];
 
     $datosVenta =
     array(
@@ -136,6 +139,9 @@ function rmRegistrarPedido($conex, $user_id) {
         'partner_id' => $rmCustomer,
         'date_order' => $rmDateOrder,
         'note' => $rmNote,
+        'rm_latitude' => $latitude,
+        'rm_longitude' => $longitude,
+        'origin' => $numberOrder,
       )
     );
 

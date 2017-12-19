@@ -12,8 +12,8 @@
 		<ion-item-sliding class="list-item"  *ngFor="let item of ordersList">
 			<ion-item class="item-content">
 				<ion-row>
-          <ion-col col-1>
-           
+          <ion-col col-2>
+
             <ion-avatar item-start>
               <text-avatar [text]="getOrderNumber(item)" [color]="secondary" item-left>
               </text-avatar>
@@ -24,7 +24,7 @@
 						<p class="item-description">{{item.dateOrder | date: 'dd/MM/yyyy H:mm'}}</p>
 						<p class="item-description">{{item.notes}}</p>
 					</ion-col>
-					<ion-col col-5>
+					<ion-col col-4>
 						<div style="float:right;text-align:right;padding-top:7px;"><h1>{{item.total | number: '1.2-2' }}</h1></div>
 					</ion-col>
 				</ion-row>

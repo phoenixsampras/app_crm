@@ -42,15 +42,15 @@
     </ion-item>
 
           <ion-item-options side="left">
-            <button ion-button color="secondary" (click)="call(item.mobile)">
+            <button *ngIf="item.mobile" ion-button color="secondary" (click)="call(item.mobile)">
               <ion-icon name="call"></ion-icon>
               {{ 'CALL_MOBILE' | translate}}
             </button>
-            <button ion-button color="light" (click)="call(item.phone)">
+            <button *ngIf="item.phone" ion-button color="light" (click)="call(item.phone)">
               <ion-icon name="call"></ion-icon>
               {{ 'CALL_PHONE' | translate}}
             </button>
-            <button ion-button  (click)="email(item.email)">
+            <button *ngIf="item.email" ion-button  (click)="email(item.email)">
               <ion-icon name="mail"></ion-icon>
               {{ 'EMAIL' | translate}}
             </button>

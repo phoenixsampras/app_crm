@@ -99,7 +99,7 @@ export class SyncPage {
         .getDataFromServer()
         .then(data => {
           let items = data.rmListaClientes;
-          console.log("rmListaClientes:" + JSON.stringify(items));
+          // console.log("rmListaClientes:" + JSON.stringify(items));
           if (Object.keys(items).length > 0) {
             for (var i = 0; i < items.length; i++) {
               //console.log("rmListaClientes:" + JSON.stringify(items[i]));
@@ -116,7 +116,7 @@ export class SyncPage {
               items[i].razon_social = !items[i].razon_social ? "" : items[i].razon_social;
               items[i].nit = !items[i].nit ? "" : items[i].nit;
               items[i].rm_sync_date_time = !items[i].rm_sync_date_time ? "" : items[i].rm_sync_date_time;
-              console.log('loadCustomers:' + JSON.stringify(items[i]));
+              // console.log('loadCustomers:' + JSON.stringify(items[i]));
               this.customersService.addCustomer(items[i]);
             }
             this.messages.push('Total clientes cargados:' + i);
@@ -178,9 +178,10 @@ export class SyncPage {
             url += "&latitude=" + order.latitude;
             url += "&longitude=" + order.longitude;
             url += "&confirmed=" + order.confirmed;
+            url += "&numberOrder=" + order.numberOrder;
             url += "&callback=JSONP_CALLBACK";
             url = encodeURI(url);
-            if (order.sync) {
+            if (order.sync && order.numberOrder > 0) {
               this.ordersService.saveOrderOnServer(url).then(data => {
                 // console.log('Value c:' + JSON.stringify(data));
                 let c = data[1];
