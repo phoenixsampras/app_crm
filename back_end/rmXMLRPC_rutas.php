@@ -85,9 +85,8 @@ function rmRutaDiaria($conex, $user_id) {
     $filtroCliente =
     array(
       array(
-        array(
-          'user_id','=',$user_id,
-          'rm_dias_semana','=','1'
+        array('user_id','=',$user_id),
+        array('rm_dias_semana','=','1')
         )
       )
     );
