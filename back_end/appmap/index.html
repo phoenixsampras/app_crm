@@ -150,11 +150,14 @@
   			geodesic: true,
   		});
   		line.setMap(map);
-  		var marker = new google.maps.LatLng(points[0].lat,points[0].lng);
-      map.setCenter(marker);
-      map.setZoom(17);
-  		addMarker (marker, color);
 
+      // console.log(JSON.stringify(points));
+      if (points.length) {
+        var marker = new google.maps.LatLng(points[0].lat,points[0].lng);
+        map.setCenter(marker);
+        map.setZoom(17);
+        addMarker (marker, color);
+      }
 
   		$tr = $('<tr><td><span style="background:' + color + ';display:block;height:32px;width:32px;"></span</td><td>' + name + '</td></tr>');
   		$('#resultsMap').append($tr);
