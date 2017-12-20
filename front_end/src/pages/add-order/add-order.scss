@@ -1,21 +1,33 @@
 add-order-page {
   ion-header {
-		@include header-styles(color($colors, header-alt, base), color($colors, header-alt, contrast));
-	}
+    @include header-styles(color($colors, header-alt, base), color($colors, header-alt, contrast));
+  }
 
-	ion-col {
-    // border: unset;
-		// border-bottom: 1px solid #ccc;
-		padding:3px;
-	}
+  .borrar {
+    font-size: 30px;
+    margin: auto;
+  }
 
-	  .agregarPedido {
-		background-color: #f0f9d6 !important;
-	  }
+  ion-col {
+    border: unset !important;
+    border-bottom: 1px solid #e2e2e2 !important;
+    border-left: 1px solid #e2e2e2 !important;
+    padding: 3px !important;
+  }
+
+  .grid {
+    border-right: 1px solid #e2e2e2 !important;
+    padding: 0px !important;
+  }
+
+  .agregarPedido {
+    background-color: #f0f9d6 !important;
+  }
 
   .rmNumero {
-    float:right;
-    text-align:right;
+    float: right;
+    text-align: right;
+    margin: auto;
   }
 
   .rmCabezeraNegra {
@@ -23,7 +35,7 @@ add-order-page {
     background-color: #a3c24b;
   }
 
-  .item-title{
+  .item-title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -31,98 +43,78 @@ add-order-page {
     font-weight: 500;
   }
 
-  .forms-validations-content
-	{
-		background-color: color($colors, background, base);
+  .forms-validations-content {
+    background-color: color($colors, background, base);
 
-    .sample-form
-		{
-			.form-section
-			{
-				padding: 0px 14px;
+    .sample-form {
+      .form-section {
+        padding: 0 14px;
 
-				.item:first-child
-				{
-					margin-top: 20px;
-				}
-			}
+        .item:first-child {
+          margin-top: 20px;
+        }
+      }
 
-			ion-item {
-				@include basic-input-style(color($colors, background, base), $theme-color-3, $white-d);
-				@include basic-select-style(color($colors, background, base), $theme-color-3, $white-d);
+      ion-item {
+        @include basic-input-style(color($colors, background, base), $theme-color-3, $white-d);
+        @include basic-select-style(color($colors, background, base), $theme-color-3, $white-d);
 
-				&.item
-				{
-					margin-top: 14px;
+        &.item {
+          margin-top: 14px;
 
-					&.item-label-floating
-					{
-						margin-top: 0px;
+          &.item-label-floating {
+            margin-top: 0;
 
-						ion-label {
-							color: $white-d;
-						}
-					}
+            ion-label {
+              color: $white-d;
+            }
+          }
 
-					.item-inner
-					{
-						ion-icon {
-							color: $theme-color-2;
-						}
-					}
-				}
+          .item-inner {
+            ion-icon {
+              color: $theme-color-2;
+            }
+          }
+        }
 
-				&:first-of-type {
-					margin-top: 0px;
-				}
-			}
+        &:first-of-type {
+          margin-top: 0;
+        }
+      }
 
-			.section-title
-			{
-				font-size: 1.8rem;
-				line-height: 1.2;
-				letter-spacing: 1.1px;
-				text-align: center;
-				color: $theme-color-2;
-				font-weight: 400;
-				margin: 0px;
-			}
+      .section-title {
+        font-size: 1.8rem;
+        line-height: 1.2;
+        letter-spacing: 1.1px;
+        text-align: center;
+        color: $theme-color-2;
+        font-weight: 400;
+        margin: 0;
+      }
 
-			.form-action-button
-			{
-				margin: 0px;
-				margin-top: 20px;
-
-				@include call-to-action-button-styles(color($colors, button, base), color($colors, button, contrast));
-			}
-		}
-
+      .form-action-button {
+        margin: 20px 0 0;
+        @include call-to-action-button-styles(color($colors, button, base), color($colors, button, contrast));
+      }
+    }
     // End generic styles
-
-    .validations-form
-    {
-      .form-section
-      {
-        &:not(:first-child)
-        {
+    .validations-form {
+      .form-section {
+        &:not(:first-child) {
           margin-top: 40px;
         }
 
-        &:last-of-type
-        {
+        &:last-of-type {
           margin-bottom: 40px;
         }
 
-        .section-title
-        {
+        .section-title {
           margin-bottom: 20px;
         }
       }
 
-      .terms-item
-      {
-        .item-inner
-        {
+      .terms-item {
+        .item-inner {
           border-bottom: none;
 
           ion-label {
@@ -133,25 +125,21 @@ add-order-page {
         }
       }
 
-      .validation-errors
-      {
-        .error-message
-        {
+      .validation-errors {
+        .error-message {
           color: color($colors, danger);
           font-size: 12px;
-        	font-weight: 500;
+          font-weight: 500;
           line-height: 1.6rem;
           position: relative;
           padding-left: 22px;
           margin-bottom: 10px;
 
-          &:first-child
-          {
+          &:first-child {
             margin-top: 10px;
           }
 
-          &::before
-          {
+          &::before {
             font-family: "Ionicons";
             content: "\f19f";
             font-size: 16px;
@@ -159,11 +147,10 @@ add-order-page {
             height: 16px;
             text-align: center;
             position: absolute;
-            left: 0px;
+            left: 0;
           }
         }
       }
-
     }
   }
 }

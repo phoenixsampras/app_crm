@@ -60,11 +60,11 @@
 					<ion-col col-4>
 						<b>{{'Product' | translate}}</b>
 					</ion-col>
+          <ion-col col-2 class="rmNumero">
+            <b>{{'Qty' | translate}}</b>
+          </ion-col>
 					<ion-col col-2 class="rmNumero">
 						<b>{{'PU' | translate}}</b>
-					</ion-col>
-					<ion-col col-2 class="rmNumero">
-						<b>{{'Qty' | translate}}</b>
 					</ion-col>
 					<ion-col col-3 class="rmNumero">
 						<b>{{'Sub_Total' | translate}}</b>
@@ -76,18 +76,17 @@
 					<ion-col col-4>
 						{{product.product.product}}
 					</ion-col>
+          <ion-col col-2 class="rmNumero">
+            {{product.quantity | number: '1.0-0'}}
+          </ion-col>
 					<ion-col col-2 class="rmNumero">
 						{{getProductPrice(product) | number: '1.2-2'}}
-					</ion-col>
-					<ion-col col-2 class="rmNumero">
-						{{product.quantity | number: '1.0-0'}}
 					</ion-col>
 					<ion-col col-3 class="rmNumero">
 						{{getProductTotal(product) | number: '1.2-2'}}
 					</ion-col>
 					<ion-col col-1>
-						<ion-icon color='danger' (click)="removeProduct(product.product.id)" name="close-circle"></ion-icon>
-
+						<ion-icon color='danger' class='borrar' (click)="removeProduct(product.product.id)" name="close-circle"></ion-icon>
 					</ion-col>
 				</ion-row>
 				<ion-row>
@@ -101,10 +100,9 @@
           </ion-col>
 				</ion-row>
 			</ion-grid>
-
+      <br/>
 			<button *ngIf="customerObj" ion-button full type="button"  block (click)="addProducts()">{{'ADD_PRODUCTS' | translate}}</button>
-
-			<br/><br/>
+			<br/>
 			<button ion-button full type="submit" block [disabled]="!validations_form.valid">{{'SUBMIT' | translate}}</button>
 		</section>
 	</form>

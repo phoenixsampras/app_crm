@@ -10,10 +10,9 @@
 <ion-content class="list-mini-content">
     <ion-list>
 		<ion-item-sliding class="list-item"  *ngFor="let item of ordersList">
-			<ion-item class="item-content">
+			<ion-item class="item-content" [style.background-color]="item.sync ? '#FFF59D80' : '#ffffff'">
 				<ion-row>
           <ion-col col-2>
-
             <ion-avatar item-start>
               <text-avatar [text]="getOrderNumber(item)" [color]="secondary" item-left>
               </text-avatar>
@@ -21,8 +20,14 @@
           </ion-col>
 					<ion-col col-6>
 						<h2 class="item-title" ><b>{{item.customerObj.name}}</b></h2>
-						<p class="item-description">{{item.dateOrder | date: 'dd/MM/yyyy H:mm'}}</p>
-						<p class="item-description">{{item.notes}}</p>
+						<p class="item-description">{{item.dateOrder | date: 'dd/MM/yyyy H:mm'}}
+              <ion-icon *ngIf="item.sync==1" [style.color]="item.sync ? '#FF0000' : '#00CC00'" name="close-circle"></ion-icon>
+              <ion-icon *ngIf="item.sync==0" [style.color]="item.sync ? '#FF0000' : '#00CC00'" name="checkmark-circle"></ion-icon>
+            </p>
+            <p class="item-description">{{item.notes}}</p>
+						<!-- <p class="item-description">{{item.sync}}</p> -->
+            <!-- <ion-checkbox [(ngModel)]="item.sync"></ion-checkbox> -->
+            <!-- <ion-icon *ngIf="item.sync==0" name="checkmark-circle"></ion-icon> -->
 					</ion-col>
 					<ion-col col-4>
 						<div style="float:right;text-align:right;padding-top:7px;"><h1>{{item.total | number: '1.2-2' }}</h1></div>

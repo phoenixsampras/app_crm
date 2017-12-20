@@ -181,6 +181,7 @@ export class SyncPage {
             url += "&numberOrder=" + order.numberOrder;
             url += "&callback=JSONP_CALLBACK";
             url = encodeURI(url);
+            // Solo sincronizar pedidos no sincronizados anteriormente y con numeracion
             if (order.sync && order.numberOrder > 0) {
               this.ordersService.saveOrderOnServer(url).then(data => {
                 // console.log('Value c:' + JSON.stringify(data));
