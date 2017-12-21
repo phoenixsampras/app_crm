@@ -240,10 +240,22 @@ export class PrintOrderPage {
   print2Zebra(zebra_receipt) {
     cordova.plugins.zbtprinter.print(this.ordersService.macAddress, zebra_receipt,
       function(success) {
-        alert("Impresion Satisfactoria: " + success);
-      }, function(fail) {
-        alert("Impresion fallida:" + fail);
-        //deferred.reject(fail);
+        let toast = this.toastCtrl.create({
+          message: "Impresion Satisfactoria" + success,
+          duration: 3000,
+          cssClass: 'toast-error',
+          position: 'bottom',
+        });
+        toast.present();
+      },
+      function(fail) {
+        let toast = this.toastCtrl.create({
+          message: "Impresion fallida:" + fail,
+          duration: 3000,
+          cssClass: 'toast-error',
+          position: 'bottom',
+        });
+        toast.present();
       }
     );
   }

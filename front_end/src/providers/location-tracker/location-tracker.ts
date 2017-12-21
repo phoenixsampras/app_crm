@@ -13,6 +13,7 @@ export class LocationTracker {
   public lat;
   public lng;
   public bearing;
+  public frequency=30;
 
   constructor(public zone: NgZone,
     public backgroundGeolocation: BackgroundGeolocation,
@@ -47,7 +48,7 @@ export class LocationTracker {
         let diff = (currentTime - this.ordersService.timestamp)/ 1000;
         console.log("diff:" + diff);
 				console.log("diff:" + diff);
-        if (this.lat != this.ordersService.lat && this.lng != this.ordersService.lng && diff > 60) {
+        if (this.lat != this.ordersService.lat && this.lng != this.ordersService.lng && diff > this.frequency) {
           this.ordersService.lat = this.lat;
           this.ordersService.lng = this.lng;
           this.ordersService.timestamp = currentTime;
@@ -90,7 +91,7 @@ export class LocationTracker {
 				let currentTime = Date.now();
 				let diff = (currentTime - this.ordersService.timestamp)/ 1000;
 				console.log("diff:" + diff);
-        if (this.lat != this.ordersService.lat && this.lng != this.ordersService.lng && diff > 60) {
+        if (this.lat != this.ordersService.lat && this.lng != this.ordersService.lng && diff > this.frequency) {
           this.ordersService.lat = this.lat;
           this.ordersService.lng = this.lng;
           this.ordersService.timestamp = currentTime;
