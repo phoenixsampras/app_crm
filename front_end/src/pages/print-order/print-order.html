@@ -20,9 +20,11 @@
 		<!-- <p><b>{{'PHONE' | translate}}</b></p> -->
 		<!-- <p><b>{{'DUPLICATE_BILL' | translate}}</b></p> -->
 		<ion-row class="bill-details">
-			<!-- <ion-col col-6> -->
-				<!-- <b>{{'BILL_NO' | translate}}: 1</b> -->
-			<!-- </ion-col> -->
+			<ion-col col-12 style='text-align:center'>
+				<b>{{'BILL_NO' | translate}}: {{orderObj.numberOrder}}</b>
+			</ion-col>
+    </ion-row>
+    <ion-row>
 			<ion-col col-12 style='text-align:center'>
 				<b>{{'DATE' | translate}}: {{orderObj.dateOrder | date: 'dd/MM/yyyy H:mm'}}</b>
 			</ion-col>

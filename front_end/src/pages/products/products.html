@@ -22,18 +22,44 @@
 						</ion-col>
           </ion-row>
           <ion-row>
+            <ion-col col-1>
+              <h2 ion-text color="primary">CH:</h2>
+            </ion-col>
     				<ion-col col-3>
-              <h2 ion-text color="primary">CH: {{item.ch | number: '1.2-2'}}</h2>
+              <h2 ion-text color="primary" class="rm_numero bold">{{item.ch | number: '1.2-2'}}</h2>
     				</ion-col>
+            <ion-col col-1>
+              <h2 ion-text color="primary">CM:</h2>
+            </ion-col>
+            <ion-col col-3>
+              <h2 ion-text color="primary" class="rm_numero bold">{{item.cm | number: '1.2-2'}}</h2>
+    				</ion-col>
+            <ion-col col-1>
+              <h2 ion-text color="primary">CG:</h2>
+            </ion-col>
     				<ion-col col-3>
-              <h2 ion-text color="primary">CM: {{item.cm | number: '1.2-2'}}</h2>
+              <h2 ion-text color="primary" class="rm_numero bold">{{item.cg | number: '1.2-2'}}</h2>
     				</ion-col>
-    				<ion-col col-2>
-              <h2 ion-text color="primary">CG: {{item.cg | number: '1.2-2'}}</h2>
+          </ion-row>
+          <ion-row>
+            <ion-col col-1>
+              <h2 ion-text color="primary">SI:</h2>
+            </ion-col>
+    				<ion-col col-3>
+    					<h2 ion-text color="dark" class="rm_numero bold">{{item.stock | number: 0}}</h2>
     				</ion-col>
-    				<ion-col col-4>
-    					<h2 ion-text color="dark" class="bold">Stock: {{item.stock | number: 0}}</h2>
-    				</ion-col>
+            <ion-col col-1>
+              <h2 ion-text color="primary">PT:</h2>
+            </ion-col>
+            <ion-col col-3>
+              <h2 ion-text color="dark" class="rm_numero bold">{{item.stock*0.8 | number: 0}}</h2>
+            </ion-col>
+            <ion-col col-1>
+              <h2 ion-text color="primary">SF:</h2>
+            </ion-col>
+            <ion-col col-3>
+              <h2 ion-text color="dark" class="rm_numero bold">{{item.stock*0.8 | number: 0}}</h2>
+            </ion-col>
         	</ion-row>
 				</ion-item>
 			</ion-item-sliding>
