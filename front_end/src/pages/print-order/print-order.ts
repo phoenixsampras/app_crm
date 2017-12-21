@@ -18,14 +18,15 @@ declare var cordova;
   templateUrl: 'print-order.html',
 })
 export class PrintOrderPage {
-
   orderObj: any;
+  order: { component: any };
   loginObj: any = [];
   address = '';
   totalProducts = 0;
   devicesList: any = [];
   // address = '';
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public toastCtrl: ToastController,
@@ -100,11 +101,9 @@ export class PrintOrderPage {
     if (this.orderObj) {
       moment.lang('es-us');
       this.orderObj.confirmed = true;
-	  if(!this.orderObj.numberOrder || this.orderObj.numberOrder == 0) {
-		  let co = this.ordersService.confirmedOrders ? this.ordersService.confirmedOrders : 0;
-		  this.ordersService.confirmedOrders = co + 1;
-		  this.orderObj.numberOrder = this.ordersService.confirmedOrders;
-		}
+	  let co = this.ordersService.confirmedOrders ? this.ordersService.confirmedOrders : 0;
+	  this.ordersService.confirmedOrders = co + 1;
+	  this.orderObj.numberOrder = this.ordersService.confirmedOrders;
 	  this.ordersService.updateOrder(this.orderObj);
 
       // alert("impresion");
@@ -192,6 +191,7 @@ export class PrintOrderPage {
 
       zebra_receipt_total_height += zebra_receipt_body_total_height;
 
+      let gran_total = this.orderObj.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       zebra_receipt_total = `
               ^FO5,` + (zebra_receipt_total_height - 5) + `^GB600,3,3^FS
               ^FO0,` + zebra_receipt_total_height + `
@@ -204,9 +204,8 @@ export class PrintOrderPage {
 
               ^FO410,` + zebra_receipt_total_height + `
               ^FB150,5,0,R,0
-              ^FD` + this.orderObj.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + `^FS
+              ^FD` + gran_total + `^FS
               `;
-
 
       zebra_receipt_footer_height += zebra_receipt_body_total_height;
       zebra_receipt_footer = `
@@ -240,6 +239,7 @@ export class PrintOrderPage {
   }
 
   print2Zebra(zebra_receipt) {
+    let me = this;
     cordova.plugins.zbtprinter.print(this.ordersService.macAddress, zebra_receipt,
       function(success) {
         let toast = this.toastCtrl.create({
@@ -249,6 +249,8 @@ export class PrintOrderPage {
           position: 'bottom',
         });
         toast.present();
+        me.navCtrl.pop();
+        // nav.setRoot(OrdersPage);
       },
       function(fail) {
         let toast = this.toastCtrl.create({
@@ -258,6 +260,8 @@ export class PrintOrderPage {
           position: 'bottom',
         });
         toast.present();
+        me.navCtrl.pop();
+
       }
     );
   }
