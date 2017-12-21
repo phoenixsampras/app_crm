@@ -1,3 +1,4 @@
+import * as numeral from 'numeral';
 import { Component } from '@angular/core';
 // import { zbtprinter } from 'ionic-native';
 import { ViewController, NavController, NavParams, ToastController } from 'ionic-angular';
@@ -84,7 +85,7 @@ export class PrintOrderPage {
     else if (customerObj.property_product_pricelist == '3') {
       price = product.product.cg;
     }
-    console.log(price);
+    // console.log(price);
     return price;
   }
 
@@ -158,16 +159,16 @@ export class PrintOrderPage {
         `;
 
         for (var i = 0; i < this.orderObj.selectedProducts.length; i++) {
-          // console.log("dasda" + JSON.stringify(this.orderObj.selectedProducts[i]['product']['product']));
-          // console.log("dasda" + JSON.stringify(this.orderObj.selectedProducts[i]));
           let productCountLetters = this.orderObj.selectedProducts[i]['product']['product'].length;
           let quantity = (this.orderObj.selectedProducts[i]['quantity']);
-          quantity = quantity.toLocaleString('en-US'); // 11,000 (no decimals)
+          quantity = numeral(quantity).format('0,0');
+          // console.log('quantity:' + quantity);
           let price = (this.getProductPrice(this.orderObj.selectedProducts[i]));
-          price = price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); // 11,890.00  thousand comma separator and 2 decimals
+          price = numeral(price).format('0,0.00');
+          // console.log('price:' + price);
           let subtotal = (price * this.orderObj.selectedProducts[i]['quantity']);
-          subtotal = subtotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); // 11,890.00    thousand comma separator and 2 decimals
-          // let price = this.orderObj.selectedProducts[i]['product']['price'];
+          subtotal = numeral(subtotal).format('0,0.00');
+          // console.log('subtotal:' + subtotal);
           console.log("productCountLetters:" + productCountLetters);
           zebra_receipt_body += `
           ^FO0,` + zebra_receipt_body_height + `
@@ -196,7 +197,8 @@ export class PrintOrderPage {
 
         zebra_receipt_total_height += zebra_receipt_body_total_height;
 
-        let gran_total = this.orderObj.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        let gran_total = numeral(this.orderObj.total).format('0,0.00');;
+        
         zebra_receipt_total = `
         ^FO5,` + (zebra_receipt_total_height - 5) + `^GB600,3,3^FS
         ^FO0,` + zebra_receipt_total_height + `
