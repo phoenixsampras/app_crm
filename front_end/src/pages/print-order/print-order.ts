@@ -137,7 +137,7 @@ export class PrintOrderPage {
         ^XA
         ^MNN
         ^LL1100
-        ^ASN,50
+        ^CFR,15
         ^FO0,30^FB580,3,0,C,0^FD` + empresa + `^FS
         ^FO0,70^FB580,3,0,C,0^FDPEDIDO NUMERO: ` + numero + `^FS
         ^FO0,110^FB580,3,0,C,0^FDCochabamba - Bolivia^FS
@@ -162,12 +162,12 @@ export class PrintOrderPage {
           // console.log("dasda" + JSON.stringify(this.orderObj.selectedProducts[i]));
           let productCountLetters = this.orderObj.selectedProducts[i]['product']['product'].length;
           let quantity = (this.orderObj.selectedProducts[i]['quantity']);
+          quantity = quantity.toLocaleString('en-US'); // 11,000 (no decimals)
           let price = (this.getProductPrice(this.orderObj.selectedProducts[i]));
+          price = price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); // 11,890.00  thousand comma separator and 2 decimals
           let subtotal = (price * this.orderObj.selectedProducts[i]['quantity']);
-          // let subtotal = (price * this.orderObj.selectedProducts[i]['quantity']).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+          subtotal = subtotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); // 11,890.00    thousand comma separator and 2 decimals
           // let price = this.orderObj.selectedProducts[i]['product']['price'];
-          // let quantity = this.orderObj.selectedProducts[i]['quantity'].toLocaleString('en-US');
-          // let price = this.orderObj.selectedProducts[i]['product']['price'].toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
           console.log("productCountLetters:" + productCountLetters);
           zebra_receipt_body += `
           ^FO0,` + zebra_receipt_body_height + `
@@ -248,7 +248,7 @@ export class PrintOrderPage {
     let me = this;
     cordova.plugins.zbtprinter.print(this.ordersService.macAddress, zebra_receipt,
       function(success) {
-        let toast = this.toastCtrl.create({
+        let toast = me.toastCtrl.create({
           message: "Impresion Satisfactoria" + success,
           duration: 3000,
           cssClass: 'toast-error',
@@ -256,18 +256,15 @@ export class PrintOrderPage {
         });
         toast.present();
         me.navCtrl.pop();
-        // nav.setRoot(OrdersPage);
       },
       function(fail) {
-        let toast = this.toastCtrl.create({
+        let toast = me.toastCtrl.create({
           message: "Impresion fallida:" + fail,
           duration: 3000,
           cssClass: 'toast-error',
           position: 'bottom',
         });
         toast.present();
-        // me.navCtrl.pop();
-
       }
     );
   }
