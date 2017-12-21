@@ -100,9 +100,11 @@ export class PrintOrderPage {
     if (this.orderObj) {
       moment.lang('es-us');
       this.orderObj.confirmed = true;
-	  let co = this.ordersService.confirmedOrders ? this.ordersService.confirmedOrders : 0;
-	  this.ordersService.confirmedOrders = co + 1;
-	  this.orderObj.numberOrder = this.ordersService.confirmedOrders;
+	  if(!this.orderObj.numberOrder || this.orderObj.numberOrder == 0) {
+		  let co = this.ordersService.confirmedOrders ? this.ordersService.confirmedOrders : 0;
+		  this.ordersService.confirmedOrders = co + 1;
+		  this.orderObj.numberOrder = this.ordersService.confirmedOrders;
+		}
 	  this.ordersService.updateOrder(this.orderObj);
 
       // alert("impresion");
