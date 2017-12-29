@@ -145,7 +145,8 @@ export class AddCustomerPage {
       razon_social: new FormControl('', []),
       rm_longitude: new FormControl('', []),
       rm_latitude: new FormControl('', []),
-      property_product_pricelist: new FormControl({value: 1, disabled: true}, [Validators.required]),
+      // property_product_pricelist: new FormControl({ value: 1, disabled: false }, [Validators.required]),
+      property_product_pricelist: new FormControl('', [Validators.required]),
     });
   }
 
@@ -178,7 +179,7 @@ export class AddCustomerPage {
   };
 
   onSubmit(values) {
-	console.log(values);
+    console.log(values);
     values.photo_m = this.customerImage ? this.customerImage : "";
     values.rm_sync_date_time = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
 
@@ -188,15 +189,16 @@ export class AddCustomerPage {
       values.user_id = this.customer.user_id;
       // values.newCustomer = this.customer.newCustomer;
       values.newCustomer = 2;
-	  values.property_product_pricelist = this.customer.property_product_pricelist;
-      console.log("updateCustomer:"+JSON.stringify(values));
+      // values.property_product_pricelist = this.customer.property_product_pricelist;
+      console.log("updateCustomer:" + JSON.stringify(values));
       this.customersService.updateCustomer(values);
     } else {
       values.id = Date.now();
       values.user_id = this.ordersService.loginId;
       values.newCustomer = 1;
-	  values.property_product_pricelist = 1;
-      console.log("addCustomer:"+JSON.stringify(values));
+      // values.property_product_pricelist = this.customer.property_product_pricelist;
+      // values.property_product_pricelist = 1;
+      console.log("addCustomer:" + JSON.stringify(values));
       this.customersService.addCustomer(values);
     }
 
