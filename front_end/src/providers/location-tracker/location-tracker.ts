@@ -13,15 +13,15 @@ export class LocationTracker {
   public lat;
   public lng;
   public bearing;
-  public frequency=30;
+  public frequency = 30;
 
-  constructor(public zone: NgZone,
+  constructor(
+    public zone: NgZone,
     public backgroundGeolocation: BackgroundGeolocation,
     public toastCtrl: ToastController,
     public geolocation: Geolocation,
     public positionService: PositionService,
     public ordersService: OrdersService,
-
   ) {
 
   }
@@ -37,17 +37,16 @@ export class LocationTracker {
     let toastCtrl = this.toastCtrl;
 
     this.backgroundGeolocation.configure(config).subscribe((location) => {
-      console.log('BackgroundGeolocation:  ' + location.latitude + ',' + location.longitude);
       // Run update inside of Angular's zone
       this.zone.run(() => {
         this.lat = location.latitude;
         this.lng = location.longitude;
         // let currentTime = time();
-				let currentTime = Date.now();
-        console.log("Date.now():" + Date.now());
-        let diff = (currentTime - this.ordersService.timestamp)/ 1000;
-        console.log("diff:" + diff);
-				console.log("diff:" + diff);
+        let currentTime = Date.now();
+        // console.log("Date.now():" + Date.now());
+        let diff = (currentTime - this.ordersService.timestamp) / 1000;
+        console.log('BackgroundGeolocation:' + JSON.stringify(location) + " Diff:" + diff);
+        // console.log("diff:" + diff);
         if (this.lat != this.ordersService.lat && this.lng != this.ordersService.lng && diff > this.frequency) {
           this.ordersService.lat = this.lat;
           this.ordersService.lng = this.lng;
@@ -81,16 +80,16 @@ export class LocationTracker {
     };
 
     this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
-      console.log(position);
 
       // Run update inside of Angular's zone
       this.zone.run(() => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
 
-				let currentTime = Date.now();
-				let diff = (currentTime - this.ordersService.timestamp)/ 1000;
-				console.log("diff:" + diff);
+        let currentTime = Date.now();
+        let diff = (currentTime - this.ordersService.timestamp) / 1000;
+        console.log("Foreground:" + JSON.stringify(position) + " Diff:" + diff);
+        // console.log("diff:" + diff);
         if (this.lat != this.ordersService.lat && this.lng != this.ordersService.lng && diff > this.frequency) {
           this.ordersService.lat = this.lat;
           this.ordersService.lng = this.lng;
