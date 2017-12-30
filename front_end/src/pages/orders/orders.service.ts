@@ -25,6 +25,10 @@ export class OrdersService {
 		this.getConfirmedOrdersCount();
 	}
 
+	resetConfirmedOrdersCount() {
+		this.confirmedOrders = 0;	
+	}
+	
 	getConfirmedOrdersCount() {
 		let me = this;
 		this.databaseService.getConfirmedOrdersCount()
@@ -48,10 +52,10 @@ export class OrdersService {
 		this.databaseService.deleteOrder(order);
 	}
 
-	saveOrderOnServer(url): Promise<any> {
+	saveOrderOnServer(url, i): Promise<any> {
 		return this.jsonp.request(url,{method:'Get'})
 		.toPromise()
-		.then(response => response)
+		.then(response => [response, i])
 		.catch(this.handleError);
 
 		//return this.databaseService.getAllCustomers()

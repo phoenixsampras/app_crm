@@ -47,17 +47,22 @@ export class CustomersService {
 	}
 	
 	getDataFromPouch(searchTerm = ''): Promise<any> {
-
 		return this.databaseService.getAllCustomers(searchTerm)
 		.then(response => response)
 		.catch(this.handleError);
-
 	}
+	
+	getUploadDataFromPouch(searchTerm = ''): Promise<any> {
+		return this.databaseService.getUploadCustomers()
+		.then(response => response)
+		.catch(this.handleError);
+	}
+	
 
-	saveCustomerOnServer(url, customer): Promise<any> {
+	saveCustomerOnServer(url, customer, i): Promise<any> {
 		return this.jsonp.request(url,{method:'Get'})
 		.toPromise()
-		.then(response => {return [response, customer];})
+		.then(response => {return [response, customer, i];})
 		.catch(this.handleError);
 	}
 

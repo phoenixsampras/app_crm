@@ -309,6 +309,37 @@ export class DatabaseService {
 		});
 	}
 
+	getUploadCustomers() {
+		if (!this._db)
+			this.initDB();
+
+		return new Promise(resolve => {
+		  this._db.allDocs({
+			include_docs: true,
+			startkey: 'customer',
+			endkey: 'customer\ufff0'
+		  })
+			.then(docs => {
+
+			  // Each row has a .doc object and we just want to send an
+			  // array of customer objects back to the calling controller,
+			  // so let's map the array to contain just the .doc objects.
+				let j = 0;
+				this._customers = [];
+				for(var i=0; i<docs.rows.length; i++) {
+					let row = docs.rows[i];
+					if (row.doc.type == "customer") {
+						if(parseInt(row.doc.newCustomer,10) > 0) {
+							this._customers.push(row.doc);						
+						} 
+					}				
+				}
+				resolve(this._customers);
+			});
+
+		});
+	}
+	
   getAllPositions() {
     if (!this._db)
       this.initDB();
