@@ -187,6 +187,7 @@ export class SyncPage {
               url += "&callback=JSONP_CALLBACK";
               url = encodeURI(url);
               let me = this;
+              let _order = order;
               let url2 = url;
               this.lock.acquire()
                 .then(function() {
@@ -201,9 +202,9 @@ export class SyncPage {
                       return false;
                     }
                     //Desactivar la sincronizacion para ese pedido
-                    order.sync = 0;
+                    _order.sync = 0;
                     // console.log("order.sync:" + JSON.stringify(order));
-                    me.ordersService.updateOrder(order);
+                    me.ordersService.updateOrder(_order);
                   });
                   me.lock.release();
                 });
