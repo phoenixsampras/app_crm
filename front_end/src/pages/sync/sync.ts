@@ -201,9 +201,9 @@ export class SyncPage {
                       return false;
                     }
                     //Desactivar la sincronizacion para ese pedido
-                    // order.sync = 0;
+                    order.sync = 0;
                     // console.log("order.sync:" + JSON.stringify(order));
-                    // me.ordersService.updateOrder(order);
+                    me.ordersService.updateOrder(order);
                   });
                   me.lock.release();
                 });
