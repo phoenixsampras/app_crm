@@ -60,17 +60,39 @@ export class SyncPage {
     let loadingCtrl = this.loadingCtrl;
     let loading = loadingCtrl.create();
     loading.present();
+	let alertCtrl = this.alertCtrl;
+		
     if (window.navigator.onLine) {
       this.productsService
         .getDataFromServer()
         .then(data => {
           let items = data.rmStockProductos;
-          for (var i = 0; i < items.length; i++) {
-            console.log(items[i]);
-            this.productsService.addProduct(items[i]);
-          }
-          this.messages.push('Productos cargados:' + i);
-          loading.dismiss();
+		  let alert1 = alertCtrl.create({
+				title: 'Confirmar sobreescritura',
+				message: '¿Realmente desea sobrescribir los datos del productos?',
+				buttons: [
+					{
+						text: 'Cancelar',
+						role: 'cancel',
+						handler: () => {
+							console.log('Cancel clicked');
+						}
+					},
+					{
+						text: 'Confirmar',
+						handler: () => {
+							for (var i = 0; i < items.length; i++) {
+								this.productsService.addProduct(items[i]);
+							  }
+							  this.messages.push('Productos cargados:' + i);
+							  loading.dismiss();
+							
+						}
+					}
+				]
+			});
+			alert1.present();
+          
         });
     }
   }
@@ -97,35 +119,57 @@ export class SyncPage {
       let loading = loadingCtrl.create();
       loading.present();
 
-      this.customersService
+      let alertCtrl = this.alertCtrl;
+		
+	  this.customersService
         .getDataFromServer()
         .then(data => {
           let items = data.rmListaClientes;
           // console.log("rmListaClientes:" + JSON.stringify(items));
-          if (Object.keys(items).length > 0) {
-            for (var i = 0; i < items.length; i++) {
-              //console.log("rmListaClientes:" + JSON.stringify(items[i]));
-              items[i].property_product_pricelist = items[i].property_product_pricelist[0];
-              items[i].user_id = items[i].user_id[0];
-              items[i].newCustomer = 0;
-              items[i].name = !items[i].name ? "" : items[i].name;
-              items[i].email = !items[i].email ? "" : items[i].email;
-              items[i].street = !items[i].street ? "" : items[i].street;
-              items[i].phone = !items[i].phone ? "" : items[i].phone;
-              items[i].mobile = !items[i].mobile ? "" : items[i].mobile;
-              items[i].rm_longitude = !items[i].rm_longitude ? "" : items[i].rm_longitude;
-              items[i].rm_latitude = !items[i].rm_latitude ? "" : items[i].rm_latitude;
-              items[i].razon_social = !items[i].razon_social ? "" : items[i].razon_social;
-              items[i].nit = !items[i].nit ? "" : items[i].nit;
-              items[i].rm_sync_date_time = !items[i].rm_sync_date_time ? "" : items[i].rm_sync_date_time;
-              // console.log('loadCustomers:' + JSON.stringify(items[i]));
-              this.customersService.addCustomer(items[i]);
-            }
-            this.messages.push('Total clientes cargados:' + i);
-          } else {
-            this.messages.push('No hay clientes asignados a este usuario');
-          }
-          loading.dismiss();
+		  let alert1 = alertCtrl.create({
+				title: 'Confirmar sobreescritura',
+				message: '¿Realmente desea sobrescribir los datos del clientes?',
+				buttons: [
+					{
+						text: 'Cancelar',
+						role: 'cancel',
+						handler: () => {
+							console.log('Cancel clicked');
+						}
+					},
+					{
+						text: 'Confirmar',
+						handler: () => {
+							if (Object.keys(items).length > 0) {
+								for (var i = 0; i < items.length; i++) {
+								  //console.log("rmListaClientes:" + JSON.stringify(items[i]));
+								  items[i].property_product_pricelist = items[i].property_product_pricelist[0];
+								  items[i].user_id = items[i].user_id[0];
+								  items[i].newCustomer = 0;
+								  items[i].name = !items[i].name ? "" : items[i].name;
+								  items[i].email = !items[i].email ? "" : items[i].email;
+								  items[i].street = !items[i].street ? "" : items[i].street;
+								  items[i].phone = !items[i].phone ? "" : items[i].phone;
+								  items[i].mobile = !items[i].mobile ? "" : items[i].mobile;
+								  items[i].rm_longitude = !items[i].rm_longitude ? "" : items[i].rm_longitude;
+								  items[i].rm_latitude = !items[i].rm_latitude ? "" : items[i].rm_latitude;
+								  items[i].razon_social = !items[i].razon_social ? "" : items[i].razon_social;
+								  items[i].nit = !items[i].nit ? "" : items[i].nit;
+								  items[i].rm_sync_date_time = !items[i].rm_sync_date_time ? "" : items[i].rm_sync_date_time;
+								  // console.log('loadCustomers:' + JSON.stringify(items[i]));
+								  this.customersService.addCustomer(items[i]);
+								}
+								this.messages.push('Total clientes cargados:' + i);
+							  } else {
+								this.messages.push('No hay clientes asignados a este usuario');
+							  }
+							  loading.dismiss();
+						}
+					}
+				]
+			});
+			alert1.present();
+          
         });
     }
   }

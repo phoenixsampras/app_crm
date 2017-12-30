@@ -7,6 +7,9 @@ import { GoogleMap } from "../../components/google-map/google-map";
 import { RoutesService } from "./routes.service";
 import { MapsModel, MapPlace } from './maps.model';
 import { OrdersService } from '../orders/orders.service';
+import { CustomersService } from '../clientes/customers.service';
+import { AddCustomerPage } from '../add-customer/add-customer';
+import { AddOrderPage } from '../add-order/add-order';
 
 @Component({
   selector: 'routes-page',
@@ -30,7 +33,8 @@ export class RoutesPage implements OnInit {
     public routesService: RoutesService,
     public geolocation: Geolocation,
     public ordersService: OrdersService,
-    public keyboard: Keyboard
+    public customersService: CustomersService,
+    public keyboard: Keyboard,
   ) {
 
     //this.lat = this.navParams.get('lat');
@@ -47,9 +51,10 @@ export class RoutesPage implements OnInit {
   ngOnInit() {
     let _loading = this.loadingCtrl.create();
     _loading.present();
-
+	let me = this;
     this._GoogleMap.$mapReady.subscribe(map => {
       var infowindow = new google.maps.InfoWindow();
+
       var flightPlanCoordinates = [];
       var bounds = new google.maps.LatLngBounds();
       let locations = this.routesService.getDataFromServer()
@@ -65,12 +70,27 @@ export class RoutesPage implements OnInit {
             bounds.extend(marker.getPosition());
 
             google.maps.event.addListener(marker, 'click', (function(marker, i) {
-              return function() {
-                let content = '<b>' + locations[i]['name'] + '</b><br/>' + locations[i]['street'];
-                infowindow.setContent(content);
-                infowindow.open(map, marker);
-              }
+				return function() {
+					let content = '<b>' + locations[i]['name'] + '</b><br/>' + locations[i]['street'] + "<br/>";
+					content += "<button id='edit-customer-"+ i +"' class='edit-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i]['id'] + "'>Editar cliente</button>";
+					content += "<button id='order-customer-"+ i +"' class='edit-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i]['id'] + "'>Añadir el pedido</button>";
+					infowindow.setContent(content);
+					infowindow.open(map, marker);
+					google.maps.event.addListenerOnce(infowindow, 'domready', () => {
+						document.getElementById('edit-customer-'+ i).addEventListener('click', (event) => {
+							var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
+							var id = targetElement.getAttribute("data-id");
+							me.editCustomer(id);
+						});
+						document.getElementById('order-customer-'+ i).addEventListener('click', (event) => {
+							var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
+							var id = targetElement.getAttribute("data-id");
+							me.addOrder(id);
+						});
+					});
+				}
             })(marker, i));
+			
           }
           map.fitBounds(bounds);
           var start = flightPlanCoordinates[0];
@@ -89,14 +109,27 @@ export class RoutesPage implements OnInit {
               this.map_model.directions_display.setDirections(response);
 
             });
-
+			_loading.dismiss();
         });
       //let current_location = new google.maps.LatLng(this.lat, this.lng);
       //this.marker = new google.maps.Marker({position: current_location, map:this.map_model.map,draggable:this.markerDrag,});
-      _loading.dismiss();
+      
     });
   }
-
+	editCustomer(id) {
+		this.customersService.getCustomer(id)
+		.then(customer => {
+			this.nav.push(AddCustomerPage, { 'customer': customer });
+		});
+	}
+	
+	addOrder(id) {
+		this.customersService.getCustomer(id)
+		.then(customer => {
+			this.nav.push(AddOrderPage, { 'customerObj': customer });
+		});
+	}
+	
   ionViewDidEnter() {
 
   }

@@ -68,12 +68,18 @@ export class DatabaseService {
 		customer._id = "customer-" + customer.id;
 		customer.type = "customer";
 		this._db.get(id).then(function(doc) {
-			return doc;
+			customer._rev = doc._rev;
+			return db.put(customer);
 		}).catch(function(err) {
 			// console.log(err);
 			return db.put(customer);
 		});
 
+	}
+	
+	getCustomer(_id) {
+		let id = "customer-" + _id;
+		return this._db.get(id);
 	}
 
 	deleteCustomer(customer) {
@@ -99,10 +105,13 @@ export class DatabaseService {
 		let db = this._db;
 		product._id = "product-" + product.id;
 		product.type = "product";
+		product.originalStock = parseInt(product.stock,10);
 		this._db.get(id).then(function(doc) {
-			return doc;
+			product._rev = doc._rev;
+			return db.put(product);
 		}).catch(function(err) {
       // console.log(err);
+			product.stock = parseInt(product.stock,10);
 			db.put(product).then(function(doc) {
 				return doc;
 			}).catch(function(err) {

@@ -40,6 +40,12 @@ export class CustomersService {
 		.catch(this.handleError);
 	}
 
+	getCustomer(id): Promise<any> {
+		return this.databaseService.getCustomer(id)
+		.then(response => response)
+		.catch(this.handleError);
+	}
+	
 	getDataFromPouch(searchTerm = ''): Promise<any> {
 
 		return this.databaseService.getAllCustomers(searchTerm)

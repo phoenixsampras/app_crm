@@ -27,8 +27,6 @@ export class ProductsService {
 	}
 
 	addProduct(product) {
-		product.stock = parseInt(product.stock,10);
-		product.originalStock = parseInt(product.stock,10);
 		this.databaseService.addProduct(product);
 	}
 
