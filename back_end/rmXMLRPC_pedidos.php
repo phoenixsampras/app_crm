@@ -171,15 +171,17 @@ function rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $ord
     $models = ripcord::client("$url/xmlrpc/2/object");
 
     foreach ($selectedProducts as $producto) {
-      $rmProduct_id=$producto.product.id;
-      $rmQuantity=$producto.quantity;
+      $rmProduct_id=$producto->product->id;
+      $rmQuantity=$producto->quantity;
       $order_id=$order_id;
+      $name = $producto->product->product;
 
       $datos =
         array(
           array(
             'order_id' => $order_id,
             'product_id' => $rmProduct_id,
+            'name' => $name,
             // 'price_unit' => $price_unit,
             'product_uom_qty' => $rmQuantity,
             'product_uom' => 1,
