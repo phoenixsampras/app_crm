@@ -81,8 +81,11 @@ export class AddOrderPage {
             flag = true;
           }
         }
-        if (!flag)
-          this.selectedProducts.push(data.product);
+        if (!flag) {
+			let selectedPrice = this.getProductPrice(data.product);
+			data.product.product.selectedPrice = selectedPrice;
+			this.selectedProducts.push(data.product);
+		}
 		if(data.reopen == 1) {
 			modal.present();
 		}

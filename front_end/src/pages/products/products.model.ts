@@ -13,4 +13,5 @@ export class ProductsModel {
 	items: Array<ProductsModel>;
 	rmListaProductos : Array<ProductsModel>;
 	rmStockProductos : Array<ProductsModel>;
+	selectedPrice:string;
 }
