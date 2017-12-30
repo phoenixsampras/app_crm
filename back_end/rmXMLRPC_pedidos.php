@@ -1,8 +1,8 @@
 <?php
 header("Content-Type: text/javascript");
-error_reporting(E_ALL);
-ini_set('display_errors', TRUE);
-ini_set('display_startup_errors', TRUE);
+// error_reporting(E_ALL);
+// ini_set('display_errors', TRUE);
+// ini_set('display_startup_errors', TRUE);
 
 require_once('rmOdooConfig.php');
 require_once('rmDbConfig.php');
@@ -155,7 +155,7 @@ function rmRegistrarPedido($conex, $user_id) {
 
     if (Is_Numeric ($id)) {
       rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $id);
-      // echo $_GET['callback'].'({"order_id": '. $id . '})';
+      echo $_GET['callback'].'({"order_id": '. $id . ',"status":"success"})';
     } else {
       print_r($_REQUEST);
       print_r($datosVenta);
@@ -195,7 +195,7 @@ function rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $ord
       $id = $models->execute_kw($db, $uid, $password, 'sale.order.line', 'create', $datos);
 
       if (Is_Numeric ($id)) {
-        echo $_GET['callback'].'({"orderline_id": '. $id . ',"status":"success"})';
+        // echo $_GET['callback'].'({"orderline_id": '. $id . ',"status":"success"})';
       } else {
         print_r($_REQUEST);
         print_r($datos);
