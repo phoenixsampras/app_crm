@@ -131,6 +131,7 @@ function rmRegistrarPedido($conex, $user_id) {
     $latitude=$_REQUEST['latitude'];
     $longitude=$_REQUEST['longitude'];
     $numberOrder=$_REQUEST['numberOrder'];
+    $selectedProducts=json_decode($_REQUEST['selectedProducts']);
 
     $datosVenta =
     array(
@@ -150,12 +151,56 @@ function rmRegistrarPedido($conex, $user_id) {
     $id = $models->execute_kw($db, $uid, $password, 'sale.order', 'create', $datosVenta);
 
     if (Is_Numeric ($id)) {
-      echo $_GET['callback'].'({"order_id": '. $id . '})';
+      rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $id);
+      // echo $_GET['callback'].'({"order_id": '. $id . '})';
     } else {
       print_r($_REQUEST);
       print_r($datosVenta);
       print_r($id);
     }
+}
+
+function rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $order_id) {
+
+    $url = $conex['url'];
+    $db = $conex['db'];
+    $username = $conex['username'];
+    $password = $conex['password'];
+
+    $uid = login($conex);
+    $models = ripcord::client("$url/xmlrpc/2/object");
+
+    foreach ($selectedProducts as $producto) {
+      $rmProduct_id=$producto.product.id;
+      $rmQuantity=$producto.quantity;
+      $order_id=$order_id;
+
+      $datos =
+        array(
+          array(
+            'order_id' => $order_id,
+            'product_id' => $rmProduct_id,
+            // 'price_unit' => $price_unit,
+            'product_uom_qty' => $rmQuantity,
+            'product_uom' => 1,
+            'route_id' => 3 // BUG ODOO !! no encuentra la ruta por defecto
+          )
+        );
+
+      $id = $models->execute_kw($db, $uid, $password, 'sale.order.line', 'create', $datos);
+
+      if (Is_Numeric ($id)) {
+        echo $_GET['callback'].'({"orderline_id": '. $id . ',"status":"success"})';
+      } else {
+        print_r($_REQUEST);
+        print_r($datos);
+        print_r($id);
+      }
+    }
+
+
+
+
 }
 
 function rmRegistrarLineaPedido($conex, $user_id) {
