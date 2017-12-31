@@ -10,6 +10,7 @@ import { OrdersService } from '../orders/orders.service';
 import { CustomersService } from '../clientes/customers.service';
 import { AddCustomerPage } from '../add-customer/add-customer';
 import { AddOrderPage } from '../add-order/add-order';
+import { AddEventPage } from '../add-event/add-event';
 
 @Component({
   selector: 'routes-page',
@@ -73,7 +74,8 @@ export class RoutesPage implements OnInit {
 				return function() {
 					let content = '<b>' + locations[i]['name'] + '</b><br/>' + locations[i]['street'] + "<br/>";
 					content += "<button id='edit-customer-"+ i +"' class='edit-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i]['id'] + "'>Editar cliente</button>";
-					content += "<button id='order-customer-"+ i +"' class='edit-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i]['id'] + "'>Añadir el pedido</button>";
+					content += "<button id='order-customer-"+ i +"' class='order-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i]['id'] + "'>Nuevo el pedido</button>";
+					content += "<button id='event-customer-"+ i +"' class='event-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i]['id'] + "'>Nuevo evento</button>";
 					infowindow.setContent(content);
 					infowindow.open(map, marker);
 					google.maps.event.addListenerOnce(infowindow, 'domready', () => {
@@ -86,6 +88,11 @@ export class RoutesPage implements OnInit {
 							var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
 							var id = targetElement.getAttribute("data-id");
 							me.addOrder(id);
+						});
+						document.getElementById('event-customer-'+ i).addEventListener('click', (event) => {
+							var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
+							var id = targetElement.getAttribute("data-id");
+							me.addEvent(id);
 						});
 					});
 				}
@@ -129,6 +136,16 @@ export class RoutesPage implements OnInit {
 			this.nav.push(AddOrderPage, { 'customerObj': customer });
 		});
 	}
+	
+	addEvent(id) {
+		//this.customersService.getCustomer(id)
+		//.then(customer => {
+			//this.nav.push(AddOrderPage, { 'customerObj': customer });
+		//});
+		this.nav.push(AddEventPage);
+	}
+	
+	
 	
   ionViewDidEnter() {
 
