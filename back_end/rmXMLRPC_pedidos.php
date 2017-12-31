@@ -178,7 +178,7 @@ function rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $ord
       $rmQuantity=$producto->quantity;
       $order_id=$order_id;
       $name = $producto->product->product;
-      $price_unit = floatval($producto->selectedPrice);
+      $price_unit = floatval($producto->product->selectedPrice);
 
       $datos =
         array(
