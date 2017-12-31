@@ -178,6 +178,7 @@ function rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $ord
       $rmQuantity=$producto->quantity;
       $order_id=$order_id;
       $name = $producto->product->product;
+      $price_unit = floatval($producto->selectedPrice);
 
       $datos =
         array(
@@ -185,7 +186,7 @@ function rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $ord
             'order_id' => $order_id,
             'product_id' => $rmProduct_id,
             'name' => $name,
-            // 'price_unit' => $price_unit,
+            'price_unit' => $price_unit,
             'product_uom_qty' => $rmQuantity,
             'product_uom' => 1,
             'route_id' => 3 // BUG ODOO !! no encuentra la ruta por defecto

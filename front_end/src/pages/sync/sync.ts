@@ -99,22 +99,6 @@ export class SyncPage {
     }
   }
 
-  // Deprecated
-  // stockProducts() {
-  // 	if (window.navigator.onLine) {
-  // 		this.productsService
-  // 		.getStockDataFromServer()
-  // 		.then(data => {
-  //
-  // 			let items = data.rmStockProductos;
-  // 			for (var i = 0; i < items.length; i++) {
-  // 				console.log(items[i]);
-  // 				this.productsService.stockProduct(items[i].id, items[i].quantity);
-  // 			}
-  // 		});
-  // 	}
-  // }
-
   loadCustomers() {
     if (window.navigator.onLine) {
       let loadingCtrl = this.loadingCtrl;
