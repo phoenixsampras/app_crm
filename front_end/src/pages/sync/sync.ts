@@ -63,7 +63,7 @@ export class SyncPage {
     let loading = loadingCtrl.create();
     loading.present();
 	let alertCtrl = this.alertCtrl;
-		
+
     if (window.navigator.onLine) {
       this.productsService
         .getDataFromServer()
@@ -88,13 +88,13 @@ export class SyncPage {
 							  }
 							  this.messages.push('Productos cargados:' + i);
 							  loading.dismiss();
-							
+
 						}
 					}
 				]
 			});
 			alert1.present();
-          
+
         });
     }
   }
@@ -122,7 +122,7 @@ export class SyncPage {
       loading.present();
 
       let alertCtrl = this.alertCtrl;
-		
+
 	  this.customersService
         .getDataFromServer()
         .then(data => {
@@ -171,7 +171,7 @@ export class SyncPage {
 				]
 			});
 			alert1.present();
-          
+
         });
     }
   }
@@ -214,7 +214,7 @@ export class SyncPage {
       this.ordersService
         .getData()
         .then(data => {
-			let flags = []; 
+			let flags = [];
 			for (var i = 0; i < data.length; i++) {
 				flags[i] = 2;
 				var order = data[i];
@@ -250,13 +250,13 @@ export class SyncPage {
 				  return false;
 				}
 				//Desactivar la sincronizacion para ese pedido
-				_order.sync = 0;
+				// _order.sync = 0;
 				// console.log("order.sync:" + JSON.stringify(order));
-				me.ordersService.updateOrder(_order);
+				// me.ordersService.updateOrder(_order);
 				flags[data[1]] = 1;
 			  });
             } else {
-				flags[i] = 1;	
+				flags[i] = 1;
 			}
           }
 			setTimeout(function(){
@@ -274,13 +274,13 @@ export class SyncPage {
       let loading = loadingCtrl.create();
       loading.present();
 	  let me = this;
-					
+
 	  this.messages.push('Sincronizando Clientes');
       this.customersService
         .getUploadDataFromPouch()
         .then(data => {
           // console.log("DATA"+JSON.stringify(data));
-			let flags = []; 
+			let flags = [];
 			for (var i = 0; i < data.length; i++) {
 				flags[i] = 2;
 				let customer_newCustomer = data[i].newCustomer;
@@ -325,18 +325,18 @@ export class SyncPage {
 						  //resetear el estatus
 						  //operacion.newCustomer = 0;
 						  // console.log(operacion);
-						  //me.customersService.updateCustomer(operacion); 
+						  //me.customersService.updateCustomer(operacion);
 							flags[data[2]] = 1;
 						}
 					});
-					
+
 				}
 			}
 			setTimeout(function(){
 				me.enableButton(flags, loading);
 			}, 100);
         });
-		
+
     } else {
       this.sinInternet();
     }
@@ -348,7 +348,7 @@ export class SyncPage {
 			if(flags[i] == 2) {
 				check = 1;
 				break;
-			}	
+			}
 		}
 		let me = this;
 		if(check == 1) {
@@ -356,7 +356,7 @@ export class SyncPage {
 				me.enableButton(flags, loading);
 			}, 100);
 		} else {
-			this.disabled = false;	
+			this.disabled = false;
 			loading.dismiss();
 		}
 	}

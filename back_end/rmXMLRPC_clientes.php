@@ -77,6 +77,7 @@ function rmListaClientes($conex, $user_id) {
         'property_product_pricelist',
         'user_id',
         'razon_social',
+        'rm_dias_semana',
         'nit',
         'rm_sync',
         'rm_sync_date_time',
