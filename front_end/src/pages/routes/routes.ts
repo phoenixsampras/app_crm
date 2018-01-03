@@ -48,8 +48,11 @@ export class RoutesPage implements OnInit {
     //this.map_model.map_options.center = current_location;
 
   }
-
-  ngOnInit() {
+	ngOnInit1() {
+		
+	}
+	
+ngOnInit() {
     let _loading = this.loadingCtrl.create();
     _loading.present();
 	let me = this;
@@ -79,19 +82,23 @@ export class RoutesPage implements OnInit {
 					infowindow.setContent(content);
 					infowindow.open(map, marker);
 					google.maps.event.addListenerOnce(infowindow, 'domready', () => {
+						let infoWindow = infowindow;
 						document.getElementById('edit-customer-'+ i).addEventListener('click', (event) => {
 							var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
 							var id = targetElement.getAttribute("data-id");
+							infoWindow.close();
 							me.editCustomer(id);
 						});
 						document.getElementById('order-customer-'+ i).addEventListener('click', (event) => {
 							var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
 							var id = targetElement.getAttribute("data-id");
+							infoWindow.close();
 							me.addOrder(id);
 						});
 						document.getElementById('event-customer-'+ i).addEventListener('click', (event) => {
 							var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
 							var id = targetElement.getAttribute("data-id");
+							infoWindow.close();
 							me.addEvent(id);
 						});
 					});
@@ -126,7 +133,7 @@ export class RoutesPage implements OnInit {
 	editCustomer(id) {
 		this.customersService.getCustomer(id)
 		.then(customer => {
-			this.nav.push(AddCustomerPage, { 'customer': customer });
+			this.nav.push(AddCustomerPage, { 'customer': customer, 'routesPage' : 1 });
 		});
 	}
 	
@@ -147,9 +154,6 @@ export class RoutesPage implements OnInit {
 	
 	
 	
-  ionViewDidEnter() {
-
-  }
 
   selectLocation() {
     var data = {
