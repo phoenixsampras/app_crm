@@ -340,6 +340,49 @@ export class DatabaseService {
 		});
 	}
 	
+	getCustomerRoutes() {
+		if (!this._db)
+			this.initDB();
+
+		return new Promise(resolve => {
+		  this._db.allDocs({
+			include_docs: true,
+			startkey: 'customer',
+			endkey: 'customer\ufff0'
+		  })
+			.then(docs => {
+
+			  // Each row has a .doc object and we just want to send an
+			  // array of customer objects back to the calling controller,
+			  // so let's map the array to contain just the .doc objects.
+				let j = 0;
+				this._customers = [];
+				var d = new Date();
+				var day = d.getDay() + 1;
+				//console.log(day);
+				for(var i=0; i<docs.rows.length; i++) {
+					let row = docs.rows[i];
+					if (row.doc.type == "customer") {
+						//console.log(row.doc.rm_dias_semana);
+						if(this.inArray(day, row.doc.rm_dias_semana)) {
+							this._customers.push(row.doc);						
+						} 
+					}				
+				}
+				resolve(this._customers);
+			});
+
+		});
+	}
+	
+	inArray(needle, haystack) {
+		var length = haystack.length;
+		for(var i = 0; i < length; i++) {
+			if(haystack[i] == needle) return true;
+		}
+		return false;
+	}
+	
   getAllPositions() {
     if (!this._db)
       this.initDB();

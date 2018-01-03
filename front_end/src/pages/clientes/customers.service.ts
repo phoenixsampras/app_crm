@@ -58,6 +58,12 @@ export class CustomersService {
 		.catch(this.handleError);
 	}
 	
+	getRoutesDataFromPouch(): Promise<any> {
+		return this.databaseService.getCustomerRoutes()
+		.then(response => response)
+		.catch(this.handleError);
+	}
+	
 
 	saveCustomerOnServer(url, customer, i): Promise<any> {
 		return this.jsonp.request(url,{method:'Get'})

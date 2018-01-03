@@ -19,4 +19,5 @@ export class CustomersModel {
 	rm_sync_date_time:any;
 	rm_sync_operacion:string;
 	newCustomer = 0;
+	rm_dias_semana = [];
 }
