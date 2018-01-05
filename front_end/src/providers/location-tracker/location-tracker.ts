@@ -51,7 +51,7 @@ export class LocationTracker {
           this.ordersService.lat = this.lat;
           this.ordersService.lng = this.lng;
           this.ordersService.timestamp = currentTime;
-          var pos = { 'lat': this.lat, 'lng': this.lng, 'user_id': this.ordersService.loginId, 'bearing': location.bearing };
+          var pos = { 'lat': this.lat, 'lng': this.lng, 'user_id': this.ordersService.loginId, 'bearing': location.bearing, 'sync': 1 };
           var posLog = 'lat:' + this.lat + ' lng:' + this.lng + ' user_id:' + this.ordersService.loginId + ' bearing' + location.bearing + ' diff:' + diff;
           this.positionService.addPosition(pos);
           let toast = toastCtrl.create({
@@ -94,7 +94,7 @@ export class LocationTracker {
           this.ordersService.lat = this.lat;
           this.ordersService.lng = this.lng;
           this.ordersService.timestamp = currentTime;
-          var pos = { 'lat': this.lat, 'lng': this.lng, 'user_id': this.ordersService.loginId, 'bearing': position.coords.heading };
+          var pos = { 'lat': this.lat, 'lng': this.lng, 'user_id': this.ordersService.loginId, 'bearing': position.coords.heading, 'sync': 1  };
           var posLog = 'lat:' + this.lat + ' lng:' + this.lng + ' user_id:' + this.ordersService.loginId + ' bearing' + position.coords.heading + ' diff:' + diff;
           this.positionService.addPosition(pos);
           let toast = toastCtrl.create({

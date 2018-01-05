@@ -21,7 +21,7 @@ import { LoginPage } from '../pages/login/login';
 import { RoutesPage } from '../pages/routes/routes';
 import { DatabaseService } from '../pages/sync/database.service';
 import { OrdersService } from '../pages/orders/orders.service';
-
+import { LocationTracker } from '../providers/location-tracker/location-tracker';
 
 @Component({
   selector: 'app-root',
@@ -53,6 +53,7 @@ export class MyApp {
     public toastCtrl: ToastController,
     public ordersService: OrdersService,
     public databaseService: DatabaseService,
+	public locationTracker: LocationTracker
 
   ) {
     translate.setDefaultLang('es');
@@ -75,6 +76,7 @@ export class MyApp {
         }).catch(function(err) {
           console.log("not logged in");
         });
+		me.locationTracker.startTracking();
     });
     let me = this;
 

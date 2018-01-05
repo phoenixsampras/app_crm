@@ -56,7 +56,20 @@ export class MapsPage implements OnInit {
 			_loading.dismiss();
 		});
 	}
-
+	
+	selectCurrentLocation() {
+		this.lat = this.ordersService.lat;
+		this.lng = this.ordersService.lng;
+		console.log(this.lat);
+		console.log(this.lng);
+		let current_location = new google.maps.LatLng(this.lat, this.lng);
+		//this.map_model.map.setCenter(current_location)
+		this.map_model.map_options.center = current_location;
+		this.marker.setPosition(current_location);
+		//google.maps.event.trigger(this.map_model.map, 'resize');
+		//this.map_model.init(this.map_model.map);
+		this.map_model.map.panTo(current_location);
+	}
 	ionViewDidEnter() {
 		
 	}

@@ -20,7 +20,7 @@ export class PositionService {
 		
 		var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacionLive&longitude=" + position.lng + "&latitude=" + position.lat + "&res_user_id=" + position.user_id + "&rm_bearing=" + position.bearing +"&callback=JSONP_CALLBACK";
 		if (window.navigator.onLine) {
-			this.savePositionOnServer(url);
+			//this.savePositionOnServer(url);
 		}
 		
 	}

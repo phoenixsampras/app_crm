@@ -2,6 +2,9 @@
 	<ion-navbar>
 		<ion-title>{{ 'GOOGLE_MAPS' | translate}}</ion-title>
 		<ion-buttons end>
+			<button ion-button outline *ngIf="markerDrag" (click)="selectCurrentLocation()" color='primary'>
+				{{'SET_CURRENT_LOCATION' | translate}}
+			</button>
 			<button ion-button outline *ngIf="markerDrag" (click)="selectLocation()" color='primary'>
 				{{'SET_LOCATION' | translate}}
 			</button>
