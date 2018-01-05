@@ -195,6 +195,12 @@ export class DatabaseService {
 			console.log(data);
 		});;
 	}
+	
+	updatePosition(position) {
+		return this._db.put(position).then(data => {
+			console.log(data);
+		});;
+	}
 
 	  deletePosition(position) {
 		return this._db.remove(position);
@@ -397,12 +403,16 @@ export class DatabaseService {
           // Each row has a .doc object and we just want to send an
           // array of customer objects back to the calling controller,
           // so let's map the array to contain just the .doc objects.
-
-          this._positions = docs.rows.map(row => {
-            // Dates are not automatically converted from a string.
-            if (row.doc.type == "latlng")
-              return row.doc;
-          });
+		  
+		  for(var i=0; i<docs.rows.length; i++) {
+			let row = docs.rows[i];
+			if (row.doc.type == "latlng") {
+				//console.log(row.doc.rm_dias_semana);
+				if(row.doc.sync == 1) {
+					this._positions.push(row.doc);						
+				} 
+			}				
+		}
 
           // Listen for changes on the database.
           resolve(this._positions);

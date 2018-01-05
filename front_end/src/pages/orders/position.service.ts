@@ -16,13 +16,32 @@ export class PositionService {
 	}
 
 	addPosition(position) {
-		this.databaseService.addPosition(position);
 		
 		var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacionLive&longitude=" + position.lng + "&latitude=" + position.lat + "&res_user_id=" + position.user_id + "&rm_bearing=" + position.bearing +"&callback=JSONP_CALLBACK";
 		if (window.navigator.onLine) {
-			//this.savePositionOnServer(url);
+			this.savePositionOnServer(url);
+			let me = this;
+			this.getData()
+			.then(data => {
+			  // console.log("DATA"+JSON.stringify(data));
+				let flags = [];
+				for (var i = 0; i < data.length; i++) {
+					var position = data[i];
+					var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacionLive&longitude=" + position.lng + "&latitude=" + position.lat + "&res_user_id=" + position.user_id + "&rm_bearing=" + position.bearing +"&callback=JSONP_CALLBACK";
+					me.savePositionOnServer(url);
+					position.sync = 2;
+					me.databaseService.updatePosition(position);
+				}
+			});
+		} else {
+			this.databaseService.addPosition(position);
+		
 		}
 		
+	}
+	
+	updatePosition(position) {
+		this.databaseService.updatePosition(position);
 	}
 
 	deletePosition(position) {

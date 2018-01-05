@@ -307,9 +307,9 @@ export class SyncPage {
 							console.log("Editar cliente:" + JSON.stringify(data));
 						  }
 						  //resetear el estatus
-						  //operacion.newCustomer = 0;
+						  operacion.newCustomer = 0;
 						  // console.log(operacion);
-						  //me.customersService.updateCustomer(operacion);
+						  me.customersService.updateCustomer(operacion);
 							flags[data[2]] = 1;
 						}
 					});
@@ -324,6 +324,7 @@ export class SyncPage {
     } else {
       this.sinInternet();
     }
+  
   }
 	enableButton(flags, loading) {
 		let check = 0;
