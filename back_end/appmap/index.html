@@ -102,14 +102,15 @@
             // $('#userSelector').append('<option value="'+list[i].user_id+'">'+list[i].login+'</option>');
 
 					} else {
-						latArray.push({
-							lat: parseFloat(option.rm_latitude),
-							lng: parseFloat(option.rm_longitude)
-						});
-
+						if(option.rm_longitude != "72.3488721" && option.rm_latitude != "30.045246199999998") {
+							latArray.push({
+								lat: parseFloat(option.rm_latitude),
+								lng: parseFloat(option.rm_longitude)
+							});
+						}
 					}
 				}
-        console.log("users:" + JSON.stringify(users));
+				//console.log("users:" + JSON.stringify(users));
 				drawLine(latArray, loginName);
 				$('body').addClass('loaded');
         }
