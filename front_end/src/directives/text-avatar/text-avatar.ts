@@ -11,11 +11,12 @@ export class TextAvatarDirective {
 
   @Input() text: string;
   @Input() color: string;
+  @Input() useFullText: boolean = false;
   ngOnChanges(changes: SimpleChanges) {
     let text = changes['text'] ? changes['text'].currentValue : null;
     let color = changes['color'] ? changes['color'].currentValue : null;
-
-    this.element.nativeElement.setAttribute("value", this.extractFirstCharacter(text));
+	let value = this.useFullText ? text : this.extractFirstCharacter(text);
+    this.element.nativeElement.setAttribute("value", value);
     this.element.nativeElement.style.backgroundColor = this.backgroundColorHexString(color, text);
   }
 
