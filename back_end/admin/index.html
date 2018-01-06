@@ -4,10 +4,10 @@
     <head>
         <meta charset="utf-8">
 
-        <title>AppUI - Web App Bootstrap Admin Template</title>
+        <title>Organica S.R.L. - Cuadro Mando Integral</title>
 
-        <meta name="description" content="AppUI is a Web App Bootstrap Admin Template created by pixelcave and published on Themeforest">
-        <meta name="author" content="pixelcave">
+        <meta name="description" content="movilcrm.com crm movil ventas">
+        <meta name="author" content="movilcrm.com">
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
 
@@ -40,7 +40,7 @@
         <link rel="stylesheet" href="css/themes.css">
         <!-- END Stylesheets -->
 		<link rel="stylesheet" href="css/map-icons.min.css">
-        
+
         <!-- Modernizr (browser feature detection library) -->
         <script src="js/vendor/modernizr-3.3.1.min.js"></script>
     </head>
@@ -86,7 +86,7 @@
 
                 'enable-cookies'                                enables cookies for remembering active color theme when changed from the sidebar links (You can add it along with any other class)
             -->
-            <div id="page-container" class="header-fixed-top sidebar-visible-lg-full">
+            <div id="page-container" class="header-fixed-top sidebar-visible-lg-mini">
                 <!-- Alternative Sidebar -->
                 <div id="sidebar-alt" tabindex="-1" aria-hidden="true">
                     <!-- Toggle Alternative Sidebar Button (visible only in static layout) -->
@@ -126,7 +126,7 @@
                             <!-- Sidebar Navigation -->
                             <ul class="sidebar-nav">
                                 <li>
-                                    <a href="index.html" class="active"><i class="gi gi-compass sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Dashboard</span></a>
+                                    <a href="index.html" class="active"><i class="gi gi-compass sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">CUADRO DE MANDO INTEGRAL</span></a>
                                 </li>
                                 <li class="sidebar-separator">
                                     <i class="fa fa-ellipsis-h"></i>
@@ -293,22 +293,6 @@
                     </div>
                     <!-- END Wrapper for scrolling functionality -->
 
-                    <!-- Sidebar Extra Info -->
-                    <div id="sidebar-extra-info" class="sidebar-content sidebar-nav-mini-hide">
-                        <div class="push-bit">
-                            <span class="pull-right">
-                                <a href="javascript:void(0)" class="text-muted"><i class="fa fa-plus"></i></a>
-                            </span>
-                            <small><strong>78 GB</strong> / 100 GB</small>
-                        </div>
-                        <div class="progress progress-mini push-bit">
-                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%"></div>
-                        </div>
-                        <div class="text-center">
-                            <small>Crafted with <i class="fa fa-heart text-danger"></i> by <a href="http://goo.gl/vNS3I" target="_blank">pixelcave</a></small><br>
-                            <small><span id="year-copy"></span> &copy; <a href="http://goo.gl/RcsdAh" target="_blank">AppUI</a></small>
-                        </div>
-                    </div>
                     <!-- END Sidebar Extra Info -->
                 </div>
                 <!-- END Main Sidebar -->
@@ -343,7 +327,7 @@
 
                             <!-- Header Link -->
                             <li class="hidden-xs animation-fadeInQuick">
-                                <a href=""><strong>DASHBOARD</strong></a>
+                                <a href=""><strong>CUADRO DE MANDO INTEGRAL</strong></a>
                             </li>
                             <!-- END Header Link -->
                         </ul>
@@ -422,14 +406,14 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="header-section">
-                                        <h1>Page Title</h1>
+                                        <h1>VENTAS</h1>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 hidden-xs">
                                     <div class="header-section">
                                         <ul class="breadcrumb breadcrumb-top">
-                                            <li>Category</li>
-                                            <li><a href="">Page</a></li>
+                                            <li>Ventas</li>
+                                            <li><a href="">Mapa</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -470,49 +454,54 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <h2>Block</h2>
+                                <h2>PARAMETROS</h2>
 
-                                                        <!-- Second Row -->
-                                                        <div class="row">
-                                                            <div class="col-sm-12 col-lg-12">
-                                                                <!-- Chart Widget -->
-                                                                <div class="widget">
-                                                                    <div class="widget-content border-bottom">
-                                                                        <span class="pull-right text-muted">Tiempo Real</span>
-                                                                        Ubicacion de Vendedores en Tiempo Real
-                                                                    </div>
-                                                                    <div class="widget-content border-bottom themed-background-muted">
-                                                                        <!-- Flot Charts (initialized in js/pages/readyDashboard.js), for more examples you can check out http://www.flotcharts.org/ -->
-                                                                        
-																		<div id="chart-classic-dash" style="height: 600px;">
-																			<div class="form-group">
-																				<label class="control-label">Actualizar cada:</label>
-																				<select id="timeDropdown" class="form-control">
-																				  <option value="60">1 Minuto</option>
-																				  <option value="120">2 Minutos</option>
-																				  <option value="300">5 Minutos</option>
-																				  <option value="6000">10 Minutos</option>
-																				  <option value="9000">15 Minutos</option>
-																				  <option value="1800">30 Minutos</option>
-																				</select>
-																			</div>
-																			<div class="form-group">
-																				<label class="control-label">Usarios:</label>
-																				<select id="userDropdown" class="form-control">
-																				  
-																				</select>
-																			</div>
-																			<div style="height: 550px;" id="map-canvas"></div>
-																			
-																		</div>
-                                                                    </div>
-                                                                    
-                                                                </div>
-                                                                <!-- END Chart Widget -->
-                                                            </div>
-														</div>
-														
-                                                        <!-- END Second Row -->
+                                <!-- Second Row -->
+                                <div class="row">
+                                    <div class="col-sm-12 col-lg-12">
+                                        <div class="widget">
+                                            <div class="widget-content border-bottom">
+                                                <span class="pull-right text-muted">Tiempo Real</span>
+                                                Ubicacion de Vendedores en Tiempo Real
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-lg-6">
+                                        <!-- Chart Widget -->
+    										<div class="form-group">
+    											<label class="control-label">Actualizar cada:</label>
+    											<select id="timeDropdown" class="form-control">
+    											  <option value="60">1 Minuto</option>
+    											  <option value="120">2 Minutos</option>
+    											  <option value="300">5 Minutos</option>
+    											  <option value="6000">10 Minutos</option>
+    											  <option value="9000">15 Minutos</option>
+    											  <option value="1800">30 Minutos</option>
+    											</select>
+                                        </div>
+                                        <!-- END Chart Widget -->
+                                    </div>
+                                    <div class="col-sm-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Usuarios:</label>
+                                            <select id="userDropdown" class="form-control">
+
+                                            </select>
+                                        </div>
+                                    </div>
+								</div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-lg-12">
+                                        <div style="height: 550px;" id="map-canvas"></div>
+
+                                    </div>
+                                </div>
+
+
+
+                                <!-- END Second Row -->
                             </div>
                             <!-- END Example Title -->
 
@@ -537,7 +526,7 @@
         <script src="js/app.js"></script>
 		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places,drawing&key=AIzaSyDZ8bs03HZaGK8HozkoSKZYv48xjKHAF3k"></script>
 		<script src="js/map-icons.js"></script>
-		
+
 		<script type='text/javascript'>
 			var map;
 			var users = [];
@@ -574,7 +563,7 @@
 						$('#resultsMap').html('');
 						$('#userDropdown').html('');
 						$('#userDropdown').append($('<option value="">Seleccionar usuario</option>'));
-						
+
 						var userId = list[0].user_id;
 						var loginName = list[0].login;
 						//users.push({'id':list[0].user_id,'login':list[0].login});
@@ -582,7 +571,7 @@
 						if(list[0].user_id == selectedUser)
 							selected = "selected=selected";
 						$('#userDropdown').append($('<option '+selected+' value="'+list[0].user_id+'">'+ list[0].login +'</option>'));
-						
+
 						// $('#userSelector').append('<option value="'+list[0].user_id+'">'+list[0].login+'</option>');
 						var latArray = [];
 						for (var i = 0; i < list.length; i++) {
@@ -596,7 +585,7 @@
 								if(userId == selectedUser)
 									selected = "selected=selected";
 								$('#userDropdown').append($('<option '+selected+' value="'+userId+'">'+ loginName +'</option>'));
-						
+
 								latArray = [];
 							} else {
 								if(option.rm_longitude != "72.3488721" && option.rm_latitude != "30.045246199999998") {
@@ -609,7 +598,7 @@
 						}
 						console.log("users:" + JSON.stringify(users));
 						drawLine(latArray, loginName, userId);
-						
+
 					}
 				});
 			}
@@ -618,7 +607,7 @@
 				console.log(color);
 				var marker1 = new mapIcons.Marker({
 					map: map,
-					position: position,	
+					position: position,
 					icon: {
 						path: mapIcons.shapes.MAP_PIN,
 						fillColor: color,
