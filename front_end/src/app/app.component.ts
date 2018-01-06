@@ -44,7 +44,7 @@ export class MyApp {
   pushPages: Array<{ title: any, icon: string, component: any }>;
 
   constructor(
-    platform: Platform,
+    public platform: Platform,
     public menu: MenuController,
     public app: App,
     public splashScreen: SplashScreen,
@@ -76,6 +76,10 @@ export class MyApp {
         }).catch(function(err) {
           console.log("not logged in");
         });
+		me.platform.registerBackButtonAction(() => {
+			if (me.nav.canGoBack())
+				me.nav.pop().then(() => {}, () => {}); // If called very fast in a row, pop will reject because no pages
+		}, 500);
 		me.locationTracker.startTracking();
     });
     let me = this;
