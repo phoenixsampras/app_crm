@@ -6,6 +6,7 @@ import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 import { Jsonp } from '@angular/http';
 import { OrdersService } from '../orders/orders.service';
 import { DatabaseService } from '../sync/database.service';
+import { LocationTracker } from '../../providers/location-tracker/location-tracker';
 
 @Component({
   selector: 'login-page',
@@ -25,6 +26,7 @@ export class LoginPage {
     public ordersService: OrdersService,
     public databaseService: DatabaseService,
     public jsonp: Jsonp,
+	public locationTracker: LocationTracker
 
   ) {
     this.main_page = { component: TabsNavigationPage };
