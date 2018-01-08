@@ -67,6 +67,7 @@ export class LoginPage {
           me.ordersService.loginId = data['_body']['login'];
           me.ordersService.rmDatosUsuario = data['_body']['rmDatosUsuario'];
           me.ordersService.rmCompany = data['_body']['rmCompany'];
+		  me.locationTracker.startTracking();
           let loginData = {
             'loginId': me.ordersService.loginId,
             'rmDatosUsuario': me.ordersService.rmDatosUsuario,

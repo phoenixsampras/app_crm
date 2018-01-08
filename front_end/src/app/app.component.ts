@@ -73,6 +73,7 @@ export class MyApp {
           me.ordersService.rmDatosUsuario = data.rmDatosUsuario;
           me.ordersService.rmCompany = data.rmCompany;
           me.nav.setRoot(OrdersPage);
+		  me.locationTracker.startTracking();
         }).catch(function(err) {
           console.log("not logged in");
         });
@@ -80,7 +81,7 @@ export class MyApp {
 			if (me.nav.canGoBack())
 				me.nav.pop().then(() => {}, () => {}); // If called very fast in a row, pop will reject because no pages
 		}, 500);
-		me.locationTracker.startTracking();
+		
     });
     let me = this;
 
