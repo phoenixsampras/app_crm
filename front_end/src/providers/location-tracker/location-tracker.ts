@@ -13,7 +13,7 @@ export class LocationTracker {
   public lat;
   public lng;
   public bearing;
-  public frequency = 30;
+  public frequency = 15;
 
   constructor(
     public zone: NgZone,
