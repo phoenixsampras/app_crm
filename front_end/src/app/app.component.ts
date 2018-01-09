@@ -32,7 +32,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make WalkthroughPage the root (or first) page
-  rootPage: any = WalkthroughPage;
+  rootPage: any = LoginPage;
   // rootPage: any = OrdersPage;
   // rootPage: any = LoginPage;
   // rootPage: any = ProductsPage;
@@ -72,6 +72,12 @@ export class MyApp {
           me.ordersService.loginId = data.loginId;
           me.ordersService.rmDatosUsuario = data.rmDatosUsuario;
           me.ordersService.rmCompany = data.rmCompany;
+          me.ordersService.email = data.email;
+		  me.ordersService.password = data.password;
+		  me.ordersService.location_id = data.location_id;
+          me.ordersService.location_dest_id = data.location_dest_id;
+          me.ordersService.company_id = data.company_id;
+          me.ordersService.picking_type_id = data.picking_type_id;
           me.nav.setRoot(OrdersPage);
 		  me.locationTracker.startTracking();
         }).catch(function(err) {

@@ -17,6 +17,8 @@
   <!-- <button ion-button block color="primary" (click)="syncData()">{{'SYNC_REMOTE_DATA' | translate}}</button> -->
   <button ion-button block [disabled]="disabled" color="danger" (click)="syncCustomerData()">{{'SEND_CUSTOMERS_DATA' | translate}}</button>
   <button ion-button block [disabled]="disabled" color="danger" (click)="syncOrderData()">{{'SEND_ORDERS_DATA' | translate}}</button>
+  <button ion-button block color="secondary" (click)="syncProductsStock()">{{'SYNC_PRODUCTS_STOCK' | translate}}</button>
+  	
 	<div>
 		<p *ngFor="let message of messages" >{{message}}</p>
 	</div>

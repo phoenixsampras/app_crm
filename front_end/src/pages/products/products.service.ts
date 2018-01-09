@@ -47,7 +47,13 @@ export class ProductsService {
 		.then(response => response.json() as ProductsModel)
 		.catch(this.handleError);
 	}
-
+	
+	syncProductStockOnServer(url): Promise<any> {
+		return this.jsonp.request(url,{method:'Get'})
+		.toPromise()
+		.then(response => response.json())
+		.catch(this.handleError);
+	}
 
 	getDataFromPouch(searchTerm): Promise<any> {
 

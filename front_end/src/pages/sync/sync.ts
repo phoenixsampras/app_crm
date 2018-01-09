@@ -11,6 +11,8 @@ import { CalendarService } from '../calendar/calendar.service';
 import { LoginPage } from '../login/login';
 import moment from 'moment';
 import { Lock } from 'semaphore-async-await';
+import { Jsonp  } from '@angular/http';
+
 
 @Component({
   selector: 'sync-page',
@@ -32,7 +34,8 @@ export class SyncPage {
     public syncService: SyncService,
     public alertCtrl: AlertController,
     public customersService: CustomersService,
-    public calendarService: CalendarService
+    public calendarService: CalendarService,
+	public jsonp: Jsonp
 
   ) {
 
@@ -160,12 +163,56 @@ export class SyncPage {
     }
   }
 
+  syncProductsStock() {  
+	if (window.navigator.onLine) {
+      let loadingCtrl = this.loadingCtrl;
+      let loading = loadingCtrl.create();
+      loading.present();
+		this.productsService
+        .getDataFromPouch('')
+        .then(data => {
+			let products = data;
+			//var url = "http://organica.movilcrm.com/api/stock/metodo_operaciones/?token=27940227efcb4e8babd401bb51a87f98&location_id=12&location_dest_id=28&company_id=1&picking_type_id=3&selectedProducts=[{"product_id":"1","product_uom_qty":"1",},{"product_id":"2","product_uom_qty":"1",}]"
+			
+			let tokenUrl = "http://organica.movilcrm.com/api/user/get_token?"
+			tokenUrl += "login=" + this.ordersService.email + "&password=" + this.ordersService.password;
+			tokenUrl += '&callback=JSONP_CALLBACK';
+			console.log(tokenUrl);
+			let me = this;
+			me.jsonp.request(tokenUrl,{ method: 'Get' }).map(res => res.json()).subscribe(data => {
+				console.log(data);
+				let rmToken = data.token;
+				var url = "http://organica.movilcrm.com/api/stock/metodo_operaciones?token=" + rmToken;
+				url += "&location_id=" + me.ordersService.location_id;
+				url += "&location_dest_id=" + me.ordersService.location_dest_id;
+				url += "&company_id=" + me.ordersService.company_id;
+				url += "&picking_type_id=" + me.ordersService.picking_type_id;
+				let productsArray = []
+				
+				for(var i=0; i<products.length; i++) {
+					let product = products[i];
+					productsArray.push({'product_id': product.id, 'product_uom_qty':product.stock});
+				}
+				url += "&selectedProducts=" + JSON.stringify(productsArray);
+				url += '&callback=JSONP_CALLBACK';
+				console.log(url);
+				me.productsService.syncProductStockOnServer(encodeURI(url))
+				.then(data => {
+					console.log(data);
+					loading.dismiss();
+				})
+			
+			});
+		});
+	}
+  }
+  
   loadCalendarEvents() {
     if (window.navigator.onLine) {
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
-      var data = this.calendarService
+      this.calendarService
         .getDataFromServer()
         .then(data => {
           let calendarList = data.rmListaEventos;

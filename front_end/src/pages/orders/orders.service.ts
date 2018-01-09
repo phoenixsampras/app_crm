@@ -11,6 +11,12 @@ export class OrdersService {
 	public loginId;
 	public rmDatosUsuario;
 	public rmCompany;
+	public email;
+	public password;
+	public location_id;
+	public location_dest_id;
+	public company_id;
+	public picking_type_id;
 	public lat;
 	public lng;
 	public timestamp = 0;
