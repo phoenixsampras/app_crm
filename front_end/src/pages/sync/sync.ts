@@ -50,6 +50,50 @@ export class SyncPage {
     alert.present();
   }
 
+	syncProductPTData() {
+	  let loadingCtrl = this.loadingCtrl;
+      let loading = loadingCtrl.create();
+      loading.present();
+	  let me = this;
+      this.ordersService
+        .getData()
+        .then(data => {
+			var products = [];
+			var quantity = [];
+			for (var i = 0; i < data.length; i++) {
+				var order = data[i];
+                // Solo sincronizar pedidos no sincronizados anteriormente y con numeracion
+				if (order.sync && order.numberOrder > 0) {
+					//console.log(order);
+					for(var j=0; j< order.selectedProducts.length; j++) {
+						var product = order.selectedProducts[j];
+						//console.log(product);
+						if(products[product.product.id]){
+							let q = parseInt(products[product.product.id], 10);
+							let _q = parseInt(product.quantity, 10);
+							products[product.product.id] = q + _q;
+						} else {						
+							products[product.product.id] = parseInt(product.quantity, 10);
+						}
+						//quantity.push(product.quantity);
+					}
+					
+					
+				}
+			}
+			console.log(products);
+			for(var k=0; k<products.length;k++) {
+				if(products[k]) {
+					console.log(products[k]);
+					me.productsService.updateProductPT(k, products[k]);
+				}
+					
+			}
+			//console.log(quantity);
+			loading.dismiss();
+		});  
+	}
+  
   wipeData() {
     let loadingCtrl = this.loadingCtrl;
     let loading = loadingCtrl.create();
@@ -295,7 +339,7 @@ export class SyncPage {
 			}, 100);
         });
     }
-  };
+  }
 
   //Sending customer data to server
   syncCustomerData() {

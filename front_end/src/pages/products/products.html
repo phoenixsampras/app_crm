@@ -52,13 +52,13 @@
               <h2 ion-text color="primary">PT:</h2>
             </ion-col>
             <ion-col col-3>
-              <h2 ion-text color="dark" class="rm_numero bold">{{(item.originalStock - item.stock) | number: 0}}</h2>
+              <h2 ion-text color="dark" class="rm_numero bold">{{(item.pt ? item.pt : 0) | number: 0}}</h2>
             </ion-col>
             <ion-col col-1>
               <h2 ion-text color="primary">SF:</h2>
             </ion-col>
             <ion-col col-3>
-              <h2 ion-text color="dark" class="rm_numero bold">{{item.stock | number: 0}}</h2>
+              <h2 ion-text color="dark" class="rm_numero bold">{{item.originalStock - (item.pt ? item.pt : 0) | number: 0}}</h2>
             </ion-col>
         	</ion-row>
 				</ion-item>

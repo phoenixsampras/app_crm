@@ -25,6 +25,10 @@ export class ProductsService {
 	updateProduct(product) {
 		this.databaseService.updateProduct(product);
 	}
+	
+	updateProductPT(id, pt) {
+		this.databaseService.updateProductPT(id, pt);
+	}
 
 	addProduct(product) {
 		this.databaseService.addProduct(product);

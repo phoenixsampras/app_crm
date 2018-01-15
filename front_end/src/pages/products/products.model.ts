@@ -7,6 +7,7 @@ export class ProductsModel {
 	stock:any = 0;
 	quantity:any = 0;
 	originalStock = 0;
+	pt = 0;
 	cg:string;
 	ch:string;
 	cm:string;

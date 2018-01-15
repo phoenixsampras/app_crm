@@ -133,6 +133,17 @@ export class DatabaseService {
 			});;
 		});
 	}
+	
+	updateProductPT(_id, pt) {
+		let id = "product-" + _id;
+		let db = this._db;
+		this._db.get(id).then(function(doc) {
+			doc.pt = pt;
+			db.put(doc).then(data => {
+				console.log(data);
+			});;
+		});
+	}
 
 	updateProduct(product) {
 		return this._db.put(product).then(data => {
