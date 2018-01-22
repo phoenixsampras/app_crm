@@ -52,7 +52,7 @@ function loginApp($conex){
             $partner_id = $rmDatosUsuario[0]['partner_id'][0];
             $ew_vendedor = $rmDatosUsuario[0]['ew_vendedor'][0];
             // echo "/n rmDatosUsuario:" .  $partner_id;
-            print_r($rmDatosUsuario);
+            // print_r($rmDatosUsuario);
 
             // Si es vendedor
             if ($rmDatosUsuario) {
