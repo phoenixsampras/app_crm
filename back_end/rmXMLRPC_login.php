@@ -47,7 +47,7 @@ function loginApp($conex){
         if ($uid){
             // $uid = login($conex);
             $models = ripcord::client("$url/xmlrpc/2/object");
-            $rmDatosUsuario = $models->execute_kw($db, $uid, $password, 'res.users', 'search_read', array(array(array('id', '=', $uid))), array('fields'=>array('name','login','ew_ciudad','partner_id'), 'limit'=>5));
+            $rmDatosUsuario = $models->execute_kw($db, $uid, $password, 'res.users', 'search_read', array(array(array('id', '=', $uid))), array('fields'=>array('name','login','ew_ciudad','partner_id','stock_location_ids'), 'limit'=>5));
             $rmCompany = $models->execute_kw($db, $uid, $password, 'res.partner', 'search_read', array(array(array('id', '=', 1))), array('fields'=>array('name','street','state_id','website','phone','mobile','fax','email'), 'limit'=>1));
             $partner_id = $rmDatosUsuario[0]['partner_id'][0];
             $ew_vendedor = $rmDatosUsuario[0]['ew_vendedor'][0];
@@ -55,12 +55,12 @@ function loginApp($conex){
             // print_r($rmDatosUsuario);
 
             // Si es vendedor
-            if ($ew_vendedor) {
-                echo $_GET['callback'].'({"login": '.$uid.',"vendedor":"' . $rmDatosUsuario[0]['ew_vendedor'][1] . '","ciudad":false,"partner_id":0,user_data:{}})';
+            if ($rmDatosUsuario) {
+                // echo $_GET['callback'].'({"login": '.$uid.',"vendedor":"' . $rmDatosUsuario[0]['ew_vendedor'][1] . '","ciudad":false,"partner_id":0,user_data:{}})';
 
             // Si es Cliente
-            } else {
-                $rmDatosCliente = $models->execute_kw($db, $uid, $password, 'res.partner', 'search_read', array(array(array('id', '=', $partner_id))), array('fields'=>array('ew_zonas_cliente_id'), 'limit'=>5));
+            // } else {
+                // $rmDatosCliente = $models->execute_kw($db, $uid, $password, 'res.partner', 'search_read', array(array(array('id', '=', $partner_id))), array('fields'=>array('ew_zonas_cliente_id'), 'limit'=>5));
                 // echo "/n rmDatosCliente:";
                 // print_r($rmDatosCliente);
                 $user_data = '"rmDatosUsuario": ' . json_encode($rmDatosUsuario[0]);
