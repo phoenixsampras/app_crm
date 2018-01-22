@@ -52,7 +52,7 @@ function loginApp($conex){
             $partner_id = $rmDatosUsuario[0]['partner_id'][0];
             $ew_vendedor = $rmDatosUsuario[0]['ew_vendedor'][0];
             // echo "/n rmDatosUsuario:" .  $partner_id;
-            // print_r($rmDatosUsuario);
+            print_r($rmDatosUsuario);
 
             // Si es vendedor
             if ($rmDatosUsuario) {
@@ -66,7 +66,7 @@ function loginApp($conex){
                 $user_data = '"rmDatosUsuario": ' . json_encode($rmDatosUsuario[0]);
                 $rmCompany = '"rmCompany": ' . json_encode($rmCompany[0]);
 
-                echo $_GET['callback'].'({"login": '.$uid.',"vendedor":"false","ciudad":"' . $rmDatosCliente[0]['ew_zonas_cliente_id'][1] . '", "partner_id": '. $rmDatosCliente[0]['id'] .','.$user_data.','.$rmCompany.',"location_id":"12","location_dest_id":"28","company_id":"1","picking_type_id":"3"})';
+                echo $_GET['callback'].'({"login": '.$uid.',"vendedor":"false","ciudad":"' . $rmDatosCliente[0]['ew_zonas_cliente_id'][1] . '", "partner_id": '. $rmDatosCliente[0]['id'] .','.$user_data.','.$rmCompany.',"location_id":"12","location_dest_id":"'.$rmDatosUsuario[0]['stock_location_ids'].'","company_id":"1","picking_type_id":"3"})';
             }
             // print_r($rmDatosUsuario);
 
