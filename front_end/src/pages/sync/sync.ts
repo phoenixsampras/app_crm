@@ -290,6 +290,7 @@ export class SyncPage {
         .getData()
         .then(data => {
 			let flags = [];
+      console.log("TODOS LOS PEDIDOS:" + JSON.stringify(data));
 			for (var i = 0; i < data.length; i++) {
 				flags[i] = 2;
 				var order = data[i];
