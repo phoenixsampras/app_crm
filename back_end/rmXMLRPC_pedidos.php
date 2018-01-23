@@ -18,6 +18,9 @@ switch ($_REQUEST["task"]) {
     // case 'rmListaProductos':
       // rmListaProductos($db);
     // break;
+    case 'rmRegistrarPedidoMasivo':
+      rmRegistrarPedidoMasivo($data);
+    break;
 
     case 'rmRegistrarPedido':
       rmRegistrarPedido($data);
@@ -127,6 +130,52 @@ function rmRegistrarPedido($conex, $user_id) {
     $username = $conex['username'];
     $password = $conex['password'];
 
+    $rmUserId=intval($_REQUEST['rmUserId']);
+    $rmCustomer=intval($_REQUEST['rmCustomer']);
+    $rmDateOrder=$_REQUEST['rmDateOrder'];
+    $rmNote=$_REQUEST['rmNote'];
+    $latitude=$_REQUEST['latitude'];
+    $longitude=$_REQUEST['longitude'];
+    $numberOrder=$_REQUEST['numberOrder'];
+    $selectedProducts=json_decode($_REQUEST['selectedProducts']);
+
+    $datosVenta =
+    array(
+      array(
+        'user_id' => $rmUserId,
+        'partner_id' => $rmCustomer,
+        'date_order' => $rmDateOrder,
+        'note' => $rmNote,
+        'rm_latitude' => $latitude,
+        'rm_longitude' => $longitude,
+        'origin' => $numberOrder,
+      )
+    );
+
+    $uid = login($conex);
+    $models = ripcord::client("$url/xmlrpc/2/object");
+    $id = $models->execute_kw($db, $uid, $password, 'sale.order', 'create', $datosVenta);
+
+    if (Is_Numeric ($id)) {
+      rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $id);
+      echo $_GET['callback'].'({"order_id": '. $id . ',"status":"success"})';
+    } else {
+      print_r($_REQUEST);
+      print_r($datosVenta);
+      print_r($id);
+    }
+}
+
+function rmRegistrarPedidoMasivo($conex, $user_id) {
+
+    $url = $conex['url'];
+    $db = $conex['db'];
+    $username = $conex['username'];
+    $password = $conex['password'];
+
+    
+
+    // For
     $rmUserId=intval($_REQUEST['rmUserId']);
     $rmCustomer=intval($_REQUEST['rmCustomer']);
     $rmDateOrder=$_REQUEST['rmDateOrder'];
