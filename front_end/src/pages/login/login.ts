@@ -72,7 +72,11 @@ export class LoginPage {
           me.ordersService.rmCompany = data['_body']['rmCompany'];
           me.ordersService.location_id = data['_body']['location_id'];
           // me.ordersService.location_dest_id = data['_body']['location_dest_id'];
-          me.ordersService.location_dest_id = data['_body']['rmDatosUsuario']['stock_location_ids'][1];
+          if (data['_body']['rmDatosUsuario']['stock_location_ids'][1]) {
+            me.ordersService.location_dest_id = data['_body']['rmDatosUsuario']['stock_location_ids'][1];
+          } else {
+            me.ordersService.location_dest_id = data['_body']['rmDatosUsuario']['stock_location_ids'][0];
+          }
           me.ordersService.company_id = data['_body']['company_id'];
           me.ordersService.picking_type_id = data['_body']['picking_type_id'];
           me.ordersService.email = values.email;
