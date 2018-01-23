@@ -62,7 +62,7 @@ export class SyncPage {
 			var quantity = [];
 			for (var i = 0; i < data.length; i++) {
 				var order = data[i];
-                // Solo sincronizar pedidos no sincronizados anteriormente y con numeracion
+        // Solo sincronizar pedidos no sincronizados anteriormente y con numeracion
 				if (order.sync && order.numberOrder > 0) {
 					//console.log(order);
 					for(var j=0; j< order.selectedProducts.length; j++) {
@@ -72,13 +72,13 @@ export class SyncPage {
 							let q = parseInt(products[product.product.id], 10);
 							let _q = parseInt(product.quantity, 10);
 							products[product.product.id] = q + _q;
-						} else {						
+						} else {
 							products[product.product.id] = parseInt(product.quantity, 10);
 						}
 						//quantity.push(product.quantity);
 					}
-					
-					
+
+
 				}
 			}
 			console.log(products);
@@ -87,13 +87,13 @@ export class SyncPage {
 					console.log(products[k]);
 					me.productsService.updateProductPT(k, products[k]);
 				}
-					
+
 			}
 			//console.log(quantity);
 			loading.dismiss();
-		});  
+		});
 	}
-  
+
   wipeData() {
     let loadingCtrl = this.loadingCtrl;
     let loading = loadingCtrl.create();
@@ -207,7 +207,7 @@ export class SyncPage {
     }
   }
 
-  syncProductsStock() {  
+  syncProductsStock() {
 	if (window.navigator.onLine) {
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
@@ -217,7 +217,7 @@ export class SyncPage {
         .then(data => {
 			let products = data;
 			//var url = "http://organica.movilcrm.com/api/stock/metodo_operaciones/?token=27940227efcb4e8babd401bb51a87f98&location_id=12&location_dest_id=28&company_id=1&picking_type_id=3&selectedProducts=[{"product_id":"1","product_uom_qty":"1",},{"product_id":"2","product_uom_qty":"1",}]"
-			
+
 			let tokenUrl = "http://organica.movilcrm.com/api/user/get_token?"
 			tokenUrl += "login=" + this.ordersService.email + "&password=" + this.ordersService.password;
 			tokenUrl += '&callback=JSONP_CALLBACK';
@@ -232,7 +232,7 @@ export class SyncPage {
 				url += "&company_id=" + me.ordersService.company_id;
 				url += "&picking_type_id=" + me.ordersService.picking_type_id;
 				let productsArray = []
-				
+
 				for(var i=0; i<products.length; i++) {
 					let product = products[i];
 					productsArray.push({'product_id': product.id, 'product_uom_qty':product.stock});
@@ -245,12 +245,12 @@ export class SyncPage {
 					console.log(data);
 					loading.dismiss();
 				})
-			
+
 			});
 		});
 	}
   }
-  
+
   loadCalendarEvents() {
     if (window.navigator.onLine) {
       let loadingCtrl = this.loadingCtrl;
@@ -415,7 +415,7 @@ export class SyncPage {
     } else {
       this.sinInternet();
     }
-  
+
   }
 	enableButton(flags, loading) {
 		let check = 0;
