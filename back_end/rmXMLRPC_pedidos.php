@@ -18,6 +18,7 @@ switch ($_REQUEST["task"]) {
     // case 'rmListaProductos':
       // rmListaProductos($db);
     // break;
+
     case 'rmRegistrarPedidoMasivo':
       rmRegistrarPedidoMasivo($data);
     break;
@@ -173,7 +174,7 @@ function rmRegistrarPedidoMasivo($conex, $user_id) {
     $username = $conex['username'];
     $password = $conex['password'];
 
-    
+
 
     // For
     $rmUserId=intval($_REQUEST['rmUserId']);

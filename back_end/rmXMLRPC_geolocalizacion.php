@@ -16,6 +16,10 @@ switch ($_REQUEST["task"]) {
       rmRegistrarGeolocalizacion($data);
     break;
 
+    case 'rmRegistrarGeolocalizacionGeocerca':
+      rmRegistrarGeolocalizacionGeocerca($data);
+    break;
+
     case 'rmListaGeolocalizacionLive':
     rmListaGeolocalizacionLive($db);
     break;
@@ -59,6 +63,37 @@ function rmListaGeolocalizacion ($db) {
         echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
         exit;
     }
+}
+
+// Geocerca
+function rmRegistrarGeolocalizacionGeocerca($conex, $user_id) {
+  $url = $conex['url'];
+  $db = $conex['db'];
+  $username = $conex['username'];
+  $password = $conex['password'];
+
+  $datosGeolocalizacion =
+  array(
+    array(
+      'res_user_id' => intval($_REQUEST['res_user_id']),
+      'rm_bearing' => ($_REQUEST['rm_bearing']),
+      'rm_longitude' => ($_REQUEST['longitude']),
+      'rm_latitude' => ($_REQUEST['latitude']),
+    )
+  );
+
+  // $uid = login($conex);
+  // $models = ripcord::client("$url/xmlrpc/2/object");
+  // $id = $models->execute_kw($db, $uid, $password, 'rm.geolocalizacion', 'create', $datosGeolocalizacion);
+  echo $_GET['callback'].'({"status":"success"})';
+
+  // if (Is_Numeric ($id)) {
+  //   echo $_GET['callback'].'({"rmRegistrarGeolocalizacion": '. $id . '})';
+  // } else {
+  //   print_r($_REQUEST);
+  //   print_r($datosGeolocalizacion);
+  //   print_r($id);
+  // }
 }
 
 function rmRegistrarGeolocalizacion($conex, $user_id) {

@@ -3,24 +3,25 @@
     <button ion-button menuToggle>
 		<ion-icon name="menu"></ion-icon>
 	</button>
-	<ion-title>{{'SYNC_DATA' | translate}}</ion-title>
+    <ion-title>{{'SYNC_DATA' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-	<button ion-button block color="danger" (click)="wipeData()">{{'SYNC_LOCAL_DATA' | translate}}</button>
-	<button ion-button block color="primary" (click)="loadCustomers()">{{'LOAD_CUSTOMERS_FROM_SERVER' | translate}}</button>
-	<button ion-button block color="primary" (click)="loadChartsData()">{{'LOAD_CHARTS_FROM_SERVER' | translate}}</button>
-	<button ion-button block color="primary" (click)="loadProducts()">{{'LOAD_PRODUCTS_FROM_SERVER' | translate}}</button>
-	<button ion-button block color="primary" (click)="loadCalendarEvents()">{{'LOAD_CALENDAR_EVENTS_FROM_SERVER' | translate}}</button>
+  <button ion-button block color="danger" (click)="wipeData()">{{'SYNC_LOCAL_DATA' | translate}}</button>
+  <button ion-button block color="primary" (click)="loadCustomers()">{{'LOAD_CUSTOMERS_FROM_SERVER' | translate}}</button>
+  <button ion-button block color="primary" (click)="loadChartsData()">{{'LOAD_CHARTS_FROM_SERVER' | translate}}</button>
+  <button ion-button block color="primary" (click)="loadProducts()">{{'LOAD_PRODUCTS_FROM_SERVER' | translate}}</button>
+  <button ion-button block color="primary" (click)="loadCalendarEvents()">{{'LOAD_CALENDAR_EVENTS_FROM_SERVER' | translate}}</button>
   <hr>
   <!-- <button ion-button block color="primary" (click)="syncData()">{{'SYNC_REMOTE_DATA' | translate}}</button> -->
   <button ion-button block [disabled]="disabled" color="danger" (click)="syncCustomerData()">{{'SEND_CUSTOMERS_DATA' | translate}}</button>
   <button ion-button block [disabled]="disabled" color="danger" (click)="syncOrderData()">{{'SEND_ORDERS_DATA' | translate}}</button>
+  <button ion-button block [disabled]="disabled" color="danger" (click)="syncOrderDataMasivo()">{{'SEND_ORDERS_DATA_MASIVO' | translate}}</button>
   <button ion-button block color="secondary" (click)="syncProductsStock()">{{'SYNC_PRODUCTS_STOCK' | translate}}</button>
-  	<button ion-button block color="secondary" (click)="syncProductPTData()">{{'SYNC_PRODUCTS_PT_STOCK' | translate}}</button>
-  
-	<div>
-		<p *ngFor="let message of messages" >{{message}}</p>
-	</div>
+  <button ion-button block color="secondary" (click)="syncProductPTData()">{{'SYNC_PRODUCTS_PT_STOCK' | translate}}</button>
+
+  <div>
+    <p *ngFor="let message of messages">{{message}}</p>
+  </div>
 </ion-content>
