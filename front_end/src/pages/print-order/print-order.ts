@@ -5,6 +5,8 @@ import { ViewController, NavController, NavParams, ToastController } from 'ionic
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { OrdersService } from '../orders/orders.service';
 import { DatabaseService } from '../sync/database.service';
+import { ProductsService } from '../products/products.service';
+
 import moment from 'moment';
 
 /**
@@ -32,7 +34,8 @@ export class PrintOrderPage {
     public viewCtrl: ViewController,
     public toastCtrl: ToastController,
     public ordersService: OrdersService,
-    public databaseService: DatabaseService,
+    public productsService: ProductsService,
+	public databaseService: DatabaseService,
     private bluetoothSerial: BluetoothSerial
   ) {
     this.orderObj = this.navParams.get('order');
@@ -108,7 +111,12 @@ export class PrintOrderPage {
         this.orderObj.numberOrder = this.ordersService.confirmedOrders;
       }
       this.ordersService.updateOrder(this.orderObj);
-
+		for(var j=0; j< this.orderObj.selectedProducts.length; j++) {
+			var product = this.orderObj.selectedProducts[j];
+			//console.log(product);
+			this.productsService.updateProductPT(product.product.id, parseInt(product.quantity, 10));
+			
+		}
       // alert("impresion");
       console.log("impresion");
       let zebra_receipt = '';
