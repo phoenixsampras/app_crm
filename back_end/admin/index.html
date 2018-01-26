@@ -486,7 +486,7 @@
                                     <div class="col-sm-6 col-lg-6">
                                         <div class="form-group">
                                             <label class="control-label">Usuarios:</label>
-                                            <select id="userDropdown" class="form-control">
+                                            <select id="userDropdown" class="form-control user-dropdown">
 
                                             </select>
                                         </div>
@@ -510,6 +510,51 @@
                             <!-- END Example Content -->
                         </div>
                         <!-- END Example Block -->
+						<!-- Example Block -->
+                        <div class="block">
+                            <!-- Example Title -->
+                            <div class="block-title">
+                                
+                                <h2>GEO FENCE</h2>
+						
+                                <!-- Second Row -->
+                                <div class="row">
+                                    <div class="col-sm-12 col-lg-12">
+                                        <div class="widget">
+                                            <div class="widget-content border-bottom">
+                                                <span class="pull-right text-muted">Tiempo Real</span>
+                                                Ubicacion de Vendedores en Tiempo Real
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+								<div class='row'>
+									<div class="col-sm-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Usuarios:</label>
+                                            <select id="userDropdown" class="form-control user-dropdown">
+
+                                            </select>
+                                        </div>
+                                    </div>
+								</div>
+                                <div class="row">                                                    
+									<div class="col-sm-12 col-lg-12">
+                                        <div style="height: 550px;" id="map-canvas-geofence"></div>
+
+                                    </div>
+                                </div>
+                                <!-- END Second Row -->
+                            </div>
+                            <!-- END Example Title -->
+
+                            <!-- Example Content -->
+                            <p>
+								<textarea id="action" rows="10" cols="100"></textarea>
+							</p>
+                            <!-- END Example Content -->
+                        </div>
+						<!-- END Example Block -->
                     </div>
                     <!-- END Page Content -->
                 </div>
@@ -533,6 +578,8 @@
 			var selectedUser;
 			var list = [];
 			var colors = [];
+			var map1;
+			var drawingManager;
 			$(document).on('ready', function(){
 				$('#userDropdown').on('change', function(){
 					selectedUser = $(this).val();
@@ -651,7 +698,58 @@
 				}
 
 			}
+			
+			function initializeDrawingMap() {
+				
+				drawingManager = new google.maps.drawing.DrawingManager({
+					drawingMode: google.maps.drawing.OverlayType.POLYGON,
+					drawingControl: true,
+					drawingControlOptions: {
+						position: google.maps.ControlPosition.TOP_CENTER,
+						drawingModes: [ google.maps.drawing.OverlayType.POLYGON ]
+					},
+					polylineOptions: {
+						strokeWeight: 2,
+						strokeColor: '#ee9900',
+						clickable: false,
+						zIndex: 1,
+						editable: true
+					},
+					polygonOptions: {
+						editable:true
+					}
+				});
+				var lat = '-17.3940469';
+				var lng = '-66.233916';
+				var bounds = new google.maps.LatLngBounds();
 
+				var mapOptions = {
+					center: new google.maps.LatLng(lat, lng),
+					zoom: 12,
+				};
+				map1 = new google.maps.Map(document.getElementById('map-canvas-geofence'), mapOptions);
+				drawingManager.setMap(map1);
+				
+				 google.maps.event.addDomListener(drawingManager, 'polygoncomplete', function(polygon) {
+					  path = polygon.getPath();
+					  for(var i = 0; i < path.length; i++) {
+						document.getElementById("action").value += path.getAt(i).lat() + "," + path.getAt(i).lng();
+						if (i != path.length-1) {
+						document.getElementById("action").value += '\n';
+						}
+					  }
+					  drawingManager.setOptions({
+						drawingControl: false
+					  });
+				  });
+				
+			}
+
+			function mapInitialize() {
+				initializeDrawingMap();
+				initialize();
+			}
+			
 			function initialize() {
 				console.log('function');
 				$('#map-canvas').html('<div class="preloader-spinner themed-background hidden-lt-ie10"></div>');
@@ -674,7 +772,9 @@
 			}
 
 			if ($('#map-canvas').length != 0) {
-				google.maps.event.addDomListener(window, 'load', initialize);
+				google.maps.event.addDomListener(window, 'load', mapInitialize);
+				google.maps.event.addDomListener(document.getElementById("map-canvas-geofence"), 'ready', function() { alert(1);drawingManager.setMap(map1) } );
+				
 			}
 		</script>
    </body>
