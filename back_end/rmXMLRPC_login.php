@@ -15,9 +15,34 @@ switch ($_REQUEST["task"]) {
         loginApp($data);
     break;
 
+    case 'rmListaVendedores':
+        rmListaVendedores($db);
+    break;
+
     default:
         echo "What are you doing here?";
 
+}
+
+function rmListaVendedores ($db) {
+    try {
+        $sql = "
+        select id, login from res_users;
+        ";
+        $query = pg_query($db, $sql);
+        if(!$query){
+          echo "Error".pg_last_error($db);
+        exit;
+        }
+
+        $resultado = pg_fetch_all($query);
+        echo $_GET['callback'].'({"rmListaVendedores": ' . json_encode($resultado) . '})';
+        pg_close($db);
+
+    } catch(PDOException $e) {
+        echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
+        exit;
+    }
 }
 
 function login($conex){
