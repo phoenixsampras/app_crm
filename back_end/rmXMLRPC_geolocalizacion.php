@@ -16,7 +16,12 @@ switch ($_REQUEST["task"]) {
       rmRegistrarGeolocalizacion($data);
     break;
 
-    // Geocerca
+    // Lista de Geocerca
+    case 'rmListaGeolocalizacionGeocerca':
+      rmListaGeolocalizacionGeocerca($data);
+    break;
+
+    // Registrar Geocerca
     case 'rmRegistrarGeolocalizacionGeocerca':
       rmRegistrarGeolocalizacionGeocerca($data);
     break;
@@ -58,6 +63,41 @@ function rmListaGeolocalizacion ($db) {
 
         $resultado = pg_fetch_all($query);
         echo $_GET['callback'].'({"rmListaGeolocalizacion": ' . json_encode($resultado) . '})';
+        pg_close($db);
+
+    } catch(PDOException $e) {
+        echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
+        exit;
+    }
+}
+
+// Lista de geocercas
+function rmListaGeolocalizacionGeocerca ($db) {
+    try {
+        $sql = "
+        SELECT
+        rm_geocerca.id as geocerca_id,
+        rm_geocerca.name as geocerca_name,
+        string_agg(res_users.login, ', ')
+        --,res_users.login as salesman
+        ,rm_coordenadas_geocerca.rm_longitude
+        ,rm_coordenadas_geocerca.rm_latitude
+        FROM rm_geocerca
+        INNER JOIN users_geocerca ON users_geocerca.rm_geocerca_id=rm_geocerca.id
+        INNER JOIN res_users ON res_users.id=users_geocerca.res_users_id
+        INNER JOIN rm_coordenadas_geocerca ON rm_coordenadas_geocerca.geocerca_id=rm_geocerca.id
+
+        GROUP BY 1,2,4,5;
+
+        ";
+        $query = pg_query($db, $sql);
+        if(!$query){
+          echo "Error".pg_last_error($db);
+        exit;
+        }
+
+        $resultado = pg_fetch_all($query);
+        echo $_GET['callback'].'({"rmListaGeolocalizacionGeocerca": ' . json_encode($resultado) . '})';
         pg_close($db);
 
     } catch(PDOException $e) {
