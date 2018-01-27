@@ -18,7 +18,7 @@ switch ($_REQUEST["task"]) {
 
     // Lista de Geocerca
     case 'rmListaGeolocalizacionGeocerca':
-      rmListaGeolocalizacionGeocerca($data);
+      rmListaGeolocalizacionGeocerca($db);
     break;
 
     // Registrar Geocerca
