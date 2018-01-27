@@ -205,46 +205,6 @@ function rmListaGeolocalizacionLive ($db) {
     }
 }
 
-
-function rmListaGeolocalizacionLive ($db) {
-    try {
-        $sql = "
-        --SELECT DISTINCT ON (login)
-        SELECT
-        res_users.id as user_id,
-        res_users.login,
-        --geoLive.id,
-        --geoLive.res_user_id,
-        geoLive.rm_longitude,
-        geoLive.rm_latitude,
-        geoLive.rm_bearing,
-        --geoLive.create_uid,
-        geoLive.create_date
-        --geoLive.write_uid,
-        --geoLive.write_date
-        FROM
-        public.rm_geolocalizacion_live AS geoLive
-        INNER JOIN res_users ON res_users.id = geoLive.res_user_id
-        WHERE DATE_PART('Day',now() - geoLive.create_date::timestamptz) < 1
-        ORDER BY res_users.login, geoLive.create_date DESC;
-
-        ";
-        $query = pg_query($db, $sql);
-        if(!$query){
-          echo "Error".pg_last_error($db);
-        exit;
-        }
-
-        $resultado = pg_fetch_all($query);
-        echo $_GET['callback'].'({"rmListaGeolocalizacionLive": ' . json_encode($resultado) . '})';
-        pg_close($db);
-
-    } catch(PDOException $e) {
-        echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
-        exit;
-    }
-}
-
 function rmRegistrarGeolocalizacionLive($conex, $user_id) {
   $url = $conex['url'];
   $db = $conex['db'];
