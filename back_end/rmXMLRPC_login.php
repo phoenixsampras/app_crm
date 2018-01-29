@@ -47,7 +47,6 @@ function rmListaVendedores ($db) {
 
 function login($conex){
 
-
     $db = $conex['db'];
     $username = $conex['username'];
     $password = $conex['password'];
