@@ -102,7 +102,8 @@ function rmListaProductos ($db) {
           pt.name AS product
           FROM
           public.product_product AS pp
-          INNER JOIN public.product_template AS pt ON pp.product_tmpl_id = pt.id
+          INNER JOIN public.product_template AS pt ON
+          pp.product_tmpl_id = pt.id
           WHERE
           sale_ok = True
         ";
@@ -174,17 +175,24 @@ function rmRegistrarPedidoMasivo($conex, $user_id) {
     $username = $conex['username'];
     $password = $conex['password'];
 
+    echo "Pedidos Masivo 2";
+    print_r($_REQUEST['pedidos']);
 
+    // Obtaining orders from app
+    // for ($_REQUEST['pedidos']) {
+    echo "RECONTANDO" . count($_REQUEST['pedidos']);
+    for ($i = 0; $i < count($_REQUEST['pedidos'][0]); $i++) {
+      echo "contando" . $i;
+      $rmUserId=intval($_REQUEST['rmUserId']);
+      $rmCustomer=intval($_REQUEST['customerObj']);
+      $rmDateOrder=$_REQUEST['dateOrder'];
+      $rmNote=$_REQUEST['notes'];
+      $latitude=$_REQUEST['latitude'];
+      $longitude=$_REQUEST['longitude'];
+      $numberOrder=$_REQUEST['numberOrder'];
+      $selectedProducts=json_decode($_REQUEST['selectedProducts']);
+    }
 
-    // For
-    $rmUserId=intval($_REQUEST['rmUserId']);
-    $rmCustomer=intval($_REQUEST['rmCustomer']);
-    $rmDateOrder=$_REQUEST['rmDateOrder'];
-    $rmNote=$_REQUEST['rmNote'];
-    $latitude=$_REQUEST['latitude'];
-    $longitude=$_REQUEST['longitude'];
-    $numberOrder=$_REQUEST['numberOrder'];
-    $selectedProducts=json_decode($_REQUEST['selectedProducts']);
 
     $datosVenta =
     array(
