@@ -74,30 +74,61 @@ function rmListaGeolocalizacion ($db) {
 // Lista de geocercas
 function rmListaGeolocalizacionGeocerca ($db) {
     try {
-        $sql = "
+        $sql_geocerca = "
         SELECT
         rm_geocerca.id as geocerca_id,
-        rm_geocerca.name as geocerca_name,
-        string_agg(res_users.login, ', ')
-        --,res_users.login as salesman
-        ,rm_coordenadas_geocerca.rm_longitude
-        ,rm_coordenadas_geocerca.rm_latitude
+        rm_geocerca.name as geocerca_name
+        FROM rm_geocerca;
+        ";
+
+        $sql_geocerca_users = "
+        SELECT
+        rm_geocerca.id as geocerca_id,
+        res_users.id as user_id,
+        res_users.login
         FROM rm_geocerca
         INNER JOIN users_geocerca ON users_geocerca.rm_geocerca_id=rm_geocerca.id
         INNER JOIN res_users ON res_users.id=users_geocerca.res_users_id
-        INNER JOIN rm_coordenadas_geocerca ON rm_coordenadas_geocerca.geocerca_id=rm_geocerca.id
-
-        GROUP BY 1,2,4,5;
-
+        ORDER by rm_geocerca.id;
         ";
-        $query = pg_query($db, $sql);
+
+        $sql_geocerca_locations = "
+        SELECT
+        rm_geocerca.id as geocerca_id,
+        rm_geocerca.name as geocerca_name
+        ,rm_coordenadas_geocerca.rm_longitude
+        ,rm_coordenadas_geocerca.rm_latitude
+        FROM rm_geocerca
+        INNER JOIN rm_coordenadas_geocerca ON rm_coordenadas_geocerca.geocerca_id=rm_geocerca.id
+        ORDER by geocerca_id;
+        ";
+
+        $query = pg_query($db, $sql_geocerca);
         if(!$query){
           echo "Error".pg_last_error($db);
         exit;
         }
+        $resultado1 = pg_fetch_all($sql_geocerca);
 
-        $resultado = pg_fetch_all($query);
-        echo $_GET['callback'].'({"rmListaGeolocalizacionGeocerca": ' . json_encode($resultado) . '})';
+        $query2 = pg_query($db, $sql_geocerca_users);
+        if(!$query2){
+          echo "Error".pg_last_error($db);
+        exit;
+        }
+        $resultado2 = pg_fetch_all($sql_geocerca_users);
+
+        $query3 = pg_query($db, $sql_geocerca_locations);
+        if(!$query3){
+          echo "Error".pg_last_error($db);
+        exit;
+        }
+        $resultado3 = pg_fetch_all($sql_geocerca_locations);
+
+        print_r($resultado1);
+        print_r($resultado2);
+        print_r($resultado3);
+
+        echo $_GET['callback'].'({"rmListaGeolocalizacionGeocerca333": ' . json_encode($resultado) . '})';
         pg_close($db);
 
     } catch(PDOException $e) {
