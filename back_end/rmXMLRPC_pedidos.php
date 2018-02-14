@@ -168,29 +168,52 @@ function rmRegistrarPedido($conex, $user_id) {
     }
 }
 
-function rmRegistrarPedidoMasivo($conex, $user_id) {
+function rmRegistrarPedidoMasivo($conex, $user_id = '') {
 
+	if (isset($_SERVER['HTTP_ORIGIN'])) {
+        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Max-Age: 86400');    // cache for 1 day
+    }
+ 
+    // Access-Control headers are received during OPTIONS requests
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+ 
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
+ 
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+            header("Access-Control-Allow-Headers:        {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+ 
+        exit(0);
+    }  
     $url = $conex['url'];
     $db = $conex['db'];
     $username = $conex['username'];
     $password = $conex['password'];
 
-    echo "Pedidos Masivo 2";
-    print_r($_REQUEST['pedidos']);
-
+	$postdata = file_get_contents("php://input");
+    $jsondata = json_decode($postdata);
+	/*echo "Pedidos Masivo 2<br/>";
+    print_r($jsondata->pedidos);
+	echo "User Id 2<br/>";
+	
+	exit;*/
+	$rmUserId= intval($jsondata->rmUserId);
     // Obtaining orders from app
     // for ($_REQUEST['pedidos']) {
-    echo "RECONTANDO" . count($_REQUEST['pedidos']);
-    for ($i = 0; $i < count($_REQUEST['pedidos'][0]); $i++) {
-      echo "contando" . $i;
-      $rmUserId=intval($_REQUEST['rmUserId']);
-      $rmCustomer=intval($_REQUEST['customerObj']);
-      $rmDateOrder=$_REQUEST['dateOrder'];
-      $rmNote=$_REQUEST['notes'];
-      $latitude=$_REQUEST['latitude'];
-      $longitude=$_REQUEST['longitude'];
-      $numberOrder=$_REQUEST['numberOrder'];
-      $selectedProducts=json_decode($_REQUEST['selectedProducts']);
+    //echo "RECONTANDO" . count($jsondata->pedidos);
+    for ($i = 0; $i < count($jsondata->pedidos); $i++) {
+      //echo "contando" . $i;
+	  $pedido = $jsondata->pedidos[$i];
+      //$rmUserId=intval($_REQUEST['rmUserId']);
+      $rmCustomer=$pedido->customerObj;
+      $rmDateOrder=$pedido->dateOrder;
+      $rmNote=$pedido->notes;
+      $latitude=$pedido->latitude;
+      $longitude=$pedido->longitude;
+      $numberOrder=$pedido->numberOrder;
+      $selectedProducts=$pedido->selectedProducts;
     }
 
 
@@ -213,10 +236,10 @@ function rmRegistrarPedidoMasivo($conex, $user_id) {
 
     if (Is_Numeric ($id)) {
       rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $id);
-      echo $_GET['callback'].'({"order_id": '. $id . ',"status":"success"})';
+      echo json_encode(["order_id"=>$id ,"status"=>"success"]);
     } else {
-      print_r($_REQUEST);
-      print_r($datosVenta);
+      //print_r($_REQUEST);
+      //print_r($datosVenta);
       print_r($id);
     }
 }

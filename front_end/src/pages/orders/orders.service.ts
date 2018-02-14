@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Jsonp  } from '@angular/http';
+import { Jsonp, Http  } from '@angular/http';
 import { DatabaseService } from '../sync/database.service';
 import 'rxjs/add/operator/toPromise';
 import {Platform  } from 'ionic-angular';
@@ -21,8 +21,16 @@ export class OrdersService {
 	public lng;
 	public timestamp = 0;
 	public confirmedOrders;
+	public base_url = "http://cloud.movilcrm.com/organica/back_end/";
+	//public base_url = "http://localhost/back_end/";
+	
+	getFullUrl(url) {
+		return this.base_url + url;
+	}
+	
 	constructor(
 		public jsonp: Jsonp,
+		public http: Http,
 		private databaseService: DatabaseService,
 		private platform: Platform,
 
@@ -58,10 +66,10 @@ export class OrdersService {
 		this.databaseService.deleteOrder(order);
 	}
 
-	saveOrderOnServer(url, i): Promise<any> {
-		return this.jsonp.request(url,{method:'Get'})
+	saveOrderOnServer(url, data): Promise<any> {
+		return this.http.post(url,data)
 		.toPromise()
-		.then(response => [response, i])
+		.then(response => response)
 		.catch(this.handleError);
 
 		//return this.databaseService.getAllCustomers()

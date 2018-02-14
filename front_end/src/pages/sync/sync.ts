@@ -10,7 +10,6 @@ import { CustomersService } from '../clientes/customers.service';
 import { CalendarService } from '../calendar/calendar.service';
 import { LoginPage } from '../login/login';
 import moment from 'moment';
-import { Lock } from 'semaphore-async-await';
 import { Jsonp } from '@angular/http';
 
 
@@ -22,7 +21,6 @@ export class SyncPage {
 
   messages: any = [];
   loading: any;
-  lock = new Lock();
   disabled = false;
   constructor(
     public nav: NavController,
@@ -291,22 +289,25 @@ export class SyncPage {
         .then(data => {
           let flags = [];
           console.log("TODOS LOS PEDIDOS:" + JSON.stringify(data));
-          // flags[i] = 2;
+          
+		  // flags[i] = 2;
           // var order = data[i];
           // Solo sincronizar pedidos no sincronizados anteriormente y con numeracion
           if (data.length > 0) {
             // console.log("for Pedido:" + JSON.stringify(order));
             // let selectedProducts = order.selectedProducts;
-            var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarPedidoMasivo";
-            url += "&pedidos=" + JSON.stringify(data);
-            url += "&callback=JSONP_CALLBACK";
-            url = encodeURI(url);
+            var url = this.ordersService.getFullUrl("rmXMLRPC_pedidos.php?task=rmRegistrarPedidoMasivo");
+            var postData  = {"pedidos" : data, "rmUserId" : this.ordersService.loginId}
+            //url += "&rmUserId=" + this.ordersService.loginId;
+			//url += "&callback=JSONP_CALLBACK";
+            //url = encodeURI(url);
+			console.log(postData);
             let me = this;
             // let _order = order;
             let url2 = url;
             let i =1;
             // Storing url data in order to wait for the jsonp
-            me.ordersService.saveOrderOnServer(url2, i).then(data => {
+            me.ordersService.saveOrderOnServer(url2, JSON.stringify(postData)).then(data => {
               console.log("datatatatta:" + JSON.stringify(data));
               // let order_id = data[0]._body.order_id;
               // if (order_id) {
