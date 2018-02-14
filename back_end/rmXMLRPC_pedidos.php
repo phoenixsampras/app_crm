@@ -200,6 +200,8 @@ function rmRegistrarPedidoMasivo($conex, $user_id = '') {
 	
 	exit;*/
 	$rmUserId= intval($jsondata->rmUserId);
+	$orderIds = [];
+	$errors = [];
     // Obtaining orders from app
     // for ($_REQUEST['pedidos']) {
     //echo "RECONTANDO" . count($jsondata->pedidos);
@@ -214,34 +216,43 @@ function rmRegistrarPedidoMasivo($conex, $user_id = '') {
       $longitude=$pedido->longitude;
       $numberOrder=$pedido->numberOrder;
       $selectedProducts=$pedido->selectedProducts;
+	  
+	  $datosVenta =
+		array(
+		  array(
+			'user_id' => $rmUserId,
+			'partner_id' => $rmCustomer,
+			'date_order' => $rmDateOrder,
+			'note' => $rmNote,
+			'rm_latitude' => $latitude,
+			'rm_longitude' => $longitude,
+			'origin' => $numberOrder,
+		  )
+		);
+		$uid = login($conex);
+		$models = ripcord::client("$url/xmlrpc/2/object");
+		$id = $models->execute_kw($db, $uid, $password, 'sale.order', 'create', $datosVenta);
+
+		if (Is_Numeric ($id)) {
+		  rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $id);
+		  $orderIds[] = $id;
+		  //echo json_encode(["order_id"=>$id ,"status"=>"success"]);
+		} else {
+		  //print_r($_REQUEST);
+		  //print_r($datosVenta);
+		  $errors[] = $id;
+		}
     }
+	
+	if(!empty($orderIds)) {
+		echo json_encode(["order_ids"=>$orderIds ,"status"=>"success"]);
+	} else {
+		echo json_encode(["errors"=>$errors ,"status"=>"error"]);
+	}
 
+    
 
-    $datosVenta =
-    array(
-      array(
-        'user_id' => $rmUserId,
-        'partner_id' => $rmCustomer,
-        'date_order' => $rmDateOrder,
-        'note' => $rmNote,
-        'rm_latitude' => $latitude,
-        'rm_longitude' => $longitude,
-        'origin' => $numberOrder,
-      )
-    );
-
-    $uid = login($conex);
-    $models = ripcord::client("$url/xmlrpc/2/object");
-    $id = $models->execute_kw($db, $uid, $password, 'sale.order', 'create', $datosVenta);
-
-    if (Is_Numeric ($id)) {
-      rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $id);
-      echo json_encode(["order_id"=>$id ,"status"=>"success"]);
-    } else {
-      //print_r($_REQUEST);
-      //print_r($datosVenta);
-      print_r($id);
-    }
+    
 }
 
 function rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $order_id) {
