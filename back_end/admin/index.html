@@ -769,8 +769,8 @@
 				var bounds = new google.maps.LatLngBounds();
 
 				var mapOptions = {
-					center: new google.maps.LatLng(lat, lng),
-					zoom: 12,
+					//center: new google.maps.LatLng(lat, lng),
+					zoom: 15,
 				};
 				map1 = new google.maps.Map(document.getElementById('map-canvas-geofence'), mapOptions);
 				drawingManager.setMap(map1);
@@ -826,7 +826,7 @@
 							bermudaTriangle.setMap(map1);
 							
 						}
-						//map1.fitBounds(bounds);
+						map1.fitBounds(bounds);
 					}
 				});
 			}
