@@ -604,7 +604,7 @@
 					dataType: "jsonp",
 					// Work with the response
 					success: function(response) {
-						console.log(response.rmListaVendedores);
+						//console.log(response.rmListaVendedores);
 						$('#salesDropdown').html('');
 						for(var i=0; i< response.rmListaVendedores.length; i++) {
 							var salesman = response.rmListaVendedores[i];
@@ -746,7 +746,7 @@
 
 			function initializeDrawingMap() {
 
-				drawingManager = new google.maps.drawing.DrawingManager({
+					drawingManager = new google.maps.drawing.DrawingManager({
 					drawingMode: google.maps.drawing.OverlayType.POLYGON,
 					drawingControl: true,
 					drawingControlOptions: {
@@ -764,8 +764,8 @@
 						editable:true
 					}
 				});
-				var lat = '-17.3940469';
-				var lng = '-66.233916';
+				var lat = -17.3940469;
+				var lng = -66.233916;
 				var bounds = new google.maps.LatLngBounds();
 
 				var mapOptions = {
@@ -786,6 +786,49 @@
 						drawingControl: true
 					  });
 				  });
+				  
+				  setTimeout(function(){loadGeoFences(map1);}, 3000);
+			}
+			
+			function loadGeoFences(geofenceMap) {
+				$.ajax({
+					url: "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmListaGeolocalizacionGeocerca",
+					// The name of the callback parameter, as specified by the YQL service
+					jsonp: "callback",
+					// Tell jQuery we're expecting JSONP
+					dataType: "jsonp",
+					// Work with the response
+					success: function(response) {
+						var geofences = response.rmListaGeolocalizacionGeocerca333;
+						//console.log(geofences);
+						var bounds = new google.maps.LatLngBounds();
+
+						for(var i=0;i<geofences.length;i++) {
+							var geofence = geofences[i].geofence;
+							var _locations = geofence.locations;
+							var locations = [];
+							for(var j=0;j<_locations.length;j++) {
+								var point = new google.maps.LatLng(parseFloat(_locations[j].rm_longitude), parseFloat(_locations[j].rm_latitude));
+								locations.push(point);
+								bounds.extend(point);
+							}
+							console.log(locations);
+							var bermudaTriangle = new google.maps.Polygon({
+							  paths: locations,
+							  strokeColor: '#FF0000',
+							  strokeOpacity: 0.8,
+							  strokeWeight: 2,
+							  fillColor: '#FF0000',
+							  fillOpacity: 0.35,
+							  //editable:true
+							});
+							//console.log(map1);
+							bermudaTriangle.setMap(map1);
+							
+						}
+						//map1.fitBounds(bounds);
+					}
+				});
 			}
 
 			function mapInitialize() {
@@ -794,7 +837,7 @@
 			}
 
 			function initialize() {
-				console.log('function');
+				//console.log('function');
 				$('#map-canvas').html('<div class="preloader-spinner themed-background hidden-lt-ie10"></div>');
 				var lat = '-17.3940469';
 				var lng = '-66.233916';
