@@ -258,6 +258,35 @@ export class DatabaseService {
 
 	}
 	
+	getAllSyncOrders() {
+		if (!this._db)
+			this.initDB();
+		return new Promise(resolve => {
+			this._db.allDocs({
+				include_docs: true,
+				startkey: 'order',
+				endkey: 'order\ufff0'
+			})
+			.then(docs => {
+
+				// Each row has a .doc object and we just want to send an
+				// array of customer objects back to the calling controller,
+				// so let's map the array to contain just the .doc objects.
+				this._orders = [];
+				for(var i=0; i<docs.rows.length; i++) {
+					let row = docs.rows[i];
+					if (row.doc.type == "order" && row.doc.sync == 1)
+						this._orders.push(row.doc);
+				}		
+
+
+				resolve(this._orders);
+			});
+
+		});
+
+	}
+	
 	getConfirmedOrdersCount() {
 		if (!this._db)
 			this.initDB();

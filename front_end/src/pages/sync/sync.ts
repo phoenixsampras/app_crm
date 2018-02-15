@@ -285,49 +285,44 @@ export class SyncPage {
       let me = this;
       this.messages.push('Sincronizando Pedidos');
       this.ordersService
-        .getData()
+        .getSyncOrderData()
         .then(data => {
-          let flags = [];
-          console.log("TODOS LOS PEDIDOS:" + JSON.stringify(data));
-          
-		  // flags[i] = 2;
-          // var order = data[i];
           // Solo sincronizar pedidos no sincronizados anteriormente y con numeracion
           if (data.length > 0) {
+			console.log(data);
             // console.log("for Pedido:" + JSON.stringify(order));
             // let selectedProducts = order.selectedProducts;
-            var url = this.ordersService.getFullUrl("rmXMLRPC_pedidos.php?task=rmRegistrarPedidoMasivo");
+            let orders = data;
+			var url = this.ordersService.getFullUrl("rmXMLRPC_pedidos.php?task=rmRegistrarPedidoMasivo");
             var postData  = {"pedidos" : data, "rmUserId" : this.ordersService.loginId}
-            //url += "&rmUserId=" + this.ordersService.loginId;
-			//url += "&callback=JSONP_CALLBACK";
-            //url = encodeURI(url);
-			console.log(postData);
             let me = this;
-            // let _order = order;
             let url2 = url;
             let i =1;
             // Storing url data in order to wait for the jsonp
             me.ordersService.saveOrderOnServer(url2, JSON.stringify(postData)).then(data => {
-              console.log("datatatatta:" + JSON.stringify(data));
+              let jsonRes = JSON.parse(data._body);
+			  loading.dismiss();
               // let order_id = data[0]._body.order_id;
-              // if (order_id) {
-                // me.messages.push('Pedido creado id:' + order_id + ", _id:" + order._id);
-              // } else {
-                // me.messages.push('Pedido no pudo ser creado');
-                // return false;
-              // }
-              //Desactivar la sincronizacion para ese pedido
-              // _order.sync = 0;
-              // console.log("order.sync:" + JSON.stringify(order));
-              // me.ordersService.updateOrder(_order);
-              // flags[data[1]] = 1;
-            });
+               if (jsonRes.status == 'success') {
+				   for(var j=0;j<orders.length;j++) {
+					 let _order = orders[j];
+					 _order.sync = 0;
+					// console.log("order.sync:" + JSON.stringify(order));
+					 me.ordersService.updateOrder(_order);
+				   } 
+					  
+			   }
+			   me.disabled = false;
+                
+            }, function(error){
+				loading.dismiss();
+				me.disabled = false;
+			});
           } else {
-            // flags[i] = 1;
+             this.disabled = false;
+			  loading.dismiss();
           }
-          // setTimeout(function() {
-          //   me.enableButton(flags, loading);
-          // }, 100);
+          
         });
     }
   }

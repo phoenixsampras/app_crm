@@ -82,7 +82,7 @@ export class OrdersService {
 	saveOrderLineOnServer(url): Promise<any> {
 		return this.jsonp.request(url,{method:'Get'})
 		.toPromise()
-		.then(response => response)
+		.then(response => response.json())
 		.catch(this.handleError);
 
 		//return this.databaseService.getAllCustomers()
@@ -113,6 +113,13 @@ export class OrdersService {
 
 		return this.databaseService.getAllOrders()
 		//.toPromise()
+		.then(response => response)
+		.catch(this.handleError);
+
+	}
+	
+	getSyncOrderData(): Promise<any> {
+		return this.databaseService.getAllSyncOrders()
 		.then(response => response)
 		.catch(this.handleError);
 
