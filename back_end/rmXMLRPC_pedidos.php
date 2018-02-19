@@ -221,7 +221,7 @@ function rmRegistrarPedidoMasivo($conex, $user_id = '') {
 		array(
 		  array(
 			'user_id' => $rmUserId,
-			'partner_id' => $rmCustomer,
+			'partner_id' => intval($rmCustomer->id),
 			'date_order' => $rmDateOrder,
 			'note' => $rmNote,
 			'rm_latitude' => $latitude,
@@ -229,7 +229,9 @@ function rmRegistrarPedidoMasivo($conex, $user_id = '') {
 			'origin' => $numberOrder,
 		  )
 		);
+		
 		$uid = login($conex);
+		
 		$models = ripcord::client("$url/xmlrpc/2/object");
 		$id = $models->execute_kw($db, $uid, $password, 'sale.order', 'create', $datosVenta);
 
@@ -248,11 +250,7 @@ function rmRegistrarPedidoMasivo($conex, $user_id = '') {
 		echo json_encode(["order_ids"=>$orderIds ,"status"=>"success"]);
 	} else {
 		echo json_encode(["errors"=>$errors ,"status"=>"error"]);
-	}
-
-    
-
-    
+	}  
 }
 
 function rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $order_id) {
