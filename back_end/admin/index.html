@@ -537,6 +537,14 @@
                                             </select>
                                         </div>
                                     </div>
+									<div class="col-sm-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Geo Fences:</label>
+                                            <select id="geofenceDropdown" class="form-control user-dropdown">
+
+                                            </select>
+                                        </div>
+                                    </div>
 								</div>
                                 <div class="row">
 									<div class="col-sm-12 col-lg-12">
@@ -578,15 +586,20 @@
 			var list = [];
 			var colors = [];
 			var map1;
+			var geofencesArray = [];
+			var geofenceObjects = [];
 			var drawingManager;
 			var pathsArray = [];
+			var bounds = new google.maps.LatLngBounds();
+						
 			$(document).on('ready', function(){
 				$('#userDropdown').on('change', function(){
 					selectedUser = $(this).val();
 					initialize();
 				});
 				$('#salesDropdown').on('change', function(){
-					initializeDrawingMap();
+					if(!$('#geofenceDropdown').val())
+						initializeDrawingMap();
 				});
 				$('#geofenceBtn').on('click', function(){
 					if($('#salesDropdown').val() && pathsArray) {
@@ -594,6 +607,37 @@
 						var data = {"users_id" : users, "coordinates" : pathsArray};
 						console.log(data);
 						sendGeofenceData(data);
+					}
+				});
+				$('#geofenceDropdown').on('change',function(){
+					var value = $(this).val();
+					if(value) {
+						for(var i=0; i<geofenceObjects.length;i++) {
+							geofenceObjects[i].setMap(null);
+						}
+						drawShape(geofencesArray[value]);
+						var _users = [];
+						for(var j=0;j<geofencesArray.length;j++) {
+							if(geofencesArray[j]){
+								var geo = geofencesArray[j];
+								for(var k =0; k< geo.users.length; k++) {
+									// $("#salesDropdown option[value='" + geo.users[k].id + "']").prop("selected", true);
+									_users.push(geo.users[k].id);
+								}
+							}
+						}
+						//console.log(_users);
+						$('#salesDropdown').val(_users);//.trigger('change.select2');;
+						$('#salesDropdown').prop('disabled',true);
+						$('#salesDropdown').trigger('change.select2');
+					} else {
+						for(var j=0;j<geofencesArray.length;j++) {
+							if(geofencesArray[j])
+								drawShape(geofencesArray[j]);
+						}
+						$('#salesDropdown').val('');
+						$('#salesDropdown').prop('disabled',false);
+						$('#salesDropdown').trigger('change.select2');;
 					}
 				});
 				loadSalesman();
@@ -653,47 +697,48 @@
 					// Work with the response
 					success: function(response) {
 						list = response.rmListaGeolocalizacionLive;
-						window.list = list;
-						polylines = [];
-						$('#resultsMap').html('');
-						$('#userDropdown').html('');
-						$('#userDropdown').append($('<option value="">Seleccionar usuario</option>'));
+						if(list) {
+							window.list = list;
+							polylines = [];
+							$('#resultsMap').html('');
+							$('#userDropdown').html('');
+							$('#userDropdown').append($('<option value="">Seleccionar usuario</option>'));
 
-						var userId = list[0].user_id;
-						var loginName = list[0].login;
-						//users.push({'id':list[0].user_id,'login':list[0].login});
-						var selected = "";
-						if(list[0].user_id == selectedUser)
-							selected = "selected=selected";
-						$('#userDropdown').append($('<option '+selected+' value="'+list[0].user_id+'">'+ list[0].login +'</option>'));
+							var userId = list[0].user_id;
+							var loginName = list[0].login;
+							//users.push({'id':list[0].user_id,'login':list[0].login});
+							var selected = "";
+							if(list[0].user_id == selectedUser)
+								selected = "selected=selected";
+							$('#userDropdown').append($('<option '+selected+' value="'+list[0].user_id+'">'+ list[0].login +'</option>'));
 
-						// $('#userSelector').append('<option value="'+list[0].user_id+'">'+list[0].login+'</option>');
-						var latArray = [];
-						for (var i = 0; i < list.length; i++) {
-							var option = list[i];
-							if (userId != option.user_id) {
-								drawLine(latArray, loginName, userId);
-								userId = option.user_id;
-								loginName = option.login;
-								users.push({'id':userId, 'login':loginName});
-								var selected = "";
-								if(userId == selectedUser)
-									selected = "selected=selected";
-								$('#userDropdown').append($('<option '+selected+' value="'+userId+'">'+ loginName +'</option>'));
+							// $('#userSelector').append('<option value="'+list[0].user_id+'">'+list[0].login+'</option>');
+							var latArray = [];
+							for (var i = 0; i < list.length; i++) {
+								var option = list[i];
+								if (userId != option.user_id) {
+									drawLine(latArray, loginName, userId);
+									userId = option.user_id;
+									loginName = option.login;
+									users.push({'id':userId, 'login':loginName});
+									var selected = "";
+									if(userId == selectedUser)
+										selected = "selected=selected";
+									$('#userDropdown').append($('<option '+selected+' value="'+userId+'">'+ loginName +'</option>'));
 
-								latArray = [];
-							} else {
-								if(option.rm_longitude != "72.3488721" && option.rm_latitude != "30.045246199999998") {
-									latArray.push({
-										lat: parseFloat(option.rm_latitude),
-										lng: parseFloat(option.rm_longitude)
-									});
+									latArray = [];
+								} else {
+									if(option.rm_longitude != "72.3488721" && option.rm_latitude != "30.045246199999998") {
+										latArray.push({
+											lat: parseFloat(option.rm_latitude),
+											lng: parseFloat(option.rm_longitude)
+										});
+									}
 								}
 							}
+							console.log("users:" + JSON.stringify(users));
+							drawLine(latArray, loginName, userId);
 						}
-						console.log("users:" + JSON.stringify(users));
-						drawLine(latArray, loginName, userId);
-
 					}
 				});
 			}
@@ -746,6 +791,36 @@
 				}
 
 			}
+			
+			var selectedShape;
+			var all_overlays = [];
+			function deleteSelectedShape() {
+                if (selectedShape) {
+                    selectedShape.setMap(null);
+                }
+            }
+			
+			function clearSelection() {
+                if (selectedShape) {
+                    selectedShape.setEditable(false);
+                    selectedShape = null;
+                }
+            }
+			
+			function deleteAllShape() {
+                for (var i = 0; i < all_overlays.length; i++) {
+                    all_overlays[i].overlay.setMap(null);
+                }
+                all_overlays = [];
+            }
+			
+			function setSelection(shape) {
+                clearSelection();
+                selectedShape = shape;
+                shape.setEditable(true);
+                // google.maps.event.addListener(selectedShape.getPath(), 'insert_at', getPolygonCoords(shape));
+                // google.maps.event.addListener(selectedShape.getPath(), 'set_at', getPolygonCoords(shape));
+            }
 
 			function initializeDrawingMap() {
 					$('#map-canvas-geofence').html('');
@@ -754,17 +829,35 @@
 					drawingControl: true,
 					drawingControlOptions: {
 						position: google.maps.ControlPosition.TOP_CENTER,
-						drawingModes: [ google.maps.drawing.OverlayType.POLYGON ]
+						drawingModes:  [
+                        //google.maps.drawing.OverlayType.MARKER,
+							google.maps.drawing.OverlayType.CIRCLE,
+							google.maps.drawing.OverlayType.POLYGON,
+							google.maps.drawing.OverlayType.RECTANGLE
+						]
 					},
-					polylineOptions: {
-						strokeWeight: 2,
-						strokeColor: '#ee9900',
+					circleOptions: {
+						fillColor: '#ffff00',
+						fillOpacity: 0.2,
+						strokeWeight: 3,
 						clickable: false,
-						zIndex: 1,
-						editable: true
+						editable: true,
+						zIndex: 1
 					},
 					polygonOptions: {
-						editable:true
+						clickable: true,
+						draggable: true,
+						editable: true,
+						fillColor: '#ffff00',
+						fillOpacity: 1,
+
+					},
+					rectangleOptions: {
+						clickable: true,
+						draggable: true,
+						editable: true,
+						fillColor: '#ffff00',
+						fillOpacity: 0.5,
 					}
 				});
 				var lat = -17.3940469;
@@ -777,21 +870,57 @@
 				};
 				map1 = new google.maps.Map(document.getElementById('map-canvas-geofence'), mapOptions);
 				drawingManager.setMap(map1);
+				var centerControlDiv = document.createElement('div');
+				var centerControl = new CenterControl(centerControlDiv, map1);
 
+				centerControlDiv.index = 1;
+				map1.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
+				
 				 google.maps.event.addDomListener(drawingManager, 'polygoncomplete', function(polygon) {
 					  path = polygon.getPath();
 					  for(var i = 0; i < path.length; i++) {
-
 						pathsArray.push({'lat':path.getAt(i).lat(), 'lng':path.getAt(i).lng()});
-					}
+					  }
 					  console.log(pathsArray);
 					  drawingManager.setOptions({
 						drawingControl: true
 					  });
 				  });
 				  
-				  setTimeout(function(){loadGeoFences(map1);}, 3000);
+				  setTimeout(function(){loadGeoFences(map1);}, 300);
 			}
+			
+			function CenterControl(controlDiv, map) {
+
+                // Set CSS for the control border.
+                var controlUI = document.createElement('div');
+                controlUI.style.backgroundColor = '#fff';
+                controlUI.style.border = '2px solid #fff';
+                controlUI.style.borderRadius = '3px';
+                controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.marginBottom = '22px';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'Select to delete the shape';
+                controlDiv.appendChild(controlUI);
+
+                // Set CSS for the control interior.
+                var controlText = document.createElement('div');
+                controlText.style.color = 'rgb(25,25,25)';
+                controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+                controlText.style.fontSize = '16px';
+                controlText.style.lineHeight = '38px';
+                controlText.style.paddingLeft = '5px';
+                controlText.style.paddingRight = '5px';
+                controlText.innerHTML = 'Delete Selected Area';
+                controlUI.appendChild(controlText);
+
+                // Setup the click event listeners: simply set the map to Chicago.
+                controlUI.addEventListener('click', function() {
+                    deleteSelectedShape();
+                });
+
+            }
 			
 			function loadGeoFences(geofenceMap) {
 				var users = $('#salesDropdown').val();	
@@ -810,31 +939,23 @@
 					success: function(response) {
 						var geofences = response.rmListaGeolocalizacionGeocerca;
 						//console.log(geofences);
-						var bounds = new google.maps.LatLngBounds();
-
+						geofenceObjects = [];
 						for(var i=0;i<geofences.length;i++) {
-							var geofence = geofences[i].geofence;
-							var _locations = geofence.locations;
-							var locations = [];
-							for(var j=0;j<_locations.length;j++) {
-								var point = new google.maps.LatLng(parseFloat(_locations[j].rm_longitude), parseFloat(_locations[j].rm_latitude));
-								locations.push(point);
-								bounds.extend(point);
-							}
-							var color = '#' + Math.round((0x1000000 + 0xffffff * Math.random())).toString(16).slice(1);
-				
-							var bermudaTriangle = new google.maps.Polygon({
-							  paths: locations,
-							  strokeColor: color,
-							  strokeOpacity: 0.8,
-							  strokeWeight: 2,
-							  fillColor: color,
-							  fillOpacity: 0.35,
-							  editable:true
-							});
-							//console.log(map1);
-							bermudaTriangle.setMap(map1);
+							var geofence = geofences[i].geofence ? geofences[i].geofence : geofences[i];
 							
+							if(!users) {
+								geofencesArray[geofence.id] = geofence;
+							}
+							drawShape(geofence);
+						}
+						if(!users) {
+							$('#geofenceDropdown').html();
+							console.log(geofencesArray);
+							$('#geofenceDropdown').append($("<option value='' >Select Geofence</option>"));
+							for(var j=0; j<geofencesArray.length; j++) {
+								if(geofencesArray[j])
+									$('#geofenceDropdown').append($("<option value='" + geofencesArray[j].id + "' >"+ geofencesArray[j].name +"</option>"));
+							}
 						}
 						map1.fitBounds(bounds);
 					}
@@ -844,6 +965,30 @@
 			function mapInitialize() {
 				initializeDrawingMap();
 				initialize();
+			}
+			
+			function drawShape(geofence) {
+				var _locations = geofence.locations;
+				var locations = [];
+				for(var j=0;j<_locations.length;j++) {
+					var point = new google.maps.LatLng(parseFloat(_locations[j].rm_longitude), parseFloat(_locations[j].rm_latitude));
+					locations.push(point);
+					bounds.extend(point);
+				}
+				var color = '#' + Math.round((0x1000000 + 0xffffff * Math.random())).toString(16).slice(1);
+	
+				var bermudaTriangle = new google.maps.Polygon({
+				  paths: locations,
+				  strokeColor: color,
+				  strokeOpacity: 0.8,
+				  strokeWeight: 2,
+				  fillColor: color,
+				  fillOpacity: 0.35,
+				  editable:true
+				});
+				//console.log(map1);
+				bermudaTriangle.setMap(map1);
+				geofenceObjects.push(bermudaTriangle);
 			}
 
 			function initialize() {
