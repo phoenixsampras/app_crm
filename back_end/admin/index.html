@@ -560,6 +560,8 @@
                             <!-- Example Content -->
                             <p>
 								<button id="geofenceBtn" class="btn btn-effect-ripple btn-primary">Save Geofence</button>
+								<button id="geofenceDeleteBtn" class="btn btn-effect-ripple btn-danger">Delete Geofence</button>
+								
 							</p>
                             <!-- END Example Content -->
                         </div>
@@ -605,9 +607,15 @@
 				$('#geofenceBtn').on('click', function(){
 					if($('#salesDropdown').val() && pathsArray) {
 						var users = $('#salesDropdown').val();
-						var data = {"users_id" : users, "coordinates" : pathsArray};
+						var data = {"geofence": geofencesArray[$('#geofenceDropdown').val()] ,"users_id" : users, "coordinates" : pathsArray};
 						console.log(data);
 						sendGeofenceData(data);
+					}
+				});
+				$('#geofenceDeleteBtn').on('click', function(){
+					if($('#geofenceDropdown').val()) {
+						
+						deleteGeofenceData($('#geofenceDropdown').val());
 					}
 				});
 				$('#geofenceDropdown').on('change',function(){
@@ -616,7 +624,7 @@
 						for(var i=0; i<geofenceObjects.length;i++) {
 							geofenceObjects[i].setMap(null);
 						}
-						drawShape(geofencesArray[value]);
+						drawShape(geofencesArray[value], true);
 						var _users = [];
 						for(var j=0;j<geofencesArray.length;j++) {
 							if(geofencesArray[j]){
@@ -629,7 +637,7 @@
 						}
 						//console.log(_users);
 						$('#salesDropdown').val(_users);//.trigger('change.select2');;
-						$('#salesDropdown').prop('disabled',true);
+						//$('#salesDropdown').prop('disabled',true);
 						$('#salesDropdown').trigger('change.select2');
 					} else {
 						for(var j=0;j<geofencesArray.length;j++) {
@@ -637,12 +645,27 @@
 								drawShape(geofencesArray[j]);
 						}
 						$('#salesDropdown').val('');
-						$('#salesDropdown').prop('disabled',false);
+						//$('#salesDropdown').prop('disabled',false);
 						$('#salesDropdown').trigger('change.select2');;
+						clearSelection();
 					}
 				});
 				loadSalesman();
 			});
+			function deleteGeofenceData(id) {
+				$.ajax({
+					url: "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacionGeocercaDelete&geocerca_id=" + id,
+					// The name of the callback parameter, as specified by the YQL service
+					jsonp: "callback",
+					// Tell jQuery we're expecting JSONP
+					dataType: "jsonp",
+					// Work with the response
+					success: function(response) {
+						//console.log(response.rmListaVendedores);
+						initializeDrawingMap();
+					}
+				});
+			}
 			function loadSalesman() {
 				$.ajax({
 					url: "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_login.php?task=rmListaVendedores",
@@ -664,14 +687,27 @@
 			}
 
 			function sendGeofenceData(data) {
+				var postData = {};
+				if(data.geofence) {
+					postData.id = data.geofence.id;
+					postData.name = data.geofence.name;
+				}
+				postData.user_id = data.users;
+				var path = selectedShape.getPath();
+				var pathsArray = [];
+				for(var i = 0; i < path.length; i++) {
+					pathsArray.push({'rm_longitude':path.getAt(i).lat(), 'rm_longitude':path.getAt(i).lng()});
+				  }
+				  console.log(pathsArray);
+				postData.locations = pathsArray;
 				$.ajax({
 					url: "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacionGeocerca",
 					// The name of the callback parameter, as specified by the YQL service
-					jsonp: "callback",
+					method: "POST",
 					// Tell jQuery we're expecting JSONP
-					dataType: "jsonp",
-
-					data: data,
+					//dataType: "jsonp",
+			
+					data: postData,
 					// Work with the response
 					success: function(response) {
 						console.log(response);
@@ -819,12 +855,15 @@
                 clearSelection();
                 selectedShape = shape;
                 shape.setEditable(true);
+				console.log(shape.getPath());
                 // google.maps.event.addListener(selectedShape.getPath(), 'insert_at', getPolygonCoords(shape));
                 // google.maps.event.addListener(selectedShape.getPath(), 'set_at', getPolygonCoords(shape));
             }
 
 			function initializeDrawingMap() {
 					$('#map-canvas-geofence').html('');
+					$("#salesDropdown").val('').trigger('change.select2');;
+					$("#geofenceDropdown").val('')
 					drawingManager = new google.maps.drawing.DrawingManager({
 					drawingMode: google.maps.drawing.OverlayType.POLYGON,
 					drawingControl: true,
@@ -832,9 +871,9 @@
 						position: google.maps.ControlPosition.TOP_CENTER,
 						drawingModes:  [
                         //google.maps.drawing.OverlayType.MARKER,
-							google.maps.drawing.OverlayType.CIRCLE,
+							//google.maps.drawing.OverlayType.CIRCLE,
 							google.maps.drawing.OverlayType.POLYGON,
-							google.maps.drawing.OverlayType.RECTANGLE
+							//google.maps.drawing.OverlayType.RECTANGLE
 						]
 					},
 					circleOptions: {
@@ -871,22 +910,21 @@
 				};
 				map1 = new google.maps.Map(document.getElementById('map-canvas-geofence'), mapOptions);
 				drawingManager.setMap(map1);
+				drawingManager.setDrawingMode(null);
 				var centerControlDiv = document.createElement('div');
 				var centerControl = new CenterControl(centerControlDiv, map1);
 
 				centerControlDiv.index = 1;
 				map1.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(centerControlDiv);
 				
-				 google.maps.event.addDomListener(drawingManager, 'polygoncomplete', function(polygon) {
+				  google.maps.event.addDomListener(drawingManager, 'polygoncomplete', function(polygon) {
 					  path = polygon.getPath();
 					  for(var i = 0; i < path.length; i++) {
-						pathsArray.push({'lat':path.getAt(i).lat(), 'lng':path.getAt(i).lng()});
+						pathsArray.push({'rm_longitude':path.getAt(i).lat(), 'rm_longitude':path.getAt(i).lng()});
 					  }
 					  console.log(pathsArray);
-					  drawingManager.setOptions({
-						drawingControl: true
-					  });
-				  });
+					  
+				  });	
 				  
 				  setTimeout(function(){loadGeoFences(map1);}, 300);
 			}
@@ -968,7 +1006,7 @@
 				initialize();
 			}
 			
-			function drawShape(geofence) {
+			function drawShape(geofence, selectFlag) {
 				var _locations = geofence.locations;
 				var locations = [];
 				for(var j=0;j<_locations.length;j++) {
@@ -990,6 +1028,9 @@
 				//console.log(map1);
 				bermudaTriangle.setMap(map1);
 				geofenceObjects.push(bermudaTriangle);
+				if(selectFlag)
+					setSelection(bermudaTriangle);
+				
 			}
 
 			function initialize() {
