@@ -559,6 +559,8 @@
 
                             <!-- Example Content -->
                             <p>
+								<button id="geofenceNewBtn" class="btn btn-effect-ripple btn-primary">New Geofence</button>
+								
 								<button id="geofenceBtn" class="btn btn-effect-ripple btn-primary">Save Geofence</button>
 								<button id="geofenceDeleteBtn" class="btn btn-effect-ripple btn-danger">Delete Geofence</button>
 								
@@ -593,6 +595,7 @@
 			var geofenceObjects = [];
 			var drawingManager;
 			var pathsArray = [];
+			var newFlag = false;
 			var bounds = new google.maps.LatLngBounds();
 						
 			$(document).on('ready', function(){
@@ -601,15 +604,30 @@
 					initialize();
 				});
 				$('#salesDropdown').on('change', function(){
-					if(!$('#geofenceDropdown').val())
+					if(!$('#geofenceDropdown').val() && !newFlag)
 						initializeDrawingMap();
 				});
+				$('#geofenceNewBtn').on('click', function(){
+					$('#salesDropdown').val('').trigger('change.select2');
+					$('#geofenceDropdown').val('');
+					newFlag = true;
+				});
 				$('#geofenceBtn').on('click', function(){
-					if($('#salesDropdown').val() && pathsArray) {
+					if(!newFlag) {
 						var users = $('#salesDropdown').val();
-						var data = {"geofence": geofencesArray[$('#geofenceDropdown').val()] ,"users_id" : users, "coordinates" : pathsArray};
+						var data = {"geofence": geofencesArray[$('#geofenceDropdown').val()] ,"users_id" : users};
 						console.log(data);
 						sendGeofenceData(data);
+					} else {
+						if($('#salesDropdown').val() && pathsArray) {
+							var name = prompt("Please enter name for geofence", "");
+							if(name) {
+								var data = {'name' : name ,"users_id" : users, "pathsArray" : pathsArray};
+								console.log(data);
+								sendGeofenceData(data);
+								newFlag = false;
+							}
+						}
 					}
 				});
 				$('#geofenceDeleteBtn').on('click', function(){
@@ -621,6 +639,7 @@
 				$('#geofenceDropdown').on('change',function(){
 					var value = $(this).val();
 					if(value) {
+						newFlag = false;
 						for(var i=0; i<geofenceObjects.length;i++) {
 							geofenceObjects[i].setMap(null);
 						}
@@ -662,6 +681,7 @@
 					// Work with the response
 					success: function(response) {
 						//console.log(response.rmListaVendedores);
+						$('#geofenceDropdown').html('');
 						initializeDrawingMap();
 					}
 				});
@@ -691,15 +711,19 @@
 				if(data.geofence) {
 					postData.id = data.geofence.id;
 					postData.name = data.geofence.name;
+					var path = selectedShape.getPath();
+					var pathsArray = [];
+					for(var i = 0; i < path.length; i++) {
+						pathsArray.push({'rm_longitude':path.getAt(i).lat(), 'rm_longitude':path.getAt(i).lng()});
+					  }
+					console.log(pathsArray);
+					postData.locations = pathsArray;
+				} else {
+					postData.name = data.name;
+					postData.locations = data.pathsArray;
 				}
 				postData.user_id = data.users;
-				var path = selectedShape.getPath();
-				var pathsArray = [];
-				for(var i = 0; i < path.length; i++) {
-					pathsArray.push({'rm_longitude':path.getAt(i).lat(), 'rm_longitude':path.getAt(i).lng()});
-				  }
-				  console.log(pathsArray);
-				postData.locations = pathsArray;
+				
 				$.ajax({
 					url: "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacionGeocerca",
 					// The name of the callback parameter, as specified by the YQL service
