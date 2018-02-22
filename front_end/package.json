@@ -78,6 +78,7 @@
     "cordova-promise-polyfill": "0.0.2",
     "es6-promise-plugin": "^4.2.2",
     "google-libphonenumber": "2.0.15",
+    "highcharts": "^6.0.7",
     "intl": "^1.2.5",
     "ionic-angular": "3.6.0",
     "ionic-plugin-keyboard": "^2.2.1",

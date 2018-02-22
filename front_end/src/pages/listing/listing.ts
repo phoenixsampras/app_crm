@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
+import { OrdersService } from '../orders/orders.service';
 
 import { FeedPage } from '../feed/feed';
 import 'rxjs/Rx';
@@ -21,10 +22,11 @@ export class ListingPage {
 	  options = {
 		responsive: true,
 		maintainAspectRatio: false,
-		
+
 	  };
   constructor(
     public nav: NavController,
+    public ordersService: OrdersService,
     public listingService: ListingService,
     public chartsService: ChartsService,
     public loadingCtrl: LoadingController
@@ -49,10 +51,10 @@ export class ListingPage {
 
 		if (window.navigator.onLine) {
 			this.chartsService
-			.getDataFromServer()
+			.getDataFromServer(this.ordersService.loginId)
 			.then(data => {
 				console.log(data);
-				let items = data.rmGraficoVentasPlan;
+				let items = data.rmGraficoVentasDiarioPlan;
 				var yaxis1 = [];
 				var yaxis2 = [];
 				let labels = [];
@@ -71,7 +73,7 @@ export class ListingPage {
 				this.data.datasets.push(y2);
 				this.data.labels = labels;
 				console.log(this.data);
-				
+
 			});
 		}
 	}

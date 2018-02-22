@@ -3,7 +3,7 @@
     <name>ORGANICA SRL</name>
     <description>Organica del Sur S.R.L.</description>
     <author email="carlos.paz@romilax.com" href="https://romilax.com/">Romilax.com</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://9.9.9.113:8101" />
     <access origin="*" />
     <allow-navigation href="http://odoo.romilax.com/organica/back_end/*" />
     <allow-navigation href="http://*/*" />
@@ -120,6 +120,7 @@
     <plugin name="cordova-plugin-bluetooth-serial" spec="^0.4.7" />
     <plugin name="cordova-plugin-camera" spec="^2.4.1" />
     <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
+    <allow-navigation href="http://9.9.9.113:8101" />
     <engine name="android" spec="^6.2.3" />
     <engine name="ios" spec="^4.4.0" />
 </widget>

@@ -1,8 +1,17 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
+import { OrdersService } from '../orders/orders.service';
 import { AlertController } from 'ionic-angular';
 import { ChartsService } from './charts.service';
+import { LoginPage } from '../login/login';
+import moment from 'moment';
 
+import * as HighCharts from 'highcharts';
+import highchartsMore from 'highcharts/highcharts-more';
+import solidGauge from 'highcharts/modules/solid-gauge';
+
+highchartsMore(HighCharts);
+solidGauge(HighCharts);
 
 @Component({
   selector: 'charts-page',
@@ -11,15 +20,26 @@ import { ChartsService } from './charts.service';
 export class ChartsPage {
 
   type: any = 'line';
-  data = {labels:[], datasets:[]};
+  data = { labels: [], datasets: [] };
   loading: any;
   options = {
-	responsive: true,
-	maintainAspectRatio: true,
-	
+    responsive: true,
+    maintainAspectRatio: true,
+    displayFormats: {
+      'millisecond': 'MMM DD',
+      'second': 'MMM DD',
+      'minute': 'MMM DD',
+      'hour': 'MMM DD',
+      'day': 'MMM DD',
+      'week': 'MMM DD',
+      'month': 'MMM DD',
+      'quarter': 'MMM DD',
+      'year': 'MMM DD',
+    }
   };
   constructor(
     public nav: NavController,
+    public ordersService: OrdersService,
     public loadingCtrl: LoadingController,
     public chartsService: ChartsService,
     public alertCtrl: AlertController
@@ -27,37 +47,166 @@ export class ChartsPage {
 
   }
 
-	
-  
-	ionViewDidEnter() {
+  ionViewWillLoad() {
+    if (!this.ordersService.loginId) {
+      this.nav.setRoot(LoginPage);
+    }
+  }
 
-		if (window.navigator.onLine) {
-			this.chartsService
-			.getDataFromServer()
-			.then(data => {
-				console.log(data);
-				let items = data.rmGraficoVentasPlan;
-				var yaxis1 = [];
-				var yaxis2 = [];
-				let labels = [];
-				for(var i=0; i< items.length; i++) {
-					/*let y1 = {'x' : items[i].date_order, 'y' : items[i].quantity};
-					let y2 = {'x' : items[i].date_order, 'y' : items[i].plan};
-					yaxis1.push(y1);
-					yaxis2.push(y2);*/
-					labels.push(items[i].date_order);
-					yaxis1.push(items[i].quantity);
-					yaxis2.push(items[i].plan);
-				}
-				let y1 = {'label' : 'Quantity', data: yaxis1,fill: false, borderColor: 'rgb(255, 99, 132)',backgroundColor: 'rgb(255, 99, 132)',};
-				let y2 = {'label' : 'Plan', data: yaxis2,fill: false,  borderColor: 'rgb(54, 162, 235)',backgroundColor: 'rgb(54, 162, 235)',};
-				this.data.datasets.push(y1);
-				this.data.datasets.push(y2);
-				this.data.labels = labels;
-				console.log(this.data);
-				
-			});
-		}
-	}
+  getVentasDiarias() {
+    if (window.navigator.onLine) {
+      this.chartsService
+        .getDataFromServer(this.ordersService.loginId)
+        .then(data => {
+          let items = data.rmGraficoVentasDiarioPlan;
+
+          let fechas = [];
+          let monto = [];
+          let plan = [];
+          for (var i = 0; i < items.length; i++) {
+
+            fechas.push(moment(items[i].date_order).format('D/M/YY'));
+            monto.push(parseInt(items[i].quantity));
+            plan.push(parseInt(items[i].plan));
+          }
+          // console.log(JSON.stringify(fechas));
+          // console.log(JSON.stringify(monto));
+          // console.log(JSON.stringify(plan));
+          // Configurar Grafico Highchart
+          var myChart = HighCharts.chart('container', {
+
+            title: {
+              text: 'Cumplimiento Diario'
+            },
+            xAxis: {
+              categories: fechas
+            },
+            yAxis: {
+              title: {
+                text: 'Ejecutado'
+              }
+            },
+            series: [{
+              type: 'column',
+              name: 'Monto Bs.',
+              data: monto
+            }, {
+              type: 'spline',
+              name: 'Plan Bs.',
+              data: plan
+            }]
+          });
+
+        });
+    }
+  }
+
+  getVentasMes() {
+    if (window.navigator.onLine) {
+      this.chartsService
+        .getDataFromServerVentasMes(this.ordersService.loginId)
+        .then(data => {
+          let items = data.rmGraficoVentasMesPlan;
+
+          let sales_total = [];
+          let rm_proyeccion_ventas_mensual = [];
+          for (var i = 0; i < items.length; i++) {
+
+            rm_proyeccion_ventas_mensual.push(parseInt(items[i].rm_proyeccion_ventas_mensual));
+            sales_total.push(parseInt(items[i].sales_total));
+          }
+          console.log(JSON.stringify(sales_total));
+          console.log(JSON.stringify(rm_proyeccion_ventas_mensual[0]));
+          // console.log(JSON.stringify(plan));
+
+          var gaugeOptions = {
+
+              chart: {
+                  type: 'solidgauge'
+              },
+
+              title: null,
+
+              pane: {
+                  center: ['50%', '85%'],
+                  size: '100%',
+                  startAngle: -90,
+                  endAngle: 90,
+                  background: {
+                      // backgroundColor: (HighCharts.theme && HighCharts.theme.background2) || '#EEE',
+                      innerRadius: '60%',
+                      outerRadius: '100%',
+                      shape: 'arc'
+                  }
+              },
+
+              tooltip: {
+                  enabled: false
+              },
+
+              // the value axis
+              yAxis: {
+                  stops: [
+                      [0.1, '#55BF3B'], // green
+                      [0.5, '#DDDF0D'], // yellow
+                      [0.9, '#DF5353'] // red
+                  ],
+                  lineWidth: 0,
+                  minorTickInterval: null,
+                  tickAmount: 2,
+                  title: {
+                      y: -70
+                  },
+                  labels: {
+                      y: 16
+                  }
+              },
+
+              plotOptions: {
+                  solidgauge: {
+                      dataLabels: {
+                          y: 5,
+                          borderWidth: 0,
+                          useHTML: true
+                      }
+                  }
+              }
+          };
+
+          var chartSpeed = HighCharts.chart('container-speed', HighCharts.merge(gaugeOptions, {
+              yAxis: {
+                  min: 0,
+                  max: rm_proyeccion_ventas_mensual[0],
+                  title: {
+                      text: 'Ventas <br/>Acumuladas'
+                  }
+              },
+
+              credits: {
+                  enabled: false
+              },
+
+              series: [{
+                  name: 'Ventas Mes',
+                  data: sales_total,
+                  dataLabels: {
+                      format: '<div style="text-align:center"><span style="font-size:25px;color:black;">{y}</span><br/>' +
+                             '<span style="font-size:12px;color:silver">Bs.</span></div>'
+                  },
+                  tooltip: {
+                      valueSuffix: ' Bs.'
+                  }
+              }]
+
+          }));
+
+        });
+    }
+  }
+
+  ionViewDidLoad() {
+    this.getVentasDiarias();
+    this.getVentasMes();
+  }
 
 }

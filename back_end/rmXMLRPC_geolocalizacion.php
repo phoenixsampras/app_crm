@@ -5,6 +5,11 @@ require_once('rmOdooConfig.php');
 require_once('rmDbConfig.php');
 require_once('xmlrpc_lib/ripcord.php');
 
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+  header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+  header('Access-Control-Allow-Credentials: true');
+  header('Access-Control-Max-Age: 86400');    // cache for 1 day
+}
 // print_r($_REQUEST);
 switch ($_REQUEST["task"]) {
 
@@ -25,6 +30,14 @@ switch ($_REQUEST["task"]) {
     case 'rmRegistrarGeolocalizacionGeocerca':
       rmRegistrarGeolocalizacionGeocerca($data);
     break;
+
+    case 'rmRegistrarGeolocalizacionGeocercaDelete':
+      rmRegistrarGeolocalizacionGeocercaDelete($data);
+    break;
+
+    // case 'rmRegistrarGeocerca':
+    //   rmRegistrarGeocerca($data);
+    // break;
 
     case 'rmListaGeolocalizacionLive':
     rmListaGeolocalizacionLive($db);
@@ -74,12 +87,29 @@ function rmListaGeolocalizacion ($db) {
 // Lista de geocercas
 function rmListaGeolocalizacionGeocerca ($db) {
     try {
-      $sql_geocerca = "
+      $sql_geocercax = "
       SELECT
       rm_geocerca.id as geocerca_id,
       rm_geocerca.name as geocerca_name
       FROM rm_geocerca;
       ";
+
+      if ($_REQUEST['user_id']) {
+        // echo "FILTRO USUARIO";
+        $where_user = ' AND users_geocerca.res_users_id in (' . $_REQUEST['user_id'] . ")";
+      }
+
+      $sql_geocerca = "
+      SELECT
+      rm_geocerca.id as geocerca_id,
+      rm_geocerca.name as geocerca_name
+      FROM rm_geocerca,users_geocerca
+      WHERE
+      users_geocerca.rm_geocerca_id = rm_geocerca.id
+      " . $where_user . "
+      Group by 1,2;
+      ";
+
 
       $sql_geocerca_users = "
       SELECT
@@ -125,9 +155,8 @@ function rmListaGeolocalizacionGeocerca ($db) {
       $resultado3 = pg_fetch_all($query3);
 
       // print_r($resultado3);
-      // print_r($resultado2);
-      // print_r($resultado3);
 
+      // Building the ARRAY
       for ($i = 0; $i < count($resultado1); $i++) {
         $users = array();
         for ($z = 0; $z < count($resultado2); $z++) {
@@ -155,7 +184,7 @@ function rmListaGeolocalizacionGeocerca ($db) {
       }
 
 
-      echo $_GET['callback'].'({"rmListaGeolocalizacionGeocerca333": ' . json_encode($geofences) . '})';
+      echo $_GET['callback'].'({"rmListaGeolocalizacionGeocerca": ' . json_encode($geofences) . '})';
       pg_close($db);
 
     } catch(PDOException $e) {
@@ -165,7 +194,7 @@ function rmListaGeolocalizacionGeocerca ($db) {
 }
 
 // Geocerca
-function rmRegistrarGeolocalizacionGeocerca($conex, $user_id) {
+function rmRegistrarGeolocalizacionGeocerca($conex) {
   $url = $conex['url'];
   $db = $conex['db'];
   $username = $conex['username'];
@@ -174,25 +203,51 @@ function rmRegistrarGeolocalizacionGeocerca($conex, $user_id) {
   $datosGeolocalizacion =
   array(
     array(
-      'res_user_id' => intval($_REQUEST['res_user_id']),
-      'rm_bearing' => ($_REQUEST['rm_bearing']),
-      'rm_longitude' => ($_REQUEST['longitude']),
-      'rm_latitude' => ($_REQUEST['latitude']),
+      'name' => ($_REQUEST['name']),
     )
   );
 
-  // $uid = login($conex);
-  // $models = ripcord::client("$url/xmlrpc/2/object");
-  // $id = $models->execute_kw($db, $uid, $password, 'rm.geolocalizacion', 'create', $datosGeolocalizacion);
-  echo $_GET['callback'].'({"status":"success"})';
+  $uid = login($conex);
+  $models = ripcord::client("$url/xmlrpc/2/object");
+  $id = $models->execute_kw($db, $uid, $password, 'rm.geocerca', 'create', $datosGeolocalizacion);
+  // echo $_GET['callback'].'({"status":"success"})';
 
-  // if (Is_Numeric ($id)) {
-  //   echo $_GET['callback'].'({"rmRegistrarGeolocalizacion": '. $id . '})';
-  // } else {
-  //   print_r($_REQUEST);
-  //   print_r($datosGeolocalizacion);
-  //   print_r($id);
-  // }
+  if (Is_Numeric ($id)) {
+    echo $_GET['callback'].'({"rmRegistrarGeolocalizacionGeocerca": '. $id . '})';
+  } else {
+    print_r($_REQUEST);
+    print_r($datosGeolocalizacion);
+    print_r($id);
+  }
+}
+
+// Geocerca delete
+function rmRegistrarGeolocalizacionGeocercaDelete($conex) {
+  $url = $conex['url'];
+  $db = $conex['db'];
+  $username = $conex['username'];
+  $password = $conex['password'];
+
+  $datosGeolocalizacion =
+  array(
+    array(
+      intval($_REQUEST['geocerca_id'])
+    )
+  );
+
+  $uid = login($conex);
+  $models = ripcord::client("$url/xmlrpc/2/object");
+  $id = $models->execute_kw($db, $uid, $password,'rm.geocerca', 'unlink',$datosGeolocalizacion);
+  // $id = $models->execute_kw($db, $uid, $password, 'rm.geocerca', 'create', $datosGeolocalizacion);
+  // echo $_GET['callback'].'({"status":"success"})';
+
+  if ($id) {
+    echo $_GET['callback'].'({"rmRegistrarGeolocalizacionGeocerca": '. $id . '})';
+  } else {
+    print_r($_REQUEST);
+    print_r($datosGeolocalizacion);
+    print_r($id);
+  }
 }
 
 function rmRegistrarGeolocalizacion($conex, $user_id) {
