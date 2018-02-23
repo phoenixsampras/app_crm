@@ -12,3 +12,10 @@ export class ChartsModelVentasMes {
 	items: Array<ChartsModelVentasMes>;
 	rmGraficoVentasMesPlan : Array<ChartsModelVentasMes>;
 }
+
+export class ChartsModelVentasEjecutadas {
+	pedidos: string;
+	clientes: string;
+	items: Array<ChartsModelVentasEjecutadas>;
+	rmGraficoVentasEjecutadas : Array<ChartsModelVentasEjecutadas>;
+}

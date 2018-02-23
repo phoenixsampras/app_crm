@@ -16,6 +16,10 @@ switch ($_REQUEST["task"]) {
       rmGraficoVentasMesPlan($db);
     break;
 
+    case 'rmGraficoVentasEjecutadas':
+      rmGraficoVentasEjecutadas($db);
+    break;
+
     default:
       echo "What are you doing here?";
 
@@ -31,6 +35,64 @@ function login($conex){
     $common = ripcord::client("$url/xmlrpc/2/common");
     // Autenticarse
     return $common->authenticate($db, $username, $password, array());
+}
+
+
+function rmGraficoVentasEjecutadas ($db) {
+    try {
+
+        if ($_REQUEST['user_id']) {
+          // echo "FILTRO USUARIO";
+          $where_user1 = ' AND so.user_id in (' . $_REQUEST['user_id'] . ")";
+          $where_user2 = ' AND rp.user_id in (' . $_REQUEST['user_id'] . ")";
+        }
+
+        $sql = "
+        SELECT count(id) AS pedidos FROM sale_order AS so
+        WHERE extract(dow from so.date_order)  = extract(dow from  current_date)
+
+        " . $where_user1 . "
+        ;
+        ";
+
+        $query = pg_query($db, $sql);
+        if(!$query){
+          echo "Error".pg_last_error($db);
+          exit;
+        }
+
+        $resultado1 = pg_fetch_all($query);
+
+        // Segunda consulta
+        $sql2 = "
+        SELECT
+        count(rp.id) AS clientes
+        FROM
+        public.partner_id AS p
+        INNER JOIN public.rm_dias_semana AS dias ON p.rm_dias_semana_id = dias.id
+        INNER JOIN public.res_partner AS rp ON p.dias_id = rp.id
+        WHERE dias.nro_dia = extract(dow from  current_date)
+        " . $where_user2 . "
+        ;
+        ";
+
+        $query2 = pg_query($db, $sql2);
+        if(!$query2){
+          echo "Error".pg_last_error($db);
+          exit;
+        }
+
+        $resultado2 = pg_fetch_all($query2);
+
+        $resultado = array_merge($resultado1, $resultado2);
+
+        echo $_GET['callback'].'({"rmGraficoVentasEjecutadas": ' . json_encode($resultado) . '})';
+        pg_close($db);
+
+    } catch(PDOException $e) {
+        echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
+        exit;
+    }
 }
 
 function rmGraficoVentasDiarioPlan ($db) {
