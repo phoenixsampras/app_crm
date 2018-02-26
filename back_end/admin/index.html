@@ -623,9 +623,10 @@
 
 
       $('#geofenceBtn').on('click', function() {
-        if (!newFlag) {
-          var users = $('#salesDropdown').val();
-          var data = {
+         var users = $('#salesDropdown').val();
+          
+		if (!newFlag) {
+         var data = {
             "geofence": geofencesArray[$('#geofenceDropdown').val()],
             "users_id": users
           };
