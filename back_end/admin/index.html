@@ -980,7 +980,7 @@
       var bounds = new google.maps.LatLngBounds();
 
       var mapOptions = {
-        //center: new google.maps.LatLng(lat, lng),
+        center: new google.maps.LatLng(lat, lng),
         zoom: 15,
       };
       map1 = new google.maps.Map(document.getElementById('map-canvas-geofence'), mapOptions);
@@ -1059,7 +1059,7 @@
           var geofences = response.rmListaGeolocalizacionGeocerca;
           // console.log(geofences);
           geofenceObjects = [];
-          for (var i = 0; i < geofences.length; i++) {
+          for (var i = 0; geofences && i < geofences.length; i++) {
             var geofence = geofences[i].geofence ? geofences[i].geofence : geofences[i];
 
             if (!users) {
@@ -1076,6 +1076,7 @@
                 $('#geofenceDropdown').append($("<option value='" + geofencesArray[j].id + "' >" + geofencesArray[j].name + "</option>"));
             }
           }
+		  if(bounds.length)
           map1.fitBounds(bounds);
         }
       });
