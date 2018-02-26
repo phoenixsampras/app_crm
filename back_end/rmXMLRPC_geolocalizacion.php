@@ -157,22 +157,23 @@ function rmListaGeolocalizacionGeocerca ($db) {
       // print_r($resultado3);
 
       // Building the ARRAY
-      for ($i = 0; $i < count($resultado1); $i++) {
-        $users = array();
-        for ($z = 0; $z < count($resultado2); $z++) {
-          if ($resultado1[$i]['geocerca_id'] == $resultado2[$z]['geocerca_id']) {
-            $users[] = array('id'=>$resultado2[$z]['user_id'] ,'login'=>$resultado2[$z]['login']);
+      if ($resultado1) {
+        for ($i = 0; $i < count($resultado1); $i++) {
+          $users = array();
+          for ($z = 0; $z < count($resultado2); $z++) {
+            if ($resultado1[$i]['geocerca_id'] == $resultado2[$z]['geocerca_id']) {
+              $users[] = array('id'=>$resultado2[$z]['user_id'] ,'login'=>$resultado2[$z]['login']);
+            }
           }
-        }
 
-        $locations = array();
-        for ($y = 0; $y < count($resultado3); $y++) {
-          if ($resultado1[$i]['geocerca_id'] == $resultado3[$y]['geocerca_id']) {
-            $locations[] = array('rm_longitude'=>$resultado3[$y]['rm_longitude'] ,'rm_latitude'=>$resultado3[$y]['rm_latitude']);
+          $locations = array();
+          for ($y = 0; $y < count($resultado3); $y++) {
+            if ($resultado1[$i]['geocerca_id'] == $resultado3[$y]['geocerca_id']) {
+              $locations[] = array('rm_longitude'=>$resultado3[$y]['rm_longitude'] ,'rm_latitude'=>$resultado3[$y]['rm_latitude']);
+            }
           }
-        }
 
-        $geofences[] =
+          $geofences[] =
           array(
             'geofence'=>array(
               'id'=>$resultado1[$i]['geocerca_id'],
@@ -181,6 +182,10 @@ function rmListaGeolocalizacionGeocerca ($db) {
               'locations'=>$locations
             )
           );
+        }
+      } else {
+        echo $_GET['callback'].'({})';
+        exit();
       }
 
 
