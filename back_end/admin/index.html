@@ -766,7 +766,7 @@
         postData.name = data.name;
         postData.locations = data.pathsArray;
       }
-      postData.user_id = data.users;
+      postData.user_id = data.users_id;
 
       $.ajax({
         url: "https://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmRegistrarGeolocalizacionGeocerca",
