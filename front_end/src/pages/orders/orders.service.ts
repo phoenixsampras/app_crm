@@ -21,7 +21,7 @@ export class OrdersService {
 	public lng;
 	public timestamp = 0;
 	public confirmedOrders;
-	public base_url = "http://cloud.movilcrm.com/organica/back_end/";
+	public base_url = "https://cloud.movilcrm.com/organica/back_end/";
 	//public base_url = "http://localhost/back_end/";
 	
 	getFullUrl(url) {
@@ -47,7 +47,6 @@ export class OrdersService {
 		let me = this;
 		this.databaseService.getConfirmedOrdersCount()
 		.then(count =>{
-			
 			me.confirmedOrders = count;
 			console.log(me.confirmedOrders);
 		});
@@ -71,12 +70,6 @@ export class OrdersService {
 		.toPromise()
 		.then(response => response)
 		.catch(this.handleError);
-
-		//return this.databaseService.getAllCustomers()
-		//.toPromise()
-		//.then(response => response.json() as CustomersModel)
-		//.catch(this.handleError);
-
 	}
 
 	saveOrderLineOnServer(url): Promise<any> {
@@ -85,11 +78,6 @@ export class OrdersService {
 		.then(response => response.json())
 		.catch(this.handleError);
 
-		//return this.databaseService.getAllCustomers()
-		//.toPromise()
-		//.then(response => response.json() as CustomersModel)
-		//.catch(this.handleError);
-
 	}
 
 	getDataFromServer(): Promise<any> {
@@ -97,22 +85,10 @@ export class OrdersService {
 		.toPromise()
 		.then(response => response.json())
 		.catch(this.handleError);
-
-		//return this.databaseService.getAllCustomers()
-		//.toPromise()
-		//.then(response => response.json() as CustomersModel)
-		//.catch(this.handleError);
-
 	}
 
 	getData(): Promise<any> {
-		//return this.http.get('./assets/example_data/lists.json')
-		//.toPromise()
-		//.then(response => response.json() as OrdersModel)
-		//.catch(this.handleError);
-
 		return this.databaseService.getAllOrders()
-		//.toPromise()
 		.then(response => response)
 		.catch(this.handleError);
 

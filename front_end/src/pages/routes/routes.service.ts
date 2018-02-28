@@ -33,7 +33,8 @@ export class RoutesService {
   }
 
 	getDataFromServer(): Promise<any> {
-		return this.jsonp.request('http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_rutas.php?task=rmRutaDiaria&res_user_id=' + this.ordersService.loginId + '&callback=JSONP_CALLBACK',{method:'Get'})
+		let url = this.ordersService.getFullUrl('rmXMLRPC_rutas.php?task=rmRutaDiaria&res_user_id=' + this.ordersService.loginId + '&callback=JSONP_CALLBACK');
+		return this.jsonp.request(url,{method:'Get'})
 		.toPromise()
 		.then(response => response.json())
 		.catch(this.handleError);

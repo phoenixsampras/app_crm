@@ -216,7 +216,8 @@ export class SyncPage {
           let products = data;
           //var url = "http://organica.movilcrm.com/api/stock/metodo_operaciones/?token=27940227efcb4e8babd401bb51a87f98&location_id=12&location_dest_id=28&company_id=1&picking_type_id=3&selectedProducts=[{"product_id":"1","product_uom_qty":"1",},{"product_id":"2","product_uom_qty":"1",}]"
 
-          let tokenUrl = "http://organica.movilcrm.com/api/user/get_token?"
+		  
+          let tokenUrl = "https://organica.movilcrm.com/api/user/get_token?"
           tokenUrl += "login=" + this.ordersService.email + "&password=" + this.ordersService.password;
           tokenUrl += '&callback=JSONP_CALLBACK';
           console.log(tokenUrl);
@@ -224,7 +225,7 @@ export class SyncPage {
           me.jsonp.request(tokenUrl, { method: 'Get' }).map(res => res.json()).subscribe(data => {
             console.log(data);
             let rmToken = data.token;
-            var url = "http://organica.movilcrm.com/api/stock/metodo_operaciones?token=" + rmToken;
+            var url = "https://organica.movilcrm.com/api/stock/metodo_operaciones?token=" + rmToken;
             url += "&location_id=" + me.ordersService.location_id;
             url += "&location_dest_id=" + me.ordersService.location_dest_id;
             url += "&company_id=" + me.ordersService.company_id;
@@ -348,7 +349,7 @@ export class SyncPage {
               console.log("for Pedido:" + JSON.stringify(order));
 
               let selectedProducts = order.selectedProducts;
-              var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarPedido";
+              var url = "https://cloud.movilcrm.com/organica/back_end/rmXMLRPC_pedidos.php?task=rmRegistrarPedido";
               url += "&rmCustomer=" + order.customerObj.id;
               url += "&rmDateOrder=" + order.dateOrder;
               url += "&rmUserId=" + order.rmUserId;
@@ -412,7 +413,7 @@ export class SyncPage {
             if (parseInt(customer_newCustomer) > 0) {
               var customer = data[i];
               // console.log("xxxxxxxxxxxxxx" + JSON.stringify(customer));
-              var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_clientes.php?task=rmRegistrarCliente";
+              var url = "https://cloud.movilcrm.com/organica/back_end/rmXMLRPC_clientes.php?task=rmRegistrarCliente";
               url += "&user_id=" + customer.user_id;
               url += "&name=" + customer.name;
               url += "&street=" + customer.street;
