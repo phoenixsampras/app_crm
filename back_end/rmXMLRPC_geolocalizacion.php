@@ -127,10 +127,12 @@ function rmListaGeolocalizacionGeocerca ($db) {
       rm_geocerca.id as geocerca_id,
       rm_geocerca.name as geocerca_name
       ,rm_coordenadas_geocerca.rm_longitude
-      ,rm_coordenadas_geocerca.rm_latitude
+      ,rm_coordenadas_geocerca.rm_latitude,
+			rm_coordenadas_geocerca.id
+
       FROM rm_geocerca
       INNER JOIN rm_coordenadas_geocerca ON rm_coordenadas_geocerca.geocerca_id=rm_geocerca.id
-      ORDER by geocerca_id;
+      ORDER by geocerca_id,rm_coordenadas_geocerca.id;
       ";
 
       $query = pg_query($db, $sql_geocerca);
@@ -205,21 +207,54 @@ function rmRegistrarGeolocalizacionGeocerca($conex) {
   $username = $conex['username'];
   $password = $conex['password'];
 
-  $datosGeolocalizacion =
+  $postdata = file_get_contents("php://input");
+  $jsondata = json_decode($postdata);
+  print_r($_REQUEST);
+
+  // echo $locations = $_REQUEST['locations'].length;
+
+  $usuarios = array();
+  // Usuarios
+  for ($j = 0; $j < count($_REQUEST["user_id"]); $j++) {
+    $usuarios[] = intval($_REQUEST["user_id"][$j]);
+  }
+
+  echo "alohaxxxxxxx";
+  print_r($usuarios);
+
+  $datosGeocerca =
   array(
     array(
-      'name' => ($_REQUEST['name']),
+      "name" => ($_REQUEST['name']),
+      // "users" => array(array(6, 0, $usuarios))
+      "users" => array(array(6, 0, $usuarios))
     )
   );
+  print_r($datosGeocerca);
 
   $uid = login($conex);
   $models = ripcord::client("$url/xmlrpc/2/object");
-  $id = $models->execute_kw($db, $uid, $password, 'rm.geocerca', 'create', $datosGeolocalizacion);
+  $id = $models->execute_kw($db, $uid, $password, 'rm.geocerca', 'create', $datosGeocerca);
   // echo $_GET['callback'].'({"status":"success"})';
 
+  // Store geolocation polygon coordinates
+  for ($i = 0; $i < count($_REQUEST["locations"]); $i++) {
+    $datosGeocercaCoordenadas =
+    array(
+      array(
+        'rm_longitude' => $_REQUEST["locations"][$i]["rm_longitude"],
+        'rm_latitude' => $_REQUEST["locations"][$i]["rm_latitude"],
+        'geocerca_id' => $id
+      )
+    );
+    $id2 = $models->execute_kw($db, $uid, $password, 'rm.coordenadas.geocerca', 'create', $datosGeocercaCoordenadas);
+  }
+
   if (Is_Numeric ($id)) {
+    header('HTTP/1.1 200 OK');
     echo $_GET['callback'].'({"rmRegistrarGeolocalizacionGeocerca": '. $id . '})';
   } else {
+    header('HTTP/1.1 500 Internal Server Error');
     print_r($_REQUEST);
     print_r($datosGeolocalizacion);
     print_r($id);

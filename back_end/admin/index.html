@@ -526,7 +526,7 @@
                 <div class="col-sm-12 col-lg-12">
                   <div class="widget">
                     <div class="widget-content border-bottom">
-                      <span class="pull-right text-muted">Tiempo Real</span> Ubicacion de Vendedores en Tiempo Real
+                      <span class="pull-right text-muted">GeoCercas</span>Editor de GeoCercas
                     </div>
                   </div>
                 </div>
@@ -623,11 +623,11 @@
 
 
       $('#geofenceBtn').on('click', function() {
-         var users = $('#salesDropdown').val();
+        var users = $('#salesDropdown').val();
 
-		 
-		if (!newFlag) {
-         var data = {
+
+        if (!newFlag) {
+          var data = {
             "geofence": geofencesArray[$('#geofenceDropdown').val()],
             "users_id": users
           };
@@ -756,7 +756,7 @@
         var pathsArray = [];
         for (var i = 0; i < path.length; i++) {
           pathsArray.push({
-            'rm_longitude': path.getAt(i).lat(),
+            'rm_latitude': path.getAt(i).lat(),
             'rm_longitude': path.getAt(i).lng()
           });
         }
@@ -780,6 +780,9 @@
         success: function(response) {
           console.log(response);
         }
+      }).done(function(data) {
+        console.log("done");
+        window.location.href = window.location.href;
       });
     }
 
@@ -998,7 +1001,7 @@
         path = polygon.getPath();
         for (var i = 0; i < path.length; i++) {
           pathsArray.push({
-            'rm_longitude': path.getAt(i).lat(),
+            'rm_latitude': path.getAt(i).lat(),
             'rm_longitude': path.getAt(i).lng()
           });
         }
@@ -1040,7 +1043,6 @@
       controlUI.addEventListener('click', function() {
         deleteSelectedShape();
       });
-
     }
 
     function loadGeoFences(geofenceMap) {
@@ -1078,8 +1080,8 @@
                 $('#geofenceDropdown').append($("<option value='" + geofencesArray[j].id + "' >" + geofencesArray[j].name + "</option>"));
             }
           }
-		  if(bounds.length)
-          map1.fitBounds(bounds);
+          if (bounds.length)
+            map1.fitBounds(bounds);
         }
       });
     }
@@ -1093,7 +1095,7 @@
       var _locations = geofence.locations;
       var locations = [];
       for (var j = 0; j < _locations.length; j++) {
-        var point = new google.maps.LatLng(parseFloat(_locations[j].rm_longitude), parseFloat(_locations[j].rm_latitude));
+        var point = new google.maps.LatLng(parseFloat(_locations[j].rm_latitude), parseFloat(_locations[j].rm_longitude));
         locations.push(point);
         bounds.extend(point);
       }
