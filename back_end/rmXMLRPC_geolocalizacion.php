@@ -219,8 +219,8 @@ function rmRegistrarGeolocalizacionGeocerca($conex) {
     $usuarios[] = intval($_REQUEST["user_id"][$j]);
   }
 
-  echo "alohaxxxxxxx";
-  print_r($usuarios);
+  //echo "alohaxxxxxxx";
+  //print_r($usuarios);
 
   $datosGeocerca =
   array(
@@ -230,7 +230,7 @@ function rmRegistrarGeolocalizacionGeocerca($conex) {
       "users" => array(array(6, 0, $usuarios))
     )
   );
-  print_r($datosGeocerca);
+  //print_r($datosGeocerca);
 
   $uid = login($conex);
   $models = ripcord::client("$url/xmlrpc/2/object");
