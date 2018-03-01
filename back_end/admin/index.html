@@ -601,8 +601,9 @@
     var pathsArray = [];
     var newFlag = false;
     var bounds = new google.maps.LatLngBounds();
-
+	$.ajaxSetup({ cache: false });
     $(document).on('ready', function() {
+		
       $('#userDropdown').on('change', function() {
         selectedUser = $(this).val();
         initialize();
@@ -612,9 +613,9 @@
           initializeDrawingMap();
       });
       $('#geofenceNewBtn').on('click', function() {
-        $('#salesDropdown').val('').trigger('change.select2');
-        $('#geofenceDropdown').val('');
-        newFlag = true;
+			$('#salesDropdown').val('').trigger('change.select2');
+			$('#geofenceDropdown').val('');
+			newFlag = true;
       });
       $('#geofenceGoMyPosition').on('click', function() {
         MyPosition();
@@ -645,34 +646,36 @@
               console.log(data);
               sendGeofenceData(data);
               newFlag = false;
+			  pathsArray = [];
             }
           }
         }
       });
       $('#geofenceDeleteBtn').on('click', function() {
         if ($('#geofenceDropdown').val()) {
-
-          deleteGeofenceData($('#geofenceDropdown').val());
+			var r = confirm("Are you sure you want to delete the selected geofence?");
+            if(r == true)
+				deleteGeofenceData($('#geofenceDropdown').val());
         }
       });
       $('#geofenceDropdown').on('change', function() {
-        var value = $(this).val();
+			var value = $(this).val();
         if (value) {
           newFlag = false;
+		  var geo = geofencesArray[value];
           for (var i = 0; i < geofenceObjects.length; i++) {
             geofenceObjects[i].setMap(null);
           }
-          drawShape(geofencesArray[value], true);
+          drawShape(geo, true);
           var _users = [];
-          for (var j = 0; j < geofencesArray.length; j++) {
-            if (geofencesArray[j]) {
-              var geo = geofencesArray[j];
-              for (var k = 0; k < geo.users.length; k++) {
-                // $("#salesDropdown option[value='" + geo.users[k].id + "']").prop("selected", true);
-                _users.push(geo.users[k].id);
-              }
-            }
-          }
+         
+		  
+		  for (var k = 0; k < geo.users.length; k++) {
+			// $("#salesDropdown option[value='" + geo.users[k].id + "']").prop("selected", true);
+			_users.push(geo.users[k].id);
+		  }
+           
+          
           //console.log(_users);
           $('#salesDropdown').val(_users); //.trigger('change.select2');;
           //$('#salesDropdown').prop('disabled',true);
@@ -722,6 +725,7 @@
         success: function(response) {
           //console.log(response.rmListaVendedores);
           $('#geofenceDropdown').html('');
+		  $('#salesDropdown').html('').trigger('change.select2');
           initializeDrawingMap();
         }
       });
@@ -950,19 +954,8 @@
         drawingControlOptions: {
           position: google.maps.ControlPosition.TOP_CENTER,
           drawingModes: [
-            //google.maps.drawing.OverlayType.MARKER,
-            //google.maps.drawing.OverlayType.CIRCLE,
             google.maps.drawing.OverlayType.POLYGON,
-            //google.maps.drawing.OverlayType.RECTANGLE
-          ]
-        },
-        circleOptions: {
-          fillColor: '#ffff00',
-          fillOpacity: 0.2,
-          strokeWeight: 3,
-          clickable: false,
-          editable: true,
-          zIndex: 1
+           ]
         },
         polygonOptions: {
           clickable: true,
@@ -971,13 +964,6 @@
           fillColor: '#ffff00',
           fillOpacity: 1,
 
-        },
-        rectangleOptions: {
-          clickable: true,
-          draggable: true,
-          editable: true,
-          fillColor: '#ffff00',
-          fillOpacity: 0.5,
         }
       });
       var lat = -17.3940469;
@@ -1011,7 +997,7 @@
 
       setTimeout(function() {
         loadGeoFences(map1);
-      }, 300);
+      }, 10);
     }
 
     function CenterControl(controlDiv, map) {
@@ -1047,17 +1033,19 @@
 
     function loadGeoFences(geofenceMap) {
       var users = $('#salesDropdown').val();
-      var url = "https://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmListaGeolocalizacionGeocerca";
+      var url = "https://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmListaGeolocalizacionGeocerca&v=" + Date.now();
 
       if (users) {
-        url = "https://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmListaGeolocalizacionGeocerca&user_id=" + users;
+        url = "https://cloud.movilcrm.com/organica/back_end/rmXMLRPC_geolocalizacion.php?task=rmListaGeolocalizacionGeocerca&user_id=" + users + "&v=" + Date.now();
       }
+	  console.log(url);
       $.ajax({
         url: url,
         // The name of the callback parameter, as specified by the YQL service
         jsonp: "callback",
         // Tell jQuery we're expecting JSONP
         dataType: "jsonp",
+		cache:false,
         // Work with the response
         success: function(response) {
           var geofences = response.rmListaGeolocalizacionGeocerca;
