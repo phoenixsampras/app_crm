@@ -60,7 +60,7 @@ export class LocationTracker {
             cssClass: 'toast-success',
             position: 'bottom',
           });
-          toast.present();
+          // toast.present();
         }
       });
 
