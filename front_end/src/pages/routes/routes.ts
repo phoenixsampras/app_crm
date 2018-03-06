@@ -53,9 +53,11 @@ export class RoutesPage implements OnInit {
 	ngOnInit() {
 		let _loading = this.loadingCtrl.create();
 		_loading.present();
-
+		let me = this;
 		this._GoogleMap.$mapReady.subscribe(map => {
+			var infowindow = new google.maps.InfoWindow();
 			this.map_model.init(map);
+			
 			this.customersService.getRoutesDataFromServer()
 			.then(data => {
 				//console.log(data);
@@ -67,6 +69,52 @@ export class RoutesPage implements OnInit {
 				}
 				this.map_model.map.fitBounds(this.bounds);
 				_loading.dismiss();
+			});
+			
+			 this.customersService.getRoutesDataFromPouch()
+			.then(data => {
+				console.log(data);
+				let locations = data;
+				for (var i = 0; i < locations.length; i++) {
+					let marker = new google.maps.Marker({
+						position: new google.maps.LatLng(locations[i].rm_latitude, locations[i].rm_longitude),
+						map: map
+					});
+					this.bounds.extend(marker.getPosition());
+
+					google.maps.event.addListener(marker, 'click', (function(marker, i) {
+						return function() {
+							let content = '<b>' + locations[i].name + '</b><br/>' + locations[i].street + "<br/>";
+							content += "<button id='edit-customer-"+ i +"' class='edit-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Editar cliente</button>";
+							content += "<button id='order-customer-"+ i +"' class='order-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Nuevo el pedido</button>";
+							content += "<button id='event-customer-"+ i +"' class='event-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Nuevo evento</button>";
+							infowindow.setContent(content);
+							infowindow.open(map, marker);
+							google.maps.event.addListenerOnce(infowindow, 'domready', () => {
+								let infoWindow = infowindow;
+								document.getElementById('edit-customer-'+ i).addEventListener('click', (event) => {
+									var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
+									var id = targetElement.getAttribute("data-id");
+									infoWindow.close();
+									me.editCustomer(id);
+								});
+								document.getElementById('order-customer-'+ i).addEventListener('click', (event) => {
+									var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
+									var id = targetElement.getAttribute("data-id");
+									infoWindow.close();
+									me.addOrder(id);
+								});
+								document.getElementById('event-customer-'+ i).addEventListener('click', (event) => {
+									var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
+									var id = targetElement.getAttribute("data-id");
+									infoWindow.close();
+									me.addEvent(id);
+								});
+							});
+						}
+					})(marker, i));
+				}
+				map.fitBounds(this.bounds);
 			});
 			
 		});
