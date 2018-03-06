@@ -647,6 +647,7 @@
               sendGeofenceData(data);
               newFlag = false;
 			  pathsArray = [];
+			  
             }
           }
         }
@@ -726,7 +727,7 @@
           //console.log(response.rmListaVendedores);
           $('#geofenceDropdown').html('');
 		  $('#salesDropdown').html('').trigger('change.select2');
-          initializeDrawingMap();
+          window.location.reload();
         }
       });
     }
@@ -782,11 +783,11 @@
         data: postData,
         // Work with the response
         success: function(response) {
-          console.log(response);
+          console.log(respose);
+		  window.location.reload();
         }
       }).done(function(data) {
-        console.log("done");
-        window.location.href = window.location.href;
+        window.location.reload();
       });
     }
 
