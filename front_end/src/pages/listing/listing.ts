@@ -1,3 +1,4 @@
+import * as numeral from 'numeral';
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { OrdersService } from '../orders/orders.service';
@@ -7,8 +8,8 @@ import 'rxjs/Rx';
 
 import { ListingModel } from './listing.model';
 import { ListingService } from './listing.service';
+// import { ChartsPage } from '../charts/charts';
 import { ChartsService } from '../charts/charts.service';
-
 
 @Component({
   selector: 'listing-page',
@@ -18,17 +19,22 @@ export class ListingPage {
   listing: ListingModel = new ListingModel();
   loading: any;
 	type: any = 'line';
-	  data = {labels:[], datasets:[]};
-	  options = {
+  data = {labels:[], datasets:[]};
+  indicador1 = [];
+  indicador2 = [];
+  indicador3 = [];
+  options = {
 		responsive: true,
 		maintainAspectRatio: false,
+  };
+  datitos: any;
 
-	  };
   constructor(
     public nav: NavController,
     public ordersService: OrdersService,
     public listingService: ListingService,
     public chartsService: ChartsService,
+    // public charts: ChartsPage,
     public loadingCtrl: LoadingController
   ) {
     this.loading = this.loadingCtrl.create();
@@ -47,36 +53,47 @@ export class ListingPage {
         this.loading.dismiss();
       });
   }
+
+  condition () {
+    return false;
+  }
 	ionViewDidEnter() {
 
 		if (window.navigator.onLine) {
-			this.chartsService
+      this.chartsService
 			.getDataFromServer(this.ordersService.loginId)
 			.then(data => {
-				console.log(data);
-				let items = data.rmGraficoVentasDiarioPlan;
-				var yaxis1 = [];
-				var yaxis2 = [];
-				let labels = [];
-				for(var i=0; i< items.length; i++) {
-					/*let y1 = {'x' : items[i].date_order, 'y' : items[i].quantity};
-					let y2 = {'x' : items[i].date_order, 'y' : items[i].plan};
-					yaxis1.push(y1);
-					yaxis2.push(y2);*/
-					labels.push(items[i].date_order);
-					yaxis1.push(items[i].quantity);
-					yaxis2.push(items[i].plan);
-				}
-				let y1 = {'label' : 'Quantity', data: yaxis1,fill: false, borderColor: 'rgb(255, 99, 132)',backgroundColor: 'rgb(255, 99, 132)',};
-				let y2 = {'label' : 'Plan', data: yaxis2,fill: false,  borderColor: 'rgb(54, 162, 235)',backgroundColor: 'rgb(54, 162, 235)',};
-				this.data.datasets.push(y1);
-				this.data.datasets.push(y2);
-				this.data.labels = labels;
-				console.log(this.data);
+        console.log(data.rmGraficoVentasDiarioPlan[data.rmGraficoVentasDiarioPlan.length-1]);
+        this.indicador1.push(data.rmGraficoVentasDiarioPlan[data.rmGraficoVentasDiarioPlan.length-1].plan);
+        this.indicador1.push(data.rmGraficoVentasDiarioPlan[data.rmGraficoVentasDiarioPlan.length-1].quantity);
+        console.log(this.indicador1);
+        // debugger;
+      });
 
-			});
-		}
-	}
+      this.chartsService
+      .getDataFromServerVentasEjecutadas(this.ordersService.loginId)
+      .then(data => {
+        // console.log(data.rmGraficoVentasEjecutadas[0].pedidos);
+        this.indicador2.push(data.rmGraficoVentasEjecutadas[0].pedidos);
+        this.indicador2.push(data.rmGraficoVentasEjecutadas[1].clientes);
+        // this.indicador2.push(numeral(data.rmGraficoVentasEjecutadas[0]).format('0,0.00'));
+        // this.indicador2.push(numeral(data.rmGraficoVentasEjecutadas[1]).format('0,0.00'));
+        console.log(this.indicador2);
+        // debugger;
+      });
+
+      this.chartsService
+			.getDataFromServerVentasMes(this.ordersService.loginId)
+			.then(data => {
+        console.log(data.rmGraficoVentasMesPlan[0].rm_proyeccion_ventas_mensual);
+
+        this.indicador3.push(data.rmGraficoVentasMesPlan[0].sales_total);
+        this.indicador3.push(data.rmGraficoVentasMesPlan[0].rm_proyeccion_ventas_mensual);
+      });
+
+    }
+  }
+				// console.log(this.data);
 
   goToFeed(category: any) {
     console.log("Clicked goToFeed", category);

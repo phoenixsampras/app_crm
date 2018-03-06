@@ -13,7 +13,7 @@ export class LocationTracker {
   public lat;
   public lng;
   public bearing;
-  public frequency = 15;
+  public frequency = 5;
 
   constructor(
     public zone: NgZone,
@@ -103,7 +103,7 @@ export class LocationTracker {
             cssClass: 'toast-error',
             position: 'bottom',
           });
-          toast.present();
+          // toast.present();
         }
       });
 

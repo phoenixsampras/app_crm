@@ -4,21 +4,23 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
+      Panel de Control
       <div class="header-logo">
-        <preload-image [ratio]="{w:583, h:100}" src="./assets/images/header_logo_white.png"></preload-image>
+        <!-- <preload-image [ratio]="{w:583, h:100}" src="./assets/images/header_logo_white.png"></preload-image> -->
       </div>
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="listing-content">
-  <background-image class="image-heading" [src]="listing.banner_image">
+  <!-- <background-image class="image-heading" [src]="listing.banner_image">
     <ion-row class="heading-row">
       <ion-col no-padding offset-100>
         <h2 class="main-title">{{listing.banner_title}}</h2>
       </ion-col>
     </ion-row>
-  </background-image>
+  </background-image> -->
+
   <!-- <h4 class="categories-title">{{'POPULAR' | translate}}</h4>
   <ion-scroll scrollX="true" class="horizontal-categories">
     <ion-row class="categories-row">
@@ -27,21 +29,64 @@
       </ion-col>
     </ion-row>
   </ion-scroll> -->
-  <div style='height:210px'>
+  <!-- <div style='height:210px'>
 		<chart *ngIf="data.datasets.length" [type]="type" [data]="data" [options]="options"></chart>
+  </div> -->
+
+  <div>
+    <preload-image class="home_logo" [ratio]="{w:1617, h:552}" src="./assets/images/ui/home_organica.png"></preload-image>
   </div>
+
+  <ion-row>
+    <ion-col col-4>
+      <div class="rm_indicador1">
+        <div class="rm_indicador_contenido">
+          <b>DIARIO</b>
+          <br/><sub>Ventas Bs.</sub>
+          <br/><span [ngClass]="{'semaforo_rojo':((indicador1[1]/indicador1[0])<0.9), 'semaforo_verde':((indicador1[1]/indicador1[0])>=0.9)}">{{indicador1[1]| number:'1.0-0'}}</span>
+          <br/><sub>Plan Diario</sub>
+          <br/><span>{{indicador1[0]| number:'1.0-0'}}</span>
+        </div>
+      </div>
+    </ion-col>
+    <ion-col col-4>
+      <div class="rm_indicador2">
+        <div class="rm_indicador_contenido">
+          <b>EFICACIA</b>
+
+          <br/><sub>Pedidos</sub>
+          <br/><span [ngClass]="{'semaforo_rojo':((indicador2[0]/indicador2[1])<0.9), 'semaforo_verde':((indicador2[0]/indicador2[1])>=0.9)}">{{indicador2[0]}}</span>
+          <br/><sub>Eficacia</sub>
+          <br/><span>{{indicador2[0]}}/{{indicador2[1]}} = {{indicador2[0]/indicador2[1]*100 | number:'1.0-0'}}%</span>
+
+        </div>
+      </div>
+    </ion-col>
+    <ion-col col-4>
+      <div class="rm_indicador3">
+        <div class="rm_indicador_contenido">
+          <b>MES</b>
+          <br/><sub>Vendido</sub>
+          <br/><span [ngClass]="{'semaforo_rojo':((indicador3[0]/indicador3[1])<0.9), 'semaforo_verde':((indicador3[0]/indicador3[1])>=0.9)}">{{indicador3[0]| number:'1.0-0'}}</span>
+          <br/><sub>Plan</sub>
+          <br/><span>{{indicador3[1]| number:'1.0-0'}}</span>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+
   <div>
 	  <h4 class="categories-title">{{'BROWSE_CATEGORIES' | translate}}</h4>
 	  <ion-row class="grid-categories">
-		<ion-col width-50 class="category-item" *ngFor="let category of listing.categories">
-		  <background-image tappable class="category-heading" [src]="category.image" (click)="goToFeed(category)">
-			<ion-row class="heading-row">
-			  <ion-col no-padding width-100>
-				<h2 class="category-title">{{category.title}}</h2>
-			  </ion-col>
-			</ion-row>
-		  </background-image>
-		</ion-col>
+  		<ion-col width-50 class="category-item" *ngFor="let category of listing.categories">
+  		  <background-image tappable class="category-heading" [src]="category.image" (click)="goToFeed(category)">
+  			<ion-row class="heading-row">
+  			  <ion-col no-padding width-100>
+  				<h2 class="category-title">{{category.title}}</h2>
+  			  </ion-col>
+  			</ion-row>
+  		  </background-image>
+  		</ion-col>
 	  </ion-row>
 	</div>
 </ion-content>

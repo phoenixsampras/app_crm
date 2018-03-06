@@ -1,10 +1,10 @@
 {
-  "name": "ion2-fullapp",
-  "short_name": "ion2FullApp",
+  "name": "Movilcrm",
+  "short_name": "Movilcrm",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
-    "src": "assets/img/appicon.png",
+    "src": "assets/images/logo_white.png",
     "sizes": "512x512",
     "type": "image/png"
   }],

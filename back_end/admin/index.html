@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Organica S.R.L. - Cuadro Mando Integral</title>
+  <title>Organica S.R.L. - Cuadro Mando Integral V 2.1</title>
 
   <meta name="description" content="movilcrm.com crm movil ventas">
   <meta name="author" content="movilcrm.com">
@@ -603,7 +603,7 @@
     var bounds = new google.maps.LatLngBounds();
 	$.ajaxSetup({ cache: false });
     $(document).on('ready', function() {
-		
+
       $('#userDropdown').on('change', function() {
         selectedUser = $(this).val();
         initialize();
@@ -668,14 +668,14 @@
           }
           drawShape(geo, true);
           var _users = [];
-         
-		  
+
+
 		  for (var k = 0; k < geo.users.length; k++) {
 			// $("#salesDropdown option[value='" + geo.users[k].id + "']").prop("selected", true);
 			_users.push(geo.users[k].id);
 		  }
-           
-          
+
+
           //console.log(_users);
           $('#salesDropdown').val(_users); //.trigger('change.select2');;
           //$('#salesDropdown').prop('disabled',true);
