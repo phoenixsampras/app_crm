@@ -40,6 +40,14 @@ export class CustomersService {
 		.then(response => response.json() as CustomersModel)
 		.catch(this.handleError);
 	}
+	
+	getRoutesDataFromServer(): Promise<any> {
+		let url = this.ordersService.getFullUrl('rmXMLRPC_geolocalizacion.php?task=rmListaGeolocalizacionGeocerca&user_id=' + this.ordersService.loginId + '&callback=JSONP_CALLBACK');
+		return this.jsonp.request(url,{method:'Get'})
+		.toPromise()
+		.then(response => response.json())
+		.catch(this.handleError);
+	}
 
 	getCustomer(id): Promise<any> {
 		return this.databaseService.getCustomer(id)

@@ -5,7 +5,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { Observable } from 'rxjs/Observable';
 import { GoogleMap } from "../../components/google-map/google-map";
 import { RoutesService } from "./routes.service";
-import { MapsModel, MapPlace } from './maps.model';
+import { MapsModel } from './maps.model';
 import { OrdersService } from '../orders/orders.service';
 import { CustomersService } from '../clientes/customers.service';
 import { AddCustomerPage } from '../add-customer/add-customer';
@@ -25,6 +25,7 @@ export class RoutesPage implements OnInit {
   lat: any;
   lng: any;
   markerDrag: any = false;
+  bounds = new google.maps.LatLngBounds();
   constructor(
     public nav: NavController,
     public navParams: NavParams,
@@ -41,95 +42,63 @@ export class RoutesPage implements OnInit {
     //this.lat = this.navParams.get('lat');
     //this.lng = this.navParams.get('lng');
     //if((!this.lat || this.lat == 0) && (!this.lng  || this.lng == 0)) {
-    //	this.lat = this.ordersService.lat;
-    //	this.lng = this.ordersService.lng;
+    	this.lat = this.ordersService.lat;
+    	this.lng = this.ordersService.lng;
     //}
     //let current_location = new google.maps.LatLng(this.lat, this.lng);
     //this.map_model.map_options.center = current_location;
 
   }
-	ngOnInit1() {
-		
+	
+	ngOnInit() {
+		let _loading = this.loadingCtrl.create();
+		_loading.present();
+
+		this._GoogleMap.$mapReady.subscribe(map => {
+			this.map_model.init(map);
+			this.customersService.getRoutesDataFromServer()
+			.then(data => {
+				//console.log(data);
+				let geofences = data.rmListaGeolocalizacionGeocerca;
+				//console.log(geofences);
+				for (var i = 0; geofences && i < geofences.length; i++) {
+					var geofence = geofences[i].geofence ? geofences[i].geofence : geofences[i];
+					this.drawShape(geofence);
+				}
+				this.map_model.map.fitBounds(this.bounds);
+				_loading.dismiss();
+			});
+			
+		});
 	}
 	
-ngOnInit() {
-    let _loading = this.loadingCtrl.create();
-    _loading.present();
-	let me = this;
-    this._GoogleMap.$mapReady.subscribe(map => {
-      var infowindow = new google.maps.InfoWindow();
+	drawShape(geofence) {
+		var _locations = geofence.locations;
+		var locations = [];
+		for (var j = 0; j < _locations.length; j++) {
+			var point = new google.maps.LatLng(parseFloat(_locations[j].rm_latitude), parseFloat(_locations[j].rm_longitude));
+			locations.push(point);
+			this.bounds.extend(point);
+		}
+		var color = '#' + Math.round((0x1000000 + 0xffffff * Math.random())).toString(16).slice(1);
 
-      var flightPlanCoordinates = [];
-      var bounds = new google.maps.LatLngBounds();
-      let locations = this.customersService.getRoutesDataFromPouch()
-        .then(data => {
-          console.log(data);
-          let locations = data;
-          for (var i = 0; i < locations.length; i++) {
-            let marker = new google.maps.Marker({
-              position: new google.maps.LatLng(locations[i].rm_latitude, locations[i].rm_longitude),
-              map: map
-            });
-            flightPlanCoordinates.push(marker.getPosition());
-            bounds.extend(marker.getPosition());
+		var bermudaTriangle = new google.maps.Polygon({
+			paths: locations,
+			strokeColor: color,
+			strokeOpacity: 0.8,
+			strokeWeight: 2,
+			fillColor: color,
+			fillOpacity: 0.35,
+			editable: false
+		});
+      //console.log(map1);
+		bermudaTriangle.setMap(this.map_model.map);
+		//geofenceObjects.push(bermudaTriangle);
+		//if (selectFlag)
+			//setSelection(bermudaTriangle);
 
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
-				return function() {
-					let content = '<b>' + locations[i].name + '</b><br/>' + locations[i].street + "<br/>";
-					content += "<button id='edit-customer-"+ i +"' class='edit-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Editar cliente</button>";
-					content += "<button id='order-customer-"+ i +"' class='order-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Nuevo el pedido</button>";
-					content += "<button id='event-customer-"+ i +"' class='event-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Nuevo evento</button>";
-					infowindow.setContent(content);
-					infowindow.open(map, marker);
-					google.maps.event.addListenerOnce(infowindow, 'domready', () => {
-						let infoWindow = infowindow;
-						document.getElementById('edit-customer-'+ i).addEventListener('click', (event) => {
-							var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
-							var id = targetElement.getAttribute("data-id");
-							infoWindow.close();
-							me.editCustomer(id);
-						});
-						document.getElementById('order-customer-'+ i).addEventListener('click', (event) => {
-							var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
-							var id = targetElement.getAttribute("data-id");
-							infoWindow.close();
-							me.addOrder(id);
-						});
-						document.getElementById('event-customer-'+ i).addEventListener('click', (event) => {
-							var targetElement = (<HTMLButtonElement>event.target || event.srcElement);
-							var id = targetElement.getAttribute("data-id");
-							infoWindow.close();
-							me.addEvent(id);
-						});
-					});
-				}
-            })(marker, i));
-			
-          }
-          map.fitBounds(bounds);
-          var start = flightPlanCoordinates[0];
-          var end = flightPlanCoordinates[flightPlanCoordinates.length - 1];
-          var waypts = [];
-          // for (var i = 1; i < flightPlanCoordinates.length - 1; i++) {
-          for (var i = 1; i < 20; i++) {
-            waypts.push({
-              location: flightPlanCoordinates[i],
-              stopover: true
-            });
-          }
-          this.routesService.getDirections(start, end, waypts)
-            .subscribe(response => {
-              this.map_model.init(map);
-              this.map_model.directions_display.setDirections(response);
-
-            });
-			_loading.dismiss();
-        });
-      //let current_location = new google.maps.LatLng(this.lat, this.lng);
-      //this.marker = new google.maps.Marker({position: current_location, map:this.map_model.map,draggable:this.markerDrag,});
-      
-    });
-  }
+    }
+	
 	editCustomer(id) {
 		this.customersService.getCustomer(id)
 		.then(customer => {
