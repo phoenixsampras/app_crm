@@ -10,7 +10,8 @@ require_once('rmFunciones.php');
 switch ($_REQUEST["task"]) {
 
     case 'rmRutaDiaria':
-      rmRutaDiaria($data);
+    // rmRutaDiaria($data);
+      rmRutaDiaria($db);
     break;
 
     case 'rmRegistrarEvento':
@@ -35,24 +36,32 @@ function login($conex){
     return $common->authenticate($db, $username, $password, array());
 }
 
-function rmRutaDiaria_nosirve($db) {
+function rmRutaDiaria($db) {
     try {
-        $pedido = $_REQUEST['res_user_id'];
+        $vendedor = $_REQUEST['res_user_id'];
         $sql = "
         SELECT
-        rp.id,
-        rp.name,
-        rp.rm_latitude,
-        rp.rm_longitude,
-        rp.street,
-        rp.phone,
-        rp.mobile,
-        'Mon' as day_of_week
-        FROM
-        public.res_partner AS rp
-        --Limit  20
 
-        WHERE rp.customer = true AND res_users.id = $pedido
+        p.id,
+        p.name,
+        p.street,
+        p.phone,
+        p.mobile,
+        p.rm_latitude,
+        p.rm_longitude,
+        p.user_id,
+        p.razon_social,
+        p.nit,
+        (select count(id) from sale_order AS so where so.partner_id = p.id and so.user_id = ".$vendedor." AND to_char(now() - interval '4 hour', 'YYYY/MM/DD') = to_char(so.date_order - interval '4 hour', 'YYYY/MM/DD') ) as total_ventas,
+        string_agg(d.nro_dia::character varying, ',') AS rm_dias_semana
+        FROM
+        res_partner AS p
+        INNER JOIN partner_id ON partner_id.dias_id = p.id
+        INNER JOIN rm_dias_semana AS d ON partner_id.rm_dias_semana_id = d.id
+        WHERE d.nro_dia  = extract(dow from  current_date - interval '4 hour')
+        AND user_id = ".$vendedor."
+        GROUP BY 1,2,3,4,5,6,7,8,9,10,11
+        ORDER by p.name
         ";
 
         $query = pg_query($db, $sql);
@@ -72,7 +81,7 @@ function rmRutaDiaria_nosirve($db) {
     }
 }
 
-function rmRutaDiaria($conex, $user_id) {
+function rmRutaDiariaAntiguo($conex, $user_id) {
   try {
     $url = $conex['url'];
     $db = $conex['db'];

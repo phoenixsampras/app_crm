@@ -83,7 +83,8 @@ function rmStockProductos ($db) {
             stock_move AS sm
             LEFT JOIN product_product AS pp ON sm.product_id = pp.id
             LEFT JOIN stock_location_users AS slu ON slu.location_id = sm.location_dest_id
-          WHERE sm.state = 'done' AND
+            INNER JOIN stock_picking AS sp ON sm.picking_id = sp.id
+          WHERE sm.state = 'done' AND sp.picking_type_id = 3 AND
             slu.user_id = " . $user_id . " AND sm.product_en_transito is True
             GROUP BY 1,2,3,4
 

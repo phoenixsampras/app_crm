@@ -49,7 +49,7 @@ export class RoutesPage implements OnInit {
     //this.map_model.map_options.center = current_location;
 
   }
-	
+
 	ngOnInit() {
 		let _loading = this.loadingCtrl.create();
 		_loading.present();
@@ -57,7 +57,7 @@ export class RoutesPage implements OnInit {
 		this._GoogleMap.$mapReady.subscribe(map => {
 			var infowindow = new google.maps.InfoWindow();
 			this.map_model.init(map);
-			
+
 			this.customersService.getRoutesDataFromServer()
 			.then(data => {
 				//console.log(data);
@@ -70,24 +70,37 @@ export class RoutesPage implements OnInit {
 				this.map_model.map.fitBounds(this.bounds);
 				_loading.dismiss();
 			});
-			
+
 			 this.customersService.getRoutesDataFromPouch()
 			.then(data => {
-				console.log(data);
+        // debugger;
+        console.log(data);
 				let locations = data;
 				for (var i = 0; i < locations.length; i++) {
-					let marker = new google.maps.Marker({
-						position: new google.maps.LatLng(locations[i].rm_latitude, locations[i].rm_longitude),
-						map: map
-					});
-					this.bounds.extend(marker.getPosition());
+          let marker;
+          if (locations[i].total_ventas > 0) {
+            let image = './assets/images/icons/marker-green.png';
+            marker = new google.maps.Marker({
+              position: new google.maps.LatLng(locations[i].rm_latitude, locations[i].rm_longitude),
+              map: map,
+              icon: image
+            });
+            this.bounds.extend(marker.getPosition());
+
+          } else {
+            marker = new google.maps.Marker({
+              position: new google.maps.LatLng(locations[i].rm_latitude, locations[i].rm_longitude),
+              map: map
+            });
+            this.bounds.extend(marker.getPosition());
+          }
 
 					google.maps.event.addListener(marker, 'click', (function(marker, i) {
 						return function() {
 							let content = '<b>' + locations[i].name + '</b><br/>' + locations[i].street + "<br/>";
-							content += "<button id='edit-customer-"+ i +"' class='edit-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Editar cliente</button>";
-							content += "<button id='order-customer-"+ i +"' class='order-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Nuevo el pedido</button>";
-							content += "<button id='event-customer-"+ i +"' class='event-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Nuevo evento</button>";
+							content += "<button id='edit-customer-"+ i +"' class='edit-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Editar</button>";
+							content += "<button id='order-customer-"+ i +"' class='order-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Pedido</button>";
+							content += "<button id='event-customer-"+ i +"' class='event-customer button button-md button-default-secondary button-default-md' ion-button data-id='" + locations[i].id + "'>Evento</button>";
 							infowindow.setContent(content);
 							infowindow.open(map, marker);
 							google.maps.event.addListenerOnce(infowindow, 'domready', () => {
@@ -116,10 +129,10 @@ export class RoutesPage implements OnInit {
 				}
 				map.fitBounds(this.bounds);
 			});
-			
+
 		});
 	}
-	
+
 	drawShape(geofence) {
 		var _locations = geofence.locations;
 		var locations = [];
@@ -128,7 +141,8 @@ export class RoutesPage implements OnInit {
 			locations.push(point);
 			this.bounds.extend(point);
 		}
-		var color = '#' + Math.round((0x1000000 + 0xffffff * Math.random())).toString(16).slice(1);
+    // var color = '#' + Math.round((0x1000000 + 0xffffff * Math.random())).toString(16).slice(1);
+		var color = '#03a9f4';
 
 		var bermudaTriangle = new google.maps.Polygon({
 			paths: locations,
@@ -136,7 +150,7 @@ export class RoutesPage implements OnInit {
 			strokeOpacity: 0.8,
 			strokeWeight: 2,
 			fillColor: color,
-			fillOpacity: 0.35,
+			fillOpacity: 0.25,
 			editable: false
 		});
       //console.log(map1);
@@ -146,21 +160,21 @@ export class RoutesPage implements OnInit {
 			//setSelection(bermudaTriangle);
 
     }
-	
+
 	editCustomer(id) {
 		this.customersService.getCustomer(id)
 		.then(customer => {
 			this.nav.push(AddCustomerPage, { 'customer': customer, 'routesPage' : 1 });
 		});
 	}
-	
+
 	addOrder(id) {
 		this.customersService.getCustomer(id)
 		.then(customer => {
 			this.nav.push(AddOrderPage, { 'customerObj': customer });
 		});
 	}
-	
+
 	addEvent(id) {
 		//this.customersService.getCustomer(id)
 		//.then(customer => {
@@ -168,9 +182,9 @@ export class RoutesPage implements OnInit {
 		//});
 		this.nav.push(AddEventPage);
 	}
-	
-	
-	
+
+
+
 
   selectLocation() {
     var data = {

@@ -14,7 +14,7 @@ switch ($_REQUEST["task"]) {
     break;
 
     case 'rmListaClientes':
-      rmListaClientes($data);
+      rmListaClientes($data,$db);
     break;
 
     case 'rmRegistrarCliente':
@@ -39,7 +39,7 @@ function login($conex){
     return $common->authenticate($db, $username, $password, array());
 }
 
-function rmListaClientes($conex, $user_id) {
+function rmListaClientes($conex, $postgresql) {
   try {
     $url = $conex['url'];
     $db = $conex['db'];
@@ -84,10 +84,53 @@ function rmListaClientes($conex, $user_id) {
         'rm_sync_operacion'), 'limit'=>10000));
 
     if (count($rmListaClientes)>0) {
+      $sql = "
+      SELECT
+
+      p.id,
+      p.name,
+      p.street,
+      p.phone,
+      p.mobile,
+      p.rm_latitude,
+      p.rm_longitude,
+      p.user_id,
+      p.razon_social,
+      p.nit,
+      (select count(id) from sale_order AS so where so.partner_id = p.id and so.user_id = ".$user_id." AND to_char(now() - interval '4 hour', 'YYYY/MM/DD') = to_char(so.date_order - interval '4 hour', 'YYYY/MM/DD') ) as total_ventas,
+      string_agg(d.nro_dia::character varying, ',') AS rm_dias_semana
+      FROM
+      res_partner AS p
+      INNER JOIN partner_id ON partner_id.dias_id = p.id
+      INNER JOIN rm_dias_semana AS d ON partner_id.rm_dias_semana_id = d.id
+      WHERE d.nro_dia  = extract(dow from  now() - interval '4 hour' )
+      AND user_id = ".$user_id."
+      AND (select count(id) from sale_order AS so where so.partner_id = p.id and so.user_id = ".$user_id." AND to_char(now() - interval '4 hour', 'YYYY/MM/DD') = to_char(so.date_order - interval '4 hour', 'YYYY/MM/DD') ) > 0
+      GROUP BY 1,2,3,4,5,6,7,8,9,10,11
+      ORDER by p.name
+      ";
+
+      $query = pg_query($postgresql, $sql);
+      if(!$query){
+      echo "Error".pg_last_error($postgresql);
+      exit;
+      }
+
+      $resultado = pg_fetch_all($query);
+
+      // Inyectar total ventas por cliente del vendedor para rutas
+      for ($i = 0; $i < count($rmListaClientes); $i++) {
+        for ($j = 0; $j < count($resultado); $j++) {
+          if ($rmListaClientes[$i]['id'] == $resultado[$j]['id']) {
+            $rmListaClientes[$i]['total_ventas'] = $resultado[$j]['total_ventas'];
+          }
+        }
+      }
+
+      // print_r($rmListaClientes);
+      // print_r($resultado);
+
       echo $_GET['callback'].'({"rmListaClientes": ' . json_encode(utf8_converter($rmListaClientes)) . '})';
-      // print_r($_REQUEST);
-      // print_r($filtroCliente);
-      // print_r($rmListaCliente);
     } else {
       echo $_GET['callback'].'({"rmListaClientes": {}})';
 

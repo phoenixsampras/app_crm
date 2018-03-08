@@ -142,10 +142,12 @@ function rmGraficoVentasMesPlan ($db) {
     try {
 
         $sql = "
-        SELECT rm_proyeccion_ventas_mensual, sum(sol.price_subtotal) AS sales_total
-        FROM res_company AS rc,
+				SELECT rm_objetivo_mes as rm_proyeccion_ventas_mensual, sum(sol.price_subtotal) AS sales_total
+        FROM res_users AS rc,
         sale_order_line AS sol
-        WHERE  EXTRACT(month FROM sol.write_date) = EXTRACT(month FROM CURRENT_DATE)
+        WHERE  EXTRACT(month FROM sol.write_date) = EXTRACT(month FROM CURRENT_DATE) AND
+				rc.id = ".$_REQUEST['user_id']." AND
+        sol.salesman_id = ".$_REQUEST['user_id']."  
         GROUP BY 1
         ;
         ";

@@ -76,7 +76,7 @@ export class DatabaseService {
 		});
 
 	}
-	
+
 	getCustomer(_id) {
 		let id = "customer-" + _id;
 		return this._db.get(id);
@@ -133,7 +133,7 @@ export class DatabaseService {
 			});;
 		});
 	}
-	
+
 	updateProductPT(_id, pt) {
 		let id = "product-" + _id;
 		let db = this._db;
@@ -206,7 +206,7 @@ export class DatabaseService {
 			console.log(data);
 		});;
 	}
-	
+
 	updatePosition(position) {
 		return this._db.put(position).then(data => {
 			console.log(data);
@@ -257,7 +257,7 @@ export class DatabaseService {
 		});
 
 	}
-	
+
 	getAllSyncOrders() {
 		if (!this._db)
 			this.initDB();
@@ -277,7 +277,7 @@ export class DatabaseService {
 					let row = docs.rows[i];
 					if (row.doc.type == "order" && row.doc.sync == 1)
 						this._orders.push(row.doc);
-				}		
+				}
 
 
 				resolve(this._orders);
@@ -286,7 +286,7 @@ export class DatabaseService {
 		});
 
 	}
-	
+
 	getConfirmedOrdersCount() {
 		if (!this._db)
 			this.initDB();
@@ -376,16 +376,16 @@ export class DatabaseService {
 					let row = docs.rows[i];
 					if (row.doc.type == "customer") {
 						if(parseInt(row.doc.newCustomer,10) > 0) {
-							this._customers.push(row.doc);						
-						} 
-					}				
+							this._customers.push(row.doc);
+						}
+					}
 				}
 				resolve(this._customers);
 			});
 
 		});
 	}
-	
+
 	getCustomerRoutes() {
 		if (!this._db)
 			this.initDB();
@@ -404,23 +404,23 @@ export class DatabaseService {
 				let j = 0;
 				this._customers = [];
 				var d = new Date();
-				var day = d.getDay() + 1;
+				var day = d.getDay();
 				//console.log(day);
 				for(var i=0; i<docs.rows.length; i++) {
 					let row = docs.rows[i];
 					if (row.doc.type == "customer") {
 						//console.log(row.doc.rm_dias_semana);
 						if(this.inArray(day, row.doc.rm_dias_semana)) {
-							this._customers.push(row.doc);						
-						} 
-					}				
+							this._customers.push(row.doc);
+						}
+					}
 				}
 				resolve(this._customers);
 			});
 
 		});
 	}
-	
+
 	inArray(needle, haystack) {
 		var length = haystack.length;
 		for(var i = 0; i < length; i++) {
@@ -428,7 +428,7 @@ export class DatabaseService {
 		}
 		return false;
 	}
-	
+
   getAllPositions() {
     if (!this._db)
       this.initDB();
@@ -444,15 +444,15 @@ export class DatabaseService {
           // array of customer objects back to the calling controller,
           // so let's map the array to contain just the .doc objects.
 		  this._positions = [];
-				
+
 		  for(var i=0; i<docs.rows.length; i++) {
 			let row = docs.rows[i];
 			if (row.doc.type == "latlng") {
 				//console.log(row.doc.rm_dias_semana);
 				if(row.doc.sync == 1) {
-					this._positions.push(row.doc);						
-				} 
-			}				
+					this._positions.push(row.doc);
+				}
+			}
 		}
 
           // Listen for changes on the database.
