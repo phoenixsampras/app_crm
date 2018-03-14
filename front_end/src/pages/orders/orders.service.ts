@@ -17,6 +17,8 @@ export class OrdersService {
 	public location_dest_id;
 	public company_id;
 	public picking_type_id;
+	public rm_geofence_sales;
+	public geofencesArray;
 	public lat;
 	public lng;
 	public timestamp = 0;

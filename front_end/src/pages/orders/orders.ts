@@ -16,6 +16,7 @@ export class OrdersPage {
 
 	loading: any;
 	ordersList: any = [];
+	shapesArray = [];
 	constructor(
 		public nav: NavController,
 		public loadingCtrl: LoadingController,
@@ -63,7 +64,28 @@ export class OrdersPage {
 	}
 	
 	goToAddOrder() {
-		this.nav.push(AddOrderPage, {'order' : ''});
+		if(!this.ordersService.rm_geofence_sales) {
+			alert(this.ordersService.rm_geofence_sales);
+			let lat = this.ordersService.lat;
+			let lng = this.ordersService.lng;
+			var point = new google.maps.LatLng(parseFloat(lat), parseFloat(lng));
+				
+			let flag = false;
+			for(var i=0; i < this.shapesArray.length; i++) {
+				let shape = this.shapesArray[i];
+				flag = google.maps.geometry.poly.containsLocation(poin, shape);
+				if(flag) 
+					break;
+			}
+			if(flag) {
+				this.nav.push(AddOrderPage, {'order' : ''});	
+			} else {
+				alert('error');
+			}
+			
+		} else {
+			this.nav.push(AddOrderPage, {'order' : ''});
+		}
 	}
 
 	ionViewDidEnter() {
@@ -75,6 +97,28 @@ export class OrdersPage {
 				return  a.numberOrder - (b.numberOrder ? b.numberOrder : 0 );
 			});
 		});
+		let geofencesArray = this.ordersService.geofencesArray;
+		for(var i =0; i<geofencesArray.length; i++) {
+			let geofence = geofencesArray[i];
+			var _locations = geofence.locations;
+			var locations = [];
+			for (var j = 0; j < _locations.length; j++) {
+				var point = new google.maps.LatLng(parseFloat(_locations[j].rm_latitude), parseFloat(_locations[j].rm_longitude));
+				locations.push(point);
+				
+			}
+			var bermudaTriangle = new google.maps.Polygon({
+				paths: locations,
+				strokeColor: '#000000',
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: '#000000',
+				fillOpacity: 0.25,
+				editable: false
+			});
+			this.shapesArray.push(bermudaTriangle);
+		}
+		
 	}
 
 	ionViewWillLoad() {

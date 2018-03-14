@@ -7,6 +7,7 @@ import { Jsonp, Http } from '@angular/http';
 import { OrdersService } from '../orders/orders.service';
 import { DatabaseService } from '../sync/database.service';
 import { LocationTracker } from '../../providers/location-tracker/location-tracker';
+import { CustomersService } from '../clientes/customers.service';
 
 @Component({
   selector: 'login-page',
@@ -27,6 +28,8 @@ export class LoginPage {
     public databaseService: DatabaseService,
     public jsonp: Jsonp,
     public http: Http,
+	public customersService: CustomersService,
+    
     public locationTracker: LocationTracker
 
   ) {
@@ -67,6 +70,7 @@ export class LoginPage {
           toast.present();
         } else {
           // if (values.remember === true) {
+			
           me.ordersService.loginId = data['_body']['login'];
           me.ordersService.rmDatosUsuario = data['_body']['rmDatosUsuario'];
           me.ordersService.rmCompany = data['_body']['rmCompany'];
@@ -79,35 +83,48 @@ export class LoginPage {
           }
           me.ordersService.company_id = data['_body']['company_id'];
           me.ordersService.picking_type_id = data['_body']['picking_type_id'];
+          me.ordersService.rm_geofence_sales = data['_body']['rmDatosUsuario']['rm_geofence_sales'];
           me.ordersService.email = values.email;
           me.ordersService.password = values.password;
 
-          console.log("me.ordersService.stock_location_ids" + me.ordersService.location_dest_id);
+          //console.log("me.ordersService.stock_location_ids" + me.ordersService.location_dest_id);
+			me.customersService.getRoutesDataFromServer()
+			.then(locationData => {
+				let geofences = locationData.rmListaGeolocalizacionGeocerca;
+				let geofencesArray = [];
+				for (var i = 0; geofences && i < geofences.length; i++) {
+					var geofence = geofences[i].geofence ? geofences[i].geofence : geofences[i];
+					geofencesArray.push(geofence);
+				}
+				me.ordersService.geofencesArray = geofencesArray;
+				let loginData = {
+					'geofencesArray' : geofencesArray,
+					'rm_geofence_sales' : me.ordersService.rm_geofence_sales,
+					'loginId': me.ordersService.loginId,
+					'rmDatosUsuario': me.ordersService.rmDatosUsuario,
+					'rmCompany': me.ordersService.rmCompany,
+					'location_id': me.ordersService.location_id,
+					// 'location_dest_id': me.ordersService.location_dest_id,
+					'location_dest_id': me.ordersService.location_dest_id[0],
+					'company_id': me.ordersService.company_id,
+					'picking_type_id': me.ordersService.picking_type_id,
+					'email': values.email,
+					'password': values.password,
+				  };
+				  console.log(JSON.stringify(loginData));
+				  me.databaseService.addLoginData(loginData);
+				  me.locationTracker.startTracking();
 
-          let loginData = {
-            'loginId': me.ordersService.loginId,
-            'rmDatosUsuario': me.ordersService.rmDatosUsuario,
-            'rmCompany': me.ordersService.rmCompany,
-            'location_id': me.ordersService.location_id,
-            // 'location_dest_id': me.ordersService.location_dest_id,
-            'location_dest_id': me.ordersService.location_dest_id[0],
-            'company_id': me.ordersService.company_id,
-            'picking_type_id': me.ordersService.picking_type_id,
-            'email': values.email,
-            'password': values.password,
-          };
-          console.log(JSON.stringify(loginData));
-          me.databaseService.addLoginData(loginData);
-          me.locationTracker.startTracking();
-
-          let toast = toastCtrl.create({
-            message: "Bienvenido!" + JSON.stringify(loginData),
-            duration: 3000,
-            cssClass: 'toast-success',
-            position: 'bottom',
-          });
-          toast.present();
-          nav.setRoot(me.main_page.component);
+				  let toast = toastCtrl.create({
+					message: "Bienvenido!" + JSON.stringify(loginData),
+					duration: 3000,
+					cssClass: 'toast-success',
+					position: 'bottom',
+				  });
+				  toast.present();
+				  nav.setRoot(me.main_page.component);
+			});
+          
           // }
         }
         //console.log(data.login);

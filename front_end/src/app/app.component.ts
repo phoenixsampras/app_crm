@@ -68,7 +68,6 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.databaseService.getLoginData()
         .then(data => {
-          console.log("App Component " + data);
           me.ordersService.loginId = data.loginId;
           me.ordersService.rmDatosUsuario = data.rmDatosUsuario;
           me.ordersService.rmCompany = data.rmCompany;
@@ -78,7 +77,9 @@ export class MyApp {
           me.ordersService.location_dest_id = data.location_dest_id;
           me.ordersService.company_id = data.company_id;
           me.ordersService.picking_type_id = data.picking_type_id;
-          me.nav.setRoot(OrdersPage);
+          me.ordersService.rm_geofence_sales = data.rm_geofence_sales;
+          me.ordersService.geofencesArray = data.geofencesArray;
+		  me.nav.setRoot(OrdersPage);
 		  me.locationTracker.startTracking();
         }).catch(function(err) {
           console.log("not logged in");
