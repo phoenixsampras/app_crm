@@ -73,7 +73,7 @@ export class OrdersPage {
 			let flag = false;
 			for(var i=0; i < this.shapesArray.length; i++) {
 				let shape = this.shapesArray[i];
-				flag = google.maps.geometry.poly.containsLocation(poin, shape);
+				flag = google.maps.geometry.poly.containsLocation(point, shape);
 				if(flag) 
 					break;
 			}
