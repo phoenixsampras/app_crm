@@ -510,7 +510,10 @@
             <!-- END Example Title -->
 
             <!-- Example Content -->
-            <p>...</p>
+            <p>
+				<label>Toggle Trails</label>
+				<label class="switch switch-primary"><input checked id='trailsCheckbox' type="checkbox"><span></span></label>
+			</p>
             <!-- END Example Content -->
           </div>
           <!-- END Example Block -->
@@ -608,6 +611,9 @@
         selectedUser = $(this).val();
         initialize();
       });
+	  $('#trailsCheckbox').on('change',function(){
+		initialize();
+	  });
       $('#salesDropdown').on('change', function() {
         if (!$('#geofenceDropdown').val() && !newFlag)
           initializeDrawingMap();
@@ -892,16 +898,19 @@
       } else {
         color = colorObj.color;
       }
-      var line = new google.maps.Polyline({
-        path: points,
-        strokeColor: color,
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-        map: map,
-        geodesic: true,
-      });
-      polylines.push(line);
-      line.setMap(map);
+	  console.log('Trail Checkbox Status' + $('#trailsCheckbox').is(':checked'));
+      if($('#trailsCheckbox').is(':checked')) {
+		  var line = new google.maps.Polyline({
+			path: points,
+			strokeColor: color,
+			strokeOpacity: 1.0,
+			strokeWeight: 2,
+			map: map,
+			geodesic: true,
+		  });
+		  polylines.push(line);
+		  line.setMap(map);
+		}
 
       // console.log(JSON.stringify(points));
       if (points.length) {
