@@ -234,7 +234,7 @@ export class SyncPage {
 
             for (var i = 0; i < products.length; i++) {
               let product = products[i];
-              productsArray.push({ 'product_id': product.id, 'product_uom_qty': product.stock });
+              productsArray.push({ 'product_id': product.id, 'product_uom_qty': parseInt(product.stock,10) });
             }
             url += "&selectedProducts=" + JSON.stringify(productsArray);
             url += '&callback=JSONP_CALLBACK';
