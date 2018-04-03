@@ -10,11 +10,14 @@
 <ion-content>
 	<ion-row no-padding class="map-row">
 		<ion-col no-padding class="map-col">
-      
+
 			<div class="map-container">
 				<google-map [options]="map_model.map_options"></google-map>
 			</div>
-      
+
 		</ion-col>
 	</ion-row>
+	<ion-fab bottom left>
+		<button ion-fab (click)="syncCustomers()" color="secondary"><ion-icon name="refresh"></ion-icon></button>
+	</ion-fab>
 </ion-content>

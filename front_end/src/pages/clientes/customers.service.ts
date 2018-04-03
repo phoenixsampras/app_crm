@@ -40,7 +40,7 @@ export class CustomersService {
 		.then(response => response.json() as CustomersModel)
 		.catch(this.handleError);
 	}
-	
+
 	getRoutesDataFromServer(): Promise<any> {
 		let url = this.ordersService.getFullUrl('rmXMLRPC_geolocalizacion.php?task=rmListaGeolocalizacionGeocerca&user_id=' + this.ordersService.loginId + '&callback=JSONP_CALLBACK');
 		return this.jsonp.request(url,{method:'Get'})
@@ -54,25 +54,25 @@ export class CustomersService {
 		.then(response => response)
 		.catch(this.handleError);
 	}
-	
+
 	getDataFromPouch(searchTerm = ''): Promise<any> {
 		return this.databaseService.getAllCustomers(searchTerm)
 		.then(response => response)
 		.catch(this.handleError);
 	}
-	
+
 	getUploadDataFromPouch(searchTerm = ''): Promise<any> {
 		return this.databaseService.getUploadCustomers()
 		.then(response => response)
 		.catch(this.handleError);
 	}
-	
+
 	getRoutesDataFromPouch(): Promise<any> {
 		return this.databaseService.getCustomerRoutes()
 		.then(response => response)
 		.catch(this.handleError);
 	}
-	
+
 
 	saveCustomerOnServer(url, customer, i): Promise<any> {
 		return this.jsonp.request(url,{method:'Get'})

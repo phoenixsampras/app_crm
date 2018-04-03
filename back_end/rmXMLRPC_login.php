@@ -5,6 +5,11 @@ require_once('rmOdooConfig.php');
 require_once('rmDbConfig.php');
 require_once('xmlrpc_lib/ripcord.php');
 
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+  header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+  header('Access-Control-Allow-Credentials: true');
+  header('Access-Control-Max-Age: 86400');    // cache for 1 day
+}
 // print_r($_REQUEST);
 switch ($_REQUEST["task"]) {
 
@@ -71,8 +76,8 @@ function loginApp($conex){
         if ($uid){
             // $uid = login($conex);
             $models = ripcord::client("$url/xmlrpc/2/object");
-            $rmDatosUsuario = $models->execute_kw($db, $uid, $password, 'res.users', 'search_read', array(array(array('id', '=', $uid))), array('fields'=>array('name','login','ew_ciudad','partner_id','stock_location_ids'), 'limit'=>5));
-            $rmCompany = $models->execute_kw($db, $uid, $password, 'res.partner', 'search_read', array(array(array('id', '=', 1))), array('fields'=>array('name','street','state_id','website','phone','mobile','fax','email'), 'limit'=>1));
+            $rmDatosUsuario = $models->execute_kw($db, $uid, $password, 'res.users', 'search_read', array(array(array('id', '=', $uid))), array('fields'=>array('name','login','ew_ciudad','partner_id','stock_location_ids','rm_geofence_sales','rm_objetivo_mes'), 'limit'=>5));
+            $rmDatosCliente = $models->execute_kw($db, $uid, $password, 'res.partner', 'search_read', array(array(array('id', '=', 1))), array('fields'=>array('name','street','state_id','website','phone','mobile','fax','email'), 'limit'=>1));
             $partner_id = $rmDatosUsuario[0]['partner_id'][0];
             $ew_vendedor = $rmDatosUsuario[0]['ew_vendedor'][0];
             // echo "/n rmDatosUsuario:" .  $partner_id;
@@ -88,9 +93,9 @@ function loginApp($conex){
                 // echo "/n rmDatosCliente:";
                 // print_r($rmDatosCliente);
                 $user_data = '"rmDatosUsuario": ' . json_encode($rmDatosUsuario[0]);
-                $rmCompany = '"rmCompany": ' . json_encode($rmCompany[0]);
+                $rmDatosCliente = '"rmCompany": ' . json_encode($rmDatosCliente[0]);
 
-                echo $_GET['callback'].'({"login": '.$uid.','.$user_data.','.$rmCompany.',"location_id":"12","company_id":"1","picking_type_id":"3"})';
+                echo $_GET['callback'].'({"login": '.$uid.','.$user_data.','.$rmDatosCliente.',"location_id":"12","company_id":"1","picking_type_id":"3"})';
             }
             // print_r($rmDatosUsuario);
 

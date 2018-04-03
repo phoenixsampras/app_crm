@@ -94,6 +94,7 @@ export class DatabaseService {
 		customer._id = "customer-" + customer.id;
 		customer.type = "customer";
 		this._db.put(customer).then(function(doc) {
+      console.log('Cliente actualizado:' + doc);
 			return doc;
 		}).catch(function(err) {
 			console.log(err);
@@ -275,7 +276,7 @@ export class DatabaseService {
 				this._orders = [];
 				for(var i=0; i<docs.rows.length; i++) {
 					let row = docs.rows[i];
-					if (row.doc.type == "order" && row.doc.sync == 1)
+					if (row.doc.type == "order" && row.doc.sync == 1 && row.doc.confirmed == 1)
 						this._orders.push(row.doc);
 				}
 

@@ -87,12 +87,6 @@ function rmListaGeolocalizacion ($db) {
 // Lista de geocercas
 function rmListaGeolocalizacionGeocerca ($db) {
     try {
-      $sql_geocercax = "
-      SELECT
-      rm_geocerca.id as geocerca_id,
-      rm_geocerca.name as geocerca_name
-      FROM rm_geocerca;
-      ";
 
       if ($_REQUEST['user_id']) {
         // echo "FILTRO USUARIO";
@@ -321,24 +315,27 @@ function rmRegistrarGeolocalizacion($conex, $user_id) {
 
 function rmListaGeolocalizacionLive ($db) {
     try {
+        $mapaVendedorDaterange1 = $_REQUEST['mapaVendedorDaterange1'];
+        $mapaVendedorDaterange2 = $_REQUEST['mapaVendedorDaterange2'];
+
+        if ($mapaVendedorDaterange1 && $mapaVendedorDaterange2) {
+          $rango_fechas = " WHERE geoLive.create_date::timestamp::date BETWEEN  to_date('".$mapaVendedorDaterange1."','dd/mm/yyyy') AND to_date('".$mapaVendedorDaterange2."','dd/mm/yyyy') ";
+        } else {
+          $rango_fechas = " WHERE DATE_PART('Day',now() - geoLive.create_date::timestamptz) < 1 ";
+        }
+
         $sql = "
-        --SELECT DISTINCT ON (login)
         SELECT
         res_users.id as user_id,
         res_users.login,
-        --geoLive.id,
-        --geoLive.res_user_id,
         geoLive.rm_longitude,
         geoLive.rm_latitude,
         geoLive.rm_bearing,
-        --geoLive.create_uid,
         geoLive.create_date
-        --geoLive.write_uid,
-        --geoLive.write_date
         FROM
         public.rm_geolocalizacion_live AS geoLive
         INNER JOIN res_users ON res_users.id = geoLive.res_user_id
-        WHERE DATE_PART('Day',now() - geoLive.create_date::timestamptz) < 1
+        ".$rango_fechas."
         ORDER BY res_users.login, geoLive.create_date DESC;
 
         ";

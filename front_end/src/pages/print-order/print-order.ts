@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { ViewController, NavController, NavParams, ToastController } from 'ionic-angular';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { OrdersService } from '../orders/orders.service';
+import { CustomersService } from '../clientes/customers.service';
 import { DatabaseService } from '../sync/database.service';
 import { ProductsService } from '../products/products.service';
 
@@ -31,21 +32,22 @@ export class PrintOrderPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public customersService: CustomersService,
     public viewCtrl: ViewController,
     public toastCtrl: ToastController,
     public ordersService: OrdersService,
     public productsService: ProductsService,
-	public databaseService: DatabaseService,
+    public databaseService: DatabaseService,
     private bluetoothSerial: BluetoothSerial
   ) {
     this.orderObj = this.navParams.get('order');
     let me = this;
     this.databaseService.getLoginData()
       .then(
-      response => {
-        me.loginObj = response;
-        console.log(me.loginObj);
-      }
+        response => {
+          me.loginObj = response;
+          console.log(me.loginObj);
+        }
       );
 
   }
@@ -105,18 +107,26 @@ export class PrintOrderPage {
     if (this.orderObj) {
       moment.lang('es-us');
       this.orderObj.confirmed = true;
+
+      // Up-date customer, set flag totalVentasApp true
+      this.orderObj.customerObj.totalVentasApp = 1;
+      this.orderObj.customerObj.rm_sync_date_time = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+      // console.log(this.orderObj.customerObj);
+      this.customersService.updateCustomer(this.orderObj.customerObj);
+
+      console.log(this.orderObj);
       if (!this.orderObj.numberOrder || this.orderObj.numberOrder == 0) {
         let co = this.ordersService.confirmedOrders ? this.ordersService.confirmedOrders : 0;
         this.ordersService.confirmedOrders = co + 1;
         this.orderObj.numberOrder = this.ordersService.confirmedOrders;
       }
       this.ordersService.updateOrder(this.orderObj);
-		for(var j=0; j< this.orderObj.selectedProducts.length; j++) {
-			var product = this.orderObj.selectedProducts[j];
-			//console.log(product);
-			this.productsService.updateProductPT(product.product.id, parseInt(product.quantity, 10));
-			
-		}
+      for (var j = 0; j < this.orderObj.selectedProducts.length; j++) {
+        var product = this.orderObj.selectedProducts[j];
+        //console.log(product);
+        this.productsService.updateProductPT(product.product.id, parseInt(product.quantity, 10));
+
+      }
       // alert("impresion");
       console.log("impresion");
       let zebra_receipt = '';
@@ -206,7 +216,7 @@ export class PrintOrderPage {
         zebra_receipt_total_height += zebra_receipt_body_total_height;
 
         let gran_total = numeral(this.orderObj.total).format('0,0.00');;
-        
+
         zebra_receipt_total = `
         ^FO5,` + (zebra_receipt_total_height - 5) + `^GB600,3,3^FS
         ^FO0,` + zebra_receipt_total_height + `

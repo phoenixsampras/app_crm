@@ -20,19 +20,19 @@ export class ProductsPage {
 	searchTerm:any = "";
 	searching: any = false;
 	searchControl: FormControl;
-	constructor(public navCtrl: NavController, 
+	constructor(public navCtrl: NavController,
 		public navParams: NavParams,
 		public viewCtrl: ViewController,
 		public loadingCtrl: LoadingController,
 		public formBuilder: FormBuilder,
 		public productsService: ProductsService,
 		public ordersService: OrdersService,
-    
+
 	) {
-		
+
 		this.searchControl = new FormControl();
 	}
-	
+
 	updateSearch() {
 		this.productsService
 		.getDataFromPouch(this.searchTerm)
@@ -40,17 +40,17 @@ export class ProductsPage {
 			this.products = data;
 		});
 	}
-	
+
 	filterItems(event){
 		let searchTerm = this.searchTerm;
 		this.searching = true;
     }
-	
+
 	onSearchInput(){
         this.searching = true;
     }
- 
-    setFilteredItems() {   
+
+    setFilteredItems() {
 		this.productsService
         .getDataFromPouch(this.searchTerm)
         .then(data => {
@@ -59,26 +59,26 @@ export class ProductsPage {
 			this.searching = false;
 		});
     }
-	
+
 	ionViewDidEnter() {
 		this.setFilteredItems();
     }
-	
+
 	ionViewDidLoad() {
-		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {        
+		this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
             this.setFilteredItems();
         });
     }
-	
+
 	syncProductPTData() {
 		console.log(this.loadingCtrl);
 	  let loadingCtrl = this.loadingCtrl;
-      let loading = loadingCtrl.create();
-      loading.present();
+    let loading = loadingCtrl.create();
+    loading.present();
 	  let me = this;
-      this.ordersService
-        .getData()
-        .then(data => {
+    this.ordersService
+    .getData()
+    .then(data => {
 			var products = [];
 			var quantity = [];
 			for (var i = 0; i < data.length; i++) {
@@ -93,13 +93,11 @@ export class ProductsPage {
 							let q = parseInt(products[product.product.id], 10);
 							let _q = parseInt(product.quantity, 10);
 							products[product.product.id] = q + _q;
-						} else {						
+						} else {
 							products[product.product.id] = parseInt(product.quantity, 10);
 						}
 						//quantity.push(product.quantity);
 					}
-					
-					
 				}
 			}
 			console.log(products);
@@ -108,10 +106,10 @@ export class ProductsPage {
 					console.log(products[k]);
 					me.productsService.updateProductPT(k, products[k]);
 				}
-					
+
 			}
 			//console.log(quantity);
 			loading.dismiss();
-		});  
-	}
+    });
+  }
 }

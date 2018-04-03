@@ -20,7 +20,7 @@
 			<!-- <h2 class="section-title">{{'ADD_ORDER' | translate}}</h2> -->
 			<ion-item>
 				<ion-label floating>{{'CUSTOMER' | translate}}</ion-label>
-				<ion-input type="text" formControlName="customer"></ion-input>
+				<ion-input [readonly]="true" type="text" formControlName="customer"></ion-input>
 			</ion-item>
 			<div class="validation-errors">
 				<ng-container *ngFor="let validation of validation_messages.customer">

@@ -30,12 +30,14 @@ export class SelectProductsPage {
 
 		this.product = {
 			product: '',
-			quantity: ''
+      quantity: '',
+			stock: ''
 		};
 		this.selectedProducts = this.navParams.get('selectedProducts');
 		this.validations_form = this.formBuilder.group({
 			product: new FormControl('', Validators.required),
-			quantity: new FormControl('', Validators.required),
+      quantity: new FormControl('', Validators.required),
+			stock: new FormControl('', Validators.required),
 		});
 	}
 
@@ -80,7 +82,9 @@ export class SelectProductsPage {
 		this.product.product = item;
 		this.searchTerm = '';
 		let value = this.product.product.product;
-		this.validations_form.get('product').setValue(value);
+    this.validations_form.get('product').setValue(value);
+		this.validations_form.get('stock').setValue(this.product.product.stock);
+    console.log(value);
 		this.products = [];
 	}
 
@@ -91,7 +95,7 @@ export class SelectProductsPage {
 			this.viewCtrl.dismiss(data);
 		} else {
 			let toast = this.toastCtrl.create({
-				message: "El pedido no cuenta con suficiente stock, revise su pedido!",
+				message: "El producto no cuenta con suficiente stock: " + this.product.product.stock,
 				duration: 3000,
 				cssClass: 'toast-error',
 				position:'bottom',
@@ -99,7 +103,7 @@ export class SelectProductsPage {
 			toast.present();
 		}
 	}
-	
+
 	onSubmit(values) {
 		this.product.quantity = values.quantity;
 		if(this.product.quantity <= this.product.product.stock) {

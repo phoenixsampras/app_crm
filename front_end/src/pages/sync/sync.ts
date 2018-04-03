@@ -6,8 +6,10 @@ import { DatabaseService } from './database.service';
 import { AlertController } from 'ionic-angular';
 import { SyncService } from './sync.service';
 import { ProductsService } from '../products/products.service';
+import { ToastController } from 'ionic-angular';
 import { CustomersService } from '../clientes/customers.service';
 import { CalendarService } from '../calendar/calendar.service';
+import * as numeral from 'numeral';
 import { LoginPage } from '../login/login';
 import moment from 'moment';
 import { Jsonp } from '@angular/http';
@@ -23,6 +25,7 @@ export class SyncPage {
   loading: any;
   disabled = false;
   constructor(
+    public toastCtrl: ToastController,
     public nav: NavController,
     public loadingCtrl: LoadingController,
     public ordersService: OrdersService,
@@ -216,7 +219,6 @@ export class SyncPage {
           let products = data;
           //var url = "http://organica.movilcrm.com/api/stock/metodo_operaciones/?token=27940227efcb4e8babd401bb51a87f98&location_id=12&location_dest_id=28&company_id=1&picking_type_id=3&selectedProducts=[{"product_id":"1","product_uom_qty":"1",},{"product_id":"2","product_uom_qty":"1",}]"
 
-		  
           let tokenUrl = "https://organica.movilcrm.com/api/user/get_token?"
           tokenUrl += "login=" + this.ordersService.email + "&password=" + this.ordersService.password;
           tokenUrl += '&callback=JSONP_CALLBACK';
@@ -230,11 +232,28 @@ export class SyncPage {
             url += "&location_dest_id=" + me.ordersService.location_dest_id;
             url += "&company_id=" + me.ordersService.company_id;
             url += "&picking_type_id=" + me.ordersService.picking_type_id;
-            let productsArray = []
+            let productsArray = [];
+            console.log("Numero de Productos:" + products.length);
 
-            for (var i = 0; i < products.length; i++) {
-              let product = products[i];
-              productsArray.push({ 'product_id': product.id, 'product_uom_qty': parseInt(product.stock,10) });
+            if (products.length > 0) {
+              for (var i = 0; i < products.length; i++) {
+                let product = products[i];
+                // productsArray.push({ 'product_id': product.id, 'product_uom_qty': parseFloat(product.stock,10) });
+                productsArray.push({ 'product_id': product.id, 'product_uom_qty': parseFloat(product.stock) });
+                console.log("Producto:" + JSON.stringify(productsArray));
+              }
+            } else {
+              loading.dismiss();
+              console.log("No hay productos para reingresar");
+              let toastCtrl = this.toastCtrl;
+              let toast = toastCtrl.create({
+                message: "No hay productos con saldo para reingresar.",
+                duration: 3000,
+                cssClass: 'toast-error',
+                position: 'bottom',
+              });
+              toast.present();
+              return;
             }
             url += "&selectedProducts=" + JSON.stringify(productsArray);
             url += '&callback=JSONP_CALLBACK';
@@ -283,6 +302,10 @@ export class SyncPage {
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
+      setTimeout(() => {
+        loading.dismiss();
+      }, 5000);
+
       let me = this;
       this.messages.push('Sincronizando Pedidos');
       this.ordersService
@@ -290,40 +313,41 @@ export class SyncPage {
         .then(data => {
           // Solo sincronizar pedidos no sincronizados anteriormente y con numeracion
           if (data.length > 0) {
-			console.log(data);
+            console.log(data);
             // console.log("for Pedido:" + JSON.stringify(order));
             // let selectedProducts = order.selectedProducts;
             let orders = data;
-			var url = this.ordersService.getFullUrl("rmXMLRPC_pedidos.php?task=rmRegistrarPedidoMasivo");
-            var postData  = {"pedidos" : data, "rmUserId" : this.ordersService.loginId}
+            var url = this.ordersService.getFullUrl("rmXMLRPC_pedidos.php?task=rmRegistrarPedidoMasivo");
+            var postData = { "pedidos": data, "rmUserId": this.ordersService.loginId }
             let me = this;
             let url2 = url;
-            let i =1;
+            let i = 1;
             // Storing url data in order to wait for the jsonp
             me.ordersService.saveOrderOnServer(url2, JSON.stringify(postData)).then(data => {
               let jsonRes = JSON.parse(data._body);
-			  loading.dismiss();
+              loading.dismiss();
               // let order_id = data[0]._body.order_id;
-               if (jsonRes.status == 'success') {
-				   for(var j=0;j<orders.length;j++) {
-					 let _order = orders[j];
-					 _order.sync = 0;
-					// console.log("order.sync:" + JSON.stringify(order));
-					 me.ordersService.updateOrder(_order);
-				   } 
-					  
-			   }
-			   me.disabled = false;
-                
-            }, function(error){
-				loading.dismiss();
-				me.disabled = false;
-			});
+              if (jsonRes.status == 'success') {
+                for (var j = 0; j < orders.length; j++) {
+                  let _order = orders[j];
+                  _order.sync = 0;
+                  console.log("Pedidos Sincronizados:" + JSON.stringify(_order));
+                  me.messages.push('Pedido sincronizado: ' + _order.numberOrder + ' Cliente: ' + _order.customer + ' Total: ' + _order.total);
+                  me.ordersService.updateOrder(_order);
+                }
+
+              }
+              me.disabled = false;
+
+            }, function(error) {
+              loading.dismiss();
+              me.disabled = false;
+            });
           } else {
-             this.disabled = false;
-			  loading.dismiss();
+            this.disabled = false;
+            // loading.dismiss();
           }
-          
+
         });
     }
   }

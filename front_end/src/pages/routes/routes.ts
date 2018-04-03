@@ -3,6 +3,7 @@ import { ViewController, NavController, LoadingController, ToastController, NavP
 import { Geolocation } from '@ionic-native/geolocation';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Observable } from 'rxjs/Observable';
+import { AlertController } from 'ionic-angular';
 import { GoogleMap } from "../../components/google-map/google-map";
 import { RoutesService } from "./routes.service";
 import { MapsModel } from './maps.model';
@@ -29,6 +30,7 @@ export class RoutesPage implements OnInit {
   constructor(
     public nav: NavController,
     public navParams: NavParams,
+    public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public viewCtrl: ViewController,
@@ -58,6 +60,7 @@ export class RoutesPage implements OnInit {
 			var infowindow = new google.maps.InfoWindow();
 			this.map_model.init(map);
 
+      // Obtener las geocercas
 			this.customersService.getRoutesDataFromServer()
 			.then(data => {
 				//console.log(data);
@@ -87,10 +90,21 @@ export class RoutesPage implements OnInit {
             });
             this.bounds.extend(marker.getPosition());
 
-          } else {
+          } else if ( locations[i].totalVentasApp > 0) {
+            let image = './assets/images/icons/marker-yellow.png';
             marker = new google.maps.Marker({
               position: new google.maps.LatLng(locations[i].rm_latitude, locations[i].rm_longitude),
-              map: map
+              map: map,
+              icon: image
+            });
+            this.bounds.extend(marker.getPosition());
+          } else {
+            let image = './assets/images/icons/marker-red.png';
+
+            marker = new google.maps.Marker({
+              position: new google.maps.LatLng(locations[i].rm_latitude, locations[i].rm_longitude),
+              map: map,
+              icon: image
             });
             this.bounds.extend(marker.getPosition());
           }
@@ -171,7 +185,7 @@ export class RoutesPage implements OnInit {
 	addOrder(id) {
 		this.customersService.getCustomer(id)
 		.then(customer => {
-			this.nav.push(AddOrderPage, { 'customerObj': customer });
+			this.nav.push(AddOrderPage, { 'customerObj': customer , 'routesPage' : 1 });
 		});
 	}
 
@@ -196,6 +210,67 @@ export class RoutesPage implements OnInit {
 
   close() {
     this.viewCtrl.dismiss();
+  }
+
+  syncCustomers() {
+    if (window.navigator.onLine) {
+      let loadingCtrl = this.loadingCtrl;
+      let loading = loadingCtrl.create();
+      loading.present();
+
+      let alertCtrl = this.alertCtrl;
+
+      this.customersService
+        .getDataFromServer()
+        .then(data => {
+          let items = data.rmListaClientes;
+          // console.log("rmListaClientes:" + JSON.stringify(items));
+          let alert1 = alertCtrl.create({
+            title: 'Confirmar sobreescritura',
+            message: '¿Realmente desea sobrescribir los datos del clientes?',
+            buttons: [
+              {
+                text: 'Cancelar',
+                role: 'cancel',
+                handler: () => {
+                  console.log('Cancel clicked');
+                }
+              },
+              {
+                text: 'Confirmar',
+                handler: () => {
+                  if (Object.keys(items).length > 0) {
+                    for (var i = 0; i < items.length; i++) {
+                      //console.log("rmListaClientes:" + JSON.stringify(items[i]));
+                      items[i].property_product_pricelist = items[i].property_product_pricelist[0];
+                      items[i].user_id = items[i].user_id[0];
+                      items[i].newCustomer = 0;
+                      items[i].name = !items[i].name ? "" : items[i].name;
+                      items[i].email = !items[i].email ? "" : items[i].email;
+                      items[i].street = !items[i].street ? "" : items[i].street;
+                      items[i].phone = !items[i].phone ? "" : items[i].phone;
+                      items[i].mobile = !items[i].mobile ? "" : items[i].mobile;
+                      items[i].rm_longitude = !items[i].rm_longitude ? "" : items[i].rm_longitude;
+                      items[i].rm_latitude = !items[i].rm_latitude ? "" : items[i].rm_latitude;
+                      items[i].razon_social = !items[i].razon_social ? "" : items[i].razon_social;
+                      items[i].nit = !items[i].nit ? "" : items[i].nit;
+                      items[i].rm_sync_date_time = !items[i].rm_sync_date_time ? "" : items[i].rm_sync_date_time;
+                      // console.log('loadCustomers:' + JSON.stringify(items[i]));
+                      this.customersService.addCustomer(items[i]);
+                    }
+                    // this.messages.push('Total clientes cargados:' + i);
+                  } else {
+                    // this.messages.push('No hay clientes asignados a este usuario');
+                  }
+                  loading.dismiss();
+                }
+              }
+            ]
+          });
+          alert1.present();
+
+        });
+    }
   }
 
 }

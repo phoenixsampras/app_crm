@@ -49,8 +49,7 @@ function rmGraficoVentasEjecutadas ($db) {
 
         $sql = "
         SELECT count(id) AS pedidos FROM sale_order AS so
-        WHERE extract(dow from so.date_order)  = extract(dow from  current_date)
-
+        WHERE to_char(so.date_order - interval '4 hour', 'yyyy-mm-dd') = to_char(now() - interval '4 hour', 'yyyy-mm-dd') 
         " . $where_user1 . "
         ;
         ";
@@ -147,7 +146,7 @@ function rmGraficoVentasMesPlan ($db) {
         sale_order_line AS sol
         WHERE  EXTRACT(month FROM sol.write_date) = EXTRACT(month FROM CURRENT_DATE) AND
 				rc.id = ".$_REQUEST['user_id']." AND
-        sol.salesman_id = ".$_REQUEST['user_id']."  
+        sol.salesman_id = ".$_REQUEST['user_id']."
         GROUP BY 1
         ;
         ";

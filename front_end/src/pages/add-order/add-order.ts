@@ -7,6 +7,7 @@ import { CustomersService } from '../clientes/customers.service';
 import { OrdersService } from '../orders/orders.service';
 import { ProductsService } from '../products/products.service';
 import { SelectProductsPage } from '../select-products/select-products';
+import { RoutesPage } from '../routes/routes';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class AddOrderPage {
   customersList: CustomersModel = new CustomersModel();
   productsList: ProductsModel = new ProductsModel();
   products: any = [];
+  routesPage = 2;
   loading: any;
   selectedProducts: any = [];
   customerObj: any;
@@ -40,6 +42,7 @@ export class AddOrderPage {
 
   ) {
     this.loading = this.loadingCtrl.create();
+    this.routesPage = this.navParams.get('routesPage');
     this.orderObj = this.navParams.get('order');
     this.customerObj = this.navParams.get('customerObj');
   }
@@ -72,7 +75,7 @@ export class AddOrderPage {
     modal.onDidDismiss(data => {
       if (data && data.product) {
         console.log(data);
-		var flag = false;
+        var flag = false;
         for (var i = 0; i < this.selectedProducts.length; i++) {
           let p = this.selectedProducts[i];
           let _p = data.product.product;
@@ -82,13 +85,13 @@ export class AddOrderPage {
           }
         }
         if (!flag) {
-			let selectedPrice = this.getProductPrice(data.product);
-			data.product.product.selectedPrice = selectedPrice;
-			this.selectedProducts.push(data.product);
-		}
-		if(data.reopen == 1) {
-			modal.present();
-		}
+          let selectedPrice = this.getProductPrice(data.product);
+          data.product.product.selectedPrice = selectedPrice;
+          this.selectedProducts.push(data.product);
+        }
+        if (data.reopen == 1) {
+          modal.present();
+        }
       }
     });
     modal.present();
@@ -189,6 +192,11 @@ export class AddOrderPage {
     } else {
 
       values.customerObj = this.customerObj;
+
+      // Up-date customer, set flag totalVentasApp true
+      this.customerObj.totalVentasApp = 1;
+      this.customersService.updateCustomer(this.customerObj);
+
       values.selectedProducts = this.selectedProducts;
       values.total = this.getTotal();
       values.latitude = this.ordersService.lat;
@@ -201,7 +209,7 @@ export class AddOrderPage {
         values._rev = this.orderObj._rev;
         this.ordersService.updateOrder(values);
       } else {
-        values.numberOrder = values.numberOrder + 1 ; //Numeracion para Ordenes
+        values.numberOrder = values.numberOrder + 1; //Numeracion para Ordenes
         this.ordersService.addOrder(values);
         for (var i = 0; i < this.selectedProducts.length; i++) {
           let st = this.selectedProducts[i].quantity * -1;
@@ -216,11 +224,18 @@ export class AddOrderPage {
         position: 'bottom',
       });
       toast.present();
-      this.navCtrl.pop();
+      if (this.routesPage && this.routesPage == 1) {
+        this.navCtrl.setRoot(RoutesPage);
+      } else {
+        this.navCtrl.pop();
+      }
+      // this.navCtrl.pop();
       this.validations_form.get('dateOrder').setValue('');
       this.validations_form.get('customer').setValue('');
       this.validations_form.get('notes').setValue('');
       this.selectedProducts = [];
+
+      // this.navCtrl.setRoot(this.navCtrl.getActive().component);
     }
 
 

@@ -39,21 +39,24 @@ function rmListaEventos($db) {
         $res_user_id = $_REQUEST['res_user_id'];
         $sql = "
         SELECT
-          public.calendar_event.name,
-          public.res_partner.name AS customer,
-          public.calendar_event.description,
-          public.calendar_event.start AS start_datetime,
-          public.calendar_event.stop AS end_datetime,
-          public.calendar_event.duration,
-          public.res_users.login as user,
-          public.res_users.id as user_id,
-    			public.res_partner.rm_longitude AS rm_longitude,
-    			public.res_partner.rm_latitude AS rm_latitude
+          calendar_event.name,
+          res_partner.name AS customer,
+          calendar_event.description,
+          calendar_event.start AS start_datetime,
+          calendar_event.stop AS end_datetime,
+          calendar_event.duration,
+          res_users.login as user,
+          res_users.id as user_id,
+          res_partner.rm_longitude AS rm_longitude,
+          res_partner.rm_latitude AS rm_latitude,
+          rm_calendar_event_estado.id AS estado_id,
+          rm_calendar_event_estado.name AS estado
         FROM
-          public.calendar_event
-          LEFT JOIN public.calendar_event_res_partner_rel ON public.calendar_event_res_partner_rel.calendar_event_id = public.calendar_event.id
-          LEFT JOIN public.res_partner ON public.res_partner.id = public.calendar_event_res_partner_rel.res_partner_id
-          INNER JOIN public.res_users ON public.calendar_event.user_id = public.res_users.id
+          calendar_event
+          LEFT JOIN calendar_event_res_partner_rel ON calendar_event_res_partner_rel.calendar_event_id = calendar_event.id
+          LEFT JOIN res_partner ON res_partner.id = calendar_event_res_partner_rel.res_partner_id
+          LEFT JOIN res_users ON calendar_event.user_id = res_users.id
+          LEFT JOIN rm_calendar_event_estado ON calendar_event.rm_estado = rm_calendar_event_estado.id
         WHERE res_users.id = $res_user_id
         ";
 

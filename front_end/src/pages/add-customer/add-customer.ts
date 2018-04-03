@@ -59,8 +59,8 @@ export class AddCustomerPage {
   ) {
     this.loading = this.loadingCtrl.create();
     this.customer = this.navParams.get('customer');
-	this.routesPage = this.navParams.get('routesPage');
-	
+    this.routesPage = this.navParams.get('routesPage');
+
     console.log(this.customer);
   }
 
@@ -192,8 +192,8 @@ export class AddCustomerPage {
       values.id = this.customer.id;
       values._rev = this.customer._rev;
       values.user_id = this.customer.user_id;
-	  values.rm_dias_semana = this.customer.rm_dias_semana;
-	  
+      values.rm_dias_semana = this.customer.rm_dias_semana;
+
       // values.newCustomer = this.customer.newCustomer;
       values.newCustomer = 2;
       // values.property_product_pricelist = this.customer.property_product_pricelist;
@@ -216,10 +216,10 @@ export class AddCustomerPage {
       position: 'bottom',
     });
     toast.present();
-	if(this.routesPage && this.routesPage == 1) {
-		this.navCtrl.setRoot(RoutesPage);
-	} else {
-		this.navCtrl.pop();
-	}
+    if (this.routesPage && this.routesPage == 1) {
+      this.navCtrl.setRoot(RoutesPage);
+    } else {
+      this.navCtrl.pop();
+    }
   }
 }
