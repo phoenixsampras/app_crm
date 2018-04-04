@@ -11,6 +11,7 @@ export class DatabaseService {
   private _orders;
   private _positions;
   private _events;
+  private _estados;
   private _products;
 
   constructor(
@@ -198,6 +199,13 @@ export class DatabaseService {
 			return db.put(event);
 			});
 		}
+	}
+
+  addEstadoEvent(estado) {
+		estado._id = "estado-" + Date.now();
+		return this._db.put(estado).then(data => {
+			console.log(data);
+		});;
 	}
 
 	updateEvent(event) {
@@ -486,6 +494,34 @@ export class DatabaseService {
 
           // Listen for changes on the database.
           resolve(this._events);
+        });
+
+    });
+  }
+
+  getAllEstadoEvents() {
+    if (!this._db)
+      this.initDB();
+    return new Promise(resolve => {
+      this._db.allDocs({
+        include_docs: true,
+        startkey: 'estado',
+        endkey: 'estado\ufff0'
+      })
+        .then(docs => {
+          // Each row has a .doc object and we just want to send an
+          // array of customer objects back to the calling controller,
+          // so let's map the array to contain just the .doc objects.
+
+          this._estados = docs.rows.map(row => {
+            // Dates are not automatically converted from a string.
+            // if (row.doc.type == "estado")
+              return row.doc;
+          });
+          // console.log(this._estados);
+
+          // Listen for changes on the database.
+          resolve(this._estados);
         });
 
     });

@@ -110,6 +110,10 @@ export class SyncPage {
     let loadingCtrl = this.loadingCtrl;
     let loading = loadingCtrl.create();
     loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+    }, 5000);
+
     let alertCtrl = this.alertCtrl;
 
     if (window.navigator.onLine) {
@@ -135,14 +139,12 @@ export class SyncPage {
                     this.productsService.addProduct(items[i]);
                   }
                   this.messages.push('Productos cargados:' + i);
-                  loading.dismiss();
-
+                  // loading.dismiss();
                 }
               }
             ]
           });
           alert1.present();
-
         });
     }
   }
@@ -152,6 +154,9 @@ export class SyncPage {
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
+      setTimeout(() => {
+        loading.dismiss();
+      }, 5000);
 
       let alertCtrl = this.alertCtrl;
 
@@ -197,7 +202,7 @@ export class SyncPage {
                   } else {
                     this.messages.push('No hay clientes asignados a este usuario');
                   }
-                  loading.dismiss();
+                  // loading.dismiss();
                 }
               }
             ]
@@ -213,6 +218,10 @@ export class SyncPage {
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
+      setTimeout(() => {
+        loading.dismiss();
+      }, 5000);
+
       this.productsService
         .getDataFromPouch('')
         .then(data => {
@@ -228,8 +237,8 @@ export class SyncPage {
             console.log(data);
             let rmToken = data.token;
             var url = "https://organica.movilcrm.com/api/stock/metodo_operaciones?token=" + rmToken;
-            url += "&location_id=" + me.ordersService.location_id;
-            url += "&location_dest_id=" + me.ordersService.location_dest_id;
+            url += "&location_id=" + me.ordersService.location_dest_id;
+            url += "&location_dest_id=" + me.ordersService.location_id;
             url += "&company_id=" + me.ordersService.company_id;
             url += "&picking_type_id=" + me.ordersService.picking_type_id;
             let productsArray = [];
@@ -261,7 +270,7 @@ export class SyncPage {
             me.productsService.syncProductStockOnServer(encodeURI(url))
               .then(data => {
                 console.log(data);
-                loading.dismiss();
+                // loading.dismiss();
               })
 
           });
@@ -274,6 +283,10 @@ export class SyncPage {
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
+      setTimeout(() => {
+        loading.dismiss();
+      }, 5000);
+
       this.calendarService
         .getDataFromServer()
         .then(data => {
@@ -283,14 +296,53 @@ export class SyncPage {
             if (calendarList[i].start_datetime) {
               items[i] = calendarList[i];
               items[i].title = calendarList[i].name;
+              items[i].rm_estado = calendarList[i].rm_estado;
               items[i].startTime = moment(calendarList[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();
               items[i].endTime = moment(calendarList[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();;
               console.log(items[i]);
               this.calendarService.addCalendarEvent(items[i]);
             }
           }
-          loading.dismiss();
+          // loading.dismiss();
         });
+
+        this.calendarService
+          .getEstadoDataFromServer()
+          .then(data => {
+            let calendarEventEstado = data.rmListaEstadoEventos;
+            // console.log(calendarEventEstado[0].id);
+            var items = [];
+            for (var i = 0; i < calendarEventEstado.length; i++) {
+              if (calendarEventEstado[i].id) {
+                items[i] = calendarEventEstado[i];
+                items[i].id = calendarEventEstado[i].id;
+                items[i].name = calendarEventEstado[i].name;
+                console.log(items[i]);
+                this.calendarService.addCalendarEstadoEvent(items[i]);
+              }
+            }
+            // loading.dismiss();
+          });
+
+    }
+  }
+
+  syncSendCalendar () {
+    if (window.navigator.onLine) {
+      this.calendarService
+      .getDataFromPouch()
+      .then(data => {
+        for (var i = 0; i < data.length; i++) {
+          var event = data[i];
+          //var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
+          var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_calendario.php?task=rmRegistrarEvento&res_user_id="+ event.user_id +"&name="+event.name+"&rm_estado="+event.rm_estado+"&start_datetime=" + event.start_datetime + "&callback=JSONP_CALLBACK";
+          url = encodeURI(url);
+          this.calendarService.saveEventOnServer(url).then(data => {
+            console.log('Event with id-' + event._id + ' Uploaded');
+            this.messages.push('Event with id-' + event._id + ' Uploaded ');
+          });
+        }
+      });
     }
   }
 

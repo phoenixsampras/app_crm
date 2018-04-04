@@ -3,6 +3,7 @@ import { Jsonp  } from '@angular/http';
 import { DatabaseService } from '../sync/database.service';
 import 'rxjs/add/operator/toPromise';
 import { CalendarModel } from './calendar.model';
+import { CalendarEstadoModel } from './calendar.model';
 import { OrdersService } from '../orders/orders.service';
 
 @Injectable()
@@ -11,7 +12,7 @@ export class CalendarService {
 		public jsonp: Jsonp,
 		private databaseService: DatabaseService,
 		public ordersService: OrdersService,
-		
+
 	) {
 
 	}
@@ -19,6 +20,9 @@ export class CalendarService {
 	addCalendarEvent(event) {
 		event.user_id = this.ordersService.loginId;
 		this.databaseService.addEvent(event);
+	}
+	addCalendarEstadoEvent(estado) {
+		this.databaseService.addEstadoEvent(estado);
 	}
 	updateCalendarEvent(event) {
 		event.user_id = this.ordersService.loginId;
@@ -33,6 +37,14 @@ export class CalendarService {
 		.catch(this.handleError);
 	}
 
+	getEstadoDataFromServer(): Promise<CalendarEstadoModel> {
+		let url = this.ordersService.getFullUrl('rmXMLRPC_calendario.php?task=rmListaEstadoEventos&callback=JSONP_CALLBACK');
+		return this.jsonp.request(url,{method:'Get'})
+		.toPromise()
+		.then(response => response.json() as CalendarEstadoModel)
+		.catch(this.handleError);
+	}
+
 	getDataFromPouch(): Promise<any> {
 
 		return this.databaseService.getAllEvents()
@@ -40,7 +52,15 @@ export class CalendarService {
 		.catch(this.handleError);
 
 	}
-	
+
+	getEstadoDataFromPouch(): Promise<any> {
+
+		return this.databaseService.getAllEstadoEvents()
+		.then(response => response)
+		.catch(this.handleError);
+
+	}
+
 	saveEventOnServer(url): Promise<any> {
 		return this.jsonp.request(url,{method:'Get'})
 		.toPromise()

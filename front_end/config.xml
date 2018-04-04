@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.organicadelsur.app" version="1.0.38" versionCode="1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.organicadelsur.app" version="1.0.39" versionCode="1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>ORGANICA SRL</name>
     <description>Organica del Sur S.R.L.</description>
     <author email="carlos.paz@romilax.com" href="https://romilax.com/">Romilax.com</author>

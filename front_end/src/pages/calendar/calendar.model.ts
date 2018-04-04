@@ -10,8 +10,16 @@ export class CalendarModel {
 	endTime: any;
 	allDay: boolean = false;
 	user_id:any;
-	
+	rm_estado:any;
+
 	items: Array<CalendarModel>;
 	rmListaEventos : Array<CalendarModel>;
 }
 
+export class CalendarEstadoModel {
+	id: string;
+	name: string;
+
+	items: Array<CalendarEstadoModel>;
+	rmListaEstadoEventos : Array<CalendarEstadoModel>;
+}

@@ -12,6 +12,10 @@ switch ($_REQUEST["task"]) {
       rmListaEventos($db);
     break;
 
+    case 'rmListaEstadoEventos':
+      rmListaEstadoEventos($db);
+    break;
+
     case 'rmRegistrarEvento':
       rmRegistrarEvento($data);
     break;
@@ -34,6 +38,30 @@ function login($conex){
     return $common->authenticate($db, $username, $password, array());
 }
 
+function rmListaEstadoEventos($db) {
+    try {
+        $sql = "
+        SELECT id,name from rm_calendar_event_estado
+        ORDER by name asc;
+        ";
+
+        $query = pg_query($db, $sql);
+        if(!$query){
+        echo "Error".pg_last_error($db);
+        exit;
+        }
+
+        $resultado = pg_fetch_all($query);
+
+        echo $_GET['callback'].'({"rmListaEstadoEventos": ' . json_encode($resultado) . '})';
+        pg_close($db);
+
+    } catch(PDOException $e) {
+        echo $_GET['callback'].'({"error":{"text":'. pg_last_error($db) .'}})';
+        exit;
+    }
+}
+
 function rmListaEventos($db) {
     try {
         $res_user_id = $_REQUEST['res_user_id'];
@@ -50,7 +78,7 @@ function rmListaEventos($db) {
           res_partner.rm_longitude AS rm_longitude,
           res_partner.rm_latitude AS rm_latitude,
           rm_calendar_event_estado.id AS estado_id,
-          rm_calendar_event_estado.name AS estado
+          rm_calendar_event_estado.name AS rm_estado
         FROM
           calendar_event
           LEFT JOIN calendar_event_res_partner_rel ON calendar_event_res_partner_rel.calendar_event_id = calendar_event.id
@@ -92,6 +120,7 @@ function rmRegistrarEvento($conex) {
       $duration=$_REQUEST['duration'];
       $description=$_REQUEST['description'];
       $start_datetime=$_REQUEST['start_datetime'];
+      $rm_estado=$_REQUEST['rm_estado'];
 
       $datosEvento =
       array(
@@ -103,7 +132,7 @@ function rmRegistrarEvento($conex) {
           'start_datetime' => $start_datetime,
           'start' => $start_datetime,
           'stop' => $start_datetime,
-          // 'partner_ids' => $partner_ids,
+          'rm_estado' => $rm_estado,
           // 'duration' => $duration,
           // 'description' => $description,
         )
