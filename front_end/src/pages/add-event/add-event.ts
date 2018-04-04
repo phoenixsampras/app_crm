@@ -48,7 +48,7 @@ export class AddEventPage {
     this.calendarService
       .getEstadoDataFromPouch()
       .then(data => {
-        this.calendarEstadoModel = data;
+        this.calendarEstadoModel.items = data;
         console.log(this.calendarEstadoModel);
         // this.searching = false;
       });

@@ -25,13 +25,14 @@
 				</ng-container>
 			</div>
 
-      //estado
+      <!-- estado -->
       <ion-item>
-        <ion-label>Maschine</ion-label>
-        <ion-select  multiple="false">
-            <ion-option *ngFor="let estado of validation_messages.calendarEstadoModel">{{estado.name}}</ion-option>
-        </ion-select>
-      </ion-item>
+				<ion-label floating>{{'Estado' | translate}}</ion-label>
+				<ion-select formControlName="rm_estado">
+					<ion-option *ngFor="let item of calendarEstadoModel.items" [value]="item.id">{{item.name}}</ion-option>
+				</ion-select>
+			</ion-item>
+
 
 			<ion-item>
 				<ion-label floating>{{'START_DATE' | translate}}</ion-label>
