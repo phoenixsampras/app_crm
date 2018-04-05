@@ -473,7 +473,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6 col-lg-6">
+                                <div class="col-sm-3 col-lg-3">
                                     <!-- Chart Widget -->
                                     <div class="form-group">
                                         <label class="control-label">Actualizar cada:</label>
@@ -488,7 +488,7 @@
                                     </div>
                                     <!-- END Chart Widget -->
                                 </div>
-                                <div class="col-sm-6 col-lg-6">
+                                <div class="col-sm-3 col-lg-3">
                                     <div class="form-group">
                                         <label class="control-label">Usuarios:</label>
                                         <select id="userDropdown" class="form-control user-dropdown">
@@ -496,6 +496,29 @@
                                             </select>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-6 col-lg-6">
+                                  <div class="col-sm-10 col-lg-10">
+                                  <div class="form-group">
+                                    <label class=" control-label" for="example-daterange1">Rango de Fechas</label>
+                                      <div class="input-group input-daterange" data-date-format="dd/mm/yyyy">
+                                        <input type="text" id="mapaVendedorDaterange1" name="example-daterange1" class="form-control" placeholder="Desde">
+                                        <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                                        <input type="text" id="mapaVendedorDaterange2" name="example-daterange2" class="form-control" placeholder="Hasta">
+                                      </div>
+
+                                  </div>
+                                </div>
+                                <div class="col-sm-2 col-lg-2">
+                                <button type="submit" class="btn btn-effect-ripple btn-primary" id="btnFiltroFechasGeolocalizacion">Buscar</button>
+                                <button id="btnFiltroFechasGeolocalizacionBorrar" type="reset" class="btn btn-effect-ripple btn-danger">Quitar</button>
+
+                              </div>
+                                </div>
+
+
+
+
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 col-lg-12">
@@ -513,17 +536,21 @@
                         <!-- Example Content -->
                         <p>
                           <div class="row">
-                            <div class="col-sm-4 col-lg-4">
+                            <div class="col-sm-3 col-lg-3">
                               <label>Mostrar Rutas</label>
                               <label class="switch switch-primary"><input id='trailsCheckbox' type="checkbox"><span></span></label>
                             </div>
-                            <div class="col-sm-4 col-lg-4">
+                            <div class="col-sm-3 col-lg-3">
                               <label>Mostrar Clientes</label>
                               <label class="switch switch-primary"><input id='clientesCheckbox' type="checkbox"><span></span></label>
                             </div>
-                            <div class="col-sm-4 col-lg-4">
+                            <div class="col-sm-3 col-lg-3">
                               <label>Seguir a Vendedor</label>
                               <label class="switch switch-primary"><input id='vendedorCheckbox' type="checkbox"><span></span></label>
+                            </div>
+                            <div class="col-sm-3 col-lg-3">
+                              <label>Mostrar Geocercas</label>
+                              <label class="switch switch-primary"><input id='geocercasCheckbox' type="checkbox"><span></span></label>
                             </div>
                           </div>
                         </p>
@@ -619,9 +646,31 @@
         var zoomLevel1 = 13; //default zoom
         var zoomLevel2 = 13; //default zoom
         var newFlag = false;
+        var viewLat="-17.3940469";
+        var viewLng="-66.233916";
+        var mapaVendedorDaterange1;
+        var mapaVendedorDaterange2;
         var bounds = new google.maps.LatLngBounds();
     	$.ajaxSetup({ cache: false });
         $(document).on('ready', function() {
+
+          // Filtro por fechas
+          $('#btnFiltroFechasGeolocalizacion').on('click', function() {
+            mapaVendedorDaterange1 = $('#mapaVendedorDaterange1').val();
+            mapaVendedorDaterange2 = $('#mapaVendedorDaterange2').val();
+            console.log(mapaVendedorDaterange1);
+            console.log(mapaVendedorDaterange2);
+            initialize();
+          });
+
+          $('#btnFiltroFechasGeolocalizacionBorrar').on('click', function() {
+            // location.reload(true);
+            mapaVendedorDaterange1 = '';
+            mapaVendedorDaterange2 = '';
+            $('#mapaVendedorDaterange1').val('');
+            $('#mapaVendedorDaterange2').val('');
+            initialize();
+          });
 
           $('#userDropdown').on('change', function() {
             selectedUser = $(this).val();
@@ -639,78 +688,82 @@
     		    initialize();
     	  });
 
-          $('#salesDropdown').on('change', function() {
-            if (!$('#geofenceDropdown').val() && !newFlag)
-              initializeDrawingMap();
-          });
-          $('#geofenceNewBtn').on('click', function() {
-    			$('#salesDropdown').val('').trigger('change.select2');
-    			$('#geofenceDropdown').val('');
-    			newFlag = true;
-          });
-          $('#geofenceGoMyPosition').on('click', function() {
-            MyPosition();
-            newFlag = true;
-          });
+        $('#geocercasCheckbox').on('change',function(){
+    		    initialize();
+    	  });
+
+        $('#salesDropdown').on('change', function() {
+          if (!$('#geofenceDropdown').val() && !newFlag)
+            initializeDrawingMap();
+        });
+        $('#geofenceNewBtn').on('click', function() {
+  			$('#salesDropdown').val('').trigger('change.select2');
+  			$('#geofenceDropdown').val('');
+  			newFlag = true;
+        });
+        $('#geofenceGoMyPosition').on('click', function() {
+          MyPosition();
+          newFlag = true;
+        });
 
 
-          $('#geofenceBtn').on('click', function() {
-            var users = $('#salesDropdown').val();
+        $('#geofenceBtn').on('click', function() {
+          var users = $('#salesDropdown').val();
 
 
-            if (!newFlag) {
-              var data = {
-                "geofence": geofencesArray[$('#geofenceDropdown').val()],
-                "users_id": users
-              };
-              console.log(data);
-              sendGeofenceData(data);
-            } else {
-              if ($('#salesDropdown').val() && pathsArray) {
-                var name = prompt("Please enter name for geofence", "");
-                if (name) {
-                  var data = {
-                    'name': name,
-                    "users_id": users,
-                    "pathsArray": pathsArray
-                  };
-                  console.log(data);
-                  sendGeofenceData(data);
-                  newFlag = false;
-                  pathsArray = [];
-                }
+          if (!newFlag) {
+            var data = {
+              "geofence": geofencesArray[$('#geofenceDropdown').val()],
+              "users_id": users
+            };
+            console.log(data);
+            sendGeofenceData(data);
+          } else {
+            if ($('#salesDropdown').val() && pathsArray) {
+              var name = prompt("Please enter name for geofence", "");
+              if (name) {
+                var data = {
+                  'name': name,
+                  "users_id": users,
+                  "pathsArray": pathsArray
+                };
+                console.log(data);
+                sendGeofenceData(data);
+                newFlag = false;
+                pathsArray = [];
               }
             }
-          });
-          $('#geofenceDeleteBtn').on('click', function() {
-            if ($('#geofenceDropdown').val()) {
-    			var r = confirm("Are you sure you want to delete the selected geofence?");
-                if(r == true)
-    				deleteGeofenceData($('#geofenceDropdown').val());
+          }
+        });
+        $('#geofenceDeleteBtn').on('click', function() {
+          if ($('#geofenceDropdown').val()) {
+  			var r = confirm("Are you sure you want to delete the selected geofence?");
+              if(r == true)
+  				deleteGeofenceData($('#geofenceDropdown').val());
+          }
+        });
+        $('#geofenceDropdown').on('change', function() {
+  			var value = $(this).val();
+          if (value) {
+            newFlag = false;
+  		  var geo = geofencesArray[value];
+            for (var i = 0; i < geofenceObjects.length; i++) {
+              geofenceObjects[i].setMap(null);
             }
-          });
-          $('#geofenceDropdown').on('change', function() {
-    			var value = $(this).val();
-            if (value) {
-              newFlag = false;
-    		  var geo = geofencesArray[value];
-              for (var i = 0; i < geofenceObjects.length; i++) {
-                geofenceObjects[i].setMap(null);
-              }
-              drawShape(geo, true);
-              var _users = [];
+            drawShape(geo, true);
+            var _users = [];
 
 
-    		  for (var k = 0; k < geo.users.length; k++) {
-    			// $("#salesDropdown option[value='" + geo.users[k].id + "']").prop("selected", true);
-    			_users.push(geo.users[k].id);
-    		  }
+  		  for (var k = 0; k < geo.users.length; k++) {
+  			     // $("#salesDropdown option[value='" + geo.users[k].id + "']").prop("selected", true);
+  			   _users.push(geo.users[k].id);
+  		  }
 
 
-              //console.log(_users);
-              $('#salesDropdown').val(_users); //.trigger('change.select2');;
-              //$('#salesDropdown').prop('disabled',true);
-              $('#salesDropdown').trigger('change.select2');
+        //console.log(_users);
+        $('#salesDropdown').val(_users); //.trigger('change.select2');;
+        //$('#salesDropdown').prop('disabled',true);
+        $('#salesDropdown').trigger('change.select2');
             } else {
               for (var j = 0; j < geofencesArray.length; j++) {
                 if (geofencesArray[j])
@@ -842,6 +895,10 @@
             jsonp: "callback",
             // Tell jQuery we're expecting JSONP
             dataType: "jsonp",
+            data: {
+              mapaVendedorDaterange1: mapaVendedorDaterange1,
+              mapaVendedorDaterange2: mapaVendedorDaterange2
+            },
             // Work with the response
             success: function(response) {
               list = response.rmListaGeolocalizacionLive;
@@ -864,6 +921,8 @@
                 var latArray = [];
                 for (var i = 0; i < list.length; i++) {
                   var option = list[i];
+                  // console.log("option:" + JSON.stringify(option));
+
                   if (userId != option.user_id) {
                     drawLine(latArray, loginName, userId);
                     userId = option.user_id;
@@ -879,12 +938,13 @@
 
                     latArray = [];
                   } else {
-                    if (option.rm_longitude != "72.3488721" && option.rm_latitude != "30.045246199999998") {
+                    // if (option.rm_longitude != "72.3488721" && option.rm_latitude != "30.045246199999998") {
                       latArray.push({
                         lat: parseFloat(option.rm_latitude),
-                        lng: parseFloat(option.rm_longitude)
+                        lng: parseFloat(option.rm_longitude),
+                        bearing: parseFloat(option.rm_bearing)
                       });
-                    }
+                    // }
                   }
                 }
                 console.log("users:" + JSON.stringify(users));
@@ -894,19 +954,22 @@
           });
         }
 
-        function addMarker(position, color) {
+        function addMarker(position, color, bearing) {
           console.log(color);
           var marker1 = new mapIcons.Marker({
             map: map,
             position: position,
             icon: {
-              path: mapIcons.shapes.MAP_PIN,
+              // path: mapIcons.shapes.MAP_PIN,
+              path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
               fillColor: color,
               fillOpacity: 1,
               strokeColor: '',
-              strokeWeight: 0
+              scale: 5,
+              strokeWeight: 0,
+              rotation: bearing,
             },
-            map_icon_label: '<span class="map-icon map-icon-male"></span>'
+            // map_icon_label: '<span class="map-icon map-icon-male"></span>'
           });
         }
 
@@ -938,12 +1001,13 @@
           // console.log(JSON.stringify(points));
           if (points.length) {
             var marker = new google.maps.LatLng(points[0].lat, points[0].lng);
+
             //Zoom y centrado automatico para cada el usuario seleccionado mapa vendedores
             if($('#vendedorCheckbox').is(':checked')) {
               map.setCenter(marker);
               map.setZoom(17);
             }
-            addMarker(marker, color);
+            addMarker(marker, color, points[0].bearing);
           }
 
         }
@@ -1184,11 +1248,25 @@
 
             }
           });
-
-          var lat = '-17.3940469';
-          var lng = '-66.233916';
           var bounds = new google.maps.LatLngBounds();
 
+          // Recordar la posicion del viewport
+          var lat;
+          var lng;
+
+          if (localStorage.getItem("viewLat") && localStorage.getItem("viewLng")) {
+            lat = localStorage.getItem("viewLat");
+            lng = localStorage.getItem("viewLng");
+            //
+            // console.log(lat);
+            // console.log(lng);
+          } else {
+            lat = viewLat;
+            lng = viewLng;
+          }
+
+
+          // Recordar el zoom
           if (localStorage.getItem("zoomLevel1")) {
             zoom = parseInt(localStorage.getItem("zoomLevel1"));
           } else {
@@ -1197,7 +1275,6 @@
 
           console.log("zoom1: " + zoom);
 
-          // Geocercas
           var mapOptions = {
             center: new google.maps.LatLng(lat, lng),
             zoom: zoom,
@@ -1228,9 +1305,10 @@
               console.log("zoomLevel1: " + localStorage.getItem("zoomLevel1"));
           });
 
-          setTimeout(function() {
+          // Cargar geocercas
+          if($('#geocercasCheckbox').is(':checked')) {
             loadGeoFences(map);
-          }, 10);
+          }
 
           // rutas Vendedores
           google.maps.event.trigger(map, 'resize');
@@ -1243,8 +1321,17 @@
             cargarDatosClientesVendedor(map,users);
           }
 
+          // Cuando se cambia el foco del Mapa, almacenar la posicion
+          google.maps.event.addListener(map, 'idle', function(){
+            localStorage.setItem("viewLat", map.getCenter().lat());
+            localStorage.setItem("viewLng", map.getCenter().lng());
+            // console.log(localStorage.getItem("viewLat"));
+            // console.log(localStorage.getItem("viewLng"));
+          });
+
           setTimeout(function() {
             initialize();
+            console.log("Tiempo de Refresco: " + time);
           }, time);
         }
 
