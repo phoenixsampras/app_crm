@@ -55,6 +55,10 @@ export class SyncPage {
     let loadingCtrl = this.loadingCtrl;
     let loading = loadingCtrl.create();
     loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+    }, 5000);
+
     let me = this;
     this.ordersService
       .getData()
@@ -91,7 +95,7 @@ export class SyncPage {
 
         }
         //console.log(quantity);
-        loading.dismiss();
+        // loading.dismiss();
       });
   }
 
@@ -252,7 +256,7 @@ export class SyncPage {
                 console.log("Producto:" + JSON.stringify(productsArray));
               }
             } else {
-              loading.dismiss();
+              // loading.dismiss();
               console.log("No hay productos para reingresar");
               let toastCtrl = this.toastCtrl;
               let toast = toastCtrl.create({
@@ -350,7 +354,7 @@ export class SyncPage {
 
   syncOrderDataMasivo() {
     if (window.navigator.onLine) {
-      this.disabled = true;
+      // this.disabled = true;
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
@@ -377,7 +381,7 @@ export class SyncPage {
             // Storing url data in order to wait for the jsonp
             me.ordersService.saveOrderOnServer(url2, JSON.stringify(postData)).then(data => {
               let jsonRes = JSON.parse(data._body);
-              loading.dismiss();
+              // loading.dismiss();
               // let order_id = data[0]._body.order_id;
               if (jsonRes.status == 'success') {
                 for (var j = 0; j < orders.length; j++) {
@@ -389,14 +393,14 @@ export class SyncPage {
                 }
 
               }
-              me.disabled = false;
+              // me.disabled = false;
 
             }, function(error) {
-              loading.dismiss();
+              // loading.dismiss();
               me.disabled = false;
             });
           } else {
-            this.disabled = false;
+            // this.disabled = false;
             // loading.dismiss();
           }
 
@@ -410,6 +414,9 @@ export class SyncPage {
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
+      setTimeout(() => {
+        loading.dismiss();
+      }, 5000);
       let me = this;
       this.messages.push('Sincronizando Pedidos');
       this.ordersService
@@ -475,6 +482,9 @@ export class SyncPage {
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
+      setTimeout(() => {
+        loading.dismiss();
+      }, 5000);
       let me = this;
 
       this.messages.push('Sincronizando Clientes');
@@ -534,9 +544,9 @@ export class SyncPage {
 
             }
           }
-          setTimeout(function() {
-            me.enableButton(flags, loading);
-          }, 100);
+          // setTimeout(function() {
+          //   me.enableButton(flags, loading);
+          // }, 100);
         });
 
     } else {

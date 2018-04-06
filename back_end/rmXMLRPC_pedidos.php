@@ -168,6 +168,76 @@ function rmRegistrarPedido($conex, $user_id) {
     }
 }
 
+function VerificarCliente ($conex,$partner = '') {
+  $url = $conex['url'];
+  $db = $conex['db'];
+  $username = $conex['username'];
+  $password = $conex['password'];
+
+  $filtroCliente =
+  array(
+    array(
+      array(
+        'id','=',$partner->id,
+      )
+    )
+  );
+
+  $uid = login($conex);
+  $models = ripcord::client("$url/xmlrpc/2/object");
+  $rmListaCliente = $models->execute_kw($db, $uid, $password,
+      'res.partner', 'search_read', $filtroCliente,
+      array('fields'=>array(
+      'id',
+      'name',
+      ), 'limit'=>10000));
+
+  if ($rmListaCliente) {
+    return $rmListaCliente;
+  } else {
+    print_r($partner);
+    $name = $partner->name  ? $partner->name : '';
+    $street = $partner->street ? $partner->street: '';
+    $phone = $partner->phone ? $partner->phone: '';
+    $mobile = $partner->mobile ? $partner->mobile: '';
+    $rm_longitude = $partner->rm_longitude ? $partner->rm_longitude: '';
+    $rm_latitude = $partner->rm_latitude ? $partner->rm_latitude: '';
+    if ($id) {
+      $property_product_pricelist = $partner->property_product_pricelist ? 'product.pricelist,'.$partner->property_product_pricelist: 1;
+    } else {
+      $property_product_pricelist = $partner->property_product_pricelist ? 'product.pricelist,'.$partner->property_product_pricelist: 1;
+      // $property_product_pricelist = $partner->property_product_pricelist ? $partner->property_product_pricelist: 1;
+    }
+    $user_id = intval($partner->user_id) ? intval($partner->user_id) : 0;
+    $razon_social = $partner->razon_social ? $partner->razon_social : 'Ninguno';
+    $nit = $partner->nit ? $partner->nit : '0';
+    $rm_sync_date_time = $partner->rm_sync_date_time ? $partner->rm_sync_date_time : date('Y-m-d H:i:s');
+    $image = $partner->photo_m ? $partner->photo_m : '';
+
+    $datosRecibidos =
+      array(
+        'name' => $name,
+        'street' => $street,
+        'phone' => $phone,
+        'mobile' => $mobile,
+        'rm_longitude' => $rm_longitude,
+        'rm_latitude' => $rm_latitude,
+        'property_product_pricelist' => $property_product_pricelist,
+        'image' => $image,
+        'user_id' => $user_id,
+        'razon_social' => $razon_social,
+        'nit' => $nit,
+        'rm_sync_date_time' => $rm_sync_date_time,
+      );
+
+    $uid = login($conex);
+    $models = ripcord::client("$url/xmlrpc/2/object");
+    $datosCliente = array(array($id), $datosRecibidos);
+    print_r($datosCliente);
+    // $id = $models->execute_kw($db, $uid, $password, 'res.partner', 'create', array($datosRecibidos));
+  }
+}
+
 function rmRegistrarPedidoMasivo($conex, $user_id = '') {
 
 	if (isset($_SERVER['HTTP_ORIGIN'])) {
@@ -175,48 +245,53 @@ function rmRegistrarPedidoMasivo($conex, $user_id = '') {
         header('Access-Control-Allow-Credentials: true');
         header('Access-Control-Max-Age: 86400');    // cache for 1 day
     }
- 
+
     // Access-Control headers are received during OPTIONS requests
     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
- 
+
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
- 
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
             header("Access-Control-Allow-Headers:        {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
- 
+
         exit(0);
-    }  
+    }
     $url = $conex['url'];
     $db = $conex['db'];
     $username = $conex['username'];
     $password = $conex['password'];
 
-	$postdata = file_get_contents("php://input");
+    $postdata = file_get_contents("php://input");
     $jsondata = json_decode($postdata);
-	/*echo "Pedidos Masivo 2<br/>";
-    print_r($jsondata->pedidos);
-	echo "User Id 2<br/>";
-	
-	exit;*/
-	$rmUserId= intval($jsondata->rmUserId);
-	$orderIds = [];
-	$errors = [];
+
+    // print_r($jsondata->);
+    // echo "User Id 2<br/>";
+    /*echo "Pedidos Masivo 2<br/>";
+
+    exit;*/
+    $rmUserId= intval($jsondata->rmUserId);
+    $orderIds = [];
+    $errors = [];
     // Obtaining orders from app
     // for ($_REQUEST['pedidos']) {
     //echo "RECONTANDO" . count($jsondata->pedidos);
     for ($i = 0; $i < count($jsondata->pedidos); $i++) {
-      //echo "contando" . $i;
-	  $pedido = $jsondata->pedidos[$i];
+      echo "contando" . $i;
+      // $rmCustomer=$pedido->customerObj;
+      print_r($jsondata->pedido->customerObj);
+
+      $rmCustomer = VerificarCliente($conex,$jsondata->pedido->customerObj);
+
+	    $pedido = $jsondata->pedidos[$i];
       //$rmUserId=intval($_REQUEST['rmUserId']);
-      $rmCustomer=$pedido->customerObj;
       $rmDateOrder=$pedido->dateOrder;
       $rmNote=$pedido->notes;
       $latitude=$pedido->latitude;
       $longitude=$pedido->longitude;
       $numberOrder=$pedido->numberOrder;
       $selectedProducts=$pedido->selectedProducts;
-	  
+
 	  $datosVenta =
 		array(
 		  array(
@@ -229,11 +304,11 @@ function rmRegistrarPedidoMasivo($conex, $user_id = '') {
 			'origin' => $numberOrder,
 		  )
 		);
-		
+
 		$uid = login($conex);
-		
+
 		$models = ripcord::client("$url/xmlrpc/2/object");
-		$id = $models->execute_kw($db, $uid, $password, 'sale.order', 'create', $datosVenta);
+		// $id = $models->execute_kw($db, $uid, $password, 'sale.order', 'create', $datosVenta);
 
 		if (Is_Numeric ($id)) {
 		  rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $id);
@@ -245,12 +320,12 @@ function rmRegistrarPedidoMasivo($conex, $user_id = '') {
 		  $errors[] = $id;
 		}
     }
-	
+
 	if(!empty($orderIds)) {
 		echo json_encode(["order_ids"=>$orderIds ,"status"=>"success"]);
 	} else {
 		echo json_encode(["errors"=>$errors ,"status"=>"error"]);
-	}  
+	}
 }
 
 function rmRegistrarLineaPedidoEmbeded($conex, $user_id, $selectedProducts, $order_id) {
