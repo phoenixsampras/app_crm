@@ -303,7 +303,9 @@ export class SyncPage {
               items[i].rm_estado = calendarList[i].rm_estado;
               items[i].startTime = moment(calendarList[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();
               items[i].endTime = moment(calendarList[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();;
-              console.log(items[i]);
+              items[i].sync = 1;
+			
+			  console.log(items[i]);
               this.calendarService.addCalendarEvent(items[i]);
             }
           }
@@ -338,7 +340,7 @@ export class SyncPage {
   syncSendCalendar () {
     if (window.navigator.onLine) {
       this.calendarService
-      .getDataFromPouch()
+      .getSyncDataFromPouch()
       .then(data => {
         for (var i = 0; i < data.length; i++) {
           var event = data[i];
@@ -348,7 +350,9 @@ export class SyncPage {
           
 		  url = encodeURI(url);
           this.calendarService.saveEventOnServer(url).then(data => {
-            console.log('Event with id-' + event._id + ' Uploaded');
+            event.sync = 1;
+			this.calendarService.updateCalendarEvent(event);
+			console.log('Event with id-' + event._id + ' Uploaded');
             this.messages.push('Event with id-' + event._id + ' Uploaded ');
           });
         }

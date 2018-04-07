@@ -52,6 +52,14 @@ export class CalendarService {
 		.catch(this.handleError);
 
 	}
+	
+	getSyncDataFromPouch(): Promise<any> {
+
+		return this.databaseService.getAllSyncEvents()
+		.then(response => response)
+		.catch(this.handleError);
+
+	}
 
 	getEstadoDataFromPouch(): Promise<any> {
 

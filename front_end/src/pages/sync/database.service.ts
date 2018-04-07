@@ -498,6 +498,37 @@ export class DatabaseService {
 
     });
   }
+  
+  getAllSyncEvents() {
+    if (!this._db)
+      this.initDB();
+    return new Promise(resolve => {
+      this._db.allDocs({
+        include_docs: true,
+        startkey: 'cevent',
+        endkey: 'cevent\ufff0'
+      })
+        .then(docs => {
+
+          // Each row has a .doc object and we just want to send an
+          // array of customer objects back to the calling controller,
+          // so let's map the array to contain just the .doc objects.
+		
+		  this._events = [];
+			for(var i=0; i<docs.rows.length; i++) {
+				let row = docs.rows[i];
+				if (row.doc.type == "cevent"  && row.doc.sync == 0) {
+					this._events.push(row.doc);
+				}
+			}
+          
+
+          // Listen for changes on the database.
+          resolve(this._events);
+        });
+
+    });
+  }
 
   getAllEstadoEvents() {
     if (!this._db)
