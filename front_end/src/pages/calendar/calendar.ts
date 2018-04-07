@@ -35,7 +35,7 @@ export class CalendarPage {
   }
 
   onEventSelected(event) {
-    console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
+    this.nav.push(AddEventPage, { 'event': event });
   }
 
   changeMode(mode) {
@@ -96,16 +96,6 @@ export class CalendarPage {
         this.loadEvents();
         loading.dismiss();
       });
-
-    this.calendarService
-      .getEstadoDataFromPouch()
-      .then(data => {
-        console.log(data);
-        this.calendarEstadoModel = data;
-        // this.searching = false;
-      });
-
-
   }
 
   ionViewWillLoad() {

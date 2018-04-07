@@ -84,6 +84,7 @@ export class AddEventPage {
   onSubmit(values) {
     console.log(values);
     values.user_id = this.ordersService.loginId;
+	values.sync = 0;
     if (this.eventObj) {
       values._id = this.eventObj._id;
       values.id = this.eventObj.id;

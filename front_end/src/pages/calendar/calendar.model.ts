@@ -11,7 +11,7 @@ export class CalendarModel {
 	allDay: boolean = false;
 	user_id:any;
 	rm_estado:any;
-
+	sync:any = 0;
 	items: Array<CalendarModel>;
 	rmListaEventos : Array<CalendarModel>;
 }

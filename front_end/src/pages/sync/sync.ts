@@ -310,7 +310,13 @@ export class SyncPage {
           // loading.dismiss();
         });
 
-        this.calendarService
+        
+
+    }
+  }
+  
+  loadCalendarEventStatus() {
+	  this.calendarService
           .getEstadoDataFromServer()
           .then(data => {
             let calendarEventEstado = data.rmListaEstadoEventos;
@@ -327,8 +333,6 @@ export class SyncPage {
             }
             // loading.dismiss();
           });
-
-    }
   }
 
   syncSendCalendar () {
@@ -339,8 +343,10 @@ export class SyncPage {
         for (var i = 0; i < data.length; i++) {
           var event = data[i];
           //var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
-          var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_calendario.php?task=rmRegistrarEvento&res_user_id="+ event.user_id +"&name="+event.name+"&rm_estado="+event.rm_estado+"&start_datetime=" + event.start_datetime + "&callback=JSONP_CALLBACK";
-          url = encodeURI(url);
+          var datetime = moment(event.start_datetime).format('YYYY-MM-DD  HH:mm:ss');
+		  var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_calendario.php?task=rmRegistrarEvento&res_user_id="+ event.user_id +"&name="+event.name+"&rm_estado="+event.rm_estado+ "&start_datetime=" + datetime + "&callback=JSONP_CALLBACK";
+          
+		  url = encodeURI(url);
           this.calendarService.saveEventOnServer(url).then(data => {
             console.log('Event with id-' + event._id + ' Uploaded');
             this.messages.push('Event with id-' + event._id + ' Uploaded ');
