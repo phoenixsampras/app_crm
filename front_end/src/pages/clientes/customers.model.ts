@@ -20,5 +20,5 @@ export class CustomersModel {
 	rm_sync_operacion:string;
 	newCustomer = 0;
 	totalVentasApp = 0;
-	rm_dias_semana = [];
+	rm_dias_semana: string;
 }

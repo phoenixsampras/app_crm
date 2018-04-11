@@ -32,6 +32,19 @@ export class AddCustomerPage {
     mediaType: this.camera.MediaType.PICTURE
   };
 
+  dias_semana = [
+    { "value":"1", "label":"Lunes" },
+    { "value":"2", "label":"Martes" },
+    { "value":"3", "label":"Miercoles" },
+    { "value":"4", "label":"Jueves" },
+    { "value":"5", "label":"Viernes" },
+    { "value":"6", "label":"Sabado" },
+    { "value":"7", "label":"Domingo" }
+  ];
+  // dias_semana.selectedValues= [];
+  myFriendsArray = [{$value:1,fullName:'someName', userName:'username1'},{$value:2,fullName:'someName2', userName:'username2'},{$value:3,fullName:'someName3', userName:'username3'}]
+  selectedFriendsArray = [];
+
   galleryOptions: CameraOptions = {
     quality: 50,
     targetWidth: 500,
@@ -129,6 +142,7 @@ export class AddCustomerPage {
       this.validations_form.get('phone').setValue(this.customer.phone);
       this.validations_form.get('mobile').setValue(this.customer.mobile);
       this.validations_form.get('email').setValue(this.customer.email);
+      this.validations_form.get('rm_dias_semana').setValue(this.customer.rm_dias_semana);
       this.validations_form.get('nit').setValue(this.customer.nit);
       this.validations_form.get('razon_social').setValue(this.customer.razon_social);
       this.validations_form.get('rm_longitude').setValue(this.customer.rm_longitude);
@@ -145,6 +159,7 @@ export class AddCustomerPage {
       street: new FormControl('', Validators.required),
       phone: new FormControl('', Validators.required),
       mobile: new FormControl('', []),
+      rm_dias_semana: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.pattern(this.customersService.EMAIL_REGEX)]),
       nit: new FormControl('', []),
       razon_social: new FormControl('', []),
@@ -164,6 +179,9 @@ export class AddCustomerPage {
     ],
     'phone': [
       { type: 'required', message: 'Se requiere un teléfono.' }
+    ],
+    'rm_dias_semana': [
+      { type: 'required', message: 'Se requiere al menos un dia de visita a la semana.' }
     ],
     'property_product_pricelist': [
       { type: 'required', message: 'Se requiere un property_product_pricelist.' }
@@ -192,7 +210,7 @@ export class AddCustomerPage {
       values.id = this.customer.id;
       values._rev = this.customer._rev;
       values.user_id = this.customer.user_id;
-      values.rm_dias_semana = this.customer.rm_dias_semana;
+      // values.rm_dias_semana = this.customer.rm_dias_semana;
 
       // values.newCustomer = this.customer.newCustomer;
       values.newCustomer = 2;
@@ -200,7 +218,7 @@ export class AddCustomerPage {
       console.log("updateCustomer:" + JSON.stringify(values));
       this.customersService.updateCustomer(values);
     } else {
-      values.id = Date.now();
+      values.id = 'NEW' + Date.now();
       values.user_id = this.ordersService.loginId;
       values.newCustomer = 1;
       // values.property_product_pricelist = this.customer.property_product_pricelist;

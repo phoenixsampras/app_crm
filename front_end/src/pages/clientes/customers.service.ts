@@ -29,6 +29,10 @@ export class CustomersService {
 		this.databaseService.updateCustomer(customer);
 	}
 
+	deleteAllCustomer() {
+		this.databaseService.deleteAllCustomer();
+	}
+
 	deleteCustomer(customer) {
 		this.databaseService.deleteCustomer(customer);
 	}

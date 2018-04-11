@@ -29,7 +29,7 @@ export class LoginPage {
     public jsonp: Jsonp,
     public http: Http,
 	public customersService: CustomersService,
-    
+
     public locationTracker: LocationTracker
 
   ) {
@@ -49,6 +49,9 @@ export class LoginPage {
     let toastCtrl = this.toastCtrl;
     let loading = loadingCtrl.create();
     loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+    }, 5000);
     let nav = this.nav;
     let me = this;
     this.databaseService.deleteLoginData();
@@ -59,7 +62,7 @@ export class LoginPage {
     this.jsonp.request(url, { method: 'Get' })
       .toPromise()
       .then(data => {
-        loading.dismiss();
+        // loading.dismiss();
         if (data['_body']['login'] == 'False') {
           let toast = toastCtrl.create({
             message: "Incorrecto, intente nuevamente.",
@@ -70,7 +73,7 @@ export class LoginPage {
           toast.present();
         } else {
           // if (values.remember === true) {
-			
+
           me.ordersService.loginId = data['_body']['login'];
           me.ordersService.rmDatosUsuario = data['_body']['rmDatosUsuario'];
           me.ordersService.rmCompany = data['_body']['rmCompany'];
@@ -116,7 +119,8 @@ export class LoginPage {
 				  me.locationTracker.startTracking();
 
 				  let toast = toastCtrl.create({
-					message: "Bienvenido!" + JSON.stringify(loginData),
+          // message: "Bienvenido!" + JSON.stringify(loginData),
+					message: "Bienvenido!", // + JSON.stringify(loginData),
 					duration: 3000,
 					cssClass: 'toast-success',
 					position: 'bottom',
@@ -124,7 +128,7 @@ export class LoginPage {
 				  toast.present();
 				  nav.setRoot(me.main_page.component);
 			});
-          
+
           // }
         }
         //console.log(data.login);

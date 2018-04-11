@@ -194,12 +194,13 @@ export class SyncPage {
                       items[i].street = !items[i].street ? "" : items[i].street;
                       items[i].phone = !items[i].phone ? "" : items[i].phone;
                       items[i].mobile = !items[i].mobile ? "" : items[i].mobile;
+                      items[i].rm_dias_semana = !items[i].rm_dias_semana ? "" : items[i].rm_dias_semana;
                       items[i].rm_longitude = !items[i].rm_longitude ? "" : items[i].rm_longitude;
                       items[i].rm_latitude = !items[i].rm_latitude ? "" : items[i].rm_latitude;
                       items[i].razon_social = !items[i].razon_social ? "" : items[i].razon_social;
                       items[i].nit = !items[i].nit ? "" : items[i].nit;
                       items[i].rm_sync_date_time = !items[i].rm_sync_date_time ? "" : items[i].rm_sync_date_time;
-                      // console.log('loadCustomers:' + JSON.stringify(items[i]));
+                      console.log('loadCustomers:' + JSON.stringify(items[i]));
                       this.customersService.addCustomer(items[i]);
                     }
                     this.messages.push('Total clientes cargados:' + i);
@@ -304,19 +305,19 @@ export class SyncPage {
               items[i].startTime = moment(calendarList[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();
               items[i].endTime = moment(calendarList[i].start_datetime, "YYYY-MM-DD HH:mm:ss").toDate();;
               items[i].sync = 1;
-			
-			  console.log(items[i]);
+
+	           console.log(items[i]);
               this.calendarService.addCalendarEvent(items[i]);
             }
           }
           // loading.dismiss();
         });
 
-        
+
 
     }
   }
-  
+
   loadCalendarEventStatus() {
 	  this.calendarService
           .getEstadoDataFromServer()
@@ -347,7 +348,7 @@ export class SyncPage {
           //var url = "http://odoo2.romilax.com/organica/back_end/rmXMLRPC.php?task=rmRegistrarPedido&rmCustomer="+order.customer+"&rmDateOrder="+ order.dateOrder +"&rmNote=" + order.notes + "&callback=JSONP_CALLBACK";
           var datetime = moment(event.start_datetime).format('YYYY-MM-DD  HH:mm:ss');
 		  var url = "http://cloud.movilcrm.com/organica/back_end/rmXMLRPC_calendario.php?task=rmRegistrarEvento&res_user_id="+ event.user_id +"&name="+event.name+"&rm_estado="+event.rm_estado+ "&start_datetime=" + datetime + "&callback=JSONP_CALLBACK";
-          
+
 		  url = encodeURI(url);
           this.calendarService.saveEventOnServer(url).then(data => {
             event.sync = 1;
@@ -360,7 +361,9 @@ export class SyncPage {
     }
   }
 
-  loadChartsData() { }
+  deleteAllCustomers() {
+    this.customersService.deleteAllCustomer();
+  }
 
   syncOrderDataMasivo() {
     if (window.navigator.onLine) {
@@ -401,13 +404,14 @@ export class SyncPage {
                   me.messages.push('Pedido sincronizado: ' + _order.numberOrder + ' Cliente: ' + _order.customer + ' Total: ' + _order.total);
                   me.ordersService.updateOrder(_order);
                 }
-
+                this.customersService.deleteAllCustomer();
+                this.loadCustomers();
               }
               // me.disabled = false;
 
             }, function(error) {
               // loading.dismiss();
-              me.disabled = false;
+              // me.disabled = false;
             });
           } else {
             // this.disabled = false;
@@ -420,7 +424,7 @@ export class SyncPage {
 
   syncOrderData() {
     if (window.navigator.onLine) {
-      this.disabled = true;
+      // this.disabled = true;
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
@@ -488,7 +492,7 @@ export class SyncPage {
   //Sending customer data to server
   syncCustomerData() {
     if (window.navigator.onLine) {
-      this.disabled = true;
+      // this.disabled = true;
       let loadingCtrl = this.loadingCtrl;
       let loading = loadingCtrl.create();
       loading.present();
@@ -520,6 +524,7 @@ export class SyncPage {
               url += "&property_product_pricelist=" + customer.property_product_pricelist;
               url += "&razon_social=" + customer.razon_social;
               url += "&rm_longitude=" + customer.rm_longitude;
+              url += "&rm_dias_semana=" + customer.rm_dias_semana;
               url += "&rm_latitude=" + customer.rm_latitude;
               url += "&photo_m=" + customer.photo_m;
               url += "&rm_sync_date_time=" + customer.rm_sync_date_time;
@@ -539,16 +544,22 @@ export class SyncPage {
                     console.log("Nuevo cliente:" + JSON.stringify(data));
                     // TODO the new customer his new SERVER ID
                     // operacion.id = data[0]._body.partner_id;
+
+                    // Eliminando cliente local, para obtener el nuevo ID del servidor
+                    me.customersService.deleteCustomer(operacion);
                   } else if (operacion.newCustomer == 2) {
                     me.messages.push('Editar Cliente:' + operacion.name);
                     me.messages.push(JSON.stringify(operacion));
                     console.log("Editar cliente:" + JSON.stringify(data));
                   }
                   //resetear el estatus
-                  operacion.newCustomer = 0;
-                  // console.log(operacion);
-                  me.customersService.updateCustomer(operacion);
-                  flags[data[2]] = 1;
+                  // operacion.newCustomer = 0;
+                  // me.customersService.updateCustomer(operacion);
+                  console.log("Cliente Actualizado:" + operacion);
+                  // flags[data[2]] = 1;
+
+                  // Obteniendo nuevos IDs actualizados del servidor
+                  this.loadCustomers();
                 }
               });
 
@@ -579,7 +590,7 @@ export class SyncPage {
         me.enableButton(flags, loading);
       }, 100);
     } else {
-      this.disabled = false;
+      // this.disabled = false;
       loading.dismiss();
     }
   }

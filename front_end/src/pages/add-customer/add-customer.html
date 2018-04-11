@@ -46,6 +46,22 @@
 				</ng-container>
 			</div>
 
+      <ion-item>
+        <ion-label floating>Dias Visitables</ion-label>
+        <ion-select formControlName="rm_dias_semana" [(ngModel)]="selectedFriendsArray" multiple="true" cancelText="cancel" okText="ok">
+          <ion-option *ngFor="let dia of dias_semana; let i = index" [value]="dia.value" selected="false">{{dia.label}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.rm_dias_semana">
+          <div class="error-message" *ngIf="validations_form.get('rm_dias_semana').hasError(validation.type) && (validations_form.get('rm_dias_semana').dirty || validations_form.get('rm_dias_semana').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- <pre>{{selectedFriendsArray | json}}</pre> -->
+
+
 			<ion-item>
 				<ion-label floating>{{'ADDRESS' | translate}}</ion-label>
 				<ion-input type="text" formControlName="street"></ion-input>

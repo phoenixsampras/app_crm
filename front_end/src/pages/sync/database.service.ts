@@ -83,6 +83,67 @@ export class DatabaseService {
 		return this._db.get(id);
 	}
 
+
+
+
+
+
+
+
+
+
+
+  deleteAllCustomer() {
+
+		if (!this._db)
+			this.initDB();
+
+		return new Promise(resolve => {
+		  this._db.allDocs({
+			include_docs: true,
+			startkey: 'customer',
+			endkey: 'customer\ufff0'
+		  })
+			.then(docs => {
+
+			  // Each row has a .doc object and we just want to send an
+			  // array of customer objects back to the calling controller,
+			  // so let's map the array to contain just the .doc objects.
+				let j = 0;
+				this._customers = [];
+				for(var i=0; i<docs.rows.length; i++) {
+					let row = docs.rows[i];
+					if (row.doc.type == "customer") {
+            console.log(JSON.stringify(row) + "Eliminado");
+            // console.log(JSON.stringify(row.doc._id) + "Eliminado2");
+            this._db.remove(row.doc._id, row.doc._rev)
+            .catch(function(err) {
+              console.log(err);
+            });
+					}
+				}
+	    });
+				// resolve(this._customers);
+		});
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	deleteCustomer(customer) {
 		this._db.remove(customer._id, customer._rev)
 		.catch(function(err) {
@@ -498,7 +559,7 @@ export class DatabaseService {
 
     });
   }
-  
+
   getAllSyncEvents() {
     if (!this._db)
       this.initDB();
@@ -513,7 +574,7 @@ export class DatabaseService {
           // Each row has a .doc object and we just want to send an
           // array of customer objects back to the calling controller,
           // so let's map the array to contain just the .doc objects.
-		
+
 		  this._events = [];
 			for(var i=0; i<docs.rows.length; i++) {
 				let row = docs.rows[i];
@@ -521,7 +582,7 @@ export class DatabaseService {
 					this._events.push(row.doc);
 				}
 			}
-          
+
 
           // Listen for changes on the database.
           resolve(this._events);

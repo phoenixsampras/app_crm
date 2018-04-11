@@ -124,7 +124,8 @@ function rmListaClientes($conex, $postgresql) {
       $hoydia = date('w');
       $a = 0;
       for ($i = 0; $i < count($rmListaClientes); $i++) {
-        if ($rmListaClientes[$i]['rm_dias_semana'][0] == $hoydia) {
+        // print_r($rmListaClientes[$i]['rm_dias_semana']);
+        if (in_array($hoydia,$rmListaClientes[$i]['rm_dias_semana'])) {
           // echo $rmListaClientes[$i]['rm_dias_semana'][0] . "<LUNES>";
           // echo $integer = idate('w', date("Y-m-d"));
           // echo idate("Y-m-d");
@@ -185,6 +186,13 @@ function rmRegistrarCliente($conex, $user_id) {
     $nit = $_REQUEST['nit'] ? $_REQUEST['nit'] : '0';
     $rm_sync_date_time = $_REQUEST['rm_sync_date_time'] ? $_REQUEST['rm_sync_date_time'] : date('Y-m-d H:i:s');
     $image = $_REQUEST['photo_m'] ? $_REQUEST['photo_m'] : '';
+     // = $_REQUEST[''] ? $_REQUEST['rm_dias_semana'] : '1';
+
+    $rm_dias_semana_bruto = explode(',', $_REQUEST["rm_dias_semana"]);
+    for ($j = 0; $j < count($rm_dias_semana_bruto); $j++) {
+      $rm_dias_semana[] = intval($rm_dias_semana_bruto[$j]);
+    }
+
 
     $datosRecibidos =
       array(
@@ -196,6 +204,7 @@ function rmRegistrarCliente($conex, $user_id) {
         'rm_latitude' => $rm_latitude,
         'property_product_pricelist' => $property_product_pricelist,
         'image' => $image,
+        "rm_dias_semana" => array(array(6, 0, $rm_dias_semana)),
         'user_id' => $user_id,
         'razon_social' => $razon_social,
         'nit' => $nit,
