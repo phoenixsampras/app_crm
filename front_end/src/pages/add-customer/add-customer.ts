@@ -156,8 +156,8 @@ export class AddCustomerPage {
 
     this.validations_form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
-      street: new FormControl('', Validators.required),
-      phone: new FormControl('', Validators.required),
+      street: new FormControl('', []),
+      phone: new FormControl('', []),
       mobile: new FormControl('', []),
       rm_dias_semana: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.pattern(this.customersService.EMAIL_REGEX)]),

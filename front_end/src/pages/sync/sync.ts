@@ -14,7 +14,6 @@ import { LoginPage } from '../login/login';
 import moment from 'moment';
 import { Jsonp } from '@angular/http';
 
-
 @Component({
   selector: 'sync-page',
   templateUrl: 'sync.html'
@@ -218,6 +217,7 @@ export class SyncPage {
     }
   }
 
+  // Enviar Saldo del stock al servidor
   syncProductsStock() {
     if (window.navigator.onLine) {
       let loadingCtrl = this.loadingCtrl;
@@ -241,11 +241,21 @@ export class SyncPage {
           me.jsonp.request(tokenUrl, { method: 'Get' }).map(res => res.json()).subscribe(data => {
             console.log(data);
             let rmToken = data.token;
+
+            // url de transferencia 1
             var url = "https://organica.movilcrm.com/api/stock/metodo_operaciones?token=" + rmToken;
             url += "&location_id=" + me.ordersService.location_dest_id;
             url += "&location_dest_id=" + me.ordersService.location_id;
             url += "&company_id=" + me.ordersService.company_id;
             url += "&picking_type_id=" + me.ordersService.picking_type_id;
+
+            // url de transferencia 2
+            var url2 = "https://organica.movilcrm.com/api/stock/metodo_operaciones?token=" + rmToken;
+            url2 += "&location_dest_id=" + me.ordersService.location_dest_id;
+            url2 += "&location_id=" + me.ordersService.location_id;
+            url2 += "&company_id=" + me.ordersService.company_id;
+            url2 += "&picking_type_id=" + me.ordersService.picking_type_id;
+
             let productsArray = [];
             console.log("Numero de Productos:" + products.length);
 
@@ -271,12 +281,24 @@ export class SyncPage {
             }
             url += "&selectedProducts=" + JSON.stringify(productsArray);
             url += '&callback=JSONP_CALLBACK';
+
+            url2 += "&selectedProducts=" + JSON.stringify(productsArray);
+            url2 += '&callback=JSONP_CALLBACK';
             console.log(url);
+
+            // Crear order de transferencia entre repartidor hacia el almacen central
             me.productsService.syncProductStockOnServer(encodeURI(url))
               .then(data => {
                 console.log(data);
                 // loading.dismiss();
-              })
+            });
+
+            // Crear order de transferencia entre central hacia el repartidor
+            me.productsService.syncProductStockOnServer(encodeURI(url2))
+              .then(data => {
+                console.log(data);
+                // loading.dismiss();
+            });
 
           });
         });
@@ -404,6 +426,7 @@ export class SyncPage {
                   me.messages.push('Pedido sincronizado: ' + _order.numberOrder + ' Cliente: ' + _order.customer + ' Total: ' + _order.total);
                   me.ordersService.updateOrder(_order);
                 }
+                this.syncNewCustomersWithoutSalesData();
                 this.customersService.deleteAllCustomer();
                 this.loadCustomers();
               }
@@ -487,6 +510,98 @@ export class SyncPage {
           }, 100);
         });
     }
+  }
+
+
+  //Sending only NEW customers without sales data to server
+  syncNewCustomersWithoutSalesData() {
+    if (window.navigator.onLine) {
+      // this.disabled = true;
+      let loadingCtrl = this.loadingCtrl;
+      let loading = loadingCtrl.create();
+      loading.present();
+      setTimeout(() => {
+        loading.dismiss();
+      }, 5000);
+      let me = this;
+
+      this.messages.push('Sincronizando Clientes');
+      this.customersService
+        .getUploadDataFromPouch()
+        .then(data => {
+          // console.log("DATA"+JSON.stringify(data));
+          let flags = [];
+          for (var i = 0; i < data.length; i++) {
+            flags[i] = 2;
+            let customer_newCustomer = data[i].newCustomer;
+            if (parseInt(customer_newCustomer) > 0) {
+              var customer = data[i];
+              // console.log(customer.id);
+              // console.log(customer.id.includes('NEW'));
+              // if (customer.id.includes('NEW')) {
+              if (customer.totalVentasApp !== 1) {
+                console.log("Cliente sin venta:" + JSON.stringify(customer));
+                var url = "https://cloud.movilcrm.com/organica/back_end/rmXMLRPC_clientes.php?task=rmRegistrarCliente";
+                url += "&user_id=" + customer.user_id;
+                url += "&name=" + customer.name;
+                url += "&street=" + customer.street;
+                url += "&phone=" + customer.phone;
+                url += "&mobile=" + customer.mobile;
+                url += "&email=" + customer.email;
+                url += "&nit=" + customer.nit;
+                url += "&property_product_pricelist=" + customer.property_product_pricelist;
+                url += "&razon_social=" + customer.razon_social;
+                url += "&rm_longitude=" + customer.rm_longitude;
+                url += "&rm_dias_semana=" + customer.rm_dias_semana;
+                url += "&rm_latitude=" + customer.rm_latitude;
+                url += "&photo_m=" + customer.photo_m;
+                url += "&rm_sync_date_time=" + customer.rm_sync_date_time;
+                if (customer.newCustomer == 2) {
+                  url += "&id=" + customer.id;
+                }
+                url += "&callback=JSONP_CALLBACK";
+                url = encodeURI(url);
+                let operacion = customer;
+                let url2 = url; //trensfer value to a function
+                me.customersService.saveCustomerOnServer(url2, operacion, i).then(data => {
+                  console.log(data);
+                  if (data[0]._body.status == 'success') {
+                    if (operacion.newCustomer == 1) {
+                      me.messages.push('Nuevo Cliente:' + operacion.name);
+                      me.messages.push(JSON.stringify(operacion));
+                      console.log("Nuevo cliente:" + JSON.stringify(data));
+                      // TODO the new customer his new SERVER ID
+                      // operacion.id = data[0]._body.partner_id;
+
+                      // Eliminando cliente local, para obtener el nuevo ID del servidor
+                      me.customersService.deleteCustomer(operacion);
+                    } else if (operacion.newCustomer == 2) {
+                      me.messages.push('Editar Cliente:' + operacion.name);
+                      me.messages.push(JSON.stringify(operacion));
+                      console.log("Editar cliente:" + JSON.stringify(data));
+                    }
+                    //resetear el estatus
+                    // operacion.newCustomer = 0;
+                    // me.customersService.updateCustomer(operacion);
+                    console.log("Cliente Actualizado:" + operacion);
+                    // flags[data[2]] = 1;
+
+                    // Obteniendo nuevos IDs actualizados del servidor
+                    // this.loadCustomers();
+                  }
+                });
+              }
+            }
+          }
+          // setTimeout(function() {
+          //   me.enableButton(flags, loading);
+          // }, 100);
+        });
+
+    } else {
+      this.sinInternet();
+    }
+
   }
 
   //Sending customer data to server
