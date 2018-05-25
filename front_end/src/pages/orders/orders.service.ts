@@ -24,7 +24,6 @@ export class OrdersService {
 	public timestamp = 0;
 	public confirmedOrders;
 	public base_url = "https://cloud.movilcrm.com/organica/back_end/";
-	//public base_url = "http://localhost/back_end/";
 	
 	getFullUrl(url) {
 		return this.base_url + url;

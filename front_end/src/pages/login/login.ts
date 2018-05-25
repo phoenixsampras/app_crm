@@ -19,7 +19,6 @@ export class LoginPage {
   main_page: { component: any };
   loading: any;
 
-
   constructor(
     public nav: NavController,
     public loadingCtrl: LoadingController,
@@ -28,10 +27,8 @@ export class LoginPage {
     public databaseService: DatabaseService,
     public jsonp: Jsonp,
     public http: Http,
-	public customersService: CustomersService,
-
+	  public customersService: CustomersService,
     public locationTracker: LocationTracker
-
   ) {
     this.main_page = { component: TabsNavigationPage };
 
@@ -90,7 +87,8 @@ export class LoginPage {
           me.ordersService.email = values.email;
           me.ordersService.password = values.password;
 
-          //console.log("me.ordersService.stock_location_ids" + me.ordersService.location_dest_id);
+          console.log("me.ordersService.stock_location_ids" + me.ordersService.location_dest_id);
+          console.log("me.ordersService.location_id" + me.ordersService.location_id);
 			me.customersService.getRoutesDataFromServer()
 			.then(locationData => {
 				let geofences = locationData.rmListaGeolocalizacionGeocerca;

@@ -94,21 +94,39 @@
       </ion-item>
     </ion-list>
   </form>
+  
 	<h2>{{'SELECT_PRINTER' | translate}}</h2>
 	<ion-item>
-		<ion-label>{{ 'SELECT_PRINTER' | translate }}</ion-label>
+    <ion-label>{{ 'SELECT_PRINTER' | translate }}</ion-label>
 		<ion-select  [(ngModel)]="ordersService.macAddress">
-			<ion-option *ngFor="let device of devicesList" value="{{device.address}}">{{device.name}}</ion-option>
+      <ion-option *ngFor="let device of devicesList" value="{{device.address}}">{{device.name}}</ion-option>
 		</ion-select>
 	</ion-item>
   <button class="alt-button rate-app-button" ion-button full (click)="rateApp()">{{'RATE_APP' | translate}}</button>
-
+  
   <button class="alt-button" ion-button full (click)="showPrivacyModal()">{{'PRIVACY_POLICY' | translate}}</button>
-
+  
   <button class="alt-button" ion-button full (click)="showTermsModal()">{{'TERMS_OF_USE' | translate }}</button>
-
+  
   <button class="alt-button logout-button" ion-button full icon-left (click)="logout()">
     <ion-icon name="log-out"></ion-icon>
     {{'LOG_OUT' | translate }}
   </button>
+
+  <pre>location_id: {{ordersService.location_id}}</pre>
+  <pre>location_dest_id: {{ordersService.location_dest_id}}</pre>
+  <pre>company_id: {{ordersService.company_id}}</pre>
+  <pre>macAddress: {{ordersService.macAddress}}</pre>
+  <pre>loginId: {{ordersService.loginId}}</pre>
+  <pre>email: {{ordersService.email}}</pre>
+  <pre>password: {{ordersService.password}}</pre>
+  <pre>picking_type_id: {{ordersService.picking_type_id}}</pre>
+  <pre>rm_geofence_sales: {{ordersService.rm_geofence_sales}}</pre>
+  <pre>lat: {{ordersService.lat}}</pre>
+  <pre>lng: {{ordersService.lng}}</pre>
+  <pre>confirmedOrders: {{ordersService.confirmedOrders}}</pre>
+  <pre>rmDatosUsuario: {{ordersService.rmDatosUsuario | json}}</pre>
+  <pre>geofencesArray: {{ordersService.geofencesArray | json}}</pre>
+  <pre>rmCompany: {{ordersService.rmCompany | json}}</pre>
+
 </ion-content>

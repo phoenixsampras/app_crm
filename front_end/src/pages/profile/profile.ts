@@ -5,6 +5,7 @@ import { SettingsPage } from '../settings/settings';
 import { ProfileModel } from './profile.model';
 import { ProfileService } from './profile.service';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { OrdersService } from '../orders/orders.service';
 
 import 'rxjs/Rx';
 
@@ -23,7 +24,8 @@ export class ProfilePage {
     public navParams: NavParams,
     public profileService: ProfileService,
     public loadingCtrl: LoadingController,
-    public socialSharing: SocialSharing
+    public socialSharing: SocialSharing,
+    public ordersService: OrdersService    
   ) {
     this.display = "list";
 

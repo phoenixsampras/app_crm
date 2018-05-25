@@ -31,6 +31,7 @@ export class SettingsPage {
   // make WalkthroughPage the root (or first) page
   rootPage: any = WalkthroughPage;
   loading: any;
+	ordersList: any = [];  
 
   profile: ProfileModel = new ProfileModel();
   languages: Array<LanguageModel>;
@@ -94,6 +95,8 @@ export class SettingsPage {
         this.setLanguage(lang);
       });
     });
+    console.log(this.ordersService.rmDatosUsuario);
+    
   }
 
   logout() {

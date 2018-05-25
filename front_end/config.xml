@@ -3,7 +3,7 @@
     <name>ORGANICA SRL</name>
     <description>Organica del Sur S.R.L.</description>
     <author email="carlos.paz@romilax.com" href="https://romilax.com/">Romilax.com</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://9.9.9.99:8101" />
     <access origin="*" />
     <allow-navigation href="http://cloud.movilcrm.com/organica/back_end/*" />
     <allow-navigation href="http://*/*" />
@@ -124,6 +124,7 @@
     <allow-navigation href="http://9.9.9.113:8100" />
     <allow-navigation href="http://9.9.9.118:8100" />
     <allow-navigation href="http://9.9.9.118:8101" />
+    <allow-navigation href="http://9.9.9.99:8101" />
     <engine name="android" spec="^6.2.3" />
     <engine name="ios" spec="^4.4.0" />
 </widget>

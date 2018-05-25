@@ -281,20 +281,23 @@ export class SyncPage {
             }
             url += "&selectedProducts=" + JSON.stringify(productsArray);
             url += '&callback=JSONP_CALLBACK';
+            url = encodeURI(url);
 
             url2 += "&selectedProducts=" + JSON.stringify(productsArray);
             url2 += '&callback=JSONP_CALLBACK';
             console.log(url);
+            url2 = encodeURI(url2);
 
-            // Crear order de transferencia entre repartidor hacia el almacen central
-            me.productsService.syncProductStockOnServer(encodeURI(url))
+
+            // create first transfer order from the car to the warehouse
+            me.productsService.syncProductStockOnServer(url)
               .then(data => {
                 console.log(data);
                 // loading.dismiss();
             });
 
-            // Crear order de transferencia entre central hacia el repartidor
-            me.productsService.syncProductStockOnServer(encodeURI(url2))
+            // create second transfer from warehouse to the car
+            me.productsService.syncProductStockOnServer(url2)
               .then(data => {
                 console.log(data);
                 // loading.dismiss();
