@@ -3,7 +3,7 @@
     <name>ORGANICA SRL</name>
     <description>Organica del Sur S.R.L.</description>
     <author email="carlos.paz@romilax.com" href="https://romilax.com/">Romilax.com</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://9.9.9.99:8100" />
     <access origin="*" />
     <allow-navigation href="http://cloud.movilcrm.com/organica/back_end/*" />
     <allow-navigation href="http://*/*" />
@@ -130,5 +130,7 @@
     <plugin name="cordova-android-support-gradle-release" spec="^1.4.2">
         <variable name="ANDROID_SUPPORT_VERSION" value="27.+" />
     </plugin>
+    <allow-navigation href="http://9.9.9.99:8100" />
     <engine name="ios" spec="^4.4.0" />
+    <engine name="android" spec="6.3.0" />
 </widget>
